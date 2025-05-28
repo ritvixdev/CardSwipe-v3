@@ -21,7 +21,7 @@ export default function ProgressScreen() {
   const remainingLessons = lessons.filter(lesson => !progress[lesson.id]?.completed);
   
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['top', 'bottom']}>
       <ScrollView>
         <View style={styles.header}>
           <Text style={[styles.title, { color: themeColors.text }]}>Your Progress</Text>

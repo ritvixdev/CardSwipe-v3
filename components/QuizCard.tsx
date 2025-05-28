@@ -13,7 +13,7 @@ interface QuizCardProps {
 export default function QuizCard({ quiz, lessonId }: QuizCardProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
-  const { addXp } = useProgressStore((state) => state.actions);
+  const addXp = useProgressStore((state) => state.addXp);
   const themeColors = useThemeColors();
   
   const handleOptionSelect = (option: string) => {

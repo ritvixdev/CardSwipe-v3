@@ -137,16 +137,29 @@ export default function LessonCard({
   
   const cardOpacity = opacity;
   
-  // Indicators for swipe directions
+  // Indicators for swipe directions with enhanced visibility
   const leftIndicatorOpacity = pan.x.interpolate({
-    inputRange: [-width / 4, 0],
+    inputRange: [-width / 3, 0],
     outputRange: [1, 0],
     extrapolate: 'clamp',
   });
-  
+
   const rightIndicatorOpacity = pan.x.interpolate({
-    inputRange: [0, width / 4],
+    inputRange: [0, width / 3],
     outputRange: [0, 1],
+    extrapolate: 'clamp',
+  });
+
+  // Dark overlay effects for left and right swipes
+  const leftOverlayOpacity = pan.x.interpolate({
+    inputRange: [-width / 2, 0],
+    outputRange: [0.7, 0],
+    extrapolate: 'clamp',
+  });
+
+  const rightOverlayOpacity = pan.x.interpolate({
+    inputRange: [0, width / 2],
+    outputRange: [0, 0.7],
     extrapolate: 'clamp',
   });
   
@@ -241,26 +254,36 @@ export default function LessonCard({
               </Text>
             </View>
           </TouchableOpacity>
-          
+
+          {/* Dark overlays for swipe feedback */}
+          <Animated.View style={[styles.overlay, styles.leftOverlay, { opacity: leftOverlayOpacity }]} />
+          <Animated.View style={[styles.overlay, styles.rightOverlay, { opacity: rightOverlayOpacity }]} />
+
           {/* Swipe indicators */}
           <Animated.View style={[styles.indicator, styles.leftIndicator, { opacity: leftIndicatorOpacity }]}>
-            <Check size={32} color="#fff" />
-            <Text style={styles.indicatorText}>Mark as Read</Text>
+            <View style={styles.iconContainer}>
+              <Check size={40} color="#fff" strokeWidth={3} />
+            </View>
+            <Text style={styles.indicatorText}>COMPLETED</Text>
+            <Text style={styles.indicatorSubtext}>+50 XP</Text>
           </Animated.View>
-          
+
           <Animated.View style={[styles.indicator, styles.rightIndicator, { opacity: rightIndicatorOpacity }]}>
-            <Bookmark size={32} color="#fff" />
-            <Text style={styles.indicatorText}>Bookmark</Text>
+            <View style={styles.iconContainer}>
+              <Bookmark size={40} color="#fff" fill="#fff" strokeWidth={3} />
+            </View>
+            <Text style={styles.indicatorText}>BOOKMARKED</Text>
+            <Text style={styles.indicatorSubtext}>Saved for later</Text>
           </Animated.View>
-          
+
           <Animated.View style={[styles.indicator, styles.upIndicator, { opacity: upIndicatorOpacity }]}>
             <ChevronUp size={32} color="#fff" />
-            <Text style={styles.indicatorText}>Next Lesson</Text>
+            <Text style={styles.indicatorText}>Next Card</Text>
           </Animated.View>
-          
+
           <Animated.View style={[styles.indicator, styles.downIndicator, { opacity: downIndicatorOpacity }]}>
             <ChevronDown size={32} color="#fff" />
-            <Text style={styles.indicatorText}>Previous Lesson</Text>
+            <Text style={styles.indicatorText}>Previous Card</Text>
           </Animated.View>
         </LinearGradient>
       </Animated.View>
@@ -331,20 +354,41 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 18,
   },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: 20,
+  },
+  leftOverlay: {
+    backgroundColor: '#4CAF50', // Green for completed
+  },
+  rightOverlay: {
+    backgroundColor: '#2196F3', // Blue for bookmark
+  },
   indicator: {
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
+    zIndex: 10,
+  },
+  iconContainer: {
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    borderRadius: 30,
+    padding: 12,
+    marginBottom: 8,
   },
   leftIndicator: {
-    left: 30,
+    left: 40,
     top: '50%',
-    transform: [{ translateY: -30 }],
+    transform: [{ translateY: -50 }],
   },
   rightIndicator: {
-    right: 30,
+    right: 40,
     top: '50%',
-    transform: [{ translateY: -30 }],
+    transform: [{ translateY: -50 }],
   },
   upIndicator: {
     top: 30,
@@ -358,7 +402,15 @@ const styles = StyleSheet.create({
   },
   indicatorText: {
     color: '#fff',
-    marginTop: 8,
+    fontSize: 16,
     fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  indicatorSubtext: {
+    color: '#fff',
+    fontSize: 12,
+    marginTop: 4,
+    textAlign: 'center',
+    opacity: 0.9,
   },
 });

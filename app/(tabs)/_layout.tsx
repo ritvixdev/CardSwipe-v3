@@ -31,6 +31,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Learn",
+          headerShown: false,
           tabBarIcon: ({ color }) => <BookOpen size={22} color={color} />,
         }}
       />
@@ -38,6 +39,7 @@ export default function TabLayout() {
         name="bookmarks"
         options={{
           title: "Bookmarks",
+          headerShown: false,
           tabBarIcon: ({ color }) => <Bookmark size={22} color={color} />,
         }}
       />
@@ -45,6 +47,7 @@ export default function TabLayout() {
         name="progress"
         options={{
           title: "Progress",
+          headerShown: false,
           tabBarIcon: ({ color }) => <BarChart size={22} color={color} />,
         }}
       />
@@ -52,6 +55,7 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: "Settings",
+          headerShown: false,
           tabBarIcon: ({ color }) => <Settings size={22} color={color} />,
         }}
       />

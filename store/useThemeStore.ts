@@ -6,25 +6,21 @@ type ThemeMode = 'dark' | 'light';
 
 interface ThemeState {
   mode: ThemeMode;
-  actions: {
-    toggleTheme: () => void;
-    setTheme: (mode: ThemeMode) => void;
-  };
+  toggleTheme: () => void;
+  setTheme: (mode: ThemeMode) => void;
 }
 
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
       mode: 'dark',
-      actions: {
-        toggleTheme: () => {
-          set((state) => ({
-            mode: state.mode === 'dark' ? 'light' : 'dark',
-          }));
-        },
-        setTheme: (mode: ThemeMode) => {
-          set({ mode });
-        },
+      toggleTheme: () => {
+        set((state) => ({
+          mode: state.mode === 'dark' ? 'light' : 'dark',
+        }));
+      },
+      setTheme: (mode: ThemeMode) => {
+        set({ mode });
       },
     }),
     {

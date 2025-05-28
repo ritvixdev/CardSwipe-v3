@@ -14,7 +14,8 @@ export default function LessonDetailScreen() {
   const lessonId = parseInt(id as string);
   
   const progress = useProgressStore((state) => state.progress);
-  const actions = useProgressStore((state) => state.actions);
+  const markAsCompleted = useProgressStore((state) => state.markAsCompleted);
+  const toggleBookmark = useProgressStore((state) => state.toggleBookmark);
   const themeColors = useThemeColors();
   const themeMode = useThemeStore((state) => state.mode);
   
@@ -34,14 +35,14 @@ export default function LessonDetailScreen() {
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-    actions.markAsCompleted(lessonId);
+    markAsCompleted(lessonId);
   };
-  
+
   const handleToggleBookmark = () => {
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-    actions.toggleBookmark(lessonId);
+    toggleBookmark(lessonId);
   };
   
   // Find previous and next lessons

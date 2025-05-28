@@ -5,6 +5,7 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { Platform, StatusBar } from "react-native";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useThemeStore } from '@/store/useThemeStore';
 import { useThemeColors } from '@/hooks/useThemeColors';
 
@@ -44,21 +45,21 @@ export default function RootLayout() {
   }
 
   return (
-    
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <>
-        <StatusBar 
-          barStyle={themeMode === 'dark' ? "light-content" : "dark-content"} 
-          backgroundColor={themeColors.background} 
+        <StatusBar
+          barStyle={themeMode === 'dark' ? "light-content" : "dark-content"}
+          backgroundColor={themeColors.background}
         />
         <RootLayoutNav />
       </>
-    
+    </GestureHandlerRootView>
   );
 }
 
 function RootLayoutNav() {
   const themeColors = useThemeColors();
-  
+
   return (
     <Stack
       screenOptions={{
@@ -75,13 +76,13 @@ function RootLayoutNav() {
       }}
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen 
-        name="lesson/[id]" 
-        options={{ 
+      <Stack.Screen
+        name="lesson/[id]"
+        options={{
           title: "Lesson Details",
           presentation: Platform.OS === 'ios' ? 'modal' : 'card',
           animation: 'slide_from_bottom',
-        }} 
+        }}
       />
     </Stack>
   );

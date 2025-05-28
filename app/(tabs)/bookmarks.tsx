@@ -10,7 +10,7 @@ export default function BookmarksScreen() {
   const themeColors = useThemeColors();
   
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['top', 'bottom']}>
       <View style={styles.header}>
         <Text style={[styles.title, { color: themeColors.text }]}>Bookmarked Lessons</Text>
         <Text style={[styles.subtitle, { color: themeColors.textSecondary }]}>Your saved JavaScript lessons</Text>

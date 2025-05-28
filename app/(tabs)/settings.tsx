@@ -20,9 +20,9 @@ import * as Haptics from 'expo-haptics';
 import { shuffleLessons } from '@/data/lessons';
 
 export default function SettingsScreen() {
-  const resetProgress = useProgressStore((state) => state.actions.resetProgress);
+  const resetProgress = useProgressStore((state) => state.resetProgress);
   const themeMode = useThemeStore((state) => state.mode);
-  const setTheme = useThemeStore((state) => state.actions.setTheme);
+  const setTheme = useThemeStore((state) => state.setTheme);
   const themeColors = useThemeColors();
   
   const handleResetProgress = () => {
@@ -88,7 +88,7 @@ export default function SettingsScreen() {
   };
   
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['top', 'bottom']}>
       <ScrollView>
         <View style={styles.header}>
           <Text style={[styles.title, { color: themeColors.text }]}>Settings</Text>
