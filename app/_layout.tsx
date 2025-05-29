@@ -3,11 +3,15 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import { Platform, StatusBar } from "react-native";
+import { useEffect, useState } from "react";
+import { Platform, StatusBar, AppState } from "react-native";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useThemeStore } from '@/store/useThemeStore';
 import { useThemeColors } from '@/hooks/useThemeColors';
+// import { appInitService } from '@/services/AppInitService';
+// import { analyticsService } from '@/services/AnalyticsService';
+// import { performanceService } from '@/services/PerformanceService';
+// import ErrorBoundary from '@/components/ErrorBoundary';
 
 
 
@@ -23,9 +27,16 @@ export default function RootLayout() {
   const [loaded, error] = useFonts({
     ...FontAwesome.font,
   });
-  
+
+  const [appInitialized, setAppInitialized] = useState(false);
   const themeMode = useThemeStore((state) => state.mode);
   const themeColors = useThemeColors();
+
+  // Initialize app services
+  useEffect(() => {
+    // Simple initialization without external services
+    setAppInitialized(true);
+  }, []);
 
   useEffect(() => {
     if (error) {
@@ -35,25 +46,27 @@ export default function RootLayout() {
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && appInitialized) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, appInitialized]);
 
-  if (!loaded) {
+  if (!loaded || !appInitialized) {
     return null;
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <>
-        <StatusBar
-          barStyle={themeMode === 'dark' ? "light-content" : "dark-content"}
-          backgroundColor={themeColors.background}
-        />
-        <RootLayoutNav />
-      </>
-    </GestureHandlerRootView>
+    <RorkErrorBoundary>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <>
+          <StatusBar
+            barStyle={themeMode === 'dark' ? "light-content" : "dark-content"}
+            backgroundColor={themeColors.background}
+          />
+          <RootLayoutNav />
+        </>
+      </GestureHandlerRootView>
+    </RorkErrorBoundary>
   );
 }
 

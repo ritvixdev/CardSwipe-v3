@@ -1,7 +1,7 @@
 import React from "react";
 import { Tabs } from "expo-router";
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { BookOpen, Bookmark, BarChart, Settings } from "lucide-react-native";
+import { BookOpen, Compass, BarChart, User } from "lucide-react-native";
 
 export default function TabLayout() {
   const themeColors = useThemeColors();
@@ -12,9 +12,23 @@ export default function TabLayout() {
         tabBarActiveTintColor: themeColors.primary,
         tabBarInactiveTintColor: themeColors.inactive,
         tabBarStyle: {
-          backgroundColor: themeColors.background,
-          borderTopColor: themeColors.border,
+          backgroundColor: themeColors.card,
+          borderTopWidth: 0,
+          height: 70,
+          paddingBottom: 12,
+          paddingTop: 5,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.3,
+          shadowRadius: 12,
+          elevation: 12,
+          opacity: 1.0,
         },
+        tabBarHideOnKeyboard: false,
         tabBarLabelStyle: {
           fontSize: 12,
         },
@@ -36,11 +50,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="bookmarks"
+        name="explore"
         options={{
-          title: "Bookmarks",
+          title: "Explore",
           headerShown: false,
-          tabBarIcon: ({ color }) => <Bookmark size={22} color={color} />,
+          tabBarIcon: ({ color }) => <Compass size={22} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -51,12 +65,38 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <BarChart size={22} color={color} />,
         }}
       />
+
       <Tabs.Screen
-        name="settings"
+        name="profile"
         options={{
-          title: "Settings",
+          title: "Profile",
           headerShown: false,
-          tabBarIcon: ({ color }) => <Settings size={22} color={color} />,
+          tabBarIcon: ({ color }) => <User size={22} color={color} />,
+        }}
+      />
+
+      {/* Hidden screens that should still have tabs */}
+      <Tabs.Screen
+        name="lesson/[id]"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
+
+      <Tabs.Screen
+        name="explore/bookmarks"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
+
+      <Tabs.Screen
+        name="explore/completed"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
         }}
       />
     </Tabs>

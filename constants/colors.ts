@@ -1,8 +1,8 @@
 export const colors = {
   dark: {
     background: '#121212',
-    card: 'rgba(30, 30, 30, 0.8)',
-    cardActive: 'rgba(40, 40, 40, 0.9)',
+    card: '#1e1e1e',
+    cardActive: '#282828',
     text: '#ffffff',
     textSecondary: '#e2e2e2',
     primary: '#6366f1',
@@ -16,8 +16,8 @@ export const colors = {
   },
   light: {
     background: '#f9fafb',
-    card: 'rgba(255, 255, 255, 0.8)',
-    cardActive: 'rgba(255, 255, 255, 0.9)',
+    card: '#ffffff',
+    cardActive: '#ffffff',
     text: '#111827',
     textSecondary: '#4b5563',
     primary: '#6366f1',

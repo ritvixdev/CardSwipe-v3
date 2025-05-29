@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useProgressStore } from '@/store/useProgressStore';
 import { useThemeColors } from '@/hooks/useThemeColors';
@@ -69,19 +69,33 @@ export default function LearnScreen() {
   };
   
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['top', 'bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['top']}>
+
+
       <View style={styles.progressContainer}>
         <ProgressBar />
       </View>
 
       <View style={styles.cardContainer}>
-        <LessonCard
-          lesson={currentLesson}
-          onSwipeLeft={handleSwipeLeft}
-          onSwipeRight={handleSwipeRight}
-          onSwipeUp={handleSwipeUp}
-          onSwipeDown={handleSwipeDown}
-        />
+        {/* Render multiple cards for Tinder-style stacking */}
+        {[2, 1, 0].map((cardIndex) => {
+          const lessonIndex = (currentLessonIndex + cardIndex) % lessons.length;
+          const lesson = lessons[lessonIndex];
+          const isTopCard = cardIndex === 0;
+
+          return (
+            <LessonCard
+              key={`${lesson.id}-${cardIndex}`}
+              lesson={lesson}
+              onSwipeLeft={isTopCard ? handleSwipeLeft : () => {}}
+              onSwipeRight={isTopCard ? handleSwipeRight : () => {}}
+              onSwipeUp={isTopCard ? handleSwipeUp : () => {}}
+              onSwipeDown={isTopCard ? handleSwipeDown : () => {}}
+              index={cardIndex}
+              isTopCard={isTopCard}
+            />
+          );
+        })}
       </View>
 
       <XPNotification
@@ -93,7 +107,7 @@ export default function LearnScreen() {
   );
 }
 
-const { height } = Dimensions.get('window');
+
 
 const styles = StyleSheet.create({
   container: {
@@ -108,5 +122,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingBottom: 90, // Space for tab bar
   },
 });

@@ -22,7 +22,7 @@ export default function ProgressScreen() {
   
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['top', 'bottom']}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ paddingBottom: 90 }}>
         <View style={styles.header}>
           <Text style={[styles.title, { color: themeColors.text }]}>Your Progress</Text>
           <Text style={[styles.subtitle, { color: themeColors.textSecondary }]}>Track your JavaScript learning journey</Text>
@@ -123,17 +123,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 8,
+    padding: 20,
+    paddingBottom: 10,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    marginTop: 4,
+    opacity: 0.8,
   },
   section: {
     marginTop: 24,

@@ -1,17 +1,18 @@
-import React, { useRef } from 'react';
-import { StyleSheet, Text, View, Dimensions, Animated, Platform, TouchableOpacity, ColorValue } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, Dimensions, Platform, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PanGestureHandler } from 'react-native-gesture-handler';
-import { Bookmark, Check, ChevronDown, ChevronUp } from 'lucide-react-native';
-import { useProgressStore } from '@/store/useProgressStore';
+import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring, runOnJS } from 'react-native-reanimated';
+import { Check, Bookmark, ChevronUp, ChevronDown } from 'lucide-react-native';
+import * as Haptics from 'expo-haptics';
+import { useRouter } from 'expo-router';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useThemeStore } from '@/store/useThemeStore';
+import { useProgressStore } from '@/store/useProgressStore';
 import { Lesson } from '@/types/lesson';
-import { router } from 'expo-router';
-import * as Haptics from 'expo-haptics';
 
 const { width, height } = Dimensions.get('window');
-const SWIPE_THRESHOLD = 120;
+const SWIPE_THRESHOLD = 100;
 
 interface LessonCardProps {
   lesson: Lesson;
@@ -19,6 +20,8 @@ interface LessonCardProps {
   onSwipeRight: () => void;
   onSwipeUp: () => void;
   onSwipeDown: () => void;
+  index: number;
+  isTopCard: boolean;
 }
 
 export default function LessonCard({ 
@@ -26,195 +29,233 @@ export default function LessonCard({
   onSwipeLeft, 
   onSwipeRight,
   onSwipeUp,
-  onSwipeDown
+  onSwipeDown,
+  index,
+  isTopCard
 }: LessonCardProps) {
-  const progress = useProgressStore((state) => state.progress);
-  const themeMode = useThemeStore((state) => state.mode);
   const themeColors = useThemeColors();
-  
+  const themeMode = useThemeStore((state) => state.mode);
+  const router = useRouter();
+  const progress = useProgressStore((state) => state.progress);
   const lessonProgress = progress[lesson.id] || { completed: false, bookmarked: false };
-  
-  const pan = useRef(new Animated.ValueXY()).current;
-  const opacity = useRef(new Animated.Value(1)).current;
-  const scale = useRef(new Animated.Value(1)).current;
-  
-  const handleGestureEvent = Animated.event(
-    [{ nativeEvent: { translationX: pan.x, translationY: pan.y } }],
-    { useNativeDriver: false }
-  );
-  
-  const handleStateChange = (event: any) => {
-    const { translationX, translationY } = event.nativeEvent;
-    
-    if (Math.abs(translationX) > Math.abs(translationY)) {
-      // Horizontal swipe
-      if (translationX > SWIPE_THRESHOLD) {
-        // Swipe right - bookmark
-        animateSwipe('right', () => {
-          if (Platform.OS !== 'web') {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-          }
-          onSwipeRight();
-        });
-      } else if (translationX < -SWIPE_THRESHOLD) {
-        // Swipe left - mark as read
-        animateSwipe('left', () => {
-          if (Platform.OS !== 'web') {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-          }
-          onSwipeLeft();
-        });
-      } else {
-        resetPosition();
-      }
+
+  // Animation values
+  const pan = useSharedValue({ x: 0, y: 0 });
+  const opacity = useSharedValue(1);
+  const stackPromotion = useSharedValue(0); // 0 = normal stack, 1 = promoted to top
+
+  // Card stack promotion animation - cards move up from their stack position
+  React.useEffect(() => {
+    // Reset to stack positions first
+    pan.value = { x: 0, y: 0 };
+    opacity.value = 1;
+
+    if (index === 0) {
+      // Top card - animate from previous stack position (index 1) to top
+      stackPromotion.value = 0; // Start as if it was the second card
+
+      // Animate to top position with slight zoom effect
+      stackPromotion.value = withSpring(1, {
+        damping: 25,
+        stiffness: 400,
+        mass: 0.8,
+        overshootClamping: false,
+      });
     } else {
-      // Vertical swipe
-      if (translationY > SWIPE_THRESHOLD) {
-        // Swipe down - previous lesson
-        animateSwipe('down', () => {
-          if (Platform.OS !== 'web') {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          }
-          onSwipeDown();
-        });
-      } else if (translationY < -SWIPE_THRESHOLD) {
-        // Swipe up - next lesson
-        animateSwipe('up', () => {
-          if (Platform.OS !== 'web') {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          }
-          onSwipeUp();
-        });
-      } else {
-        resetPosition();
-      }
+      // Background cards - move up one position in the stack
+      stackPromotion.value = 0; // Start at current position
+
+      // Animate to new stack position
+      stackPromotion.value = withSpring(1, {
+        damping: 30,
+        stiffness: 500,
+        mass: 0.6,
+      });
     }
-  };
-  
-  const animateSwipe = (direction: 'left' | 'right' | 'up' | 'down', callback: () => void) => {
-    const x = direction === 'right' ? width : direction === 'left' ? -width : 0;
-    const y = direction === 'down' ? height : direction === 'up' ? -height : 0;
-    
-    Animated.parallel([
-      Animated.timing(pan, {
-        toValue: { x, y },
-        duration: 300,
-        useNativeDriver: false,
-      }),
-      Animated.timing(opacity, {
-        toValue: 0,
-        duration: 300,
-        useNativeDriver: false,
-      }),
-    ]).start(() => {
-      callback();
-      pan.setValue({ x: 0, y: 0 });
-      opacity.setValue(1);
-    });
-  };
-  
-  const resetPosition = () => {
-    Animated.spring(pan, {
-      toValue: { x: 0, y: 0 },
-      friction: 5,
-      useNativeDriver: false,
-    }).start();
-  };
-  
+  }, [lesson.id, index]);
+
+  // Handle card tap navigation
   const handleCardPress = () => {
+    if (!isTopCard) return;
+    
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
-    router.push(`/lesson/${lesson.id}`);
+    const lessonPath = '/(tabs)/lesson/' + lesson.id;
+    router.push(lessonPath as any);
   };
-  
-  // Calculate rotation and opacity based on horizontal pan
-  const rotate = pan.x.interpolate({
-    inputRange: [-width / 2, 0, width / 2],
-    outputRange: ['-10deg', '0deg', '10deg'],
-    extrapolate: 'clamp',
-  });
-  
-  const cardOpacity = opacity;
-  
-  // Indicators for swipe directions with enhanced visibility
-  const leftIndicatorOpacity = pan.x.interpolate({
-    inputRange: [-width / 3, 0],
-    outputRange: [1, 0],
-    extrapolate: 'clamp',
+
+  // Fast and snappy swipe animation
+  const animateSwipe = (direction: 'left' | 'right' | 'up' | 'down', callback: () => void) => {
+    const targetX = direction === 'left' ? -width * 1.5 : direction === 'right' ? width * 1.5 : 0;
+    const targetY = direction === 'up' ? -height * 1.5 : direction === 'down' ? height * 1.5 : 0;
+
+    pan.value = withSpring(
+      { x: targetX, y: targetY },
+      {
+        damping: 30,
+        stiffness: 800,
+        mass: 0.5,
+        overshootClamping: true,
+      },
+      (finished) => {
+        if (finished) {
+          runOnJS(callback)();
+        }
+      }
+    );
+
+    opacity.value = withSpring(0, {
+      damping: 25,
+      stiffness: 600,
+    });
+  };
+
+  // Fast reset position
+  const resetPosition = () => {
+    pan.value = withSpring(
+      { x: 0, y: 0 },
+      {
+        damping: 20,
+        stiffness: 600,
+        mass: 0.6,
+        overshootClamping: false,
+      }
+    );
+  };
+
+  // Gesture handler
+  const gestureHandler = useAnimatedGestureHandler({
+    onStart: () => {},
+    onActive: (event) => {
+      pan.value = { x: event.translationX, y: event.translationY };
+    },
+    onEnd: (event) => {
+      const { translationX, translationY } = event;
+
+      if (Math.abs(translationX) > Math.abs(translationY)) {
+        // Horizontal swipe
+        if (translationX > SWIPE_THRESHOLD) {
+          runOnJS(animateSwipe)('right', onSwipeRight);
+        } else if (translationX < -SWIPE_THRESHOLD) {
+          runOnJS(animateSwipe)('left', onSwipeLeft);
+        } else {
+          runOnJS(resetPosition)();
+        }
+      } else {
+        // Vertical swipe
+        if (translationY > SWIPE_THRESHOLD) {
+          runOnJS(animateSwipe)('down', onSwipeDown);
+        } else if (translationY < -SWIPE_THRESHOLD * 0.6) {
+          runOnJS(animateSwipe)('up', onSwipeUp);
+        } else {
+          runOnJS(resetPosition)();
+        }
+      }
+    },
   });
 
-  const rightIndicatorOpacity = pan.x.interpolate({
-    inputRange: [0, width / 3],
-    outputRange: [0, 1],
-    extrapolate: 'clamp',
+  // Card stack promotion animated styles
+  const animatedStyle = useAnimatedStyle(() => {
+    const rotateValue = pan.value.x / 8; // Smoother rotation
+    const rotateString = rotateValue + 'deg';
+
+    if (index === 0) {
+      // Top card - animate from stack position to top with zoom effect
+      const startScale = 1 - 0.05; // Start as if it was the second card (index 1)
+      const endScale = 1; // End as the top card
+      const currentScale = startScale + (stackPromotion.value * (endScale - startScale));
+
+      const startY = -8; // Start at second card position
+      const endY = 0; // End at top position
+      const currentY = startY + (stackPromotion.value * (endY - startY));
+
+      return {
+        transform: [
+          { translateX: pan.value.x },
+          { translateY: pan.value.y + currentY },
+          { rotate: rotateString },
+          { scale: currentScale },
+        ],
+        opacity: opacity.value,
+        zIndex: 10,
+      };
+    } else {
+      // Background cards - move up one position in stack with promotion animation
+      const moveDistance = Math.sqrt(pan.value.x * pan.value.x + pan.value.y * pan.value.y);
+      const maxDistance = 200;
+      const swipeProgress = Math.min(moveDistance / maxDistance, 1);
+
+      // Calculate stack positions
+      const startScale = 1 - ((index + 1) * 0.05); // Start at next position down
+      const endScale = 1 - (index * 0.05); // End at current position
+      const currentScale = startScale + (stackPromotion.value * (endScale - startScale));
+
+      // Add swipe response for Tinder effect
+      const finalScale = currentScale + (swipeProgress * 0.03);
+
+      const startY = -(index + 1) * 8; // Start at next position down
+      const endY = -index * 8; // End at current position
+      const currentY = startY + (stackPromotion.value * (endY - startY));
+      const finalY = currentY + (swipeProgress * 4);
+
+      return {
+        transform: [
+          { translateX: 0 },
+          { translateY: finalY },
+          { rotate: '0deg' },
+          { scale: finalScale },
+        ],
+        opacity: 1,
+        zIndex: 10 - index,
+      };
+    }
   });
 
-  // Dark overlay effects for left and right swipes
-  const leftOverlayOpacity = pan.x.interpolate({
-    inputRange: [-width / 2, 0],
-    outputRange: [0.7, 0],
-    extrapolate: 'clamp',
+  // Fast and responsive indicator animations (only for top card)
+  const leftIndicatorOpacity = useAnimatedStyle(() => {
+    if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
+    const opacity = Math.max(0, Math.min(1, (-pan.value.x - 30) / 50));
+    return {
+      opacity,
+      transform: [{ scale: 0.9 + opacity * 0.1 }],
+    };
   });
 
-  const rightOverlayOpacity = pan.x.interpolate({
-    inputRange: [0, width / 2],
-    outputRange: [0, 0.7],
-    extrapolate: 'clamp',
+  const rightIndicatorOpacity = useAnimatedStyle(() => {
+    if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
+    const opacity = Math.max(0, Math.min(1, (pan.value.x - 30) / 50));
+    return {
+      opacity,
+      transform: [{ scale: 0.9 + opacity * 0.1 }],
+    };
   });
-  
-  const upIndicatorOpacity = pan.y.interpolate({
-    inputRange: [-height / 6, 0],
-    outputRange: [1, 0],
-    extrapolate: 'clamp',
+
+  const upIndicatorOpacity = useAnimatedStyle(() => {
+    if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
+    const opacity = Math.max(0, Math.min(1, (-pan.value.y - 20) / 40));
+    return {
+      opacity,
+      transform: [{ scale: 0.9 + opacity * 0.1 }],
+    };
   });
-  
-  const downIndicatorOpacity = pan.y.interpolate({
-    inputRange: [0, height / 6],
-    outputRange: [0, 1],
-    extrapolate: 'clamp',
+
+  const downIndicatorOpacity = useAnimatedStyle(() => {
+    if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
+    const opacity = Math.max(0, Math.min(1, (pan.value.y - 20) / 40));
+    return {
+      opacity,
+      transform: [{ scale: 0.9 + opacity * 0.1 }],
+    };
   });
-  
-  // Card scale effect when moving
-  const cardScale = Animated.add(
-    1,
-    Animated.multiply(
-      Animated.add(
-        Animated.multiply(pan.x, pan.x),
-        Animated.multiply(pan.y, pan.y)
-      ).interpolate({
-        inputRange: [0, 10000],
-        outputRange: [0, -0.05],
-        extrapolate: 'clamp',
-      }),
-      -1
-    )
-  );
-  
-  // Get gradient colors based on theme
-  const darkGradient: [ColorValue, ColorValue] = ['rgba(30, 30, 30, 0.8)', 'rgba(40, 40, 40, 0.9)'];
-  const lightGradient: [ColorValue, ColorValue] = ['rgba(255, 255, 255, 0.8)', 'rgba(255, 255, 255, 0.9)'];
-  const gradientColors = themeMode === 'dark' ? darkGradient : lightGradient;
-  
+
+  const gradientColors = themeMode === 'dark'
+    ? ['rgba(30, 30, 30, 1.0)', 'rgba(40, 40, 40, 1.0)']
+    : ['rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)'];
+
   return (
-    <PanGestureHandler
-      onGestureEvent={handleGestureEvent}
-      onEnded={handleStateChange}
-    >
-      <Animated.View
-        style={[
-          styles.container,
-          {
-            transform: [
-              { translateX: pan.x },
-              { translateY: pan.y },
-              { rotate },
-              { scale: cardScale },
-            ],
-            opacity: cardOpacity,
-          },
-        ]}
-      >
+    <PanGestureHandler onGestureEvent={index === 0 ? gestureHandler : undefined} enabled={index === 0}>
+      <Animated.View style={[styles.container, animatedStyle]}>
         <LinearGradient
           colors={gradientColors}
           style={[styles.card, { borderColor: themeColors.border }]}
@@ -222,15 +263,21 @@ export default function LessonCard({
           end={{ x: 1, y: 1 }}
         >
           <TouchableOpacity 
-            style={styles.cardContent} 
+            style={styles.cardContent}
             activeOpacity={0.9}
             onPress={handleCardPress}
+            disabled={!isTopCard}
           >
             <View style={styles.header}>
               <View style={[styles.dayBadge, { backgroundColor: themeColors.primary }]}>
                 <Text style={styles.dayText}>DAY {lesson.day}</Text>
               </View>
               <View style={styles.statusIcons}>
+                {lesson.quiz && (
+                  <View style={[styles.quizPill, { backgroundColor: themeColors.primary }]}>
+                    <Text style={styles.quizText}>QUIZ</Text>
+                  </View>
+                )}
                 {lessonProgress.completed && (
                   <View style={styles.statusIcon}>
                     <Check size={16} color={themeColors.success} />
@@ -243,45 +290,61 @@ export default function LessonCard({
                 )}
               </View>
             </View>
-            
+
             <Text style={[styles.title, { color: themeColors.text }]}>{lesson.title}</Text>
             <Text style={[styles.summary, { color: themeColors.textSecondary }]}>{lesson.summary}</Text>
-            
-            <View style={[styles.codePreview, { backgroundColor: themeMode === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.05)' }]}>
-              <Text style={[styles.codeText, { color: themeMode === 'dark' ? '#e2e2e2' : '#333333' }]}>
-                {lesson.codeExample.split('\n').slice(0, 3).join('\n')}
-                {lesson.codeExample.split('\n').length > 3 ? '\n...' : ''}
-              </Text>
+
+            <View style={[styles.codePreview, {
+              backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f8f8f8',
+              borderColor: themeMode === 'dark' ? '#333' : '#e0e0e0'
+            }]}>
+              <View style={[styles.codeHeader, {
+                backgroundColor: themeMode === 'dark' ? '#2d2d30' : '#f0f0f0',
+                borderBottomColor: themeMode === 'dark' ? '#333' : '#e0e0e0'
+              }]}>
+                <View style={styles.codeControls}>
+                  <View style={[styles.codeButton, { backgroundColor: '#ff5f56' }]} />
+                  <View style={[styles.codeButton, { backgroundColor: '#ffbd2e' }]} />
+                  <View style={[styles.codeButton, { backgroundColor: '#27ca3f' }]} />
+                </View>
+              </View>
+              <View style={styles.codeContent}>
+                <View style={styles.lineNumbers}>
+                  {lesson.codeExample.split('\n').slice(0, 3).map((_, index) => (
+                    <Text key={index} style={[styles.lineNumber, { color: themeMode === 'dark' ? '#858585' : '#999999' }]}>
+                      {index + 1}
+                    </Text>
+                  ))}
+                </View>
+                <Text style={[styles.codeText, { color: themeMode === 'dark' ? '#d4d4d4' : '#333333' }]}>
+                  {lesson.codeExample.split('\n').slice(0, 3).join('\n')}
+                  {lesson.codeExample.split('\n').length > 3 ? '\n...' : ''}
+                </Text>
+              </View>
             </View>
           </TouchableOpacity>
 
-          {/* Dark overlays for swipe feedback */}
-          <Animated.View style={[styles.overlay, styles.leftOverlay, { opacity: leftOverlayOpacity }]} />
-          <Animated.View style={[styles.overlay, styles.rightOverlay, { opacity: rightOverlayOpacity }]} />
-
           {/* Swipe indicators */}
-          <Animated.View style={[styles.indicator, styles.leftIndicator, { opacity: leftIndicatorOpacity }]}>
+          <Animated.View style={[styles.indicator, styles.leftIndicator, leftIndicatorOpacity]}>
             <View style={styles.iconContainer}>
-              <Check size={40} color="#fff" strokeWidth={3} />
-            </View>
-            <Text style={styles.indicatorText}>COMPLETED</Text>
-            <Text style={styles.indicatorSubtext}>+50 XP</Text>
-          </Animated.View>
-
-          <Animated.View style={[styles.indicator, styles.rightIndicator, { opacity: rightIndicatorOpacity }]}>
-            <View style={styles.iconContainer}>
-              <Bookmark size={40} color="#fff" fill="#fff" strokeWidth={3} />
+              <Bookmark size={40} color="#2196F3" fill="none" strokeWidth={2} />
             </View>
             <Text style={styles.indicatorText}>BOOKMARKED</Text>
-            <Text style={styles.indicatorSubtext}>Saved for later</Text>
           </Animated.View>
 
-          <Animated.View style={[styles.indicator, styles.upIndicator, { opacity: upIndicatorOpacity }]}>
+          <Animated.View style={[styles.indicator, styles.rightIndicator, rightIndicatorOpacity]}>
+            <View style={styles.iconContainer}>
+              <Check size={40} color="#4CAF50" strokeWidth={2} />
+            </View>
+            <Text style={styles.indicatorText}>COMPLETED</Text>
+          </Animated.View>
+
+          <Animated.View style={[styles.indicator, styles.upIndicator, upIndicatorOpacity]}>
             <ChevronUp size={32} color="#fff" />
             <Text style={styles.indicatorText}>Next Card</Text>
           </Animated.View>
 
-          <Animated.View style={[styles.indicator, styles.downIndicator, { opacity: downIndicatorOpacity }]}>
+          <Animated.View style={[styles.indicator, styles.downIndicator, downIndicatorOpacity]}>
             <ChevronDown size={32} color="#fff" />
             <Text style={styles.indicatorText}>Previous Card</Text>
           </Animated.View>
@@ -296,6 +359,10 @@ const styles = StyleSheet.create({
     width: width - 32,
     height: height * 0.8,
     alignSelf: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 16,
+    right: 16,
   },
   card: {
     flex: 1,
@@ -330,6 +397,19 @@ const styles = StyleSheet.create({
   },
   statusIcons: {
     flexDirection: 'row',
+    gap: 8,
+    alignItems: 'center',
+  },
+  quizPill: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  quizText: {
+    color: '#ffffff',
+    fontSize: 10,
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
   },
   statusIcon: {
     marginLeft: 8,
@@ -345,28 +425,50 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   codePreview: {
-    padding: 16,
     borderRadius: 12,
     marginBottom: 24,
+    borderWidth: 1,
+    overflow: 'hidden',
+  },
+  codeHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+  },
+  codeControls: {
+    flexDirection: 'row',
+    gap: 6,
+    marginRight: 12,
+  },
+  codeButton: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  codeContent: {
+    flexDirection: 'row',
+    padding: 12,
+  },
+  lineNumbers: {
+    paddingRight: 12,
+    borderRightWidth: 1,
+    borderRightColor: 'rgba(128, 128, 128, 0.2)',
+    marginRight: 12,
+  },
+  lineNumber: {
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+    fontSize: 11,
+    lineHeight: 18,
+    textAlign: 'right',
+    minWidth: 20,
   },
   codeText: {
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
     fontSize: 12,
     lineHeight: 18,
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    borderRadius: 20,
-  },
-  leftOverlay: {
-    backgroundColor: '#4CAF50', // Green for completed
-  },
-  rightOverlay: {
-    backgroundColor: '#2196F3', // Blue for bookmark
+    flex: 1,
   },
   indicator: {
     position: 'absolute',
@@ -375,7 +477,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   iconContainer: {
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
     borderRadius: 30,
     padding: 12,
     marginBottom: 8,
@@ -405,12 +507,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-  },
-  indicatorSubtext: {
-    color: '#fff',
-    fontSize: 12,
-    marginTop: 4,
-    textAlign: 'center',
-    opacity: 0.9,
   },
 });

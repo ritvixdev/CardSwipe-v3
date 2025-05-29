@@ -54,9 +54,6 @@ export default function LessonDetailScreen() {
     <View style={[styles.container, { backgroundColor: themeColors.background }]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <View style={[styles.dayBadge, { backgroundColor: themeColors.primary }]}>
-            <Text style={styles.dayText}>DAY {lesson.day}</Text>
-          </View>
           <Text style={[styles.title, { color: themeColors.text }]}>{lesson.title}</Text>
           <Text style={[styles.summary, { color: themeColors.textSecondary }]}>{lesson.summary}</Text>
         </View>
@@ -115,15 +112,43 @@ export default function LessonDetailScreen() {
           
           <Text style={[styles.sectionTitle, { color: themeColors.text }]}>Code Example</Text>
           <View style={[
-            styles.codeBlock, 
-            { backgroundColor: themeMode === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.05)' }
+            styles.codeBlock,
+            {
+              backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f8f8f8',
+              borderColor: themeMode === 'dark' ? '#333' : '#e0e0e0'
+            }
           ]}>
-            <Text style={[
-              styles.codeText, 
-              { color: themeMode === 'dark' ? '#e2e2e2' : '#333333' }
+            <View style={[
+              styles.codeHeader,
+              {
+                backgroundColor: themeMode === 'dark' ? '#2d2d30' : '#f0f0f0',
+                borderBottomColor: themeMode === 'dark' ? '#333' : '#e0e0e0'
+              }
             ]}>
-              {lesson.codeExample}
-            </Text>
+              <View style={styles.codeControls}>
+                <View style={[styles.codeButton, { backgroundColor: '#ff5f56' }]} />
+                <View style={[styles.codeButton, { backgroundColor: '#ffbd2e' }]} />
+                <View style={[styles.codeButton, { backgroundColor: '#27ca3f' }]} />
+              </View>
+              <Text style={[styles.codeFileName, { color: themeMode === 'dark' ? '#cccccc' : '#666666' }]}>
+
+              </Text>
+            </View>
+            <View style={styles.codeContent}>
+              <View style={styles.lineNumbers}>
+                {lesson.codeExample.split('\n').map((_, index) => (
+                  <Text key={index} style={[styles.lineNumber, { color: themeMode === 'dark' ? '#858585' : '#999999' }]}>
+                    {index + 1}
+                  </Text>
+                ))}
+              </View>
+              <Text style={[
+                styles.codeText,
+                { color: themeMode === 'dark' ? '#d4d4d4' : '#333333' }
+              ]}>
+                {lesson.codeExample}
+              </Text>
+            </View>
           </View>
           
           {lesson.quiz && (
@@ -131,49 +156,7 @@ export default function LessonDetailScreen() {
           )}
         </View>
         
-        <View style={styles.navigation}>
-          {prevLesson ? (
-            <TouchableOpacity 
-              style={[styles.navButton, { backgroundColor: themeColors.card }]}
-              onPress={() => {
-                if (Platform.OS !== 'web') {
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                }
-              }}
-            >
-              <ArrowLeft size={20} color={themeColors.text} />
-              <View style={styles.navContent}>
-                <Text style={[styles.navLabel, { color: themeColors.textSecondary }]}>Previous</Text>
-                <Text style={[styles.navTitle, { color: themeColors.text }]} numberOfLines={1}>
-                  Day {prevLesson.day}: {prevLesson.title}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ) : (
-            <View style={{ flex: 1 }} />
-          )}
-          
-          {nextLesson ? (
-            <TouchableOpacity 
-              style={[styles.navButton, styles.navButtonRight, { backgroundColor: themeColors.card }]}
-              onPress={() => {
-                if (Platform.OS !== 'web') {
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                }
-              }}
-            >
-              <View style={styles.navContent}>
-                <Text style={[styles.navLabel, { color: themeColors.textSecondary }]}>Next</Text>
-                <Text style={[styles.navTitle, { color: themeColors.text }]} numberOfLines={1}>
-                  Day {nextLesson.day}: {nextLesson.title}
-                </Text>
-              </View>
-              <ArrowRight size={20} color={themeColors.text} />
-            </TouchableOpacity>
-          ) : (
-            <View style={{ flex: 1 }} />
-          )}
-        </View>
+
       </ScrollView>
     </View>
   );
@@ -185,22 +168,12 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
+    paddingBottom: 90, // Space for tab bar
   },
   header: {
     marginBottom: 24,
   },
-  dayBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 12,
-    alignSelf: 'flex-start',
-    marginBottom: 12,
-  },
-  dayText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 12,
-  },
+
   title: {
     fontSize: 28,
     fontWeight: 'bold',
@@ -242,43 +215,56 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
   codeBlock: {
-    padding: 16,
     borderRadius: 12,
     marginBottom: 24,
+    borderWidth: 1,
+    overflow: 'hidden',
+  },
+  codeHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+  },
+  codeControls: {
+    flexDirection: 'row',
+    gap: 6,
+    marginRight: 12,
+  },
+  codeButton: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  codeFileName: {
+    fontSize: 12,
+    fontWeight: '500',
+  },
+  codeContent: {
+    flexDirection: 'row',
+    padding: 16,
+  },
+  lineNumbers: {
+    paddingRight: 12,
+    borderRightWidth: 1,
+    borderRightColor: 'rgba(128, 128, 128, 0.2)',
+    marginRight: 12,
+  },
+  lineNumber: {
+    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+    fontSize: 12,
+    lineHeight: 20,
+    textAlign: 'right',
+    minWidth: 24,
   },
   codeText: {
     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
     fontSize: 14,
     lineHeight: 20,
-  },
-  navigation: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 16,
-    marginBottom: 32,
-  },
-  navButton: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    borderRadius: 12,
-    maxWidth: '48%',
   },
-  navButtonRight: {
-    justifyContent: 'flex-end',
-  },
-  navContent: {
-    marginHorizontal: 8,
-  },
-  navLabel: {
-    fontSize: 12,
-    marginBottom: 4,
-  },
-  navTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
+
   errorText: {
     fontSize: 18,
     textAlign: 'center',

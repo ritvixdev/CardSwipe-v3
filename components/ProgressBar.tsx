@@ -15,25 +15,21 @@ export default function ProgressBar() {
   
   return (
     <View style={styles.container}>
-      <View style={styles.progressInfo}>
-        <Text style={[styles.progressText, { color: themeColors.textSecondary }]}>
-          {completedCount} of {totalLessons} completed
-        </Text>
+      <View style={styles.progressRow}>
+        <View style={[styles.progressBarContainer, { backgroundColor: themeColors.border }]}>
+          <View
+            style={[
+              styles.progressBar,
+              {
+                width: `${percentComplete}%`,
+                backgroundColor: themeColors.primary
+              }
+            ]}
+          />
+        </View>
         <Text style={[styles.percentText, { color: themeColors.primary }]}>
           {Math.round(percentComplete)}%
         </Text>
-      </View>
-      
-      <View style={[styles.progressBarContainer, { backgroundColor: themeColors.border }]}>
-        <View 
-          style={[
-            styles.progressBar, 
-            { 
-              width: `${percentComplete}%`,
-              backgroundColor: themeColors.primary 
-            }
-          ]} 
-        />
       </View>
     </View>
   );
@@ -43,19 +39,19 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
   },
-  progressInfo: {
+  progressRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  progressText: {
-    fontSize: 14,
+    alignItems: 'center',
+    gap: 12,
   },
   percentText: {
     fontWeight: 'bold',
     fontSize: 14,
+    minWidth: 40,
+    textAlign: 'right',
   },
   progressBarContainer: {
+    flex: 1,
     height: 8,
     borderRadius: 4,
     overflow: 'hidden',

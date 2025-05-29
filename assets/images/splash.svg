@@ -1,0 +1,10 @@
+<svg width="1284" height="2778" viewBox="0 0 1284 2778" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1284" height="2778" fill="#1e293b"/>
+  <g transform="translate(642, 1389)">
+    <circle cx="0" cy="0" r="120" fill="#2563eb"/>
+    <text x="0" y="15" font-family="Arial, sans-serif" font-size="96" font-weight="bold" 
+          text-anchor="middle" fill="#ffffff">JS</text>
+  </g>
+  <text x="642" y="1600" font-family="Arial, sans-serif" font-size="48" font-weight="bold" 
+        text-anchor="middle" fill="#ffffff">SwipeLearn JS</text>
+</svg>
