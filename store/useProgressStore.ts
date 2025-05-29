@@ -9,16 +9,16 @@ interface LessonProgress {
 }
 
 interface ProgressState {
-  progress: Record<number, LessonProgress>;
+  progress: Record<string, LessonProgress>;
   currentDay: number;
   currentLessonId: string;
   streak: number;
   lastCompletedDate: string | null;
   xp: number;
-  
+
   // Actions
-  markAsCompleted: (lessonId: number) => void;
-  toggleBookmark: (lessonId: number) => void;
+  markAsCompleted: (lessonId: string) => void;
+  toggleBookmark: (lessonId: string) => void;
   incrementDay: () => void;
   decrementDay: () => void;
   resetProgress: () => void;
@@ -36,7 +36,7 @@ export const useProgressStore = create<ProgressState>()(
       lastCompletedDate: null,
       xp: 0,
       
-      markAsCompleted: (lessonId: number) => {
+      markAsCompleted: (lessonId: string) => {
         set((state) => {
           const lessonProgress = state.progress[lessonId] || { completed: false, bookmarked: false };
           
@@ -64,7 +64,7 @@ export const useProgressStore = create<ProgressState>()(
         get().updateStreak();
       },
       
-      toggleBookmark: (lessonId: number) => {
+      toggleBookmark: (lessonId: string) => {
         set((state) => {
           const lessonProgress = state.progress[lessonId] || { completed: false, bookmarked: false };
           
@@ -142,7 +142,21 @@ export const useProgressStore = create<ProgressState>()(
     {
       name: 'js-swipelearn-progress',
       storage: createJSONStorage(() => AsyncStorage),
-      version: 4, // Increment version to clear old cached data
+      version: 5, // Increment version to clear old cached data with new JSON structure
+      migrate: (persistedState: any, version: number) => {
+        // Handle migration from old data structure
+        if (version < 5) {
+          return {
+            progress: {},
+            currentDay: 1,
+            currentLessonId: 'variables-basics',
+            streak: 0,
+            lastCompletedDate: null,
+            xp: 0,
+          };
+        }
+        return persistedState;
+      },
     }
   )
 );

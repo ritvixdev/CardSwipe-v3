@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useProgressStore } from '@/store/useProgressStore';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import lessons from '@/data/lessons';
+import { lessons } from '@/data/processors/dataLoader';
 import LessonCard from '@/components/LessonCard';
 import ProgressBar from '@/components/ProgressBar';
 import XPNotification from '@/components/XPNotification';
@@ -27,10 +27,10 @@ export default function LearnScreen() {
     setXpGained(50);
     setShowXPNotification(true);
 
-    // Load next card after marking as read
-    if (currentLessonIndex < lessons.length - 1) {
-      const newIndex = currentLessonIndex + 1;
-      setCurrentLessonIndex(newIndex);
+    // Load next card after marking as read (loop back to beginning if at end)
+    const newIndex = (currentLessonIndex + 1) % lessons.length;
+    setCurrentLessonIndex(newIndex);
+    if (newIndex !== 0) {
       store.incrementDay();
     }
   };
@@ -42,28 +42,28 @@ export default function LearnScreen() {
     // Toggle bookmark for the lesson
     store.toggleBookmark(currentLesson.id);
 
-    // Load next card after bookmarking
-    if (currentLessonIndex < lessons.length - 1) {
-      const newIndex = currentLessonIndex + 1;
-      setCurrentLessonIndex(newIndex);
+    // Load next card after bookmarking (loop back to beginning if at end)
+    const newIndex = (currentLessonIndex + 1) % lessons.length;
+    setCurrentLessonIndex(newIndex);
+    if (newIndex !== 0) {
       store.incrementDay();
     }
   };
 
   const handleSwipeUp = () => {
-    // Load next card
-    if (currentLessonIndex < lessons.length - 1) {
-      const newIndex = currentLessonIndex + 1;
-      setCurrentLessonIndex(newIndex);
+    // Load next card (loop back to beginning if at end)
+    const newIndex = (currentLessonIndex + 1) % lessons.length;
+    setCurrentLessonIndex(newIndex);
+    if (newIndex !== 0) {
       store.incrementDay();
     }
   };
 
   const handleSwipeDown = () => {
-    // Go to previous card
-    if (currentLessonIndex > 0) {
-      const newIndex = currentLessonIndex - 1;
-      setCurrentLessonIndex(newIndex);
+    // Go to previous card (loop to end if at beginning)
+    const newIndex = currentLessonIndex === 0 ? lessons.length - 1 : currentLessonIndex - 1;
+    setCurrentLessonIndex(newIndex);
+    if (currentLessonIndex !== 0) {
       store.decrementDay();
     }
   };

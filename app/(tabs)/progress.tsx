@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import lessons from '@/data/lessons';
+import { lessons } from '@/data/processors/dataLoader';
 import ProgressBar from '@/components/ProgressBar';
 import StatsCard from '@/components/StatsCard';
 import { Calendar, CheckCircle2 } from 'lucide-react-native';
@@ -21,12 +21,21 @@ export default function ProgressScreen() {
   const remainingLessons = lessons.filter(lesson => !progress[lesson.id]?.completed);
   
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['top', 'bottom']}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 90 }}>
+    <View style={[styles.container, { backgroundColor: themeColors.background }]}>
+      {/* Sticky Header */}
+      <SafeAreaView style={styles.safeArea}>
         <View style={styles.header}>
-          <Text style={[styles.title, { color: themeColors.text }]}>Your Progress</Text>
-          <Text style={[styles.subtitle, { color: themeColors.textSecondary }]}>Track your JavaScript learning journey</Text>
+          <View style={styles.headerContent}>
+            <Text style={[styles.title, { color: themeColors.text }]}>Progress</Text>
+          </View>
         </View>
+      </SafeAreaView>
+
+      {/* Scrollable Content */}
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+      >
         
         <StatsCard />
         
@@ -114,7 +123,7 @@ export default function ProgressScreen() {
           )}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -122,22 +131,32 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  safeArea: {
+    backgroundColor: 'transparent',
+  },
   header: {
-    padding: 20,
-    paddingBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+  },
+  headerContent: {
+    flex: 1,
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 4,
   },
-  subtitle: {
-    fontSize: 16,
-    opacity: 0.8,
+  content: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 100,
   },
   section: {
     marginTop: 24,
-    paddingHorizontal: 16,
   },
   sectionTitle: {
     fontSize: 18,

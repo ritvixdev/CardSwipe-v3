@@ -38,29 +38,93 @@ export const exploreCards: ExploreCard[] = [
   
   // Resource cards
   {
-    id: 'notes',
+    id: 'javascript-notes',
     title: 'JavaScript Notes',
-    description: 'Essential concepts, tips, and explanations for JavaScript developers',
-    icon: '📝',
+    description: 'Essential concepts with examples and code snippets',
+    icon: '📚',
     color: '#8b5cf6', // purple
-    route: '/explore/notes',
+    route: '/explore/javascript-notes',
     category: 'resource',
-    itemCount: 5,
+    itemCount: 8,
     difficulty: 'intermediate',
     estimatedTime: '20 min read',
     isPopular: true
   },
   {
-    id: 'interview-notes',
+    id: 'practice-quiz',
+    title: 'Practice Quiz',
+    description: 'Interactive quizzes to test your JavaScript knowledge',
+    icon: '🧠',
+    color: '#10b981', // green
+    route: '/explore/practice-quiz',
+    category: 'resource',
+    itemCount: 12,
+    difficulty: 'beginner',
+    estimatedTime: '15 min',
+    isNew: true
+  },
+  {
+    id: 'interview-prep',
     title: 'Interview Prep',
     description: 'Common JavaScript interview questions with detailed answers',
     icon: '💼',
     color: '#f59e0b', // amber
-    route: '/explore/interview-notes',
+    route: '/explore/interview-prep',
     category: 'resource',
-    itemCount: 5,
+    itemCount: 15,
     difficulty: 'intermediate',
     estimatedTime: '30 min read',
+    isPopular: true
+  },
+  {
+    id: 'interview-quiz',
+    title: 'Interview Quiz',
+    description: 'Practice with real interview questions and scenarios',
+    icon: '🎯',
+    color: '#ef4444', // red
+    route: '/explore/interview-quiz',
+    category: 'resource',
+    itemCount: 10,
+    difficulty: 'advanced',
+    estimatedTime: '25 min',
+    isPopular: true
+  },
+  {
+    id: 'learning-roadmap',
+    title: 'Learning Roadmap',
+    description: 'Structured learning path with visual progress tracking',
+    icon: '🗺️',
+    color: '#3b82f6', // blue
+    route: '/explore/learning-roadmap',
+    category: 'resource',
+    itemCount: 6,
+    difficulty: 'beginner',
+    estimatedTime: 'Self-paced',
+    isNew: true
+  },
+  {
+    id: 'design-patterns',
+    title: 'Design Patterns',
+    description: 'Common JavaScript design patterns with examples',
+    icon: '🏗️',
+    color: '#6366f1', // indigo
+    route: '/explore/design-patterns',
+    category: 'resource',
+    itemCount: 8,
+    difficulty: 'advanced',
+    estimatedTime: '45 min read'
+  },
+  {
+    id: 'coding-questions',
+    title: 'Coding Questions',
+    description: 'Algorithm challenges with detailed explanations',
+    icon: '💻',
+    color: '#8b5cf6', // purple
+    route: '/explore/coding-questions',
+    category: 'resource',
+    itemCount: 20,
+    difficulty: 'intermediate',
+    estimatedTime: '30 min',
     isPopular: true
   },
   {

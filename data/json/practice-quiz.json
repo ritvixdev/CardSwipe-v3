@@ -1,0 +1,236 @@
+{
+  "quizzes": [
+    {
+      "id": "variables-quiz",
+      "title": "Variables & Scope",
+      "category": "Fundamentals",
+      "difficulty": "easy",
+      "timeLimit": 10,
+      "passingScore": 70,
+      "description": "Test your knowledge of JavaScript variables, declarations, and scoping rules.",
+      "questions": [
+        {
+          "id": "var-1",
+          "question": "Which keyword creates a block-scoped variable?",
+          "options": ["var", "let", "const", "both let and const"],
+          "correctAnswer": 3,
+          "explanation": "Both let and const create block-scoped variables, unlike var which is function-scoped."
+        },
+        {
+          "id": "var-2", 
+          "question": "Can you reassign a const variable?",
+          "options": ["Yes", "No", "Only objects", "Only arrays"],
+          "correctAnswer": 1,
+          "explanation": "const variables cannot be reassigned, but object properties can be modified."
+        },
+        {
+          "id": "var-3",
+          "question": "What happens with var hoisting?",
+          "options": [
+            "Variables are moved to the top and initialized",
+            "Variables are moved to the top but undefined", 
+            "Variables are not hoisted",
+            "Variables throw an error"
+          ],
+          "correctAnswer": 1,
+          "explanation": "var declarations are hoisted to the top of their scope but initialized as undefined."
+        },
+        {
+          "id": "var-4",
+          "question": "Which is the preferred way to declare variables in modern JavaScript?",
+          "options": ["var", "let", "const", "depends on use case"],
+          "correctAnswer": 3,
+          "explanation": "Use const by default, let when you need to reassign, and avoid var in modern JavaScript."
+        }
+      ]
+    },
+    {
+      "id": "arrays-quiz",
+      "title": "Arrays & Methods",
+      "category": "Data Structures",
+      "difficulty": "easy",
+      "timeLimit": 12,
+      "passingScore": 75,
+      "description": "Test your understanding of JavaScript arrays and their built-in methods.",
+      "questions": [
+        {
+          "id": "arr-1",
+          "question": "What method adds an element to the end of an array?",
+          "options": ["push()", "pop()", "shift()", "unshift()"],
+          "correctAnswer": 0,
+          "explanation": "push() adds one or more elements to the end of an array and returns the new length."
+        },
+        {
+          "id": "arr-2",
+          "question": "How do you access the first element of an array?",
+          "options": ["array[1]", "array[0]", "array.first()", "array.get(0)"],
+          "correctAnswer": 1,
+          "explanation": "Arrays are zero-indexed, so the first element is at index 0."
+        },
+        {
+          "id": "arr-3",
+          "question": "Which method creates a new array with transformed elements?",
+          "options": ["forEach()", "map()", "filter()", "reduce()"],
+          "correctAnswer": 1,
+          "explanation": "map() creates a new array with the results of calling a function on every element."
+        },
+        {
+          "id": "arr-4",
+          "question": "What does array.length return?",
+          "options": [
+            "The last index",
+            "The number of elements", 
+            "The highest index + 1",
+            "Both B and C"
+          ],
+          "correctAnswer": 3,
+          "explanation": "array.length returns the number of elements, which is also the highest index + 1."
+        }
+      ]
+    },
+    {
+      "id": "functions-quiz",
+      "title": "Functions & Scope",
+      "category": "Fundamentals", 
+      "difficulty": "medium",
+      "timeLimit": 15,
+      "passingScore": 70,
+      "description": "Test your knowledge of JavaScript functions, arrow functions, and scope.",
+      "questions": [
+        {
+          "id": "func-1",
+          "question": "What's the difference between function declarations and expressions?",
+          "options": [
+            "No difference",
+            "Declarations are hoisted, expressions are not",
+            "Expressions are faster",
+            "Declarations can't have names"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Function declarations are fully hoisted, while function expressions are not hoisted."
+        },
+        {
+          "id": "func-2",
+          "question": "Arrow functions inherit 'this' from:",
+          "options": [
+            "Global scope",
+            "Enclosing scope", 
+            "Function scope",
+            "They create their own 'this'"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Arrow functions inherit 'this' from the enclosing lexical scope."
+        },
+        {
+          "id": "func-3",
+          "question": "What are default parameters?",
+          "options": [
+            "Parameters that are always undefined",
+            "Parameters with fallback values",
+            "Parameters that can't be changed", 
+            "Parameters that are required"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Default parameters provide fallback values when arguments are not provided."
+        }
+      ]
+    },
+    {
+      "id": "async-quiz",
+      "title": "Async JavaScript",
+      "category": "Asynchronous",
+      "difficulty": "hard",
+      "timeLimit": 20,
+      "passingScore": 80,
+      "description": "Test your understanding of promises, async/await, and asynchronous JavaScript.",
+      "questions": [
+        {
+          "id": "async-1",
+          "question": "What are the three states of a Promise?",
+          "options": [
+            "pending, resolved, rejected",
+            "pending, fulfilled, rejected",
+            "waiting, completed, failed",
+            "new, processing, done"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Promises have three states: pending (initial), fulfilled (successful), and rejected (failed)."
+        },
+        {
+          "id": "async-2",
+          "question": "What does Promise.all() do?",
+          "options": [
+            "Runs promises sequentially",
+            "Runs promises in parallel and waits for all",
+            "Runs only the first promise",
+            "Cancels all promises"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Promise.all() runs promises in parallel and resolves when all are fulfilled or rejects when any fails."
+        },
+        {
+          "id": "async-3",
+          "question": "Can you use await without async?",
+          "options": ["Yes", "No", "Only in modules", "Only in functions"],
+          "correctAnswer": 1,
+          "explanation": "await can only be used inside async functions (or at the top level in modules)."
+        }
+      ]
+    },
+    {
+      "id": "objects-quiz",
+      "title": "Objects & Classes",
+      "category": "Object-Oriented",
+      "difficulty": "medium",
+      "timeLimit": 15,
+      "passingScore": 75,
+      "description": "Test your knowledge of JavaScript objects, classes, and object-oriented concepts.",
+      "questions": [
+        {
+          "id": "obj-1",
+          "question": "How do you access object properties?",
+          "options": [
+            "Only dot notation",
+            "Only bracket notation",
+            "Both dot and bracket notation",
+            "Using getProperty() method"
+          ],
+          "correctAnswer": 2,
+          "explanation": "You can access object properties using both dot notation (obj.prop) and bracket notation (obj['prop'])."
+        },
+        {
+          "id": "obj-2",
+          "question": "What does Object.keys() return?",
+          "options": [
+            "Object values",
+            "Object property names",
+            "Object methods",
+            "Object prototype"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Object.keys() returns an array of the object's own property names."
+        },
+        {
+          "id": "obj-3",
+          "question": "What is destructuring assignment?",
+          "options": [
+            "Deleting object properties",
+            "Extracting values into variables",
+            "Creating new objects",
+            "Copying objects"
+          ],
+          "correctAnswer": 1,
+          "explanation": "Destructuring assignment extracts values from objects or arrays into distinct variables."
+        }
+      ]
+    }
+  ],
+  "categories": [
+    "Fundamentals",
+    "Data Structures",
+    "Asynchronous", 
+    "Object-Oriented",
+    "Modern JavaScript",
+    "DOM Manipulation"
+  ]
+}

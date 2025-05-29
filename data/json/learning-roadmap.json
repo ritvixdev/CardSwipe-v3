@@ -1,0 +1,241 @@
+{
+  "roadmap": {
+    "title": "JavaScript Learning Roadmap",
+    "description": "A structured path to master JavaScript from beginner to advanced level",
+    "totalNodes": 12,
+    "estimatedTime": "6-12 months",
+    "nodes": [
+      {
+        "id": "fundamentals",
+        "title": "JavaScript Fundamentals",
+        "level": 1,
+        "position": { "x": 100, "y": 100 },
+        "status": "completed",
+        "difficulty": "beginner",
+        "estimatedTime": "2-3 weeks",
+        "topics": [
+          "Variables and Data Types",
+          "Functions and Scope", 
+          "Control Flow (if/else, loops)",
+          "Basic Operators"
+        ],
+        "prerequisites": [],
+        "description": "Learn the core building blocks of JavaScript programming.",
+        "resources": ["MDN JavaScript Guide", "JavaScript.info", "FreeCodeCamp"]
+      },
+      {
+        "id": "dom-manipulation",
+        "title": "DOM Manipulation",
+        "level": 2,
+        "position": { "x": 300, "y": 100 },
+        "status": "current",
+        "difficulty": "beginner",
+        "estimatedTime": "1-2 weeks",
+        "topics": [
+          "Selecting Elements",
+          "Event Handling",
+          "Dynamic Content Creation",
+          "Form Validation"
+        ],
+        "prerequisites": ["fundamentals"],
+        "description": "Learn to interact with web pages and create dynamic user interfaces.",
+        "resources": ["DOM Manipulation Course", "JavaScript30", "MDN DOM Guide"]
+      },
+      {
+        "id": "arrays-objects",
+        "title": "Arrays & Objects",
+        "level": 2,
+        "position": { "x": 100, "y": 250 },
+        "status": "completed",
+        "difficulty": "beginner",
+        "estimatedTime": "2 weeks",
+        "topics": [
+          "Array Methods (map, filter, reduce)",
+          "Object Properties and Methods",
+          "Destructuring Assignment",
+          "Spread and Rest Operators"
+        ],
+        "prerequisites": ["fundamentals"],
+        "description": "Master JavaScript's primary data structures and their methods.",
+        "resources": ["Array Methods Guide", "Object-Oriented JavaScript", "ES6 Features"]
+      },
+      {
+        "id": "async-programming",
+        "title": "Async Programming",
+        "level": 3,
+        "position": { "x": 500, "y": 100 },
+        "status": "locked",
+        "difficulty": "intermediate",
+        "estimatedTime": "2-3 weeks",
+        "topics": [
+          "Callbacks and Callback Hell",
+          "Promises and Promise Chaining",
+          "Async/Await Syntax",
+          "Fetch API and AJAX"
+        ],
+        "prerequisites": ["dom-manipulation"],
+        "description": "Learn to handle asynchronous operations and API calls.",
+        "resources": ["Async JavaScript Course", "Promise Documentation", "Fetch API Guide"]
+      },
+      {
+        "id": "es6-features",
+        "title": "Modern JavaScript (ES6+)",
+        "level": 3,
+        "position": { "x": 300, "y": 250 },
+        "status": "locked",
+        "difficulty": "intermediate",
+        "estimatedTime": "2 weeks",
+        "topics": [
+          "Arrow Functions",
+          "Template Literals",
+          "Classes and Inheritance",
+          "Modules (import/export)"
+        ],
+        "prerequisites": ["arrays-objects"],
+        "description": "Explore modern JavaScript features and syntax improvements.",
+        "resources": ["ES6 Guide", "Modern JavaScript Tutorial", "Babel Documentation"]
+      },
+      {
+        "id": "error-handling",
+        "title": "Error Handling",
+        "level": 3,
+        "position": { "x": 100, "y": 400 },
+        "status": "locked",
+        "difficulty": "intermediate",
+        "estimatedTime": "1 week",
+        "topics": [
+          "Try/Catch Blocks",
+          "Error Types and Custom Errors",
+          "Debugging Techniques",
+          "Error Boundaries"
+        ],
+        "prerequisites": ["arrays-objects"],
+        "description": "Learn to handle and debug errors effectively.",
+        "resources": ["Error Handling Guide", "Debugging Tutorial", "Chrome DevTools"]
+      },
+      {
+        "id": "advanced-functions",
+        "title": "Advanced Functions",
+        "level": 4,
+        "position": { "x": 700, "y": 100 },
+        "status": "locked",
+        "difficulty": "advanced",
+        "estimatedTime": "2-3 weeks",
+        "topics": [
+          "Closures and Lexical Scope",
+          "Higher-Order Functions",
+          "Function Composition",
+          "Currying and Partial Application"
+        ],
+        "prerequisites": ["async-programming"],
+        "description": "Master advanced function concepts and functional programming.",
+        "resources": ["Functional JavaScript", "Closures Deep Dive", "Higher-Order Functions"]
+      },
+      {
+        "id": "oop-patterns",
+        "title": "OOP & Design Patterns",
+        "level": 4,
+        "position": { "x": 500, "y": 250 },
+        "status": "locked",
+        "difficulty": "advanced",
+        "estimatedTime": "3 weeks",
+        "topics": [
+          "Prototypal Inheritance",
+          "Constructor Patterns",
+          "Module Pattern",
+          "Observer Pattern"
+        ],
+        "prerequisites": ["es6-features"],
+        "description": "Learn object-oriented programming and common design patterns.",
+        "resources": ["JavaScript Patterns", "OOP in JavaScript", "Design Patterns Guide"]
+      },
+      {
+        "id": "testing",
+        "title": "Testing JavaScript",
+        "level": 4,
+        "position": { "x": 300, "y": 400 },
+        "status": "locked",
+        "difficulty": "intermediate",
+        "estimatedTime": "2 weeks",
+        "topics": [
+          "Unit Testing with Jest",
+          "Test-Driven Development",
+          "Mocking and Stubbing",
+          "Integration Testing"
+        ],
+        "prerequisites": ["error-handling"],
+        "description": "Learn to write reliable tests for your JavaScript code.",
+        "resources": ["Jest Documentation", "Testing JavaScript", "TDD Guide"]
+      },
+      {
+        "id": "performance",
+        "title": "Performance Optimization",
+        "level": 5,
+        "position": { "x": 900, "y": 100 },
+        "status": "locked",
+        "difficulty": "advanced",
+        "estimatedTime": "2 weeks",
+        "topics": [
+          "Memory Management",
+          "Performance Profiling",
+          "Code Optimization",
+          "Lazy Loading"
+        ],
+        "prerequisites": ["advanced-functions"],
+        "description": "Optimize JavaScript applications for better performance.",
+        "resources": ["Performance Guide", "Memory Leaks", "Optimization Techniques"]
+      },
+      {
+        "id": "frameworks",
+        "title": "Frameworks & Libraries",
+        "level": 5,
+        "position": { "x": 700, "y": 250 },
+        "status": "locked",
+        "difficulty": "intermediate",
+        "estimatedTime": "4-6 weeks",
+        "topics": [
+          "React.js Fundamentals",
+          "State Management",
+          "Component Lifecycle",
+          "Popular Libraries"
+        ],
+        "prerequisites": ["oop-patterns"],
+        "description": "Learn popular JavaScript frameworks and libraries.",
+        "resources": ["React Documentation", "Vue.js Guide", "Angular Tutorial"]
+      },
+      {
+        "id": "advanced-topics",
+        "title": "Advanced Topics",
+        "level": 6,
+        "position": { "x": 500, "y": 400 },
+        "status": "locked",
+        "difficulty": "expert",
+        "estimatedTime": "4+ weeks",
+        "topics": [
+          "Web Workers",
+          "Service Workers",
+          "WebAssembly",
+          "Advanced Algorithms"
+        ],
+        "prerequisites": ["testing", "performance", "frameworks"],
+        "description": "Explore cutting-edge JavaScript technologies and concepts.",
+        "resources": ["Web Workers Guide", "PWA Documentation", "WebAssembly Tutorial"]
+      }
+    ],
+    "connections": [
+      { "from": "fundamentals", "to": "dom-manipulation" },
+      { "from": "fundamentals", "to": "arrays-objects" },
+      { "from": "dom-manipulation", "to": "async-programming" },
+      { "from": "arrays-objects", "to": "es6-features" },
+      { "from": "arrays-objects", "to": "error-handling" },
+      { "from": "async-programming", "to": "advanced-functions" },
+      { "from": "es6-features", "to": "oop-patterns" },
+      { "from": "error-handling", "to": "testing" },
+      { "from": "advanced-functions", "to": "performance" },
+      { "from": "oop-patterns", "to": "frameworks" },
+      { "from": "testing", "to": "advanced-topics" },
+      { "from": "performance", "to": "advanced-topics" },
+      { "from": "frameworks", "to": "advanced-topics" }
+    ]
+  }
+}

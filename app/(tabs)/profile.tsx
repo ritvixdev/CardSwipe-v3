@@ -157,12 +157,22 @@ export default function ProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['top', 'bottom']}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+    <View style={[styles.container, { backgroundColor: themeColors.background }]}>
+      {/* Sticky Header */}
+      <SafeAreaView style={styles.safeArea}>
         <View style={styles.header}>
-          <Text style={[styles.title, { color: themeColors.text }]}>Profile</Text>
-          <Text style={[styles.subtitle, { color: themeColors.textSecondary }]}>Customize your learning experience</Text>
+          <View style={styles.headerContent}>
+            <Text style={[styles.title, { color: themeColors.text }]}>Profile</Text>
+          </View>
         </View>
+      </SafeAreaView>
+
+      {/* Scrollable Content */}
+      <ScrollView
+        style={styles.content}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
 
         {/* App Preferences */}
         <View style={styles.section}>
@@ -361,7 +371,7 @@ export default function ProfileScreen() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -369,18 +379,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  safeArea: {
+    backgroundColor: 'transparent',
+  },
   header: {
-    padding: 20,
-    paddingBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+  },
+  headerContent: {
+    flex: 1,
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: 4,
   },
-  subtitle: {
-    fontSize: 16,
-    opacity: 0.8,
+  content: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 100,
   },
   section: {
     paddingHorizontal: 20,
@@ -442,7 +462,6 @@ const styles = StyleSheet.create({
   footer: {
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingBottom: 90, // Space for tab bar
   },
   madeWithLove: {
     flexDirection: 'row',

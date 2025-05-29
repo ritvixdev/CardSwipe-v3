@@ -15,7 +15,138 @@ import * as Haptics from 'expo-haptics';
 
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import { exploreCards, getExploreCardsByCategory, ExploreCard } from '@/data/explore';
+// Temporary direct import to fix the issue
+const exploreCards = [
+  {
+    id: 'completed',
+    title: 'Completed Lessons',
+    description: 'Review your completed JavaScript lessons and track your progress',
+    icon: '✅',
+    color: '#10b981',
+    route: '/(tabs)/explore/completed',
+    category: 'permanent',
+    itemCount: 0
+  },
+  {
+    id: 'bookmarks',
+    title: 'Bookmarked Lessons',
+    description: 'Quick access to your saved lessons for later review',
+    icon: '🔖',
+    color: '#3b82f6',
+    route: '/(tabs)/explore/bookmarks',
+    category: 'permanent',
+    itemCount: 0
+  },
+  {
+    id: 'javascript-notes',
+    title: 'JavaScript Notes',
+    description: 'Essential concepts with examples and code snippets',
+    icon: '📚',
+    color: '#8b5cf6',
+    route: '/(tabs)/explore/javascript-notes',
+    category: 'resource',
+    itemCount: 8,
+    difficulty: 'intermediate',
+    estimatedTime: '20 min read',
+    isPopular: true
+  },
+  {
+    id: 'practice-quiz',
+    title: 'Practice Quiz',
+    description: 'Interactive quizzes to test your JavaScript knowledge',
+    icon: '🧠',
+    color: '#10b981',
+    route: '/(tabs)/explore/practice-quiz',
+    category: 'resource',
+    itemCount: 12,
+    difficulty: 'beginner',
+    estimatedTime: '15 min',
+    isNew: true
+  },
+  {
+    id: 'interview-prep',
+    title: 'Interview Prep',
+    description: 'Common JavaScript interview questions with detailed answers',
+    icon: '💼',
+    color: '#f59e0b',
+    route: '/(tabs)/explore/interview-prep',
+    category: 'resource',
+    itemCount: 15,
+    difficulty: 'intermediate',
+    estimatedTime: '30 min read',
+    isPopular: true
+  },
+  {
+    id: 'interview-quiz',
+    title: 'Interview Quiz',
+    description: 'Practice with real interview questions and scenarios',
+    icon: '🎯',
+    color: '#ef4444',
+    route: '/explore/interview-quiz',
+    category: 'resource',
+    itemCount: 10,
+    difficulty: 'advanced',
+    estimatedTime: '25 min',
+    isPopular: true
+  },
+  {
+    id: 'learning-roadmap',
+    title: 'Learning Roadmap',
+    description: 'Structured learning path with visual progress tracking',
+    icon: '🗺️',
+    color: '#3b82f6',
+    route: '/explore/learning-roadmap',
+    category: 'resource',
+    itemCount: 6,
+    difficulty: 'beginner',
+    estimatedTime: 'Self-paced',
+    isNew: true
+  },
+  {
+    id: 'design-patterns',
+    title: 'Design Patterns',
+    description: 'Common JavaScript design patterns with examples',
+    icon: '🏗️',
+    color: '#6366f1',
+    route: '/explore/design-patterns',
+    category: 'resource',
+    itemCount: 8,
+    difficulty: 'advanced',
+    estimatedTime: '45 min read'
+  },
+  {
+    id: 'coding-questions',
+    title: 'Coding Questions',
+    description: 'Algorithm challenges with detailed explanations',
+    icon: '💻',
+    color: '#8b5cf6',
+    route: '/explore/coding-questions',
+    category: 'resource',
+    itemCount: 20,
+    difficulty: 'intermediate',
+    estimatedTime: '30 min',
+    isPopular: true
+  }
+];
+
+interface ExploreCard {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  color: string;
+  route: string;
+  category: 'permanent' | 'resource';
+  itemCount?: number;
+  difficulty?: 'beginner' | 'intermediate' | 'advanced';
+  estimatedTime?: string;
+  isNew?: boolean;
+  isPopular?: boolean;
+}
+
+function getExploreCardsByCategory(category: 'permanent' | 'resource'): ExploreCard[] {
+  return exploreCards.filter(card => card.category === category);
+}
 
 const { width } = Dimensions.get('window');
 const cardWidth = (width - 60) / 2; // 2 cards per row with margins
@@ -47,12 +178,18 @@ export default function ExploreScreen() {
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-    
+
     // Handle navigation based on card type
     if (card.id === 'completed') {
       router.push('/(tabs)/explore/completed');
     } else if (card.id === 'bookmarks') {
       router.push('/(tabs)/explore/bookmarks');
+    } else if (card.id === 'javascript-notes') {
+      router.push('/(tabs)/explore/javascript-notes');
+    } else if (card.id === 'interview-prep') {
+      router.push('/(tabs)/explore/interview-prep');
+    } else if (card.id === 'practice-quiz') {
+      router.push('/(tabs)/explore/practice-quiz');
     } else {
       router.push(card.route as any);
     }
@@ -180,9 +317,6 @@ export default function ExploreScreen() {
         <View style={styles.headerTop}>
           <View>
             <Text style={[styles.title, { color: themeColors.text }]}>Explore</Text>
-            <Text style={[styles.subtitle, { color: themeColors.textSecondary }]}>
-              Expand your JavaScript knowledge
-            </Text>
           </View>
           
           <View style={styles.headerActions}>
@@ -268,8 +402,8 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
   },
   headerTop: {
     flexDirection: 'row',
@@ -277,13 +411,9 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 16,
-    opacity: 0.8,
   },
   headerActions: {
     flexDirection: 'row',

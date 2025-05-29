@@ -1,0 +1,132 @@
+{
+  "interviewQuestions": [
+    {
+      "id": "closures-interview",
+      "question": "What are closures in JavaScript? Explain with an example.",
+      "category": "Advanced Concepts",
+      "difficulty": "medium",
+      "answer": "A closure is a function that has access to variables in its outer (enclosing) scope even after the outer function has returned. Closures give you access to an outer function's scope from an inner function.",
+      "codeExample": "function outerFunction(x) {\n  // Outer variable\n  return function innerFunction(y) {\n    return x + y; // Inner function has access to x\n  };\n}\n\nconst addFive = outerFunction(5);\nconsole.log(addFive(3)); // 8\n\n// The inner function 'remembers' the value of x",
+      "keyPoints": [
+        "Inner function has access to outer variables",
+        "Variables persist after outer function returns", 
+        "Commonly used in module patterns",
+        "Creates private variables and methods"
+      ],
+      "tags": ["closures", "scope", "functions", "advanced"]
+    },
+    {
+      "id": "hoisting-interview",
+      "question": "Explain hoisting in JavaScript.",
+      "category": "Core Concepts",
+      "difficulty": "easy",
+      "answer": "Hoisting is JavaScript's behavior of moving variable and function declarations to the top of their scope during compilation. However, only declarations are hoisted, not initializations.",
+      "codeExample": "// What you write:\nconsole.log(x); // undefined (not error)\nvar x = 5;\n\n// How JavaScript interprets it:\nvar x; // Declaration hoisted\nconsole.log(x); // undefined\nx = 5; // Initialization stays in place\n\n// Function hoisting:\nsayHello(); // Works!\n\nfunction sayHello() {\n  console.log('Hello!');\n}",
+      "keyPoints": [
+        "var declarations are hoisted and initialized as undefined",
+        "let and const are hoisted but not initialized (temporal dead zone)",
+        "Function declarations are fully hoisted",
+        "Function expressions are not hoisted"
+      ],
+      "tags": ["hoisting", "variables", "functions", "scope"]
+    },
+    {
+      "id": "this-keyword",
+      "question": "How does the 'this' keyword work in JavaScript?",
+      "category": "Core Concepts", 
+      "difficulty": "medium",
+      "answer": "The 'this' keyword refers to the object that is executing the current function. Its value depends on how the function is called, not where it's defined.",
+      "codeExample": "// Global context\nconsole.log(this); // Window object (browser)\n\n// Object method\nconst obj = {\n  name: 'John',\n  greet() {\n    console.log(this.name); // 'John'\n  }\n};\n\n// Arrow functions inherit 'this'\nconst obj2 = {\n  name: 'Jane',\n  greet: () => {\n    console.log(this.name); // undefined (inherits from global)\n  }\n};\n\n// Explicit binding\nobj.greet.call({name: 'Bob'}); // 'Bob'",
+      "keyPoints": [
+        "Depends on how function is called",
+        "Arrow functions inherit 'this' from enclosing scope",
+        "Can be explicitly set with call, apply, bind",
+        "In strict mode, 'this' is undefined in global functions"
+      ],
+      "tags": ["this", "context", "arrow-functions", "binding"]
+    },
+    {
+      "id": "event-loop",
+      "question": "Explain the JavaScript event loop.",
+      "category": "Asynchronous JavaScript",
+      "difficulty": "hard",
+      "answer": "The event loop is what allows JavaScript to perform non-blocking operations despite being single-threaded. It continuously checks the call stack and task queues, moving tasks from queues to the stack when it's empty.",
+      "codeExample": "console.log('1');\n\nsetTimeout(() => {\n  console.log('2');\n}, 0);\n\nPromise.resolve().then(() => {\n  console.log('3');\n});\n\nconsole.log('4');\n\n// Output: 1, 4, 3, 2\n// Microtasks (Promises) have higher priority than macrotasks (setTimeout)",
+      "keyPoints": [
+        "JavaScript is single-threaded",
+        "Call stack executes synchronous code",
+        "Microtask queue (Promises) has higher priority",
+        "Macrotask queue (setTimeout, setInterval) runs after microtasks"
+      ],
+      "tags": ["event-loop", "async", "promises", "setTimeout"]
+    },
+    {
+      "id": "prototypes",
+      "question": "What is prototypal inheritance in JavaScript?",
+      "category": "Advanced Concepts",
+      "difficulty": "hard", 
+      "answer": "Prototypal inheritance is JavaScript's inheritance model where objects can inherit properties and methods from other objects through the prototype chain.",
+      "codeExample": "// Constructor function\nfunction Person(name) {\n  this.name = name;\n}\n\n// Adding method to prototype\nPerson.prototype.greet = function() {\n  return `Hello, I'm ${this.name}`;\n};\n\n// Creating instance\nconst john = new Person('John');\nconsole.log(john.greet()); // 'Hello, I'm John'\n\n// Prototype chain\nconsole.log(john.__proto__ === Person.prototype); // true\nconsole.log(Person.prototype.__proto__ === Object.prototype); // true",
+      "keyPoints": [
+        "Objects inherit from other objects",
+        "Prototype chain lookup for properties/methods",
+        "All objects inherit from Object.prototype",
+        "Can be implemented with constructors or Object.create()"
+      ],
+      "tags": ["prototypes", "inheritance", "constructor", "prototype-chain"]
+    },
+    {
+      "id": "promises-vs-callbacks",
+      "question": "What are the advantages of Promises over callbacks?",
+      "category": "Asynchronous JavaScript",
+      "difficulty": "medium",
+      "answer": "Promises provide better error handling, avoid callback hell, are chainable, and offer better composition with Promise.all, Promise.race, etc.",
+      "codeExample": "// Callback hell\ngetData(function(a) {\n  getMoreData(a, function(b) {\n    getEvenMoreData(b, function(c) {\n      // Nested callbacks are hard to read\n    });\n  });\n});\n\n// Promise chain\ngetData()\n  .then(a => getMoreData(a))\n  .then(b => getEvenMoreData(b))\n  .then(c => {\n    // Much cleaner!\n  })\n  .catch(error => {\n    // Single error handler\n  });",
+      "keyPoints": [
+        "Avoid callback hell/pyramid of doom",
+        "Better error handling with .catch()",
+        "Chainable with .then()",
+        "Better composition and parallel execution"
+      ],
+      "tags": ["promises", "callbacks", "async", "error-handling"]
+    },
+    {
+      "id": "var-let-const",
+      "question": "What are the differences between var, let, and const?",
+      "category": "Core Concepts",
+      "difficulty": "easy",
+      "answer": "var is function-scoped and hoisted with undefined initialization. let and const are block-scoped, hoisted but not initialized (temporal dead zone). const cannot be reassigned.",
+      "codeExample": "// var - function scoped\nfunction example() {\n  if (true) {\n    var x = 1;\n  }\n  console.log(x); // 1 (accessible outside block)\n}\n\n// let - block scoped\nfunction example2() {\n  if (true) {\n    let y = 1;\n  }\n  console.log(y); // ReferenceError\n}\n\n// const - block scoped, cannot reassign\nconst z = 1;\nz = 2; // TypeError\n\nconst obj = {a: 1};\nobj.a = 2; // OK - object properties can change",
+      "keyPoints": [
+        "var: function-scoped, hoisted, can be redeclared",
+        "let: block-scoped, temporal dead zone, can be reassigned",
+        "const: block-scoped, temporal dead zone, cannot be reassigned",
+        "const objects/arrays can have their contents modified"
+      ],
+      "tags": ["variables", "scope", "hoisting", "const"]
+    },
+    {
+      "id": "arrow-functions",
+      "question": "What are the key differences between arrow functions and regular functions?",
+      "category": "Modern JavaScript",
+      "difficulty": "medium",
+      "answer": "Arrow functions have lexical 'this' binding, cannot be used as constructors, don't have their own 'arguments' object, and have more concise syntax.",
+      "codeExample": "// Regular function\nfunction regular() {\n  console.log(this); // Depends on how it's called\n  console.log(arguments); // Has arguments object\n}\n\n// Arrow function\nconst arrow = () => {\n  console.log(this); // Inherits from enclosing scope\n  console.log(arguments); // ReferenceError\n};\n\n// In object methods\nconst obj = {\n  name: 'John',\n  regularMethod() {\n    console.log(this.name); // 'John'\n  },\n  arrowMethod: () => {\n    console.log(this.name); // undefined\n  }\n};",
+      "keyPoints": [
+        "Lexical 'this' binding (inherits from enclosing scope)",
+        "Cannot be used as constructors",
+        "No 'arguments' object",
+        "More concise syntax for simple functions"
+      ],
+      "tags": ["arrow-functions", "this", "es6", "functions"]
+    }
+  ],
+  "categories": [
+    "Core Concepts",
+    "Advanced Concepts", 
+    "Asynchronous JavaScript",
+    "Modern JavaScript",
+    "Performance",
+    "Problem Solving"
+  ]
+}

@@ -1,0 +1,240 @@
+{
+  "lessons": [
+    {
+      "id": "variables-basics",
+      "title": "Variables in JavaScript",
+      "day": 1,
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "10 min",
+      "description": "Learn how to declare and use variables in JavaScript with var, let, and const.",
+      "content": "Variables are containers that store data values. In JavaScript, you can declare variables using three keywords: var, let, and const. Each has different scoping rules and behaviors that are important to understand.",
+      "codeExample": "// Variable declarations\nlet name = 'John';\nconst age = 25;\nvar city = 'New York';\n\n// Block scoping with let and const\nif (true) {\n  let blockScoped = 'only available here';\n  const alsoBlockScoped = 'same here';\n}\n\n// Function scoping with var\nfunction example() {\n  var functionScoped = 'available throughout function';\n}",
+      "keyPoints": [
+        "let and const are block-scoped",
+        "var is function-scoped and should be avoided",
+        "const cannot be reassigned",
+        "Always prefer const, then let"
+      ],
+      "quiz": {
+        "question": "Which keyword creates a block-scoped variable that cannot be reassigned?",
+        "options": ["var", "let", "const", "function"],
+        "correctAnswer": 2,
+        "explanation": "const creates a block-scoped variable that cannot be reassigned after declaration."
+      },
+      "tags": ["variables", "scope", "declarations", "fundamentals"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "data-types",
+      "title": "JavaScript Data Types",
+      "day": 2,
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "12 min",
+      "description": "Understand the different data types available in JavaScript and how to work with them.",
+      "content": "JavaScript has several built-in data types including primitives (string, number, boolean, null, undefined, symbol) and objects (including arrays and functions). Understanding these types is crucial for effective programming.",
+      "codeExample": "// Primitive types\nlet name = 'Alice';        // string\nlet age = 30;              // number\nlet isActive = true;       // boolean\nlet data = null;           // null\nlet notDefined;            // undefined\nlet id = Symbol('id');     // symbol\n\n// Object types\nlet person = {             // object\n  name: 'Bob',\n  age: 25\n};\nlet numbers = [1, 2, 3];   // array (special object)\nlet greet = function() {   // function (special object)\n  return 'Hello!';\n};",
+      "keyPoints": [
+        "JavaScript has 7 primitive data types",
+        "Objects include arrays and functions",
+        "typeof operator helps identify types",
+        "null is technically an object (JavaScript quirk)"
+      ],
+      "quiz": {
+        "question": "What will typeof null return?",
+        "options": ["'null'", "'undefined'", "'object'", "'boolean'"],
+        "correctAnswer": 2,
+        "explanation": "typeof null returns 'object' due to a historical bug in JavaScript that has been kept for compatibility."
+      },
+      "tags": ["data-types", "primitives", "objects", "typeof"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "functions-intro",
+      "title": "Introduction to Functions",
+      "day": 3,
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "15 min",
+      "description": "Learn how to create and use functions to organize and reuse your code effectively.",
+      "content": "Functions are reusable blocks of code that perform specific tasks. They can accept parameters, process data, and return values. Functions are fundamental to writing clean, organized JavaScript code.",
+      "codeExample": "// Function declaration\nfunction greet(name) {\n  return `Hello, ${name}!`;\n}\n\n// Function expression\nconst sayHi = function(name) {\n  return `Hi, ${name}!`;\n};\n\n// Arrow function (ES6)\nconst sayHey = (name) => `Hey, ${name}!`;\n\n// Function with default parameters\nfunction introduce(name = 'Anonymous', age = 0) {\n  return `I'm ${name} and I'm ${age} years old.`;\n}\n\n// Using functions\nconsole.log(greet('Alice'));           // Hello, Alice!\nconsole.log(introduce('Bob', 25));     // I'm Bob and I'm 25 years old.",
+      "keyPoints": [
+        "Functions can be declared or expressed",
+        "Arrow functions have concise syntax",
+        "Parameters can have default values",
+        "Functions should do one thing well"
+      ],
+      "quiz": {
+        "question": "What's the main difference between function declarations and expressions?",
+        "options": [
+          "No difference",
+          "Declarations are hoisted, expressions are not",
+          "Expressions are faster",
+          "Declarations can't have parameters"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Function declarations are hoisted (can be called before they're defined), while function expressions are not hoisted."
+      },
+      "tags": ["functions", "parameters", "arrow-functions", "hoisting"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "arrays-basics",
+      "title": "Working with Arrays",
+      "day": 4,
+      "category": "Data Structures",
+      "difficulty": "beginner",
+      "estimatedTime": "18 min",
+      "description": "Master JavaScript arrays and their powerful built-in methods for data manipulation.",
+      "content": "Arrays are ordered collections of items that can store multiple values in a single variable. JavaScript arrays are dynamic and come with many useful methods for adding, removing, and transforming data.",
+      "codeExample": "// Creating arrays\nconst fruits = ['apple', 'banana', 'orange'];\nconst numbers = [1, 2, 3, 4, 5];\nconst mixed = ['text', 42, true, null];\n\n// Array methods\nfruits.push('grape');           // Add to end: ['apple', 'banana', 'orange', 'grape']\nfruits.pop();                   // Remove from end: ['apple', 'banana', 'orange']\nfruits.unshift('mango');        // Add to beginning: ['mango', 'apple', 'banana', 'orange']\nfruits.shift();                 // Remove from beginning: ['apple', 'banana', 'orange']\n\n// Iteration and transformation\nfruits.forEach(fruit => console.log(fruit));\nconst upperFruits = fruits.map(fruit => fruit.toUpperCase());\nconst longFruits = fruits.filter(fruit => fruit.length > 5);",
+      "keyPoints": [
+        "Arrays are zero-indexed",
+        "push/pop work with the end",
+        "unshift/shift work with the beginning",
+        "map creates new arrays, forEach just iterates"
+      ],
+      "quiz": {
+        "question": "Which method creates a new array with transformed elements?",
+        "options": ["forEach()", "map()", "push()", "pop()"],
+        "correctAnswer": 1,
+        "explanation": "map() creates a new array with the results of calling a function on every element, while forEach() just iterates without returning anything."
+      },
+      "tags": ["arrays", "methods", "iteration", "data-structures"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "objects-basics",
+      "title": "JavaScript Objects",
+      "day": 5,
+      "category": "Data Structures",
+      "difficulty": "intermediate",
+      "estimatedTime": "20 min",
+      "description": "Learn how to create and manipulate objects, the fundamental building blocks of JavaScript.",
+      "content": "Objects are collections of key-value pairs that represent entities with properties and methods. They are one of the most important concepts in JavaScript and form the basis of object-oriented programming.",
+      "codeExample": "// Object literal\nconst person = {\n  name: 'Alice',\n  age: 30,\n  city: 'New York',\n  greet() {\n    return `Hi, I'm ${this.name} from ${this.city}`;\n  }\n};\n\n// Accessing properties\nconsole.log(person.name);           // Dot notation\nconsole.log(person['age']);         // Bracket notation\n\n// Adding/modifying properties\nperson.email = 'alice@email.com';\nperson.age = 31;\n\n// Object destructuring\nconst { name, age } = person;\n\n// Object methods\nconst keys = Object.keys(person);       // ['name', 'age', 'city', 'email', 'greet']\nconst values = Object.values(person);   // Values array\nconst entries = Object.entries(person); // [key, value] pairs",
+      "keyPoints": [
+        "Objects store key-value pairs",
+        "Properties can be accessed with dot or bracket notation",
+        "Methods are functions stored as object properties",
+        "this keyword refers to the object"
+      ],
+      "quiz": {
+        "question": "What does the 'this' keyword refer to in an object method?",
+        "options": [
+          "The global object",
+          "The function itself",
+          "The object that owns the method",
+          "undefined"
+        ],
+        "correctAnswer": 2,
+        "explanation": "In an object method, 'this' refers to the object that owns the method, allowing access to other properties and methods."
+      },
+      "tags": ["objects", "properties", "methods", "this-keyword"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "conditionals",
+      "title": "Conditional Statements",
+      "day": 6,
+      "category": "Control Flow",
+      "difficulty": "beginner",
+      "estimatedTime": "14 min",
+      "description": "Master if/else statements, switch cases, and ternary operators for decision making in code.",
+      "content": "Conditional statements allow your code to make decisions and execute different blocks of code based on different conditions. This is essential for creating dynamic and responsive applications.",
+      "codeExample": "// if/else statements\nconst age = 18;\n\nif (age >= 18) {\n  console.log('You can vote!');\n} else if (age >= 16) {\n  console.log('You can drive!');\n} else {\n  console.log('You are too young.');\n}\n\n// Ternary operator\nconst status = age >= 18 ? 'adult' : 'minor';\n\n// Switch statement\nconst day = 'Monday';\nswitch (day) {\n  case 'Monday':\n    console.log('Start of work week');\n    break;\n  case 'Friday':\n    console.log('TGIF!');\n    break;\n  default:\n    console.log('Regular day');\n}\n\n// Logical operators\nconst isWeekend = day === 'Saturday' || day === 'Sunday';\nconst canWork = age >= 16 && !isWeekend;",
+      "keyPoints": [
+        "if/else for complex conditions",
+        "Ternary operator for simple conditions",
+        "Switch for multiple specific values",
+        "Logical operators: && (and), || (or), ! (not)"
+      ],
+      "quiz": {
+        "question": "What will this ternary operator return: true ? 'yes' : 'no'?",
+        "options": ["true", "'yes'", "'no'", "undefined"],
+        "correctAnswer": 1,
+        "explanation": "The ternary operator returns 'yes' because the condition (true) is truthy, so it returns the first value after the ?."
+      },
+      "tags": ["conditionals", "if-else", "ternary", "switch", "logic"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "loops",
+      "title": "Loops and Iteration",
+      "day": 7,
+      "category": "Control Flow",
+      "difficulty": "beginner",
+      "estimatedTime": "16 min",
+      "description": "Learn different types of loops to repeat code efficiently and iterate over data structures.",
+      "content": "Loops allow you to execute code repeatedly until a certain condition is met. JavaScript provides several types of loops, each suited for different scenarios and data structures.",
+      "codeExample": "// for loop\nfor (let i = 0; i < 5; i++) {\n  console.log(`Count: ${i}`);\n}\n\n// while loop\nlet count = 0;\nwhile (count < 3) {\n  console.log(`While count: ${count}`);\n  count++;\n}\n\n// for...of loop (for arrays)\nconst fruits = ['apple', 'banana', 'orange'];\nfor (const fruit of fruits) {\n  console.log(fruit);\n}\n\n// for...in loop (for objects)\nconst person = { name: 'Alice', age: 30 };\nfor (const key in person) {\n  console.log(`${key}: ${person[key]}`);\n}\n\n// Array methods (functional approach)\nfruits.forEach(fruit => console.log(fruit));\nconst numbers = [1, 2, 3, 4, 5];\nconst doubled = numbers.map(n => n * 2);\nconst evens = numbers.filter(n => n % 2 === 0);",
+      "keyPoints": [
+        "for loop for counted iterations",
+        "while loop for condition-based iterations",
+        "for...of for array values",
+        "for...in for object properties"
+      ],
+      "quiz": {
+        "question": "Which loop is best for iterating over array values?",
+        "options": ["for", "while", "for...of", "for...in"],
+        "correctAnswer": 2,
+        "explanation": "for...of is specifically designed for iterating over array values (and other iterables) in a clean, readable way."
+      },
+      "tags": ["loops", "iteration", "for", "while", "arrays"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "dom-basics",
+      "title": "DOM Manipulation Basics",
+      "day": 8,
+      "category": "Web Development",
+      "difficulty": "intermediate",
+      "estimatedTime": "22 min",
+      "description": "Learn how to interact with HTML elements using JavaScript to create dynamic web pages.",
+      "content": "The Document Object Model (DOM) represents the structure of HTML documents. JavaScript can manipulate the DOM to dynamically change content, styles, and respond to user interactions.",
+      "codeExample": "// Selecting elements\nconst title = document.getElementById('title');\nconst buttons = document.querySelectorAll('.button');\nconst firstParagraph = document.querySelector('p');\n\n// Changing content\ntitle.textContent = 'New Title';\ntitle.innerHTML = '<strong>Bold Title</strong>';\n\n// Changing styles\ntitle.style.color = 'blue';\ntitle.style.fontSize = '24px';\ntitle.classList.add('highlight');\n\n// Creating new elements\nconst newDiv = document.createElement('div');\nnewDiv.textContent = 'Dynamic content';\nnewDiv.className = 'dynamic';\ndocument.body.appendChild(newDiv);\n\n// Event handling\nconst button = document.querySelector('#myButton');\nbutton.addEventListener('click', function() {\n  alert('Button clicked!');\n});\n\n// Form handling\nconst form = document.querySelector('#myForm');\nform.addEventListener('submit', function(event) {\n  event.preventDefault();\n  const formData = new FormData(form);\n  console.log('Form submitted:', formData.get('username'));\n});",
+      "keyPoints": [
+        "querySelector/querySelectorAll for selecting elements",
+        "textContent vs innerHTML for content",
+        "classList for CSS class manipulation",
+        "addEventListener for event handling"
+      ],
+      "quiz": {
+        "question": "What's the difference between textContent and innerHTML?",
+        "options": [
+          "No difference",
+          "textContent is faster",
+          "innerHTML can contain HTML tags, textContent cannot",
+          "textContent is deprecated"
+        ],
+        "correctAnswer": 2,
+        "explanation": "innerHTML can contain and render HTML tags, while textContent treats everything as plain text and is safer from XSS attacks."
+      },
+      "tags": ["dom", "html", "events", "web-development"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ],
+  "categories": [
+    "Fundamentals",
+    "Data Structures",
+    "Control Flow",
+    "Web Development",
+    "Asynchronous",
+    "Advanced Concepts"
+  ],
+  "difficulties": [
+    "beginner",
+    "intermediate",
+    "advanced"
+  ]
+}

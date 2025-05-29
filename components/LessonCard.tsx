@@ -9,13 +9,13 @@ import { useRouter } from 'expo-router';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useThemeStore } from '@/store/useThemeStore';
 import { useProgressStore } from '@/store/useProgressStore';
-import { Lesson } from '@/types/lesson';
+import { LearnCard } from '@/data/processors/dataLoader';
 
 const { width, height } = Dimensions.get('window');
 const SWIPE_THRESHOLD = 100;
 
 interface LessonCardProps {
-  lesson: Lesson;
+  lesson: LearnCard;
   onSwipeLeft: () => void;
   onSwipeRight: () => void;
   onSwipeUp: () => void;
@@ -77,7 +77,7 @@ export default function LessonCard({
   // Handle card tap navigation
   const handleCardPress = () => {
     if (!isTopCard) return;
-    
+
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
@@ -292,7 +292,7 @@ export default function LessonCard({
             </View>
 
             <Text style={[styles.title, { color: themeColors.text }]}>{lesson.title}</Text>
-            <Text style={[styles.summary, { color: themeColors.textSecondary }]}>{lesson.summary}</Text>
+            <Text style={[styles.summary, { color: themeColors.textSecondary }]}>{lesson.description}</Text>
 
             <View style={[styles.codePreview, {
               backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f8f8f8',
@@ -310,15 +310,15 @@ export default function LessonCard({
               </View>
               <View style={styles.codeContent}>
                 <View style={styles.lineNumbers}>
-                  {lesson.codeExample.split('\n').slice(0, 3).map((_, index) => (
+                  {(lesson.codeExample || '').split('\n').slice(0, 3).map((_, index) => (
                     <Text key={index} style={[styles.lineNumber, { color: themeMode === 'dark' ? '#858585' : '#999999' }]}>
                       {index + 1}
                     </Text>
                   ))}
                 </View>
                 <Text style={[styles.codeText, { color: themeMode === 'dark' ? '#d4d4d4' : '#333333' }]}>
-                  {lesson.codeExample.split('\n').slice(0, 3).join('\n')}
-                  {lesson.codeExample.split('\n').length > 3 ? '\n...' : ''}
+                  {(lesson.codeExample || '').split('\n').slice(0, 3).join('\n')}
+                  {(lesson.codeExample || '').split('\n').length > 3 ? '\n...' : ''}
                 </Text>
               </View>
             </View>

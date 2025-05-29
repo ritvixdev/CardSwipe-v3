@@ -1,21 +1,19 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, router } from 'expo-router';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import lessons from '@/data/lessons';
+import { lessons } from '@/data/processors/dataLoader';
 import { Bookmark, Check, ArrowLeft, ArrowRight } from 'lucide-react-native';
 import QuizCard from '@/components/QuizCard';
 import * as Haptics from 'expo-haptics';
 import { useThemeStore } from '@/store/useThemeStore';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function LessonDetailScreen() {
   const { id } = useLocalSearchParams();
-  const lessonId = parseInt(id as string);
-  
-  const progress = useProgressStore((state) => state.progress);
-  const markAsCompleted = useProgressStore((state) => state.markAsCompleted);
-  const toggleBookmark = useProgressStore((state) => state.toggleBookmark);
+  const lessonId = id as string;
+  const { progress, markAsCompleted, toggleBookmark } = useProgressStore();
   const themeColors = useThemeColors();
   const themeMode = useThemeStore((state) => state.mode);
   
@@ -24,7 +22,20 @@ export default function LessonDetailScreen() {
   if (!lesson) {
     return (
       <View style={[styles.container, { backgroundColor: themeColors.background }]}>
-        <Text style={[styles.errorText, { color: themeColors.error }]}>Lesson not found</Text>
+        <SafeAreaView style={styles.safeArea}>
+          <View style={styles.headerRow}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => router.back()}
+            >
+              <ArrowLeft size={24} color={themeColors.text} />
+            </TouchableOpacity>
+            <Text style={[styles.title, { color: themeColors.text }]}>Lesson Not Found</Text>
+          </View>
+        </SafeAreaView>
+        <View style={styles.errorContainer}>
+          <Text style={[styles.errorText, { color: themeColors.error }]}>Lesson not found</Text>
+        </View>
       </View>
     );
   }
@@ -53,9 +64,21 @@ export default function LessonDetailScreen() {
   return (
     <View style={[styles.container, { backgroundColor: themeColors.background }]}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: themeColors.text }]}>{lesson.title}</Text>
-          <Text style={[styles.summary, { color: themeColors.textSecondary }]}>{lesson.summary}</Text>
+        {/* Back button and title in same row */}
+        <SafeAreaView style={styles.safeArea}>
+          <View style={styles.headerRow}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => router.back()}
+            >
+              <ArrowLeft size={24} color={themeColors.text} />
+            </TouchableOpacity>
+            <Text style={[styles.title, { color: themeColors.text }]}>{lesson.title}</Text>
+          </View>
+        </SafeAreaView>
+
+        <View style={styles.lessonHeader}>
+          <Text style={[styles.summary, { color: themeColors.textSecondary }]}>{lesson.description}</Text>
         </View>
         
         <View style={styles.actions}>
@@ -108,7 +131,7 @@ export default function LessonDetailScreen() {
         
         <View style={styles.content}>
           <Text style={[styles.sectionTitle, { color: themeColors.text }]}>Lesson Details</Text>
-          <Text style={[styles.detailsText, { color: themeColors.textSecondary }]}>{lesson.details}</Text>
+          <Text style={[styles.detailsText, { color: themeColors.textSecondary }]}>{lesson.content}</Text>
           
           <Text style={[styles.sectionTitle, { color: themeColors.text }]}>Code Example</Text>
           <View style={[
@@ -136,7 +159,7 @@ export default function LessonDetailScreen() {
             </View>
             <View style={styles.codeContent}>
               <View style={styles.lineNumbers}>
-                {lesson.codeExample.split('\n').map((_, index) => (
+                {(lesson.codeExample || '').split('\n').map((_, index) => (
                   <Text key={index} style={[styles.lineNumber, { color: themeMode === 'dark' ? '#858585' : '#999999' }]}>
                     {index + 1}
                   </Text>
@@ -146,7 +169,7 @@ export default function LessonDetailScreen() {
                 styles.codeText,
                 { color: themeMode === 'dark' ? '#d4d4d4' : '#333333' }
               ]}>
-                {lesson.codeExample}
+                {lesson.codeExample || 'No code example available'}
               </Text>
             </View>
           </View>
@@ -166,11 +189,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  scrollContent: {
-    padding: 16,
-    paddingBottom: 90, // Space for tab bar
+  safeArea: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
   },
-  header: {
+  headerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  backButton: {
+    marginRight: 20,
+    marginLeft: -4, // Move arrow closer to left edge
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+    paddingBottom: 100, // Space for tab bar
+  },
+  lessonHeader: {
     marginBottom: 24,
   },
 
@@ -264,10 +301,13 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     flex: 1,
   },
-
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   errorText: {
     fontSize: 18,
     textAlign: 'center',
-    marginTop: 24,
   },
 });

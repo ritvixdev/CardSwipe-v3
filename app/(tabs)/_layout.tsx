@@ -99,6 +99,30 @@ export default function TabLayout() {
           headerShown: false,
         }}
       />
+
+      <Tabs.Screen
+        name="explore/javascript-notes"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
+
+      <Tabs.Screen
+        name="explore/interview-prep"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
+
+      <Tabs.Screen
+        name="explore/practice-quiz"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 }

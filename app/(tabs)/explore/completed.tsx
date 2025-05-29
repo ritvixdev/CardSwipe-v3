@@ -14,7 +14,7 @@ import * as Haptics from 'expo-haptics';
 
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import { lessons } from '@/data/lessons';
+import { lessons } from '@/data/processors/dataLoader';
 
 export default function CompletedScreen() {
   const themeColors = useThemeColors();

@@ -1,0 +1,139 @@
+{
+  "notes": [
+    {
+      "id": "variables",
+      "title": "Variables",
+      "category": "Core Concepts",
+      "difficulty": "beginner",
+      "readTime": 5,
+      "content": "Variables are containers for storing data values. In JavaScript, you can declare variables using var, let, or const keywords.",
+      "codeExample": "// Variable declarations\nlet name = 'John';\nconst age = 25;\nvar city = 'New York';\n\n// Block scoping\nif (true) {\n  let blockScoped = 'only available here';\n}",
+      "keyPoints": [
+        "let and const are block-scoped",
+        "var is function-scoped",
+        "const cannot be reassigned",
+        "Always prefer const, then let"
+      ],
+      "tags": ["variables", "scope", "declarations"]
+    },
+    {
+      "id": "functions",
+      "title": "Functions",
+      "category": "Core Concepts",
+      "difficulty": "beginner",
+      "readTime": 8,
+      "content": "Functions are reusable blocks of code that perform specific tasks. They can accept parameters and return values.",
+      "codeExample": "// Function declaration\nfunction greet(name) {\n  return `Hello, ${name}!`;\n}\n\n// Arrow function\nconst sayHi = (name) => `Hi, ${name}!`;\n\n// Function with default parameters\nfunction introduce(name = 'Anonymous') {\n  return `I'm ${name}`;\n}",
+      "keyPoints": [
+        "Functions can be declared or expressed",
+        "Arrow functions have concise syntax",
+        "Parameters can have default values",
+        "Functions should do one thing well"
+      ],
+      "tags": ["functions", "parameters", "arrow-functions"]
+    },
+    {
+      "id": "arrays",
+      "title": "Arrays",
+      "category": "Data Structures",
+      "difficulty": "beginner",
+      "readTime": 10,
+      "content": "Arrays are ordered collections of items. JavaScript arrays are dynamic and come with many useful methods.",
+      "codeExample": "const fruits = ['apple', 'banana', 'orange'];\n\n// Array methods\nfruits.push('grape');           // Add to end\nfruits.pop();                   // Remove from end\nfruits.map(fruit => fruit.toUpperCase());\nfruits.filter(fruit => fruit.length > 5);",
+      "keyPoints": [
+        "Arrays are zero-indexed",
+        "push/pop work with the end",
+        "map creates new arrays",
+        "filter creates filtered arrays"
+      ],
+      "tags": ["arrays", "methods", "iteration"]
+    },
+    {
+      "id": "objects",
+      "title": "Objects",
+      "category": "Data Structures",
+      "difficulty": "intermediate",
+      "readTime": 12,
+      "content": "Objects are collections of key-value pairs. They represent entities with properties and methods.",
+      "codeExample": "const person = {\n  name: 'Alice',\n  age: 30,\n  greet() {\n    return `Hi, I'm ${this.name}`;\n  }\n};\n\n// Accessing properties\nconsole.log(person.name);\nconsole.log(person['age']);\n\n// Object destructuring\nconst { name, age } = person;",
+      "keyPoints": [
+        "Objects store key-value pairs",
+        "Properties accessed with dot or bracket notation",
+        "Methods are functions in objects",
+        "this keyword refers to the object"
+      ],
+      "tags": ["objects", "properties", "methods", "this"]
+    },
+    {
+      "id": "promises",
+      "title": "Promises",
+      "category": "Asynchronous JavaScript",
+      "difficulty": "intermediate",
+      "readTime": 15,
+      "content": "Promises represent the eventual completion or failure of an asynchronous operation and its resulting value.",
+      "codeExample": "// Creating a promise\nconst fetchData = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    resolve('Data loaded!');\n  }, 1000);\n});\n\n// Using promises\nfetchData\n  .then(data => console.log(data))\n  .catch(error => console.error(error));\n\n// Async/await\nasync function getData() {\n  try {\n    const data = await fetchData;\n    console.log(data);\n  } catch (error) {\n    console.error(error);\n  }\n}",
+      "keyPoints": [
+        "Promises handle asynchronous operations",
+        "Three states: pending, fulfilled, rejected",
+        "Use .then() and .catch() for handling",
+        "async/await provides cleaner syntax"
+      ],
+      "tags": ["promises", "async", "await", "asynchronous"]
+    },
+    {
+      "id": "closures",
+      "title": "Closures",
+      "category": "Advanced Concepts",
+      "difficulty": "advanced",
+      "readTime": 18,
+      "content": "A closure is a function that has access to variables in its outer scope even after the outer function has returned.",
+      "codeExample": "function outerFunction(x) {\n  // Outer variable\n  return function innerFunction(y) {\n    return x + y; // Inner function has access to x\n  };\n}\n\nconst addFive = outerFunction(5);\nconsole.log(addFive(3)); // 8\n\n// The inner function 'remembers' the value of x",
+      "keyPoints": [
+        "Inner function has access to outer variables",
+        "Variables persist after outer function returns",
+        "Commonly used in module patterns",
+        "Creates private variables and methods"
+      ],
+      "tags": ["closures", "scope", "functions", "advanced"]
+    },
+    {
+      "id": "destructuring",
+      "title": "Destructuring Assignment",
+      "category": "Modern JavaScript",
+      "difficulty": "intermediate",
+      "readTime": 10,
+      "content": "Destructuring assignment allows you to extract values from arrays or properties from objects into distinct variables.",
+      "codeExample": "// Array destructuring\nconst [first, second, ...rest] = [1, 2, 3, 4, 5];\nconsole.log(first); // 1\nconsole.log(rest);  // [3, 4, 5]\n\n// Object destructuring\nconst { name, age, city = 'Unknown' } = person;\nconsole.log(name); // 'Alice'\nconsole.log(city); // 'Unknown' (default value)\n\n// Nested destructuring\nconst { address: { street, zipCode } } = user;",
+      "keyPoints": [
+        "Extract values from arrays and objects",
+        "Can provide default values",
+        "Works with nested structures",
+        "Useful for function parameters"
+      ],
+      "tags": ["destructuring", "es6", "arrays", "objects"]
+    },
+    {
+      "id": "modules",
+      "title": "ES6 Modules",
+      "category": "Modern JavaScript",
+      "difficulty": "intermediate",
+      "readTime": 12,
+      "content": "ES6 modules allow you to organize code into separate files and import/export functionality between them.",
+      "codeExample": "// math.js - Named exports\nexport const PI = 3.14159;\nexport function add(a, b) {\n  return a + b;\n}\n\n// utils.js - Default export\nconst formatDate = (date) => {\n  return date.toLocaleDateString();\n};\nexport default formatDate;\n\n// main.js - Importing\nimport formatDate, { PI, add } from './utils.js';\nimport { PI as PI_VALUE } from './math.js';\n\nconsole.log(add(2, 3)); // 5\nconsole.log(PI); // 3.14159",
+      "keyPoints": [
+        "Named exports for multiple values",
+        "Default export for single main value",
+        "Import with destructuring syntax",
+        "Can rename imports with 'as'"
+      ],
+      "tags": ["modules", "import", "export", "es6"]
+    }
+  ],
+  "categories": [
+    "Core Concepts",
+    "Data Structures",
+    "Asynchronous JavaScript",
+    "Advanced Concepts",
+    "Modern JavaScript"
+  ]
+}
