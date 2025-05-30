@@ -123,6 +123,54 @@ export default function TabLayout() {
           headerShown: false,
         }}
       />
+
+      <Tabs.Screen
+        name="explore/interview-quiz"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
+
+      <Tabs.Screen
+        name="explore/learning-roadmap"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
+
+      <Tabs.Screen
+        name="explore/design-patterns"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
+
+      <Tabs.Screen
+        name="explore/coding-questions"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
+
+      <Tabs.Screen
+        name="explore/design-patterns/[id]"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
+
+      <Tabs.Screen
+        name="explore/coding-questions/[id]"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 }

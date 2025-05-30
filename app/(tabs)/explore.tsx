@@ -82,7 +82,7 @@ const exploreCards = [
     description: 'Practice with real interview questions and scenarios',
     icon: '🎯',
     color: '#ef4444',
-    route: '/explore/interview-quiz',
+    route: '/(tabs)/explore/interview-quiz',
     category: 'resource',
     itemCount: 10,
     difficulty: 'advanced',
@@ -95,7 +95,7 @@ const exploreCards = [
     description: 'Structured learning path with visual progress tracking',
     icon: '🗺️',
     color: '#3b82f6',
-    route: '/explore/learning-roadmap',
+    route: '/(tabs)/explore/learning-roadmap',
     category: 'resource',
     itemCount: 6,
     difficulty: 'beginner',
@@ -108,7 +108,7 @@ const exploreCards = [
     description: 'Common JavaScript design patterns with examples',
     icon: '🏗️',
     color: '#6366f1',
-    route: '/explore/design-patterns',
+    route: '/(tabs)/explore/design-patterns',
     category: 'resource',
     itemCount: 8,
     difficulty: 'advanced',
@@ -120,7 +120,7 @@ const exploreCards = [
     description: 'Algorithm challenges with detailed explanations',
     icon: '💻',
     color: '#8b5cf6',
-    route: '/explore/coding-questions',
+    route: '/(tabs)/explore/coding-questions',
     category: 'resource',
     itemCount: 20,
     difficulty: 'intermediate',
@@ -190,6 +190,14 @@ export default function ExploreScreen() {
       router.push('/(tabs)/explore/interview-prep');
     } else if (card.id === 'practice-quiz') {
       router.push('/(tabs)/explore/practice-quiz');
+    } else if (card.id === 'interview-quiz') {
+      router.push('/(tabs)/explore/interview-quiz');
+    } else if (card.id === 'learning-roadmap') {
+      router.push('/(tabs)/explore/learning-roadmap');
+    } else if (card.id === 'design-patterns') {
+      router.push('/(tabs)/explore/design-patterns');
+    } else if (card.id === 'coding-questions') {
+      router.push('/(tabs)/explore/coding-questions');
     } else {
       router.push(card.route as any);
     }
