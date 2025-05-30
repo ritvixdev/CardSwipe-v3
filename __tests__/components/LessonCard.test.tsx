@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import LessonCard from '@/components/LessonCard';
-import { lessons } from '@/data/lessons';
+import { lessons } from '@/data/processors/dataLoader';
 
 // Mock react-native-gesture-handler
 jest.mock('react-native-gesture-handler', () => {

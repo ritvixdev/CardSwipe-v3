@@ -1,0 +1,108 @@
+{
+  "designPatterns": [
+    {
+      "id": "singleton",
+      "name": "Singleton Pattern",
+      "category": "Creational",
+      "description": "Ensures a class has only one instance and provides global access to that instance.",
+      "problem": "You need to ensure that a class has only one instance (like a database connection, logger, or configuration object) and provide a global point of access to it.",
+      "solution": "Create a class that controls its own instantiation and ensures only one instance exists.",
+      "codeExample": "// Basic Singleton\nclass Singleton {\n  constructor() {\n    if (Singleton.instance) {\n      return Singleton.instance;\n    }\n    \n    this.data = [];\n    Singleton.instance = this;\n    return this;\n  }\n  \n  addData(item) {\n    this.data.push(item);\n  }\n  \n  getData() {\n    return this.data;\n  }\n}\n\n// Usage\nconst instance1 = new Singleton();\nconst instance2 = new Singleton();\n\nconsole.log(instance1 === instance2); // true\n\n// Modern ES6 approach with closures\nconst DatabaseConnection = (() => {\n  let instance;\n  \n  function createInstance() {\n    return {\n      connect() {\n        console.log('Connected to database');\n      },\n      \n      query(sql) {\n        console.log(`Executing: ${sql}`);\n      }\n    };\n  }\n  \n  return {\n    getInstance() {\n      if (!instance) {\n        instance = createInstance();\n      }\n      return instance;\n    }\n  };\n})();\n\n// Usage\nconst db1 = DatabaseConnection.getInstance();\nconst db2 = DatabaseConnection.getInstance();\nconsole.log(db1 === db2); // true",
+      "realWorldExample": "Application configuration, database connections, logging services, caching mechanisms.",
+      "pros": [
+        "Controlled access to sole instance",
+        "Reduced memory footprint",
+        "Global access point",
+        "Lazy initialization possible"
+      ],
+      "cons": [
+        "Difficult to test",
+        "Violates Single Responsibility Principle",
+        "Can create tight coupling",
+        "Concurrency issues in multi-threaded environments"
+      ],
+      "difficulty": "beginner",
+      "tags": ["creational", "instance", "global", "memory"],
+      "relatedPatterns": ["factory", "builder"]
+    },
+    {
+      "id": "observer",
+      "name": "Observer Pattern",
+      "category": "Behavioral",
+      "description": "Defines a one-to-many dependency between objects so that when one object changes state, all dependents are notified.",
+      "problem": "You need to notify multiple objects about changes in another object without creating tight coupling between them.",
+      "solution": "Create a subject that maintains a list of observers and notifies them of any state changes.",
+      "codeExample": "// Observer Pattern Implementation\nclass Subject {\n  constructor() {\n    this.observers = [];\n  }\n  \n  subscribe(observer) {\n    this.observers.push(observer);\n  }\n  \n  unsubscribe(observer) {\n    this.observers = this.observers.filter(obs => obs !== observer);\n  }\n  \n  notify(data) {\n    this.observers.forEach(observer => observer.update(data));\n  }\n}\n\nclass Observer {\n  constructor(name) {\n    this.name = name;\n  }\n  \n  update(data) {\n    console.log(`${this.name} received: ${data}`);\n  }\n}\n\n// Usage\nconst newsletter = new Subject();\n\nconst subscriber1 = new Observer('John');\nconst subscriber2 = new Observer('Jane');\n\nnewsletter.subscribe(subscriber1);\nnewsletter.subscribe(subscriber2);\n\nnewsletter.notify('New article published!');\n// Output:\n// John received: New article published!\n// Jane received: New article published!\n\n// Real-world example: Event system\nclass EventEmitter {\n  constructor() {\n    this.events = {};\n  }\n  \n  on(event, callback) {\n    if (!this.events[event]) {\n      this.events[event] = [];\n    }\n    this.events[event].push(callback);\n  }\n  \n  emit(event, data) {\n    if (this.events[event]) {\n      this.events[event].forEach(callback => callback(data));\n    }\n  }\n  \n  off(event, callback) {\n    if (this.events[event]) {\n      this.events[event] = this.events[event].filter(cb => cb !== callback);\n    }\n  }\n}\n\n// Usage\nconst emitter = new EventEmitter();\n\nemitter.on('user-login', (user) => {\n  console.log(`Welcome ${user.name}!`);\n});\n\nemitter.on('user-login', (user) => {\n  console.log(`Logging activity for ${user.name}`);\n});\n\nemitter.emit('user-login', { name: 'Alice' });",
+      "realWorldExample": "Event systems, Model-View architectures, DOM events, React state management, pub/sub systems.",
+      "pros": [
+        "Loose coupling between subject and observers",
+        "Dynamic relationships",
+        "Broadcast communication",
+        "Open/Closed Principle support"
+      ],
+      "cons": [
+        "Memory leaks if observers not properly removed",
+        "Unexpected updates",
+        "Complex update sequences",
+        "Performance issues with many observers"
+      ],
+      "difficulty": "intermediate",
+      "tags": ["behavioral", "events", "notification", "decoupling"],
+      "relatedPatterns": ["mediator", "command"]
+    },
+    {
+      "id": "factory",
+      "name": "Factory Pattern",
+      "category": "Creational",
+      "description": "Creates objects without specifying the exact class of object that will be created.",
+      "problem": "You need to create objects but the exact type of object depends on runtime conditions or configuration.",
+      "solution": "Create a factory function or class that encapsulates object creation logic.",
+      "codeExample": "// Simple Factory\nclass Car {\n  constructor(type, color) {\n    this.type = type;\n    this.color = color;\n  }\n  \n  start() {\n    console.log(`Starting ${this.color} ${this.type}`);\n  }\n}\n\nclass CarFactory {\n  static createCar(type, color) {\n    switch (type) {\n      case 'sedan':\n        return new Car('Sedan', color);\n      case 'suv':\n        return new Car('SUV', color);\n      case 'hatchback':\n        return new Car('Hatchback', color);\n      default:\n        throw new Error('Unknown car type');\n    }\n  }\n}\n\n// Usage\nconst sedan = CarFactory.createCar('sedan', 'blue');\nconst suv = CarFactory.createCar('suv', 'red');\n\nsedan.start(); // Starting blue Sedan\nsuv.start();   // Starting red SUV",
+      "realWorldExample": "React.createElement(), jQuery element creation, database connection factories, UI component libraries.",
+      "pros": [
+        "Encapsulates object creation",
+        "Reduces code duplication",
+        "Easy to extend with new types",
+        "Follows Open/Closed Principle"
+      ],
+      "cons": [
+        "Can become complex with many product types",
+        "May introduce unnecessary abstraction",
+        "Requires modification for new products (Simple Factory)"
+      ],
+      "difficulty": "beginner",
+      "tags": ["creational", "instantiation", "abstraction", "polymorphism"],
+      "relatedPatterns": ["singleton", "builder", "prototype"]
+    },
+    {
+      "id": "module",
+      "name": "Module Pattern",
+      "category": "Structural",
+      "description": "Provides a way to encapsulate private and public methods and variables, preventing pollution of the global scope.",
+      "problem": "You need to create private scope and expose only specific functionality while avoiding global namespace pollution.",
+      "solution": "Use closures to create private scope and return an object with public methods.",
+      "codeExample": "// Basic Module Pattern\nconst Calculator = (() => {\n  // Private variables and methods\n  let result = 0;\n  \n  function log(operation, value) {\n    console.log(`${operation}: ${value}, Result: ${result}`);\n  }\n  \n  // Public API\n  return {\n    add(value) {\n      result += value;\n      log('Add', value);\n      return this;\n    },\n    \n    subtract(value) {\n      result -= value;\n      log('Subtract', value);\n      return this;\n    },\n    \n    getResult() {\n      return result;\n    },\n    \n    reset() {\n      result = 0;\n      console.log('Calculator reset');\n      return this;\n    }\n  };\n})();\n\n// Usage\nCalculator\n  .add(10)\n  .multiply(2)\n  .subtract(5);\n\nconsole.log(Calculator.getResult()); // 15",
+      "realWorldExample": "JavaScript libraries (jQuery, Lodash), Node.js modules, React components with hooks, API clients.",
+      "pros": [
+        "Encapsulation and privacy",
+        "Namespace management",
+        "Clean global scope",
+        "Organized code structure"
+      ],
+      "cons": [
+        "Memory usage for each instance",
+        "Difficulty in testing private methods",
+        "Cannot extend private methods",
+        "Complex inheritance patterns"
+      ],
+      "difficulty": "intermediate",
+      "tags": ["structural", "encapsulation", "closures", "namespace"],
+      "relatedPatterns": ["singleton", "facade"]
+    }
+  ],
+  "categories": [
+    "Creational",
+    "Structural",
+    "Behavioral"
+  ]
+}

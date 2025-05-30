@@ -8,200 +8,109 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { ArrowLeft, Code, Lightbulb, Target, Clock } from 'lucide-react-native';
+import { ArrowLeft, Code, Lightbulb, Target, Clock, ChevronDown, ChevronRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
+import { codingQuestions, CodingQuestion, getCodingQuestionsByCategory, getCodingQuestionsByDifficulty } from '@/data/processors/dataLoader';
 
-// Coding questions data
-const codingQuestionsData = [
-  {
-    id: 'reverse-string',
-    title: 'Reverse a String',
-    description: 'Write a function that reverses a string',
-    difficulty: 'easy',
-    category: 'Strings',
-    timeComplexity: 'O(n)',
-    spaceComplexity: 'O(1)',
-    question: 'Given a string, write a function to reverse it without using built-in reverse methods.',
-    codeExample: `function reverseString(str) {
-  let reversed = '';
-  for (let i = str.length - 1; i >= 0; i--) {
-    reversed += str[i];
-  }
-  return reversed;
-}
-
-// Alternative approach using two pointers
-function reverseStringOptimal(str) {
-  const arr = str.split('');
-  let left = 0;
-  let right = arr.length - 1;
-  
-  while (left < right) {
-    // Swap characters
-    [arr[left], arr[right]] = [arr[right], arr[left]];
-    left++;
-    right--;
-  }
-  
-  return arr.join('');
-}
-
-// Usage
-console.log(reverseString("hello")); // "olleh"
-console.log(reverseStringOptimal("world")); // "dlrow"`,
-    explanation: `This problem can be solved in multiple ways:
-
-1. **Basic Approach**: Loop through the string backwards and build a new string. Simple but creates a new string.
-
-2. **Two Pointers Approach**: Convert to array, use two pointers (left and right) and swap characters while moving towards center. More memory efficient.
-
-3. **Key Concepts**:
-   - String immutability in JavaScript
-   - Array manipulation
-   - Two-pointer technique
-   - In-place vs out-of-place algorithms
-
-The two-pointer approach is more efficient as it modifies the array in-place rather than creating a completely new string.`,
-    hints: [
-      'Think about iterating backwards through the string',
-      'Consider using two pointers from start and end',
-      'Remember that strings are immutable in JavaScript'
-    ]
+// Hierarchical category structure for coding questions
+const categoryHierarchy = {
+  'all': { label: 'All', subcategories: [] },
+  'arrays': {
+    label: 'Arrays',
+    subcategories: ['sorting', 'searching', 'two-pointers', 'sliding-window']
   },
-  {
-    id: 'fibonacci',
-    title: 'Fibonacci Sequence',
-    description: 'Generate the nth Fibonacci number',
-    difficulty: 'medium',
-    category: 'Dynamic Programming',
-    timeComplexity: 'O(n)',
-    spaceComplexity: 'O(1)',
-    question: 'Write a function that returns the nth number in the Fibonacci sequence. The sequence starts with 0, 1, 1, 2, 3, 5, 8...',
-    codeExample: `// Recursive approach (inefficient)
-function fibonacciRecursive(n) {
-  if (n <= 1) return n;
-  return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
-}
-
-// Iterative approach (efficient)
-function fibonacci(n) {
-  if (n <= 1) return n;
-  
-  let prev = 0;
-  let curr = 1;
-  
-  for (let i = 2; i <= n; i++) {
-    const next = prev + curr;
-    prev = curr;
-    curr = next;
-  }
-  
-  return curr;
-}
-
-// Memoization approach
-function fibonacciMemo(n, memo = {}) {
-  if (n in memo) return memo[n];
-  if (n <= 1) return n;
-  
-  memo[n] = fibonacciMemo(n - 1, memo) + fibonacciMemo(n - 2, memo);
-  return memo[n];
-}
-
-// Usage
-console.log(fibonacci(10)); // 55
-console.log(fibonacciMemo(10)); // 55`,
-    explanation: `The Fibonacci sequence is a classic example for understanding different algorithmic approaches:
-
-1. **Recursive Approach**: Simple to understand but exponential time complexity O(2^n). Each call branches into two more calls.
-
-2. **Iterative Approach**: Much more efficient with O(n) time and O(1) space. Uses bottom-up approach.
-
-3. **Memoization**: Combines recursion with caching to avoid redundant calculations. O(n) time and space.
-
-4. **Key Concepts**:
-   - Recursion vs iteration
-   - Dynamic programming
-   - Memoization technique
-   - Time/space complexity trade-offs
-
-The iterative approach is usually preferred for its efficiency and simplicity.`,
-    hints: [
-      'Start with the base cases: F(0) = 0, F(1) = 1',
-      'Think about building up from smaller subproblems',
-      'Consider using variables to track previous values'
-    ]
+  'strings': {
+    label: 'Strings',
+    subcategories: ['manipulation', 'pattern-matching', 'palindromes', 'anagrams']
   },
-  {
-    id: 'two-sum',
-    title: 'Two Sum Problem',
-    description: 'Find two numbers that add up to a target',
-    difficulty: 'easy',
-    category: 'Arrays',
-    timeComplexity: 'O(n)',
-    spaceComplexity: 'O(n)',
-    question: 'Given an array of integers and a target sum, return the indices of two numbers that add up to the target.',
-    codeExample: `// Brute force approach O(n²)
-function twoSumBrute(nums, target) {
-  for (let i = 0; i < nums.length; i++) {
-    for (let j = i + 1; j < nums.length; j++) {
-      if (nums[i] + nums[j] === target) {
-        return [i, j];
-      }
-    }
+  'dynamic-programming': {
+    label: 'Dynamic Programming',
+    subcategories: ['memoization', 'tabulation', 'optimization', 'sequences']
+  },
+  'trees': {
+    label: 'Trees',
+    subcategories: ['binary-trees', 'bst', 'traversal', 'balanced-trees']
+  },
+  'graphs': {
+    label: 'Graphs',
+    subcategories: ['dfs', 'bfs', 'shortest-path', 'topological-sort']
   }
-  return [];
-}
+};
 
-// Hash map approach O(n)
-function twoSum(nums, target) {
-  const map = new Map();
-  
-  for (let i = 0; i < nums.length; i++) {
-    const complement = target - nums[i];
-    
-    if (map.has(complement)) {
-      return [map.get(complement), i];
-    }
-    
-    map.set(nums[i], i);
-  }
-  
-  return [];
-}
-
-// Usage
-const nums = [2, 7, 11, 15];
-const target = 9;
-console.log(twoSum(nums, target)); // [0, 1]`,
-    explanation: `The Two Sum problem demonstrates the power of hash maps for optimization:
-
-1. **Brute Force**: Check every pair of numbers. Simple but O(n²) time complexity.
-
-2. **Hash Map Approach**: Use a hash map to store numbers we've seen and their indices. For each number, check if its complement exists.
-
-3. **Key Concepts**:
-   - Hash map/object for O(1) lookups
-   - Complement calculation (target - current)
-   - Trading space for time efficiency
-   - Single-pass algorithm
-
-4. **Algorithm Steps**:
-   - For each number, calculate what we need (complement)
-   - Check if we've seen the complement before
-   - If yes, return indices; if no, store current number
-
-This pattern of using hash maps for lookups is very common in coding interviews.`,
-    hints: [
-      'Think about what you need to find for each number',
-      'Consider using a hash map to store previously seen numbers',
-      'You only need to make one pass through the array'
-    ]
-  }
-];
+// Use JSON data instead of hardcoded data
+const codingQuestionsData = codingQuestions;
 
 export default function CodingQuestionsScreen() {
   const themeColors = useThemeColors();
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+
+  const categories = Object.keys(categoryHierarchy);
+
+  const getFilteredQuestions = () => {
+    if (selectedSubcategory) {
+      // Filter by subcategory - match against question topics/categories
+      return codingQuestionsData.filter(question => {
+        const questionCategory = question.category?.toLowerCase() || '';
+        const subcategoryMatch = selectedSubcategory.toLowerCase().replace('-', ' ');
+        return questionCategory.includes(subcategoryMatch) ||
+               questionCategory.includes(selectedSubcategory.replace('-', ''));
+      });
+    } else if (selectedCategory === 'all') {
+      return codingQuestionsData;
+    } else {
+      // Filter by main category - match against question categories
+      const categoryData = categoryHierarchy[selectedCategory];
+      if (categoryData && categoryData.subcategories.length > 0) {
+        // If category has subcategories, show all questions that match the main category
+        return codingQuestionsData.filter(question => {
+          const questionCategory = question.category?.toLowerCase() || '';
+
+          // Check if question category matches main category
+          if (questionCategory.includes(selectedCategory)) return true;
+
+          // Check if question category matches any subcategory
+          return categoryData.subcategories.some(sub =>
+            questionCategory.includes(sub.replace('-', ' ')) ||
+            questionCategory.includes(sub.replace('-', ''))
+          );
+        });
+      } else {
+        // Simple category match
+        return codingQuestionsData.filter(question => {
+          const questionCategory = question.category?.toLowerCase() || '';
+          return questionCategory.includes(selectedCategory);
+        });
+      }
+    }
+  };
+
+  const filteredQuestions = getFilteredQuestions();
+
+  const handleCategoryPress = (category: string) => {
+    const hasSubcategories = categoryHierarchy[category]?.subcategories.length > 0;
+
+    // Always set the selected category to filter cards
+    setSelectedCategory(category);
+    setSelectedSubcategory(null); // Clear subcategory selection
+
+    if (hasSubcategories) {
+      // If category has subcategories, expand/collapse the subcategory pills
+      if (expandedCategory === category) {
+        setExpandedCategory(null);
+      } else {
+        setExpandedCategory(category);
+      }
+    } else {
+      // If no subcategories, close any expanded category
+      setExpandedCategory(null);
+    }
+  };
+
+  const handleSubcategoryPress = (subcategory: string) => {
+    setSelectedSubcategory(subcategory);
+  };
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -222,7 +131,7 @@ export default function CodingQuestionsScreen() {
     }
   };
 
-  const QuestionCard = ({ question }: { question: any }) => {
+  const QuestionCard = ({ question }: { question: CodingQuestion }) => {
     return (
       <View style={styles.questionContainer}>
         <TouchableOpacity
@@ -289,9 +198,96 @@ export default function CodingQuestionsScreen() {
           </Text>
         </View>
 
+        {/* Category Filter */}
+        <View style={styles.categoryFilter}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.categoryContent}
+          >
+            {categories.map((category) => {
+              const categoryData = categoryHierarchy[category];
+              const hasSubcategories = categoryData.subcategories.length > 0;
+              const isSelected = selectedCategory === category;
+              const isExpanded = expandedCategory === category;
+
+              return (
+                <TouchableOpacity
+                  key={category}
+                  style={[
+                    styles.categoryButton,
+                    {
+                      backgroundColor: isSelected ? themeColors.primary : themeColors.card,
+                    }
+                  ]}
+                  onPress={() => handleCategoryPress(category)}
+                >
+                  <View style={styles.categoryButtonContent}>
+                    <Text
+                      style={[
+                        styles.categoryButtonText,
+                        {
+                          color: isSelected ? '#ffffff' : themeColors.text,
+                        }
+                      ]}
+                    >
+                      {categoryData.label}
+                    </Text>
+                    {hasSubcategories && (
+                      <View style={styles.expandIcon}>
+                        {isExpanded ? (
+                          <ChevronDown size={14} color={isSelected ? '#ffffff' : themeColors.text} />
+                        ) : (
+                          <ChevronRight size={14} color={isSelected ? '#ffffff' : themeColors.text} />
+                        )}
+                      </View>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+
+          {/* Subcategory Pills */}
+          {expandedCategory && categoryHierarchy[expandedCategory].subcategories.length > 0 && (
+            <View style={styles.subcategoryContainer}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.subcategoryContent}
+              >
+                {categoryHierarchy[expandedCategory].subcategories.map((subcategory) => (
+                  <TouchableOpacity
+                    key={subcategory}
+                    style={[
+                      styles.subcategoryButton,
+                      {
+                        backgroundColor: selectedSubcategory === subcategory ? themeColors.primary : themeColors.background,
+                        borderColor: themeColors.primary,
+                      }
+                    ]}
+                    onPress={() => handleSubcategoryPress(subcategory)}
+                  >
+                    <Text
+                      style={[
+                        styles.subcategoryButtonText,
+                        {
+                          color: selectedSubcategory === subcategory ? '#ffffff' : themeColors.primary,
+                        }
+                      ]}
+                    >
+                      {subcategory.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          )}
+        </View>
+
         {/* Questions List */}
         <View style={styles.questionsContainer}>
-          {codingQuestionsData.map((question) => (
+          {filteredQuestions.map((question) => (
             <QuestionCard key={question.id} question={question} />
           ))}
         </View>
@@ -333,6 +329,51 @@ const styles = StyleSheet.create({
   summary: {
     fontSize: 16,
     lineHeight: 24,
+  },
+  categoryFilter: {
+    paddingHorizontal: 20,
+    marginBottom: 16,
+  },
+  categoryContent: {
+    paddingRight: 20,
+  },
+  categoryButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginRight: 8,
+    alignSelf: 'flex-start',
+  },
+  categoryButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  categoryButtonText: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  expandIcon: {
+    marginLeft: 2,
+  },
+  subcategoryContainer: {
+    marginTop: 12,
+    paddingLeft: 16,
+  },
+  subcategoryContent: {
+    paddingRight: 20,
+  },
+  subcategoryButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    marginRight: 8,
+    borderWidth: 1,
+    alignSelf: 'flex-start',
+  },
+  subcategoryButtonText: {
+    fontSize: 12,
+    fontWeight: '500',
   },
   questionsContainer: {
     paddingHorizontal: 20,

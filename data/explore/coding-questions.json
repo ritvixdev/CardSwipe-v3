@@ -1,0 +1,93 @@
+{
+  "codingQuestions": [
+    {
+      "id": "reverse-string",
+      "title": "Reverse a String",
+      "description": "Write a function that reverses a string",
+      "difficulty": "easy",
+      "category": "Strings",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "question": "Given a string, write a function to reverse it without using built-in reverse methods.",
+      "codeExample": "function reverseString(str) {\n  let reversed = '';\n  for (let i = str.length - 1; i >= 0; i--) {\n    reversed += str[i];\n  }\n  return reversed;\n}\n\n// Alternative approaches:\n\n// 1. Two pointers approach (in-place for arrays)\nfunction reverseStringArray(arr) {\n  let left = 0;\n  let right = arr.length - 1;\n  \n  while (left < right) {\n    // Swap characters\n    [arr[left], arr[right]] = [arr[right], arr[left]];\n    left++;\n    right--;\n  }\n  \n  return arr;\n}\n\n// 2. Recursive approach\nfunction reverseStringRecursive(str) {\n  // Base case\n  if (str.length <= 1) {\n    return str;\n  }\n  \n  // Recursive case\n  return str[str.length - 1] + reverseStringRecursive(str.slice(0, -1));\n}\n\n// 3. Using array methods (not allowed in interview)\nfunction reverseStringBuiltIn(str) {\n  return str.split('').reverse().join('');\n}\n\n// Usage examples:\nconsole.log(reverseString('hello')); // 'olleh'\nconsole.log(reverseString('JavaScript')); // 'tpircSavaJ'",
+      "explanation": "**Problem Understanding:**\nReverse a string means to return a new string with characters in opposite order.\n\n**Approach Analysis:**\n\n**1. Iterative Approach (Recommended):**\n- Time: O(n) - Visit each character once\n- Space: O(n) - New string creation\n- Simple and efficient\n\n**2. Two Pointers (For arrays):**\n- Time: O(n) - Visit each character once\n- Space: O(1) - In-place modification\n- Best for character arrays\n\n**3. Recursive Approach:**\n- Time: O(n) - Each recursive call\n- Space: O(n) - Call stack depth\n- Educational but not optimal\n\n**Key Insights:**\n1. **String Immutability**: In JavaScript, strings are immutable, so we create new strings\n2. **Character Access**: Use bracket notation str[i] to access characters\n3. **Loop Direction**: Start from end and work backwards\n\n**Edge Cases:**\n- Empty string: Should return empty string\n- Single character: Should return same character\n- Null/undefined: Handle gracefully\n\n**Interview Tips:**\n- Ask about constraints (length, characters, memory)\n- Clarify if in-place modification is allowed\n- Discuss time/space complexity\n- Consider multiple approaches",
+      "variations": [
+        "Reverse words in a string",
+        "Reverse only alphabetic characters",
+        "Reverse string in-place (for arrays)",
+        "Reverse vowels only"
+      ],
+      "relatedProblems": [
+        "Valid Palindrome",
+        "Reverse Words in String",
+        "Reverse Integer",
+        "String Rotation"
+      ]
+    },
+    {
+      "id": "fibonacci-sequence",
+      "title": "Fibonacci Sequence",
+      "description": "Generate the nth Fibonacci number",
+      "difficulty": "medium",
+      "category": "Dynamic Programming",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "question": "Write a function to find the nth number in the Fibonacci sequence. The sequence starts with 0, 1, and each subsequent number is the sum of the previous two.",
+      "codeExample": "// 1. Iterative approach (Optimal)\nfunction fibonacci(n) {\n  if (n <= 1) return n;\n  \n  let prev = 0;\n  let curr = 1;\n  \n  for (let i = 2; i <= n; i++) {\n    let next = prev + curr;\n    prev = curr;\n    curr = next;\n  }\n  \n  return curr;\n}\n\n// 2. Recursive approach (Naive - Exponential time)\nfunction fibonacciRecursive(n) {\n  if (n <= 1) return n;\n  return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);\n}\n\n// 3. Memoized recursive (Top-down DP)\nfunction fibonacciMemo(n, memo = {}) {\n  if (n in memo) return memo[n];\n  if (n <= 1) return n;\n  \n  memo[n] = fibonacciMemo(n - 1, memo) + fibonacciMemo(n - 2, memo);\n  return memo[n];\n}\n\n// 4. Tabulation (Bottom-up DP)\nfunction fibonacciTab(n) {\n  if (n <= 1) return n;\n  \n  const dp = [0, 1];\n  \n  for (let i = 2; i <= n; i++) {\n    dp[i] = dp[i - 1] + dp[i - 2];\n  }\n  \n  return dp[n];\n}\n\n// Usage examples:\nconsole.log(fibonacci(10)); // 55\nconsole.log(fibonacci(0));  // 0\nconsole.log(fibonacci(1));  // 1",
+      "explanation": "**Mathematical Definition:**\nF(0) = 0, F(1) = 1\nF(n) = F(n-1) + F(n-2) for n > 1\n\n**Solution Evolution:**\n\n**1. Naive Recursion:**\n- Time: O(2^n) - Exponential\n- Space: O(n) - Call stack\n- Problems: Redundant calculations\n\n**2. Memoization (Top-down DP):**\n- Time: O(n) - Each subproblem solved once\n- Space: O(n) - Memoization table + call stack\n- Improvement: Caches results\n\n**3. Iterative (Bottom-up DP):**\n- Time: O(n) - Single loop\n- Space: O(1) - Only track last two values\n- Best: Most efficient approach\n\n**Advanced Optimizations:**\n- Matrix exponentiation: O(log n)\n- Binet's formula: O(1) but floating point precision issues\n\n**Key Insights:**\n1. **Overlapping Subproblems**: F(n) depends on F(n-1) and F(n-2)\n2. **Optimal Substructure**: Solution built from optimal solutions of subproblems\n3. **Space Optimization**: Only need last two values, not entire array\n\n**Interview Discussion Points:**\n- Start with recursive solution, then optimize\n- Explain why naive recursion is inefficient\n- Show how memoization improves performance\n- Demonstrate space optimization in iterative solution",
+      "variations": [
+        "Fibonacci with different starting values",
+        "Sum of Fibonacci numbers",
+        "Fibonacci in matrix form",
+        "Check if number is Fibonacci"
+      ],
+      "relatedProblems": [
+        "Climbing Stairs",
+        "House Robber",
+        "Tribonacci Sequence",
+        "Minimum Cost Climbing Stairs"
+      ]
+    },
+    {
+      "id": "two-sum",
+      "title": "Two Sum Problem",
+      "description": "Find two numbers that add up to a target",
+      "difficulty": "easy",
+      "category": "Arrays",
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "question": "Given an array of integers and a target sum, return the indices of two numbers that add up to the target.",
+      "codeExample": "// Brute force approach O(n²)\nfunction twoSumBrute(nums, target) {\n  for (let i = 0; i < nums.length; i++) {\n    for (let j = i + 1; j < nums.length; j++) {\n      if (nums[i] + nums[j] === target) {\n        return [i, j];\n      }\n    }\n  }\n  return [];\n}\n\n// Optimized hash map approach O(n)\nfunction twoSum(nums, target) {\n  const map = new Map();\n  \n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    \n    if (map.has(complement)) {\n      return [map.get(complement), i];\n    }\n    \n    map.set(nums[i], i);\n  }\n  \n  return [];\n}\n\n// Alternative with object\nfunction twoSumObject(nums, target) {\n  const seen = {};\n  \n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    \n    if (complement in seen) {\n      return [seen[complement], i];\n    }\n    \n    seen[nums[i]] = i;\n  }\n  \n  return [];\n}\n\n// Usage examples:\nconsole.log(twoSum([2, 7, 11, 15], 9)); // [0, 1]\nconsole.log(twoSum([3, 2, 4], 6));     // [1, 2]\nconsole.log(twoSum([3, 3], 6));        // [0, 1]",
+      "explanation": "**Problem Understanding:**\nGiven an array and target, find two numbers that sum to target and return their indices.\n\n**Approach Evolution:**\n\n**1. Brute Force:**\n- Check all possible pairs\n- Time: O(n²), Space: O(1)\n- Simple but inefficient for large inputs\n\n**2. Hash Map Optimization:**\n- Store seen numbers with their indices\n- For each number, check if complement exists\n- Time: O(n), Space: O(n)\n- Classic space-time tradeoff\n\n**Key Insights:**\n1. **Complement Thinking**: For target T and current number X, we need (T - X)\n2. **Hash Map Power**: O(1) lookup time enables linear solution\n3. **Single Pass**: We can solve while building the hash map\n\n**Edge Cases to Consider:**\n- No solution exists\n- Multiple valid solutions\n- Duplicate numbers\n- Negative numbers\n- Array with less than 2 elements\n\n**Interview Tips:**\n- Always clarify assumptions (unique solution, sorted array, etc.)\n- Start with brute force, then optimize\n- Discuss time/space complexity\n- Consider edge cases\n\n**Extensions:**\n- Three Sum, Four Sum\n- Two Sum in sorted array (two pointers)\n- Two Sum with multiple solutions",
+      "variations": [
+        "Two Sum II - Input array is sorted",
+        "Three Sum",
+        "Four Sum",
+        "Two Sum - Data structure design"
+      ],
+      "relatedProblems": [
+        "Three Sum",
+        "Four Sum",
+        "Valid Anagram",
+        "Group Anagrams"
+      ]
+    }
+  ],
+  "categories": [
+    "Arrays",
+    "Strings", 
+    "Dynamic Programming",
+    "Trees",
+    "Graphs",
+    "Sorting",
+    "Searching",
+    "Hash Tables",
+    "Linked Lists",
+    "Stack & Queue"
+  ],
+  "difficulties": [
+    "easy",
+    "medium", 
+    "hard"
+  ]
+}

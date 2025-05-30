@@ -9,6 +9,7 @@ import QuizCard from '@/components/QuizCard';
 import * as Haptics from 'expo-haptics';
 import { useThemeStore } from '@/store/useThemeStore';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import CodeBlock from '@/components/CodeBlock';
 
 export default function LessonDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -134,45 +135,11 @@ export default function LessonDetailScreen() {
           <Text style={[styles.detailsText, { color: themeColors.textSecondary }]}>{lesson.content}</Text>
           
           <Text style={[styles.sectionTitle, { color: themeColors.text }]}>Code Example</Text>
-          <View style={[
-            styles.codeBlock,
-            {
-              backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f8f8f8',
-              borderColor: themeMode === 'dark' ? '#333' : '#e0e0e0'
-            }
-          ]}>
-            <View style={[
-              styles.codeHeader,
-              {
-                backgroundColor: themeMode === 'dark' ? '#2d2d30' : '#f0f0f0',
-                borderBottomColor: themeMode === 'dark' ? '#333' : '#e0e0e0'
-              }
-            ]}>
-              <View style={styles.codeControls}>
-                <View style={[styles.codeButton, { backgroundColor: '#ff5f56' }]} />
-                <View style={[styles.codeButton, { backgroundColor: '#ffbd2e' }]} />
-                <View style={[styles.codeButton, { backgroundColor: '#27ca3f' }]} />
-              </View>
-              <Text style={[styles.codeFileName, { color: themeMode === 'dark' ? '#cccccc' : '#666666' }]}>
-
-              </Text>
-            </View>
-            <View style={styles.codeContent}>
-              <View style={styles.lineNumbers}>
-                {(lesson.codeExample || '').split('\n').map((_, index) => (
-                  <Text key={index} style={[styles.lineNumber, { color: themeMode === 'dark' ? '#858585' : '#999999' }]}>
-                    {index + 1}
-                  </Text>
-                ))}
-              </View>
-              <Text style={[
-                styles.codeText,
-                { color: themeMode === 'dark' ? '#d4d4d4' : '#333333' }
-              ]}>
-                {lesson.codeExample || 'No code example available'}
-              </Text>
-            </View>
-          </View>
+          <CodeBlock
+            code={lesson.codeExample || 'No code example available'}
+            language="javascript"
+            size="medium"
+          />
           
           {lesson.quiz && (
             <QuizCard quiz={lesson.quiz} lessonId={lessonId} />

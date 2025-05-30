@@ -1,10 +1,12 @@
 // Data loader utilities for JSON files
 import learnCardsData from '../learn/cards.json';
-import javascriptNotesData from '../explore/javascriptNotes/notes.json';
-import practiceQuizData from '../explore/practiceQuiz/quizzes.json';
-import interviewPrepData from '../explore/interviewPrep/questions.json';
-import interviewQuizData from '../json/interview-quiz.json';
-import learningRoadmapData from '../json/learning-roadmap.json';
+import javascriptNotesData from '../explore/javascript-notes.json';
+import practiceQuizData from '../explore/practice-quiz.json';
+import interviewPrepData from '../explore/interview-prep.json';
+import interviewQuizData from '../explore/interview-quiz.json';
+import learningRoadmapData from '../explore/learning-roadmap.json';
+import designPatternsData from '../explore/design-patterns.json';
+import codingQuestionsData from '../explore/coding-questions.json';
 
 // Type definitions
 export interface LearnCard {
@@ -70,6 +72,37 @@ export interface InterviewQuestion {
   codeExample?: string;
   keyPoints: string[];
   tags: string[];
+}
+
+export interface DesignPattern {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  problem: string;
+  solution: string;
+  codeExample: string;
+  realWorldExample: string;
+  pros: string[];
+  cons: string[];
+  difficulty: 'beginner' | 'intermediate' | 'advanced';
+  tags: string[];
+  relatedPatterns: string[];
+}
+
+export interface CodingQuestion {
+  id: string;
+  title: string;
+  description: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  category: string;
+  timeComplexity: string;
+  spaceComplexity: string;
+  question: string;
+  codeExample: string;
+  explanation: string;
+  variations: string[];
+  relatedProblems: string[];
 }
 
 export interface RoadmapNode {
@@ -229,8 +262,59 @@ export function getPrerequisites(nodeId: string): RoadmapNode[] {
 }
 
 export function getNextNodes(nodeId: string): RoadmapNode[] {
-  return learningRoadmap.nodes.filter(node => 
+  return learningRoadmap.nodes.filter(node =>
     node.prerequisites.includes(nodeId)
+  );
+}
+
+// Design Patterns
+export const designPatterns: DesignPattern[] = designPatternsData.designPatterns as DesignPattern[];
+export const designPatternCategories: string[] = designPatternsData.categories;
+
+export function getDesignPatternsByCategory(category: string): DesignPattern[] {
+  return designPatterns.filter(pattern => pattern.category === category);
+}
+
+export function getDesignPatternsByDifficulty(difficulty: 'beginner' | 'intermediate' | 'advanced'): DesignPattern[] {
+  return designPatterns.filter(pattern => pattern.difficulty === difficulty);
+}
+
+export function getDesignPatternById(id: string): DesignPattern | undefined {
+  return designPatterns.find(pattern => pattern.id === id);
+}
+
+export function searchDesignPatterns(query: string): DesignPattern[] {
+  const lowercaseQuery = query.toLowerCase();
+  return designPatterns.filter(pattern =>
+    pattern.name.toLowerCase().includes(lowercaseQuery) ||
+    pattern.description.toLowerCase().includes(lowercaseQuery) ||
+    pattern.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+  );
+}
+
+// Coding Questions
+export const codingQuestions: CodingQuestion[] = codingQuestionsData.codingQuestions as CodingQuestion[];
+export const codingQuestionCategories: string[] = codingQuestionsData.categories;
+export const codingQuestionDifficulties: string[] = codingQuestionsData.difficulties;
+
+export function getCodingQuestionsByCategory(category: string): CodingQuestion[] {
+  return codingQuestions.filter(question => question.category === category);
+}
+
+export function getCodingQuestionsByDifficulty(difficulty: 'easy' | 'medium' | 'hard'): CodingQuestion[] {
+  return codingQuestions.filter(question => question.difficulty === difficulty);
+}
+
+export function getCodingQuestionById(id: string): CodingQuestion | undefined {
+  return codingQuestions.find(question => question.id === id);
+}
+
+export function searchCodingQuestions(query: string): CodingQuestion[] {
+  const lowercaseQuery = query.toLowerCase();
+  return codingQuestions.filter(question =>
+    question.title.toLowerCase().includes(lowercaseQuery) ||
+    question.description.toLowerCase().includes(lowercaseQuery) ||
+    question.category.toLowerCase().includes(lowercaseQuery)
   );
 }
 
@@ -263,6 +347,8 @@ export function getStats() {
     totalQuizzes: quizzes.length,
     totalInterviewQuestions: interviewQuestions.length,
     totalInterviewQuizzes: interviewQuizzes.length,
+    totalDesignPatterns: designPatterns.length,
+    totalCodingQuestions: codingQuestions.length,
     totalRoadmapNodes: learningRoadmap.nodes.length,
     categoriesCount: getAllCategories().length,
     completedNodes: getNodesByStatus('completed').length,

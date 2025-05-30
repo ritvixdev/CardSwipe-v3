@@ -8,19 +8,108 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { ArrowLeft, BookOpen, Code, Lightbulb } from 'lucide-react-native';
+import { ArrowLeft, BookOpen, Code, Lightbulb, ChevronDown, ChevronRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { notes, getNotesByCategory, noteCategories } from '@/data/processors/dataLoader';
+import CodeBlock from '@/components/CodeBlock';
+
+// Hierarchical category structure
+const categoryHierarchy = {
+  'all': { label: 'All', subcategories: [] },
+  'fundamentals': {
+    label: 'Fundamentals',
+    subcategories: ['variables', 'data-types', 'operators', 'functions']
+  },
+  'core-concepts': {
+    label: 'Core Concepts',
+    subcategories: ['scope', 'closures', 'hoisting', 'this-keyword']
+  },
+  'data-structures': {
+    label: 'Data Structures',
+    subcategories: ['arrays', 'objects', 'maps', 'sets']
+  },
+  'async': {
+    label: 'Async Programming',
+    subcategories: ['callbacks', 'promises', 'async-await', 'event-loop']
+  },
+  'advanced': {
+    label: 'Advanced',
+    subcategories: ['prototypes', 'classes', 'modules', 'decorators']
+  }
+};
 
 export default function JavaScriptNotesScreen() {
   const themeColors = useThemeColors();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
 
-  const categories = ['all', ...noteCategories];
-  
-  const filteredNotes = selectedCategory === 'all' 
-    ? notes 
-    : getNotesByCategory(selectedCategory);
+  const categories = Object.keys(categoryHierarchy);
+
+  const getFilteredNotes = () => {
+    if (selectedSubcategory) {
+      // Filter by subcategory - match against note topics/tags
+      return notes.filter(note => {
+        const noteTopics = note.topic?.toLowerCase() || '';
+        const subcategoryMatch = selectedSubcategory.toLowerCase().replace('-', ' ');
+        return noteTopics.includes(subcategoryMatch) ||
+               noteTopics.includes(selectedSubcategory.replace('-', ''));
+      });
+    } else if (selectedCategory === 'all') {
+      return notes;
+    } else {
+      // Filter by main category - match against note categories
+      const categoryData = categoryHierarchy[selectedCategory];
+      if (categoryData && categoryData.subcategories.length > 0) {
+        // If category has subcategories, show all notes that match any subcategory
+        return notes.filter(note => {
+          const noteCategory = note.category?.toLowerCase() || '';
+          const noteTopics = note.topic?.toLowerCase() || '';
+
+          // Check if note category matches
+          if (noteCategory.includes(selectedCategory)) return true;
+
+          // Check if note topics match any subcategory
+          return categoryData.subcategories.some(sub =>
+            noteTopics.includes(sub.replace('-', ' ')) ||
+            noteTopics.includes(sub.replace('-', ''))
+          );
+        });
+      } else {
+        // Simple category match
+        return notes.filter(note => {
+          const noteCategory = note.category?.toLowerCase() || '';
+          return noteCategory.includes(selectedCategory);
+        });
+      }
+    }
+  };
+
+  const filteredNotes = getFilteredNotes();
+
+  const handleCategoryPress = (category: string) => {
+    const hasSubcategories = categoryHierarchy[category]?.subcategories.length > 0;
+
+    // Always set the selected category to filter cards
+    setSelectedCategory(category);
+    setSelectedSubcategory(null); // Clear subcategory selection
+
+    if (hasSubcategories) {
+      // If category has subcategories, expand/collapse the subcategory pills
+      if (expandedCategory === category) {
+        setExpandedCategory(null);
+      } else {
+        setExpandedCategory(category);
+      }
+    } else {
+      // If no subcategories, close any expanded category
+      setExpandedCategory(null);
+    }
+  };
+
+  const handleSubcategoryPress = (subcategory: string) => {
+    setSelectedSubcategory(subcategory);
+  };
 
   const handleNotePress = (noteId: string) => {
     router.push(`/(tabs)/explore/javascript-notes/${noteId}` as any);
@@ -59,19 +148,22 @@ export default function JavaScriptNotesScreen() {
         </Text>
       </View>
 
-      <View style={styles.codePreview}>
-        <View style={styles.codeHeader}>
-          <Code size={14} color={themeColors.textSecondary} />
-          <Text style={[styles.codeLabel, { color: themeColors.textSecondary }]}>
-            Code Example
-          </Text>
+      {note.codeExample && (
+        <View style={styles.codePreview}>
+          <View style={styles.codeHeader}>
+            <Code size={14} color={themeColors.textSecondary} />
+            <Text style={[styles.codeLabel, { color: themeColors.textSecondary }]}>
+              Code Example
+            </Text>
+          </View>
+          <CodeBlock
+            code={note.codeExample.substring(0, 150) + (note.codeExample.length > 150 ? '...' : '')}
+            language="javascript"
+            showLineNumbers={false}
+            size="small"
+          />
         </View>
-        <View style={[styles.codeSnippet, { backgroundColor: themeColors.background }]}>
-          <Text style={[styles.codeText, { color: themeColors.text }]}>
-            {note.codeExample ? note.codeExample.substring(0, 80) + '...' : 'No code example'}
-          </Text>
-        </View>
-      </View>
+      )}
 
       <View style={styles.noteFooter}>
         <View style={styles.noteStats}>
@@ -112,36 +204,91 @@ export default function JavaScriptNotesScreen() {
         </View>
 
         {/* Category Filter */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.categoryFilter}
-          contentContainerStyle={styles.categoryContent}
-        >
-          {categories.map((category) => (
-            <TouchableOpacity
-              key={category}
-              style={[
-                styles.categoryButton,
-                {
-                  backgroundColor: selectedCategory === category ? themeColors.primary : themeColors.card,
-                }
-              ]}
-              onPress={() => setSelectedCategory(category)}
-            >
-              <Text
-                style={[
-                  styles.categoryButtonText,
-                  {
-                    color: selectedCategory === category ? '#ffffff' : themeColors.text,
-                  }
-                ]}
+        <View style={styles.categoryFilter}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.categoryContent}
+          >
+            {categories.map((category) => {
+              const categoryData = categoryHierarchy[category];
+              const hasSubcategories = categoryData.subcategories.length > 0;
+              const isSelected = selectedCategory === category;
+              const isExpanded = expandedCategory === category;
+
+              return (
+                <TouchableOpacity
+                  key={category}
+                  style={[
+                    styles.categoryButton,
+                    {
+                      backgroundColor: isSelected ? themeColors.primary : themeColors.card,
+                    }
+                  ]}
+                  onPress={() => handleCategoryPress(category)}
+                >
+                  <View style={styles.categoryButtonContent}>
+                    <Text
+                      style={[
+                        styles.categoryButtonText,
+                        {
+                          color: isSelected ? '#ffffff' : themeColors.text,
+                        }
+                      ]}
+                    >
+                      {categoryData.label}
+                    </Text>
+                    {hasSubcategories && (
+                      <View style={styles.expandIcon}>
+                        {isExpanded ? (
+                          <ChevronDown size={14} color={isSelected ? '#ffffff' : themeColors.text} />
+                        ) : (
+                          <ChevronRight size={14} color={isSelected ? '#ffffff' : themeColors.text} />
+                        )}
+                      </View>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+
+          {/* Subcategory Pills */}
+          {expandedCategory && categoryHierarchy[expandedCategory].subcategories.length > 0 && (
+            <View style={styles.subcategoryContainer}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.subcategoryContent}
               >
-                {category}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+                {categoryHierarchy[expandedCategory].subcategories.map((subcategory) => (
+                  <TouchableOpacity
+                    key={subcategory}
+                    style={[
+                      styles.subcategoryButton,
+                      {
+                        backgroundColor: selectedSubcategory === subcategory ? themeColors.primary : themeColors.background,
+                        borderColor: themeColors.primary,
+                      }
+                    ]}
+                    onPress={() => handleSubcategoryPress(subcategory)}
+                  >
+                    <Text
+                      style={[
+                        styles.subcategoryButtonText,
+                        {
+                          color: selectedSubcategory === subcategory ? '#ffffff' : themeColors.primary,
+                        }
+                      ]}
+                    >
+                      {subcategory.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          )}
+        </View>
 
         {/* Notes List */}
         <View style={styles.notesContainer}>
@@ -202,8 +349,35 @@ const styles = StyleSheet.create({
     marginRight: 8,
     alignSelf: 'flex-start',
   },
+  categoryButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
   categoryButtonText: {
     fontSize: 14,
+    fontWeight: '500',
+  },
+  expandIcon: {
+    marginLeft: 2,
+  },
+  subcategoryContainer: {
+    marginTop: 12,
+    paddingLeft: 16,
+  },
+  subcategoryContent: {
+    paddingRight: 20,
+  },
+  subcategoryButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    marginRight: 8,
+    borderWidth: 1,
+    alignSelf: 'flex-start',
+  },
+  subcategoryButtonText: {
+    fontSize: 12,
     fontWeight: '500',
   },
   notesContainer: {

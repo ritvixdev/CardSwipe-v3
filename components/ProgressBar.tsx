@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import lessons from '@/data/lessons';
+import { lessons } from '@/data/processors/dataLoader';
 
 export default function ProgressBar() {
   const progress = useProgressStore((state) => state.progress);

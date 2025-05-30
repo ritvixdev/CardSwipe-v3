@@ -10,141 +10,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, Code, Eye, Layers, Zap, ArrowRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
+import { designPatterns, DesignPattern, getDesignPatternsByCategory, getDesignPatternsByDifficulty } from '@/data/processors/dataLoader';
 
-// Design patterns data
-const designPatternsData = [
-  {
-    id: 'singleton',
-    title: 'Singleton Pattern',
-    description: 'Ensures a class has only one instance and provides global access',
-    category: 'Creational',
-    difficulty: 'easy',
-    icon: 'layers',
-    useCase: 'Database connections, logging, caching',
-    pros: ['Global access', 'Memory efficient', 'Lazy initialization'],
-    cons: ['Hard to test', 'Violates single responsibility', 'Global state'],
-    codeExample: `class Singleton {
-  constructor() {
-    if (Singleton.instance) {
-      return Singleton.instance;
-    }
-    Singleton.instance = this;
-    return this;
-  }
-  
-  static getInstance() {
-    if (!Singleton.instance) {
-      Singleton.instance = new Singleton();
-    }
-    return Singleton.instance;
-  }
-}
-
-// Usage
-const instance1 = Singleton.getInstance();
-const instance2 = Singleton.getInstance();
-console.log(instance1 === instance2); // true`,
-    explanation: 'The Singleton pattern restricts instantiation of a class to one object. This is useful when exactly one object is needed to coordinate actions across the system.'
-  },
-  {
-    id: 'observer',
-    title: 'Observer Pattern',
-    description: 'Defines a one-to-many dependency between objects',
-    category: 'Behavioral',
-    difficulty: 'medium',
-    icon: 'eye',
-    useCase: 'Event handling, MVC architecture, reactive programming',
-    pros: ['Loose coupling', 'Dynamic relationships', 'Broadcast communication'],
-    cons: ['Memory leaks', 'Unexpected updates', 'Complex debugging'],
-    codeExample: `class Subject {
-  constructor() {
-    this.observers = [];
-  }
-  
-  subscribe(observer) {
-    this.observers.push(observer);
-  }
-  
-  unsubscribe(observer) {
-    this.observers = this.observers.filter(obs => obs !== observer);
-  }
-  
-  notify(data) {
-    this.observers.forEach(observer => observer.update(data));
-  }
-}
-
-class Observer {
-  constructor(name) {
-    this.name = name;
-  }
-  
-  update(data) {
-    console.log(\`\${this.name} received: \${data}\`);
-  }
-}
-
-// Usage
-const subject = new Subject();
-const observer1 = new Observer('Observer 1');
-subject.subscribe(observer1);
-subject.notify('Hello World!');`,
-    explanation: 'The Observer pattern allows objects to be notified of changes in other objects without being tightly coupled. Perfect for implementing event systems.'
-  },
-  {
-    id: 'factory',
-    title: 'Factory Pattern',
-    description: 'Creates objects without specifying their exact classes',
-    category: 'Creational',
-    difficulty: 'easy',
-    icon: 'zap',
-    useCase: 'Object creation, plugin systems, UI components',
-    pros: ['Flexible object creation', 'Encapsulates creation logic', 'Easy to extend'],
-    cons: ['Can become complex', 'Extra abstraction layer'],
-    codeExample: `class CarFactory {
-  static createCar(type) {
-    switch(type) {
-      case 'sedan':
-        return new Sedan();
-      case 'suv':
-        return new SUV();
-      case 'hatchback':
-        return new Hatchback();
-      default:
-        throw new Error('Unknown car type');
-    }
-  }
-}
-
-class Sedan {
-  constructor() {
-    this.type = 'Sedan';
-    this.doors = 4;
-  }
-}
-
-class SUV {
-  constructor() {
-    this.type = 'SUV';
-    this.doors = 5;
-  }
-}
-
-// Usage
-const myCar = CarFactory.createCar('sedan');
-console.log(myCar.type); // 'Sedan'`,
-    explanation: 'The Factory pattern provides an interface for creating objects without specifying their exact classes. It encapsulates object creation logic.'
-  }
-];
+// Use JSON data instead of hardcoded data
+const designPatternsData = designPatterns;
 
 export default function DesignPatternsScreen() {
   const themeColors = useThemeColors();
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'easy': return '#10b981';
-      case 'medium': return '#f59e0b';
-      case 'hard': return '#ef4444';
+      case 'beginner': return '#10b981';
+      case 'intermediate': return '#f59e0b';
+      case 'advanced': return '#ef4444';
       default: return themeColors.textSecondary;
     }
   };
@@ -167,8 +45,8 @@ export default function DesignPatternsScreen() {
     }
   };
 
-  const PatternCard = ({ pattern }: { pattern: any }) => {
-    const PatternIcon = getPatternIcon(pattern.icon);
+  const PatternCard = ({ pattern }: { pattern: DesignPattern }) => {
+    const PatternIcon = Code; // Use Code icon for all patterns since JSON doesn't have icon field
 
     return (
       <View style={styles.patternContainer}>
@@ -180,7 +58,7 @@ export default function DesignPatternsScreen() {
             <View style={[styles.patternIconContainer, { backgroundColor: getCategoryColor(pattern.category) }]}>
               <PatternIcon size={24} color="#ffffff" />
             </View>
-            
+
             <View style={styles.patternMeta}>
               <View style={[styles.categoryBadge, { backgroundColor: getCategoryColor(pattern.category) }]}>
                 <Text style={styles.categoryText}>{pattern.category}</Text>
@@ -192,7 +70,7 @@ export default function DesignPatternsScreen() {
           </View>
 
           <Text style={[styles.patternTitle, { color: themeColors.text }]}>
-            {pattern.title}
+            {pattern.name}
           </Text>
 
           <Text style={[styles.patternDescription, { color: themeColors.textSecondary }]}>
@@ -201,7 +79,7 @@ export default function DesignPatternsScreen() {
 
           <View style={styles.patternFooter}>
             <Text style={[styles.useCase, { color: themeColors.textSecondary }]}>
-              Use case: {pattern.useCase}
+              Real world: {pattern.realWorldExample}
             </Text>
             <ArrowRight size={16} color={themeColors.primary} />
           </View>

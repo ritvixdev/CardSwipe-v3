@@ -8,8 +8,29 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { ArrowLeft, Brain, Clock, Target, Trophy, Briefcase } from 'lucide-react-native';
+import { ArrowLeft, Brain, Clock, Target, Trophy, Briefcase, ChevronDown, ChevronRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
+
+// Hierarchical category structure for interview quizzes
+const categoryHierarchy = {
+  'all': { label: 'All', subcategories: [] },
+  'technical': {
+    label: 'Technical',
+    subcategories: ['algorithms', 'data-structures', 'system-design', 'coding']
+  },
+  'javascript': {
+    label: 'JavaScript',
+    subcategories: ['fundamentals', 'async', 'frameworks', 'testing']
+  },
+  'frontend': {
+    label: 'Frontend',
+    subcategories: ['react', 'css', 'performance', 'accessibility']
+  },
+  'behavioral': {
+    label: 'Behavioral',
+    subcategories: ['leadership', 'teamwork', 'problem-solving', 'communication']
+  }
+};
 
 // Interview quiz categories data
 const interviewQuizCategories = [
@@ -84,12 +105,78 @@ const interviewQuizCategories = [
 export default function InterviewQuizScreen() {
   const themeColors = useThemeColors();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
 
-  const categories = ['all', ...interviewQuizCategories.map(cat => cat.title)];
+  const categories = Object.keys(categoryHierarchy);
 
-  const filteredQuizzes = selectedCategory === 'all'
-    ? interviewQuizCategories
-    : interviewQuizCategories.filter(quiz => quiz.title === selectedCategory);
+  const getFilteredQuizzes = () => {
+    if (selectedSubcategory) {
+      // Filter by subcategory - match against quiz topics/titles
+      return interviewQuizCategories.filter(quiz => {
+        const quizTitle = quiz.title?.toLowerCase() || '';
+        const quizTopics = quiz.topics?.join(' ').toLowerCase() || '';
+        const subcategoryMatch = selectedSubcategory.toLowerCase().replace('-', ' ');
+        return quizTitle.includes(subcategoryMatch) ||
+               quizTitle.includes(selectedSubcategory.replace('-', '')) ||
+               quizTopics.includes(subcategoryMatch);
+      });
+    } else if (selectedCategory === 'all') {
+      return interviewQuizCategories;
+    } else {
+      // Filter by main category - match against quiz titles and topics
+      const categoryData = categoryHierarchy[selectedCategory];
+      if (categoryData && categoryData.subcategories.length > 0) {
+        // If category has subcategories, show all quizzes that match the main category
+        return interviewQuizCategories.filter(quiz => {
+          const quizTitle = quiz.title?.toLowerCase() || '';
+          const quizTopics = quiz.topics?.join(' ').toLowerCase() || '';
+
+          // Check if quiz title matches main category
+          if (quizTitle.includes(selectedCategory)) return true;
+
+          // Check if quiz title/topics match any subcategory
+          return categoryData.subcategories.some(sub =>
+            quizTitle.includes(sub.replace('-', ' ')) ||
+            quizTitle.includes(sub.replace('-', '')) ||
+            quizTopics.includes(sub.replace('-', ' '))
+          );
+        });
+      } else {
+        // Simple category match
+        return interviewQuizCategories.filter(quiz => {
+          const quizTitle = quiz.title?.toLowerCase() || '';
+          return quizTitle.includes(selectedCategory);
+        });
+      }
+    }
+  };
+
+  const filteredQuizzes = getFilteredQuizzes();
+
+  const handleCategoryPress = (category: string) => {
+    const hasSubcategories = categoryHierarchy[category]?.subcategories.length > 0;
+
+    // Always set the selected category to filter cards
+    setSelectedCategory(category);
+    setSelectedSubcategory(null); // Clear subcategory selection
+
+    if (hasSubcategories) {
+      // If category has subcategories, expand/collapse the subcategory pills
+      if (expandedCategory === category) {
+        setExpandedCategory(null);
+      } else {
+        setExpandedCategory(category);
+      }
+    } else {
+      // If no subcategories, close any expanded category
+      setExpandedCategory(null);
+    }
+  };
+
+  const handleSubcategoryPress = (subcategory: string) => {
+    setSelectedSubcategory(subcategory);
+  };
 
   const handleQuizPress = (quizId: string) => {
     // Navigate to actual quiz taking screen (can be implemented later)
@@ -222,36 +309,91 @@ export default function InterviewQuizScreen() {
         </View>
 
         {/* Category Filter */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.categoryFilter}
-          contentContainerStyle={styles.categoryContent}
-        >
-          {categories.map((category) => (
-            <TouchableOpacity
-              key={category}
-              style={[
-                styles.categoryButton,
-                {
-                  backgroundColor: selectedCategory === category ? themeColors.primary : themeColors.card,
-                }
-              ]}
-              onPress={() => setSelectedCategory(category)}
-            >
-              <Text
-                style={[
-                  styles.categoryButtonText,
-                  {
-                    color: selectedCategory === category ? '#ffffff' : themeColors.text,
-                  }
-                ]}
+        <View style={styles.categoryFilter}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.categoryContent}
+          >
+            {categories.map((category) => {
+              const categoryData = categoryHierarchy[category];
+              const hasSubcategories = categoryData.subcategories.length > 0;
+              const isSelected = selectedCategory === category;
+              const isExpanded = expandedCategory === category;
+
+              return (
+                <TouchableOpacity
+                  key={category}
+                  style={[
+                    styles.categoryButton,
+                    {
+                      backgroundColor: isSelected ? themeColors.primary : themeColors.card,
+                    }
+                  ]}
+                  onPress={() => handleCategoryPress(category)}
+                >
+                  <View style={styles.categoryButtonContent}>
+                    <Text
+                      style={[
+                        styles.categoryButtonText,
+                        {
+                          color: isSelected ? '#ffffff' : themeColors.text,
+                        }
+                      ]}
+                    >
+                      {categoryData.label}
+                    </Text>
+                    {hasSubcategories && (
+                      <View style={styles.expandIcon}>
+                        {isExpanded ? (
+                          <ChevronDown size={14} color={isSelected ? '#ffffff' : themeColors.text} />
+                        ) : (
+                          <ChevronRight size={14} color={isSelected ? '#ffffff' : themeColors.text} />
+                        )}
+                      </View>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </ScrollView>
+
+          {/* Subcategory Pills */}
+          {expandedCategory && categoryHierarchy[expandedCategory].subcategories.length > 0 && (
+            <View style={styles.subcategoryContainer}>
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.subcategoryContent}
               >
-                {category}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
+                {categoryHierarchy[expandedCategory].subcategories.map((subcategory) => (
+                  <TouchableOpacity
+                    key={subcategory}
+                    style={[
+                      styles.subcategoryButton,
+                      {
+                        backgroundColor: selectedSubcategory === subcategory ? themeColors.primary : themeColors.background,
+                        borderColor: themeColors.primary,
+                      }
+                    ]}
+                    onPress={() => handleSubcategoryPress(subcategory)}
+                  >
+                    <Text
+                      style={[
+                        styles.subcategoryButtonText,
+                        {
+                          color: selectedSubcategory === subcategory ? '#ffffff' : themeColors.primary,
+                        }
+                      ]}
+                    >
+                      {subcategory.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </View>
+          )}
+        </View>
 
         {/* Quizzes List */}
         <View style={styles.quizzesContainer}>
@@ -312,8 +454,35 @@ const styles = StyleSheet.create({
     marginRight: 8,
     alignSelf: 'flex-start',
   },
+  categoryButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
   categoryButtonText: {
     fontSize: 14,
+    fontWeight: '500',
+  },
+  expandIcon: {
+    marginLeft: 2,
+  },
+  subcategoryContainer: {
+    marginTop: 12,
+    paddingLeft: 16,
+  },
+  subcategoryContent: {
+    paddingRight: 20,
+  },
+  subcategoryButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    marginRight: 8,
+    borderWidth: 1,
+    alignSelf: 'flex-start',
+  },
+  subcategoryButtonText: {
+    fontSize: 12,
     fontWeight: '500',
   },
   quizzesContainer: {
