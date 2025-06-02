@@ -10,8 +10,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, Brain, Clock, Target, Trophy, Briefcase, ChevronDown, ChevronRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import QuizManager from '@/components/quiz/QuizManager';
-import { getQuizzesByType, getQuizById, QuizMetadata } from '@/utils/quizLoader';
 
 // Hierarchical category structure for interview quizzes
 const categoryHierarchy = {
@@ -109,59 +107,44 @@ export default function InterviewQuizScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
-  const [currentQuiz, setCurrentQuiz] = useState<string | null>(null);
 
   const categories = Object.keys(categoryHierarchy);
-
-  // Get all interview quizzes
-  const allQuizzes = getQuizzesByType('interview');
-  const quizMetadata: QuizMetadata[] = allQuizzes.map(quiz => ({
-    id: quiz.id,
-    title: quiz.title,
-    category: quiz.category,
-    difficulty: quiz.difficulty,
-    timeLimit: quiz.timeLimit,
-    passingScore: quiz.passingScore,
-    description: quiz.description,
-    questionCount: quiz.questions.length,
-    type: 'interview' as const
-  }));
 
   const getFilteredQuizzes = () => {
     if (selectedSubcategory) {
       // Filter by subcategory - match against quiz topics/titles
-      return quizMetadata.filter(quiz => {
+      return interviewQuizCategories.filter(quiz => {
         const quizTitle = quiz.title?.toLowerCase() || '';
-        const quizCategory = quiz.category?.toLowerCase() || '';
+        const quizTopics = quiz.topics?.join(' ').toLowerCase() || '';
         const subcategoryMatch = selectedSubcategory.toLowerCase().replace('-', ' ');
         return quizTitle.includes(subcategoryMatch) ||
                quizTitle.includes(selectedSubcategory.replace('-', '')) ||
-               quizCategory.includes(subcategoryMatch);
+               quizTopics.includes(subcategoryMatch);
       });
     } else if (selectedCategory === 'all') {
-      return quizMetadata;
+      return interviewQuizCategories;
     } else {
-      // Filter by main category - match against quiz titles and categories
+      // Filter by main category - match against quiz titles and topics
       const categoryData = categoryHierarchy[selectedCategory];
       if (categoryData && categoryData.subcategories.length > 0) {
         // If category has subcategories, show all quizzes that match the main category
-        return quizMetadata.filter(quiz => {
+        return interviewQuizCategories.filter(quiz => {
           const quizTitle = quiz.title?.toLowerCase() || '';
-          const quizCategory = quiz.category?.toLowerCase() || '';
+          const quizTopics = quiz.topics?.join(' ').toLowerCase() || '';
 
           // Check if quiz title matches main category
           if (quizTitle.includes(selectedCategory)) return true;
 
-          // Check if quiz title/category match any subcategory
+          // Check if quiz title/topics match any subcategory
           return categoryData.subcategories.some(sub =>
             quizTitle.includes(sub.replace('-', ' ')) ||
             quizTitle.includes(sub.replace('-', '')) ||
-            quizCategory.includes(sub.replace('-', ' '))
+            quizTopics.includes(sub.replace('-', ' '))
           );
         });
       } else {
         // Simple category match
-        return quizMetadata.filter(quiz => {
+        return interviewQuizCategories.filter(quiz => {
           const quizTitle = quiz.title?.toLowerCase() || '';
           return quizTitle.includes(selectedCategory);
         });
@@ -196,29 +179,9 @@ export default function InterviewQuizScreen() {
   };
 
   const handleQuizPress = (quizId: string) => {
-    setCurrentQuiz(quizId);
+    // Navigate to actual quiz taking screen (can be implemented later)
+    console.log(`Starting quiz: ${quizId}`);
   };
-
-  const handleQuizExit = () => {
-    setCurrentQuiz(null);
-  };
-
-  // If a quiz is selected, show the quiz interface
-  if (currentQuiz) {
-    const quiz = getQuizById(currentQuiz, 'interview');
-    if (quiz) {
-      return (
-        <QuizManager
-          quiz={quiz}
-          onExit={handleQuizExit}
-          onComplete={(results) => {
-            console.log('Interview quiz completed:', results);
-            // You can add additional logic here like saving results
-          }}
-        />
-      );
-    }
-  }
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -229,7 +192,7 @@ export default function InterviewQuizScreen() {
     }
   };
 
-  const QuizCard = ({ quiz }: { quiz: QuizMetadata }) => (
+  const QuizCard = ({ quiz }: { quiz: any }) => (
     <TouchableOpacity
       style={[styles.quizCard, { backgroundColor: themeColors.card }]}
       onPress={() => handleQuizPress(quiz.id)}
@@ -254,6 +217,36 @@ export default function InterviewQuizScreen() {
         <Text style={[styles.quizDescription, { color: themeColors.textSecondary }]}>
           {quiz.description}
         </Text>
+      </View>
+
+      {/* Companies */}
+      <View style={styles.companiesSection}>
+        <Text style={[styles.companiesLabel, { color: themeColors.textSecondary }]}>
+          Asked at:
+        </Text>
+        <View style={styles.companiesList}>
+          {quiz.companies.slice(0, 3).map((company: string, index: number) => (
+            <View key={index} style={[styles.companyTag, { backgroundColor: themeColors.background }]}>
+              <Text style={[styles.companyText, { color: themeColors.text }]}>
+                {company}
+              </Text>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      {/* Topics */}
+      <View style={styles.topicsSection}>
+        <Text style={[styles.topicsLabel, { color: themeColors.textSecondary }]}>
+          Topics covered:
+        </Text>
+        <View style={styles.topicsList}>
+          {quiz.topics.slice(0, 4).map((topic: string, index: number) => (
+            <Text key={index} style={[styles.topicItem, { color: themeColors.textSecondary }]}>
+              • {topic}
+            </Text>
+          ))}
+        </View>
       </View>
 
       <View style={styles.quizStats}>

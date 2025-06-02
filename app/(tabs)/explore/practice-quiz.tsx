@@ -5,7 +5,9 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  Animated,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, Brain, Clock, Target, Trophy, ChevronDown, ChevronRight, BookOpen } from 'lucide-react-native';
@@ -37,6 +39,127 @@ const categoryHierarchy = {
     label: 'Web Development',
     subcategories: ['html-css', 'dom', 'apis', 'performance']
   }
+};
+
+// Modern Animated Button Component
+interface ModernModeButtonProps {
+  mode: 'learn' | 'test';
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+  onPress: () => void;
+  gradientColors: string[];
+  glowColor: string;
+}
+
+const ModernModeButton: React.FC<ModernModeButtonProps> = ({
+  mode,
+  title,
+  subtitle,
+  icon,
+  onPress,
+  gradientColors,
+  glowColor,
+}) => {
+  const [scaleAnim] = useState(new Animated.Value(1));
+  const [glowAnim] = useState(new Animated.Value(0));
+
+  const handlePressIn = () => {
+    Animated.parallel([
+      Animated.spring(scaleAnim, {
+        toValue: 0.98,
+        useNativeDriver: false,
+        tension: 300,
+        friction: 10,
+      }),
+      Animated.timing(glowAnim, {
+        toValue: 1,
+        duration: 150,
+        useNativeDriver: false,
+      }),
+    ]).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.parallel([
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        useNativeDriver: false,
+        tension: 300,
+        friction: 10,
+      }),
+      Animated.timing(glowAnim, {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: false,
+      }),
+    ]).start();
+  };
+
+  const animatedGlowStyle = {
+    shadowOpacity: glowAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0.15, 0.4],
+    }),
+    elevation: glowAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: [4, 8],
+    }),
+  };
+
+  return (
+    <Animated.View
+      style={[
+        styles.modernModeButton,
+        { transform: [{ scale: scaleAnim }] },
+        animatedGlowStyle,
+      ]}
+    >
+      <LinearGradient
+        colors={gradientColors}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.gradientBackground}
+      >
+        <TouchableOpacity
+          onPress={onPress}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          activeOpacity={1}
+          style={styles.modernButtonTouchable}
+        >
+          <View style={styles.modernButtonContent}>
+            <View style={[styles.modernIconContainer, { backgroundColor: 'rgba(255, 255, 255, 0.25)' }]}>
+              {icon}
+            </View>
+            <View style={styles.modernTextContainer}>
+              <Text style={[styles.modernModeTitle, { color: '#ffffff' }]}>{title}</Text>
+              {subtitle && (
+                <Text style={[styles.modernModeSubtitle, { color: 'rgba(255, 255, 255, 0.95)' }]}>
+                  {subtitle}
+                </Text>
+              )}
+            </View>
+            <View style={[styles.modernArrowContainer, { backgroundColor: 'rgba(255, 255, 255, 0.2)' }]}>
+              <Text style={styles.modernArrow}>→</Text>
+            </View>
+          </View>
+          <Animated.View
+            style={[
+              styles.modernButtonGlow,
+              {
+                backgroundColor: glowColor,
+                opacity: glowAnim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0.2, 0.5],
+                }),
+              },
+            ]}
+          />
+        </TouchableOpacity>
+      </LinearGradient>
+    </Animated.View>
+  );
 };
 
 export default function PracticeQuizScreen() {
@@ -234,42 +357,26 @@ export default function PracticeQuizScreen() {
 
       {/* Mode Selection */}
       <View style={styles.modeSection}>
-        <Text style={[styles.modePrompt, { color: themeColors.text }]}>
-          Choose your approach:
-        </Text>
-
-        <View style={styles.enhancedModeContainer}>
-          <TouchableOpacity
-            style={[styles.enhancedModeCard, { backgroundColor: '#f0fdf4', borderColor: '#10b981' }]}
+        <View style={styles.horizontalModeContainer}>
+          <ModernModeButton
+            mode="learn"
+            title="Learn"
+            subtitle=""
+            icon={<BookOpen size={16} color="#ffffff" />}
             onPress={() => handleQuizPress(quiz.id, 'learning')}
-            activeOpacity={0.8}
-          >
-            <View style={[styles.modeIconContainer, { backgroundColor: '#10b981' }]}>
-              <BookOpen size={18} color="#ffffff" />
-            </View>
-            <View style={styles.enhancedModeContent}>
-              <Text style={[styles.enhancedModeTitle, { color: '#10b981' }]}>Learn</Text>
-              <Text style={[styles.enhancedModeSubtitle, { color: '#059669' }]}>
-                No pressure
-              </Text>
-            </View>
-          </TouchableOpacity>
+            gradientColors={['#10b981', '#059669']}
+            glowColor="rgba(16, 185, 129, 0.3)"
+          />
 
-          <TouchableOpacity
-            style={[styles.enhancedModeCard, { backgroundColor: '#eff6ff', borderColor: themeColors.primary }]}
+          <ModernModeButton
+            mode="test"
+            title="Test"
+            subtitle=""
+            icon={<Clock size={16} color="#ffffff" />}
             onPress={() => handleQuizPress(quiz.id, 'timed')}
-            activeOpacity={0.8}
-          >
-            <View style={[styles.modeIconContainer, { backgroundColor: themeColors.primary }]}>
-              <Clock size={18} color="#ffffff" />
-            </View>
-            <View style={styles.enhancedModeContent}>
-              <Text style={[styles.enhancedModeTitle, { color: themeColors.primary }]}>Test</Text>
-              <Text style={[styles.enhancedModeSubtitle, { color: themeColors.primary }]}>
-                {quiz.timeLimit}m timer
-              </Text>
-            </View>
-          </TouchableOpacity>
+            gradientColors={['#3b82f6', '#2563eb']}
+            glowColor="rgba(59, 130, 246, 0.3)"
+          />
         </View>
       </View>
     </View>
@@ -566,7 +673,8 @@ const styles = StyleSheet.create({
   },
   modeSection: {
     padding: 20,
-    paddingTop: 16,
+    paddingTop: 8,
+    paddingBottom: 16,
   },
   modePrompt: {
     fontSize: 14,
@@ -574,6 +682,125 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     opacity: 0.8,
   },
+  // Modern Button Styles
+  modernModeContainer: {
+    gap: 12,
+  },
+  horizontalModeContainer: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  modernModeButton: {
+    position: 'relative',
+    borderRadius: 16,
+    overflow: 'hidden',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    marginBottom: 2,
+    height: 60,
+    maxHeight: 60,
+    flex: 1,
+  },
+  modernButtonTouchable: {
+    width: '100%',
+    height: '100%',
+  },
+  gradientBackground: {
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+  learnModeButton: {
+    backgroundColor: '#10b981',
+  },
+  testModeButton: {
+    backgroundColor: '#3b82f6',
+  },
+  modernButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    paddingVertical: 12,
+    gap: 10,
+    zIndex: 2,
+    height: '100%',
+  },
+  modernIconContainer: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  learnIconContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  testIconContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+  },
+  modernTextContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  modernModeTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 1,
+    textAlign: 'center',
+  },
+  learnModeTitle: {
+    color: '#ffffff',
+  },
+  testModeTitle: {
+    color: '#ffffff',
+  },
+  modernModeSubtitle: {
+    fontSize: 11,
+    lineHeight: 14,
+  },
+  learnModeSubtitle: {
+    color: 'rgba(255, 255, 255, 0.9)',
+  },
+  testModeSubtitle: {
+    color: 'rgba(255, 255, 255, 0.9)',
+  },
+  modernArrowContainer: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  learnArrowContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+  },
+  testArrowContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+  },
+  modernArrow: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#ffffff',
+  },
+  modernButtonGlow: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: 16,
+    opacity: 0.4,
+  },
+  learnButtonGlow: {
+    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+  },
+  testButtonGlow: {
+    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+  },
+
+  // Legacy styles (keeping for compatibility)
   enhancedModeContainer: {
     flexDirection: 'row',
     gap: 12,
