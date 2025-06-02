@@ -181,9 +181,13 @@ export function getNotesByDifficulty(difficulty: 'beginner' | 'intermediate' | '
   return notes.filter(note => note.difficulty === difficulty);
 }
 
+export function getNoteById(id: string): JavaScriptNote | undefined {
+  return notes.find(note => note.id === id);
+}
+
 export function searchNotes(query: string): JavaScriptNote[] {
   const lowercaseQuery = query.toLowerCase();
-  return notes.filter(note => 
+  return notes.filter(note =>
     note.title.toLowerCase().includes(lowercaseQuery) ||
     note.content.toLowerCase().includes(lowercaseQuery) ||
     note.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
@@ -218,9 +222,13 @@ export function getInterviewQuestionsByDifficulty(difficulty: 'easy' | 'medium' 
   return interviewQuestions.filter(question => question.difficulty === difficulty);
 }
 
+export function getInterviewQuestionById(id: string): InterviewQuestion | undefined {
+  return interviewQuestions.find(question => question.id === id);
+}
+
 export function searchInterviewQuestions(query: string): InterviewQuestion[] {
   const lowercaseQuery = query.toLowerCase();
-  return interviewQuestions.filter(question => 
+  return interviewQuestions.filter(question =>
     question.question.toLowerCase().includes(lowercaseQuery) ||
     question.answer.toLowerCase().includes(lowercaseQuery) ||
     question.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))

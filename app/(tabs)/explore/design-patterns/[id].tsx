@@ -53,9 +53,9 @@ export default function DesignPatternDetailScreen() {
         {/* Back button and title in scrollable content */}
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.headerRow}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.backButton}
-              onPress={() => router.back()}
+              onPress={() => router.push('/(tabs)/explore/design-patterns')}
             >
               <ArrowLeft size={24} color={themeColors.text} />
             </TouchableOpacity>

@@ -364,7 +364,10 @@ export default function PracticeQuizScreen() {
             subtitle=""
             icon={<BookOpen size={16} color="#ffffff" />}
             onPress={() => handleQuizPress(quiz.id, 'learning')}
-            gradientColors={['#10b981', '#059669']}
+            gradientColors={themeColors.background === '#121212'
+              ? ['#047857', '#059669', '#10b981'] // Dark mode: medium-dark to lighter green
+              : ['#86efac', '#10b981', '#059669'] // Light mode: light to darker green
+            }
             glowColor="rgba(16, 185, 129, 0.3)"
           />
 
@@ -374,7 +377,10 @@ export default function PracticeQuizScreen() {
             subtitle=""
             icon={<Clock size={16} color="#ffffff" />}
             onPress={() => handleQuizPress(quiz.id, 'timed')}
-            gradientColors={['#3b82f6', '#2563eb']}
+            gradientColors={themeColors.background === '#121212'
+              ? ['#1e3a8a', '#2563eb', '#3b82f6'] // Dark mode: medium-dark to lighter blue
+              : ['#93c5fd', '#3b82f6', '#2563eb'] // Light mode: light to darker blue
+            }
             glowColor="rgba(59, 130, 246, 0.3)"
           />
         </View>
