@@ -15,17 +15,17 @@ export default function QuizCard({ quiz, lessonId }: QuizCardProps) {
   const [isAnswered, setIsAnswered] = useState(false);
   const addXp = useProgressStore((state) => state.addXp);
   const themeColors = useThemeColors();
-  
+
   const handleOptionSelect = (option: string) => {
     if (isAnswered) return;
-    
+
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-    
+
     setSelectedOption(option);
     setIsAnswered(true);
-    
+
     // Award XP if correct
     if (option === quiz.answer) {
       addXp(10);

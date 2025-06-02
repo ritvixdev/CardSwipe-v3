@@ -10,7 +10,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, Brain, Clock, Target, Trophy, ChevronDown, ChevronRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { quizzes, getQuizzesByCategory, quizCategories } from '@/data/processors/dataLoader';
+import QuizManager from '@/components/quiz/QuizManager';
+import LearningQuizManager from '@/components/quiz/LearningQuizManager';
+import { getQuizzesByType, getQuizById, getPracticeQuizCategories, QuizMetadata } from '@/utils/quizLoader';
 
 // Hierarchical category structure for practice quizzes
 const categoryHierarchy = {
@@ -42,13 +44,29 @@ export default function PracticeQuizScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+  const [currentQuiz, setCurrentQuiz] = useState<string | null>(null);
+  const [quizMode, setQuizMode] = useState<'learning' | 'timed' | null>(null);
 
   const categories = Object.keys(categoryHierarchy);
+
+  // Get all practice quizzes
+  const allQuizzes = getQuizzesByType('practice');
+  const quizMetadata: QuizMetadata[] = allQuizzes.map(quiz => ({
+    id: quiz.id,
+    title: quiz.title,
+    category: quiz.category,
+    difficulty: quiz.difficulty,
+    timeLimit: quiz.timeLimit,
+    passingScore: quiz.passingScore,
+    description: quiz.description,
+    questionCount: quiz.questions.length,
+    type: 'practice' as const
+  }));
 
   const getFilteredQuizzes = () => {
     if (selectedSubcategory) {
       // Filter by subcategory - match against quiz topics/categories
-      return quizzes.filter(quiz => {
+      return quizMetadata.filter(quiz => {
         const quizCategory = quiz.category?.toLowerCase() || '';
         const quizTitle = quiz.title?.toLowerCase() || '';
         const subcategoryMatch = selectedSubcategory.toLowerCase().replace('-', ' ');
@@ -57,13 +75,13 @@ export default function PracticeQuizScreen() {
                quizTitle.includes(subcategoryMatch);
       });
     } else if (selectedCategory === 'all') {
-      return quizzes;
+      return quizMetadata;
     } else {
       // Filter by main category - match against quiz categories
       const categoryData = categoryHierarchy[selectedCategory];
       if (categoryData && categoryData.subcategories.length > 0) {
         // If category has subcategories, show all quizzes that match the main category
-        return quizzes.filter(quiz => {
+        return quizMetadata.filter(quiz => {
           const quizCategory = quiz.category?.toLowerCase() || '';
           const quizTitle = quiz.title?.toLowerCase() || '';
 
@@ -79,7 +97,7 @@ export default function PracticeQuizScreen() {
         });
       } else {
         // Simple category match
-        return quizzes.filter(quiz => {
+        return quizMetadata.filter(quiz => {
           const quizCategory = quiz.category?.toLowerCase() || '';
           return quizCategory.includes(selectedCategory);
         });
@@ -113,9 +131,45 @@ export default function PracticeQuizScreen() {
     setSelectedSubcategory(subcategory);
   };
 
-  const handleQuizPress = (quizId: string) => {
-    router.push(`/(tabs)/explore/practice-quiz/${quizId}` as any);
+  const handleQuizPress = (quizId: string, mode: 'learning' | 'timed') => {
+    setCurrentQuiz(quizId);
+    setQuizMode(mode);
   };
+
+  const handleQuizExit = () => {
+    setCurrentQuiz(null);
+    setQuizMode(null);
+  };
+
+  // If a quiz is selected, show the appropriate quiz interface
+  if (currentQuiz && quizMode) {
+    const quiz = getQuizById(currentQuiz, 'practice');
+    if (quiz) {
+      if (quizMode === 'learning') {
+        return (
+          <LearningQuizManager
+            quiz={quiz}
+            onExit={handleQuizExit}
+            onComplete={(results) => {
+              console.log('Learning quiz completed:', results);
+              // You can add additional logic here like saving results
+            }}
+          />
+        );
+      } else {
+        return (
+          <QuizManager
+            quiz={quiz}
+            onExit={handleQuizExit}
+            onComplete={(results) => {
+              console.log('Timed quiz completed:', results);
+              // You can add additional logic here like saving results
+            }}
+          />
+        );
+      }
+    }
+  }
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -126,11 +180,8 @@ export default function PracticeQuizScreen() {
     }
   };
 
-  const QuizCard = ({ quiz }: { quiz: any }) => (
-    <TouchableOpacity
-      style={[styles.quizCard, { backgroundColor: themeColors.card }]}
-      onPress={() => handleQuizPress(quiz.id)}
-    >
+  const QuizCard = ({ quiz }: { quiz: QuizMetadata }) => (
+    <View style={[styles.quizCard, { backgroundColor: themeColors.card }]}>
       <View style={styles.quizHeader}>
         <View style={styles.quizTopRow}>
           <Text style={[styles.quizCategory, { color: themeColors.primary }]}>
@@ -140,11 +191,11 @@ export default function PracticeQuizScreen() {
             <Text style={styles.difficultyText}>{quiz.difficulty}</Text>
           </View>
         </View>
-        
+
         <Text style={[styles.quizTitle, { color: themeColors.text }]}>
           {quiz.title}
         </Text>
-        
+
         <Text style={[styles.quizDescription, { color: themeColors.textSecondary }]}>
           {quiz.description}
         </Text>
@@ -154,17 +205,17 @@ export default function PracticeQuizScreen() {
         <View style={styles.statItem}>
           <Brain size={16} color={themeColors.primary} />
           <Text style={[styles.statText, { color: themeColors.text }]}>
-            {quiz.questions.length} Questions
+            {quiz.questionCount} Questions
           </Text>
         </View>
-        
+
         <View style={styles.statItem}>
           <Clock size={16} color={themeColors.textSecondary} />
           <Text style={[styles.statText, { color: themeColors.textSecondary }]}>
             {quiz.timeLimit} min
           </Text>
         </View>
-        
+
         <View style={styles.statItem}>
           <Target size={16} color={themeColors.success || '#10b981'} />
           <Text style={[styles.statText, { color: themeColors.textSecondary }]}>
@@ -174,17 +225,43 @@ export default function PracticeQuizScreen() {
       </View>
 
       <View style={styles.quizFooter}>
-        <View style={styles.progressInfo}>
-          <Text style={[styles.progressText, { color: themeColors.textSecondary }]}>
-            Not started
-          </Text>
-        </View>
-        
-        <View style={[styles.startButton, { backgroundColor: themeColors.primary }]}>
-          <Text style={styles.startButtonText}>Start Quiz</Text>
+        <Text style={[styles.modeSelectionTitle, { color: themeColors.text }]}>
+          Choose your learning mode:
+        </Text>
+
+        <View style={styles.modeContainer}>
+          <TouchableOpacity
+            style={[styles.modeCard, styles.learningCard, { backgroundColor: '#f0fdf4', borderColor: '#10b981' }]}
+            onPress={() => handleQuizPress(quiz.id, 'learning')}
+          >
+            <View style={styles.modeIcon}>
+              <Text style={styles.modeEmoji}>📚</Text>
+            </View>
+            <View style={styles.modeContent}>
+              <Text style={[styles.modeTitle, { color: '#10b981' }]}>Learning Mode</Text>
+              <Text style={[styles.modeDescription, { color: '#059669' }]}>
+                No timer • Instant feedback • Explanations
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.modeCard, styles.timedCard, { backgroundColor: '#eff6ff', borderColor: themeColors.primary }]}
+            onPress={() => handleQuizPress(quiz.id, 'timed')}
+          >
+            <View style={styles.modeIcon}>
+              <Text style={styles.modeEmoji}>⏱️</Text>
+            </View>
+            <View style={styles.modeContent}>
+              <Text style={[styles.modeTitle, { color: themeColors.primary }]}>Timed Mode</Text>
+              <Text style={[styles.modeDescription, { color: themeColors.primary }]}>
+                {quiz.timeLimit} min timer • Interview practice
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 
   return (
@@ -461,6 +538,69 @@ const styles = StyleSheet.create({
   startButtonText: {
     color: '#ffffff',
     fontSize: 14,
+    fontWeight: 'bold',
+  },
+  modeSelectionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  modeContainer: {
+    gap: 12,
+  },
+  modeCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 12,
+    borderWidth: 2,
+  },
+  learningCard: {
+    // Specific styles for learning card if needed
+  },
+  timedCard: {
+    // Specific styles for timed card if needed
+  },
+  modeIcon: {
+    marginRight: 12,
+  },
+  modeEmoji: {
+    fontSize: 24,
+  },
+  modeContent: {
+    flex: 1,
+  },
+  modeTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  modeDescription: {
+    fontSize: 12,
+    lineHeight: 16,
+  },
+  // Legacy styles (can be removed later)
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  modeButton: {
+    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  learningButton: {
+    // Specific styles for learning button if needed
+  },
+  timedButton: {
+    // Specific styles for timed button if needed
+  },
+  modeButtonText: {
+    color: '#ffffff',
+    fontSize: 12,
     fontWeight: 'bold',
   },
 });
