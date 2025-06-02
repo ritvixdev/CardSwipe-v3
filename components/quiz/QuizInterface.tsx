@@ -191,43 +191,63 @@ export default function QuizInterface({ quiz, onComplete, onExit }: QuizInterfac
         </View>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-          <View style={styles.quizIntro}>
-            <Text style={[styles.quizTitle, { color: themeColors.text }]}>{quiz.title}</Text>
-            <Text style={[styles.quizCategory, { color: themeColors.primary }]}>{quiz.category}</Text>
-            
-            <View style={[styles.difficultyBadge, { backgroundColor: getDifficultyColor(quiz.difficulty) }]}>
-              <Text style={styles.difficultyText}>{quiz.difficulty.toUpperCase()}</Text>
-            </View>
-
-            <Text style={[styles.quizDescription, { color: themeColors.textSecondary }]}>
-              {quiz.description}
-            </Text>
-
-            <View style={styles.quizStats}>
-              <View style={[styles.statItem, { backgroundColor: themeColors.card }]}>
-                <Clock size={20} color={themeColors.primary} />
-                <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Time Limit</Text>
-                <Text style={[styles.statValue, { color: themeColors.text }]}>{quiz.timeLimit} min</Text>
+          <View style={styles.enhancedQuizIntro}>
+            {/* Hero Section */}
+            <View style={[styles.heroSection, { backgroundColor: getDifficultyColor(quiz.difficulty) + '10' }]}>
+              <View style={[styles.quizIconContainer, { backgroundColor: getDifficultyColor(quiz.difficulty) }]}>
+                <Trophy size={32} color="#ffffff" />
               </View>
 
-              <View style={[styles.statItem, { backgroundColor: themeColors.card }]}>
-                <Target size={20} color={themeColors.primary} />
-                <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Questions</Text>
-                <Text style={[styles.statValue, { color: themeColors.text }]}>{quiz.questions.length}</Text>
-              </View>
+              <Text style={[styles.enhancedQuizTitle, { color: themeColors.text }]}>{quiz.title}</Text>
+              <Text style={[styles.enhancedQuizCategory, { color: themeColors.primary }]}>{quiz.category}</Text>
 
-              <View style={[styles.statItem, { backgroundColor: themeColors.card }]}>
-                <Trophy size={20} color={themeColors.primary} />
-                <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Pass Score</Text>
-                <Text style={[styles.statValue, { color: themeColors.text }]}>{quiz.passingScore}%</Text>
+              <View style={[styles.enhancedDifficultyBadge, { backgroundColor: getDifficultyColor(quiz.difficulty) }]}>
+                <Text style={styles.enhancedDifficultyText}>{quiz.difficulty.toUpperCase()}</Text>
               </View>
             </View>
 
+            {/* Description */}
+            <View style={styles.descriptionSection}>
+              <Text style={[styles.enhancedQuizDescription, { color: themeColors.textSecondary }]}>
+                {quiz.description}
+              </Text>
+            </View>
+
+            {/* Stats Grid */}
+            <View style={styles.enhancedQuizStats}>
+              <View style={[styles.enhancedStatItem, { backgroundColor: themeColors.card }]}>
+                <View style={[styles.statIconContainer, { backgroundColor: themeColors.primary + '20' }]}>
+                  <Clock size={20} color={themeColors.primary} />
+                </View>
+                <Text style={[styles.enhancedStatLabel, { color: themeColors.textSecondary }]}>Time Limit</Text>
+                <Text style={[styles.enhancedStatValue, { color: themeColors.text }]}>{quiz.timeLimit} min</Text>
+              </View>
+
+              <View style={[styles.enhancedStatItem, { backgroundColor: themeColors.card }]}>
+                <View style={[styles.statIconContainer, { backgroundColor: themeColors.primary + '20' }]}>
+                  <Target size={20} color={themeColors.primary} />
+                </View>
+                <Text style={[styles.enhancedStatLabel, { color: themeColors.textSecondary }]}>Questions</Text>
+                <Text style={[styles.enhancedStatValue, { color: themeColors.text }]}>{quiz.questions.length}</Text>
+              </View>
+
+              <View style={[styles.enhancedStatItem, { backgroundColor: themeColors.card }]}>
+                <View style={[styles.statIconContainer, { backgroundColor: getDifficultyColor(quiz.difficulty) + '20' }]}>
+                  <Trophy size={20} color={getDifficultyColor(quiz.difficulty)} />
+                </View>
+                <Text style={[styles.enhancedStatLabel, { color: themeColors.textSecondary }]}>Pass Score</Text>
+                <Text style={[styles.enhancedStatValue, { color: themeColors.text }]}>{quiz.passingScore}%</Text>
+              </View>
+            </View>
+
+            {/* Start Button */}
             <TouchableOpacity
-              style={[styles.startButton, { backgroundColor: themeColors.primary }]}
+              style={[styles.enhancedStartButton, { backgroundColor: getDifficultyColor(quiz.difficulty) }]}
               onPress={handleStartQuiz}
+              activeOpacity={0.9}
             >
-              <Text style={styles.startButtonText}>Start Quiz</Text>
+              <Text style={styles.enhancedStartButtonText}>Start Timed Quiz</Text>
+              <Clock size={20} color="#ffffff" />
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -302,20 +322,36 @@ export default function QuizInterface({ quiz, onComplete, onExit }: QuizInterfac
                 <View style={styles.optionsContainer}>
                   {currentQuestion.options.map((option, index) => {
                     const isSelected = selectedAnswers[currentQuestion.id] === index;
+                    const optionLetter = String.fromCharCode(65 + index); // A, B, C, D
                     return (
                       <TouchableOpacity
                         key={index}
                         style={[
-                          styles.optionButton,
+                          styles.enhancedOptionButton,
                           {
                             backgroundColor: isSelected ? themeColors.primary : themeColors.card,
                             borderColor: isSelected ? themeColors.primary : themeColors.border,
+                            transform: [{ scale: isSelected ? 0.98 : 1 }],
                           }
                         ]}
                         onPress={() => handleAnswerSelect(index)}
+                        activeOpacity={0.8}
                       >
+                        <View style={[
+                          styles.optionLetterContainer,
+                          {
+                            backgroundColor: isSelected ? '#ffffff' : themeColors.primary,
+                          }
+                        ]}>
+                          <Text style={[
+                            styles.optionLetter,
+                            { color: isSelected ? themeColors.primary : '#ffffff' }
+                          ]}>
+                            {optionLetter}
+                          </Text>
+                        </View>
                         <Text style={[
-                          styles.optionText,
+                          styles.enhancedOptionText,
                           { color: isSelected ? '#ffffff' : themeColors.text }
                         ]}>
                           {option}
@@ -449,6 +485,97 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     alignItems: 'center',
   },
+  enhancedQuizIntro: {
+    paddingVertical: 20,
+  },
+  heroSection: {
+    alignItems: 'center',
+    padding: 24,
+    borderRadius: 20,
+    marginBottom: 20,
+  },
+  quizIconContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  enhancedQuizTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  enhancedQuizCategory: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 12,
+  },
+  enhancedDifficultyBadge: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 16,
+  },
+  enhancedDifficultyText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
+  },
+  descriptionSection: {
+    marginBottom: 24,
+  },
+  enhancedQuizDescription: {
+    fontSize: 16,
+    textAlign: 'center',
+    lineHeight: 24,
+  },
+  enhancedQuizStats: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 32,
+    gap: 12,
+  },
+  enhancedStatItem: {
+    flex: 1,
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 16,
+  },
+  statIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  enhancedStatLabel: {
+    fontSize: 12,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  enhancedStatValue: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  enhancedStartButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+    borderRadius: 16,
+    gap: 8,
+  },
+  enhancedStartButtonText: {
+    color: '#ffffff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
   quizTitleIntro: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -543,6 +670,32 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     textAlign: 'center',
+  },
+  enhancedOptionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 2,
+    marginBottom: 12,
+    gap: 12,
+    minHeight: 60,
+  },
+  optionLetterContainer: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  optionLetter: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  enhancedOptionText: {
+    fontSize: 16,
+    lineHeight: 22,
+    flex: 1,
   },
   footer: {
     flexDirection: 'row',

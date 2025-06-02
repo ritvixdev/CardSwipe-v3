@@ -273,10 +273,16 @@ export default function LearningQuizInterface({ quiz, onComplete, onExit }: Lear
 
                 <View style={styles.optionsContainer}>
                   {currentQuestion.options.map((option, index) => {
+                    const optionLetter = String.fromCharCode(65 + index); // A, B, C, D
+                    const selectedAnswer = selectedAnswers[currentQuestion.id];
+                    const isCorrect = index === currentQuestion.correctAnswer;
+                    const isSelected = index === selectedAnswer;
+
                     return (
                       <TouchableOpacity
                         key={index}
                         style={[
+                          styles.enhancedLearningOptionButton,
                           getOptionStyle(index),
                           {
                             borderColor: themeColors.border,
@@ -284,11 +290,33 @@ export default function LearningQuizInterface({ quiz, onComplete, onExit }: Lear
                         ]}
                         onPress={() => handleAnswerSelect(index)}
                         disabled={hasAnsweredCurrent}
+                        activeOpacity={0.8}
                       >
-                        <View style={styles.optionContent}>
-                          <Text style={[styles.optionText, getOptionTextStyle(index)]}>
-                            {option}
+                        <View style={[
+                          styles.learningOptionLetterContainer,
+                          {
+                            backgroundColor: hasAnsweredCurrent
+                              ? (isCorrect ? '#10b981' : isSelected ? '#ef4444' : themeColors.border)
+                              : themeColors.primary,
+                          }
+                        ]}>
+                          <Text style={[
+                            styles.learningOptionLetter,
+                            {
+                              color: hasAnsweredCurrent
+                                ? '#ffffff'
+                                : '#ffffff'
+                            }
+                          ]}>
+                            {optionLetter}
                           </Text>
+                        </View>
+
+                        <Text style={[styles.enhancedLearningOptionText, getOptionTextStyle(index)]}>
+                          {option}
+                        </Text>
+
+                        <View style={styles.feedbackIconContainer}>
                           {hasAnsweredCurrent && index === currentQuestion.correctAnswer && (
                             <CheckCircle size={20} color="#ffffff" />
                           )}
@@ -550,6 +578,38 @@ const styles = StyleSheet.create({
   optionContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  enhancedLearningOptionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 2,
+    marginBottom: 12,
+    gap: 12,
+    minHeight: 60,
+  },
+  learningOptionLetterContainer: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  learningOptionLetter: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  enhancedLearningOptionText: {
+    fontSize: 16,
+    lineHeight: 22,
+    flex: 1,
+  },
+  feedbackIconContainer: {
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   optionText: {

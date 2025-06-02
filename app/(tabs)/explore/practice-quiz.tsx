@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { ArrowLeft, Brain, Clock, Target, Trophy, ChevronDown, ChevronRight } from 'lucide-react-native';
+import { ArrowLeft, Brain, Clock, Target, Trophy, ChevronDown, ChevronRight, BookOpen } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import QuizManager from '@/components/quiz/QuizManager';
 import LearningQuizManager from '@/components/quiz/LearningQuizManager';
@@ -181,81 +181,92 @@ export default function PracticeQuizScreen() {
   };
 
   const QuizCard = ({ quiz }: { quiz: QuizMetadata }) => (
-    <View style={[styles.quizCard, { backgroundColor: themeColors.card }]}>
-      <View style={styles.quizHeader}>
-        <View style={styles.quizTopRow}>
-          <Text style={[styles.quizCategory, { color: themeColors.primary }]}>
-            {quiz.category}
-          </Text>
-          <View style={[styles.difficultyBadge, { backgroundColor: getDifficultyColor(quiz.difficulty) }]}>
-            <Text style={styles.difficultyText}>{quiz.difficulty}</Text>
+    <View style={[styles.enhancedQuizCard, { backgroundColor: themeColors.card }]}>
+      {/* Header with gradient background */}
+      <View style={[styles.cardHeader, { backgroundColor: getDifficultyColor(quiz.difficulty) + '15' }]}>
+        <View style={styles.headerTop}>
+          <View style={styles.categoryContainer}>
+            <Text style={[styles.categoryLabel, { color: themeColors.primary }]}>
+              {quiz.category}
+            </Text>
+            <View style={[styles.difficultyPill, { backgroundColor: getDifficultyColor(quiz.difficulty) }]}>
+              <Text style={styles.difficultyLabel}>{quiz.difficulty.toUpperCase()}</Text>
+            </View>
+          </View>
+          <View style={[styles.questionCountBadge, { backgroundColor: themeColors.primary + '20' }]}>
+            <Brain size={14} color={themeColors.primary} />
+            <Text style={[styles.questionCountText, { color: themeColors.primary }]}>
+              {quiz.questionCount}
+            </Text>
           </View>
         </View>
 
-        <Text style={[styles.quizTitle, { color: themeColors.text }]}>
+        <Text style={[styles.enhancedQuizTitle, { color: themeColors.text }]}>
           {quiz.title}
         </Text>
 
-        <Text style={[styles.quizDescription, { color: themeColors.textSecondary }]}>
+        <Text style={[styles.enhancedQuizDescription, { color: themeColors.textSecondary }]}>
           {quiz.description}
         </Text>
       </View>
 
-      <View style={styles.quizStats}>
-        <View style={styles.statItem}>
-          <Brain size={16} color={themeColors.primary} />
-          <Text style={[styles.statText, { color: themeColors.text }]}>
-            {quiz.questionCount} Questions
+      {/* Stats Row */}
+      <View style={styles.statsRow}>
+        <View style={styles.statChip}>
+          <Clock size={14} color={getDifficultyColor(quiz.difficulty)} />
+          <Text style={[styles.statChipText, { color: themeColors.text }]}>
+            {quiz.timeLimit}m
           </Text>
         </View>
-
-        <View style={styles.statItem}>
-          <Clock size={16} color={themeColors.textSecondary} />
-          <Text style={[styles.statText, { color: themeColors.textSecondary }]}>
-            {quiz.timeLimit} min
+        <View style={styles.statChip}>
+          <Target size={14} color={getDifficultyColor(quiz.difficulty)} />
+          <Text style={[styles.statChipText, { color: themeColors.text }]}>
+            {quiz.passingScore}%
           </Text>
         </View>
-
-        <View style={styles.statItem}>
-          <Target size={16} color={themeColors.success || '#10b981'} />
-          <Text style={[styles.statText, { color: themeColors.textSecondary }]}>
-            {quiz.passingScore}% to pass
+        <View style={styles.statChip}>
+          <Trophy size={14} color={getDifficultyColor(quiz.difficulty)} />
+          <Text style={[styles.statChipText, { color: themeColors.text }]}>
+            Pass
           </Text>
         </View>
       </View>
 
-      <View style={styles.quizFooter}>
-        <Text style={[styles.modeSelectionTitle, { color: themeColors.text }]}>
-          Choose your learning mode:
+      {/* Mode Selection */}
+      <View style={styles.modeSection}>
+        <Text style={[styles.modePrompt, { color: themeColors.text }]}>
+          Choose your approach:
         </Text>
 
-        <View style={styles.modeContainer}>
+        <View style={styles.enhancedModeContainer}>
           <TouchableOpacity
-            style={[styles.modeCard, styles.learningCard, { backgroundColor: '#f0fdf4', borderColor: '#10b981' }]}
+            style={[styles.enhancedModeCard, { backgroundColor: '#f0fdf4', borderColor: '#10b981' }]}
             onPress={() => handleQuizPress(quiz.id, 'learning')}
+            activeOpacity={0.8}
           >
-            <View style={styles.modeIcon}>
-              <Text style={styles.modeEmoji}>📚</Text>
+            <View style={[styles.modeIconContainer, { backgroundColor: '#10b981' }]}>
+              <BookOpen size={18} color="#ffffff" />
             </View>
-            <View style={styles.modeContent}>
-              <Text style={[styles.modeTitle, { color: '#10b981' }]}>Learning Mode</Text>
-              <Text style={[styles.modeDescription, { color: '#059669' }]}>
-                No timer • Instant feedback • Explanations
+            <View style={styles.enhancedModeContent}>
+              <Text style={[styles.enhancedModeTitle, { color: '#10b981' }]}>Learn</Text>
+              <Text style={[styles.enhancedModeSubtitle, { color: '#059669' }]}>
+                No pressure
               </Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.modeCard, styles.timedCard, { backgroundColor: '#eff6ff', borderColor: themeColors.primary }]}
+            style={[styles.enhancedModeCard, { backgroundColor: '#eff6ff', borderColor: themeColors.primary }]}
             onPress={() => handleQuizPress(quiz.id, 'timed')}
+            activeOpacity={0.8}
           >
-            <View style={styles.modeIcon}>
-              <Text style={styles.modeEmoji}>⏱️</Text>
+            <View style={[styles.modeIconContainer, { backgroundColor: themeColors.primary }]}>
+              <Clock size={18} color="#ffffff" />
             </View>
-            <View style={styles.modeContent}>
-              <Text style={[styles.modeTitle, { color: themeColors.primary }]}>Timed Mode</Text>
-              <Text style={[styles.modeDescription, { color: themeColors.primary }]}>
-                {quiz.timeLimit} min timer • Interview practice
+            <View style={styles.enhancedModeContent}>
+              <Text style={[styles.enhancedModeTitle, { color: themeColors.primary }]}>Test</Text>
+              <Text style={[styles.enhancedModeSubtitle, { color: themeColors.primary }]}>
+                {quiz.timeLimit}m timer
               </Text>
             </View>
           </TouchableOpacity>
@@ -465,6 +476,138 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     gap: 16,
   },
+  // Enhanced Quiz Card Styles
+  enhancedQuizCard: {
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: 4,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+  },
+  cardHeader: {
+    padding: 20,
+    paddingBottom: 16,
+  },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 12,
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    flex: 1,
+  },
+  categoryLabel: {
+    fontSize: 12,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  difficultyPill: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 10,
+  },
+  difficultyLabel: {
+    color: '#ffffff',
+    fontSize: 9,
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
+  },
+  questionCountBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  questionCountText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  enhancedQuizTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    lineHeight: 26,
+  },
+  enhancedQuizDescription: {
+    fontSize: 14,
+    lineHeight: 20,
+    opacity: 0.8,
+  },
+  statsRow: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    gap: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0,0,0,0.05)',
+  },
+  statChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 8,
+    backgroundColor: 'rgba(0,0,0,0.03)',
+  },
+  statChipText: {
+    fontSize: 12,
+    fontWeight: '500',
+  },
+  modeSection: {
+    padding: 20,
+    paddingTop: 16,
+  },
+  modePrompt: {
+    fontSize: 14,
+    fontWeight: '500',
+    marginBottom: 12,
+    opacity: 0.8,
+  },
+  enhancedModeContainer: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  enhancedModeCard: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 12,
+    borderWidth: 1.5,
+    gap: 10,
+  },
+  modeIconContainer: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  enhancedModeContent: {
+    flex: 1,
+  },
+  enhancedModeTitle: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 2,
+  },
+  enhancedModeSubtitle: {
+    fontSize: 11,
+    opacity: 0.8,
+  },
+
+  // Legacy styles (keeping for compatibility)
   quizCard: {
     padding: 16,
     borderRadius: 16,
