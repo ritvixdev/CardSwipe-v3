@@ -8,6 +8,13 @@ import learningRoadmapData from '../explore/learning-roadmap.json';
 import designPatternsData from '../explore/design-patterns.json';
 import codingQuestionsData from '../explore/coding-questions.json';
 
+// Topic-specific cards
+import easyTopicData from '../learn/topics/easy.json';
+import mediumTopicData from '../learn/topics/medium.json';
+import hardTopicData from '../learn/topics/hard.json';
+import interviewTopicData from '../learn/topics/interview.json';
+import fundamentalsTopicData from '../learn/topics/fundamentals.json';
+
 // Type definitions
 export interface LearnCard {
   id: string;
@@ -137,6 +144,16 @@ export interface LearningRoadmap {
 export const lessons: LearnCard[] = learnCardsData.lessons as LearnCard[];
 export const lessonCategories: string[] = learnCardsData.categories;
 export const lessonDifficulties: string[] = learnCardsData.difficulties;
+export const topics = learnCardsData.topics;
+
+// Topic data map for static imports
+const topicDataMap: { [key: string]: any } = {
+  easy: easyTopicData,
+  medium: mediumTopicData,
+  hard: hardTopicData,
+  interview: interviewTopicData,
+  fundamentals: fundamentalsTopicData,
+};
 
 // JavaScript Notes
 export const notes: JavaScriptNote[] = javascriptNotesData.notes as JavaScriptNote[];
@@ -175,6 +192,54 @@ export function searchLessons(query: string): LearnCard[] {
     lesson.description.toLowerCase().includes(lowercaseQuery) ||
     lesson.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
   );
+}
+
+export function getLessonsByTopic(topicId: string): LearnCard[] {
+  // If it's the default "all" topic or no topic, return main lessons
+  if (!topicId || topicId === 'all') {
+    return lessons;
+  }
+
+  // Check if we have topic-specific cards
+  const topicData = topicDataMap[topicId];
+  if (topicData && topicData.cards) {
+    return topicData.cards as LearnCard[];
+  }
+
+  // Fallback to filtering main lessons
+  const topic = topics.find((t: any) => t.id === topicId);
+  if (!topic) return lessons;
+
+  const { filter } = topic;
+  return lessons.filter(lesson => {
+    // Check difficulty filter
+    if (filter.difficulty && !filter.difficulty.includes(lesson.difficulty)) {
+      return false;
+    }
+
+    // Check category filter
+    if (filter.category && !filter.category.includes(lesson.category)) {
+      return false;
+    }
+
+    // Check tags filter
+    if (filter.tags && !filter.tags.some((tag: string) => lesson.tags.includes(tag))) {
+      return false;
+    }
+
+    return true;
+  });
+}
+
+export function getTopicInfo(topicId: string) {
+  // Check if we have topic-specific data
+  const topicData = topicDataMap[topicId];
+  if (topicData && topicData.topicInfo) {
+    return topicData.topicInfo;
+  }
+
+  // Fallback to main topics array
+  return topics.find((t: any) => t.id === topicId);
 }
 
 export function getNotesByDifficulty(difficulty: 'beginner' | 'intermediate' | 'advanced'): JavaScriptNote[] {

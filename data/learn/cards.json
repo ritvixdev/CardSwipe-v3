@@ -22,7 +22,7 @@
         "correctAnswer": 2,
         "explanation": "const creates a block-scoped variable that cannot be reassigned after declaration."
       },
-      "tags": ["variables", "scope", "declarations", "fundamentals"],
+      "tags": ["variables", "scope", "declarations", "fundamentals", "interview"],
       "isCompleted": false,
       "isBookmarked": false
     },
@@ -79,7 +79,7 @@
         "correctAnswer": 1,
         "explanation": "Function declarations are hoisted (can be called before they're defined), while function expressions are not hoisted."
       },
-      "tags": ["functions", "parameters", "arrow-functions", "hoisting"],
+      "tags": ["functions", "parameters", "arrow-functions", "hoisting", "interview"],
       "isCompleted": false,
       "isBookmarked": false
     },
@@ -236,5 +236,104 @@
     "beginner",
     "intermediate",
     "advanced"
+  ],
+  "topics": [
+    {
+      "id": "all",
+      "title": "All",
+      "description": "All lessons",
+      "icon": "📖",
+      "color": "#6b7280",
+      "gradient": ["#f3f4f6", "#e5e7eb", "#d1d5db"],
+      "filter": {}
+    },
+    {
+      "id": "easy",
+      "title": "Easy",
+      "description": "Perfect for beginners",
+      "icon": "🌱",
+      "color": "#10b981",
+      "gradient": ["#dcfce7", "#bbf7d0", "#86efac"],
+      "filter": {
+        "difficulty": ["beginner"]
+      }
+    },
+    {
+      "id": "medium",
+      "title": "Medium",
+      "description": "Build your skills",
+      "icon": "🚀",
+      "color": "#f59e0b",
+      "gradient": ["#fef3c7", "#fde68a", "#fbbf24"],
+      "filter": {
+        "difficulty": ["intermediate"]
+      }
+    },
+    {
+      "id": "hard",
+      "title": "Hard",
+      "description": "Challenge yourself",
+      "icon": "💪",
+      "color": "#ef4444",
+      "gradient": ["#fecaca", "#fca5a5", "#f87171"],
+      "filter": {
+        "difficulty": ["advanced"]
+      }
+    },
+    {
+      "id": "fundamentals",
+      "title": "Fundamentals",
+      "description": "Core concepts",
+      "icon": "📚",
+      "color": "#8b5cf6",
+      "gradient": ["#e9d5ff", "#c4b5fd", "#a78bfa"],
+      "filter": {
+        "category": ["Fundamentals"]
+      }
+    },
+    {
+      "id": "data-structures",
+      "title": "Data Structures",
+      "description": "Arrays & Objects",
+      "icon": "🗂️",
+      "color": "#06b6d4",
+      "gradient": ["#cffafe", "#a5f3fc", "#67e8f9"],
+      "filter": {
+        "category": ["Data Structures"]
+      }
+    },
+    {
+      "id": "control-flow",
+      "title": "Control Flow",
+      "description": "Logic & Loops",
+      "icon": "🔄",
+      "color": "#84cc16",
+      "gradient": ["#ecfccb", "#d9f99d", "#bef264"],
+      "filter": {
+        "category": ["Control Flow"]
+      }
+    },
+    {
+      "id": "web-dev",
+      "title": "Web Dev",
+      "description": "DOM & Events",
+      "icon": "🌐",
+      "color": "#f97316",
+      "gradient": ["#fed7aa", "#fdba74", "#fb923c"],
+      "filter": {
+        "category": ["Web Development"]
+      }
+    },
+    {
+      "id": "interview",
+      "title": "Interview",
+      "description": "Common questions",
+      "icon": "💼",
+      "color": "#ec4899",
+      "gradient": ["#fce7f3", "#fbcfe8", "#f9a8d4"],
+      "filter": {
+        "tags": ["interview", "common", "important"]
+      }
+    }
   ]
 }

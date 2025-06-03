@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useProgressStore } from '@/store/useProgressStore';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { lessons } from '@/data/processors/dataLoader';
+import { lessons, topics, getLessonsByTopic } from '@/data/processors/dataLoader';
 import LessonCard from '@/components/LessonCard';
-import ProgressBar from '@/components/ProgressBar';
+import LearnHeader from '@/components/LearnHeader';
 import XPNotification from '@/components/XPNotification';
 
 export default function LearnScreen() {
@@ -13,10 +13,16 @@ export default function LearnScreen() {
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
   const [showXPNotification, setShowXPNotification] = useState(false);
   const [xpGained, setXpGained] = useState(0);
+  const [selectedTopic, setSelectedTopic] = useState('all'); // Default to all lessons
   const themeColors = useThemeColors();
 
-  // Get the current lesson based on the current lesson index
-  const currentLesson = lessons[currentLessonIndex] || lessons[0];
+  // Get filtered lessons based on selected topic
+  const filteredLessons = useMemo(() => {
+    return getLessonsByTopic(selectedTopic);
+  }, [selectedTopic]);
+
+  // Get the current lesson based on the current lesson index from filtered lessons
+  const currentLesson = filteredLessons[currentLessonIndex] || filteredLessons[0];
   
   const handleSwipeLeft = () => {
     // Mark as read/dismiss and then load next card
@@ -28,7 +34,7 @@ export default function LearnScreen() {
     setShowXPNotification(true);
 
     // Load next card after marking as read (loop back to beginning if at end)
-    const newIndex = (currentLessonIndex + 1) % lessons.length;
+    const newIndex = (currentLessonIndex + 1) % filteredLessons.length;
     setCurrentLessonIndex(newIndex);
     if (newIndex !== 0) {
       store.incrementDay();
@@ -43,7 +49,7 @@ export default function LearnScreen() {
     store.toggleBookmark(currentLesson.id);
 
     // Load next card after bookmarking (loop back to beginning if at end)
-    const newIndex = (currentLessonIndex + 1) % lessons.length;
+    const newIndex = (currentLessonIndex + 1) % filteredLessons.length;
     setCurrentLessonIndex(newIndex);
     if (newIndex !== 0) {
       store.incrementDay();
@@ -52,7 +58,7 @@ export default function LearnScreen() {
 
   const handleSwipeUp = () => {
     // Load next card (loop back to beginning if at end)
-    const newIndex = (currentLessonIndex + 1) % lessons.length;
+    const newIndex = (currentLessonIndex + 1) % filteredLessons.length;
     setCurrentLessonIndex(newIndex);
     if (newIndex !== 0) {
       store.incrementDay();
@@ -61,31 +67,37 @@ export default function LearnScreen() {
 
   const handleSwipeDown = () => {
     // Go to previous card (loop to end if at beginning)
-    const newIndex = currentLessonIndex === 0 ? lessons.length - 1 : currentLessonIndex - 1;
+    const newIndex = currentLessonIndex === 0 ? filteredLessons.length - 1 : currentLessonIndex - 1;
     setCurrentLessonIndex(newIndex);
     if (currentLessonIndex !== 0) {
       store.decrementDay();
     }
   };
+
+  const handleTopicSelect = (topicId: string) => {
+    setSelectedTopic(topicId);
+    setCurrentLessonIndex(0); // Reset to first card when changing topic
+  };
   
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} edges={['top']}>
-
-
-      <View style={styles.progressContainer}>
-        <ProgressBar />
-      </View>
+      {/* Header with Topic Selector */}
+      <LearnHeader
+        topics={topics}
+        selectedTopic={selectedTopic}
+        onTopicSelect={handleTopicSelect}
+      />
 
       <View style={styles.cardContainer}>
         {/* Render multiple cards for Tinder-style stacking */}
-        {[2, 1, 0].map((cardIndex) => {
-          const lessonIndex = (currentLessonIndex + cardIndex) % lessons.length;
-          const lesson = lessons[lessonIndex];
+        {filteredLessons.length > 0 && [2, 1, 0].map((cardIndex) => {
+          const lessonIndex = (currentLessonIndex + cardIndex) % filteredLessons.length;
+          const lesson = filteredLessons[lessonIndex];
           const isTopCard = cardIndex === 0;
 
           return (
             <LessonCard
-              key={`${lesson.id}-${cardIndex}`}
+              key={`${lesson.id}-${cardIndex}-${selectedTopic}`}
               lesson={lesson}
               onSwipeLeft={isTopCard ? handleSwipeLeft : () => {}}
               onSwipeRight={isTopCard ? handleSwipeRight : () => {}}
@@ -112,11 +124,6 @@ export default function LearnScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  progressContainer: {
-    paddingHorizontal: 16,
-    paddingTop: 8,
-    paddingBottom: 8,
   },
   cardContainer: {
     flex: 1,

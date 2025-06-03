@@ -1,0 +1,90 @@
+{
+  "topicInfo": {
+    "id": "medium",
+    "title": "Medium",
+    "description": "Build your skills",
+    "icon": "🚀",
+    "color": "#f59e0b",
+    "gradient": ["#fef3c7", "#fde68a", "#fbbf24"]
+  },
+  "cards": [
+    {
+      "id": "medium-functions",
+      "title": "Function Fundamentals",
+      "topicName": "Medium",
+      "category": "Functions",
+      "difficulty": "intermediate",
+      "estimatedTime": "15 min",
+      "description": "Master the art of creating reusable code with functions.",
+      "content": "Functions are like recipes - they take ingredients (parameters), follow steps (code), and produce a result (return value). They help you organize code and avoid repetition.",
+      "codeExample": "// Function declaration\nfunction calculateArea(width, height) {\n  const area = width * height;\n  return area;\n}\n\n// Arrow function (modern syntax)\nconst calculateVolume = (length, width, height) => {\n  return length * width * height;\n};\n\n// Short arrow function\nconst double = x => x * 2;\n\n// Using functions\nconst roomArea = calculateArea(10, 12);     // 120\nconst boxVolume = calculateVolume(5, 3, 2); // 30\nconst result = double(7);                   // 14\n\nconsole.log(`Room area: ${roomArea} sq ft`);\nconsole.log(`Box volume: ${boxVolume} cubic ft`);\nconsole.log(`Double of 7: ${result}`);\n\n// Function with default parameters\nfunction greetUser(name = 'Guest', time = 'day') {\n  return `Good ${time}, ${name}!`;\n}\n\nconsole.log(greetUser());              // Good day, Guest!\nconsole.log(greetUser('Alice'));       // Good day, Alice!\nconsole.log(greetUser('Bob', 'morning')); // Good morning, Bob!",
+      "keyPoints": [
+        "Functions help organize and reuse code",
+        "Parameters are inputs, return values are outputs",
+        "Arrow functions (=>) are a modern, shorter syntax",
+        "Default parameters provide fallback values"
+      ],
+      "quiz": {
+        "question": "What will this function return: const add = (a, b) => a + b; add(3, 5);",
+        "options": ["3", "5", "8", "undefined"],
+        "correctAnswer": 2,
+        "explanation": "The arrow function adds the two parameters: 3 + 5 = 8."
+      },
+      "tags": ["functions", "parameters", "arrow-functions"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "medium-arrays",
+      "title": "Array Manipulation",
+      "topicName": "Medium",
+      "category": "Data Structures",
+      "difficulty": "intermediate",
+      "estimatedTime": "18 min",
+      "description": "Learn powerful array methods to transform and filter data.",
+      "content": "Arrays are lists of items. JavaScript provides powerful methods to transform, filter, and manipulate these lists without changing the original array.",
+      "codeExample": "// Starting with an array\nconst numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];\nconst fruits = ['apple', 'banana', 'cherry', 'date'];\n\n// Transform each item (map)\nconst doubled = numbers.map(num => num * 2);\nconsole.log(doubled); // [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]\n\n// Filter items (filter)\nconst evenNumbers = numbers.filter(num => num % 2 === 0);\nconsole.log(evenNumbers); // [2, 4, 6, 8, 10]\n\n// Find one item (find)\nconst firstBigNumber = numbers.find(num => num > 5);\nconsole.log(firstBigNumber); // 6\n\n// Check if all/some items match (every/some)\nconst allPositive = numbers.every(num => num > 0);\nconst hasEven = numbers.some(num => num % 2 === 0);\nconsole.log(allPositive); // true\nconsole.log(hasEven);     // true\n\n// Combine all items (reduce)\nconst sum = numbers.reduce((total, num) => total + num, 0);\nconsole.log(sum); // 55\n\n// Chain methods together\nconst result = numbers\n  .filter(num => num % 2 === 0)  // Get even numbers\n  .map(num => num * 3)           // Multiply by 3\n  .reduce((sum, num) => sum + num, 0); // Add them up\nconsole.log(result); // 90",
+      "keyPoints": [
+        "map() transforms each item into something new",
+        "filter() keeps only items that match a condition",
+        "find() returns the first item that matches",
+        "reduce() combines all items into a single value"
+      ],
+      "quiz": {
+        "question": "What does [1, 2, 3].map(x => x * 2) return?",
+        "options": ["[1, 2, 3]", "[2, 4, 6]", "6", "[1, 4, 9]"],
+        "correctAnswer": 1,
+        "explanation": "map() transforms each element: 1*2=2, 2*2=4, 3*2=6, so it returns [2, 4, 6]."
+      },
+      "tags": ["arrays", "map", "filter", "reduce"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "medium-objects",
+      "title": "Object Mastery",
+      "topicName": "Medium",
+      "category": "Data Structures",
+      "difficulty": "intermediate",
+      "estimatedTime": "20 min",
+      "description": "Deep dive into objects, destructuring, and object methods.",
+      "content": "Objects are collections of related data and functions. They're perfect for representing real-world entities like users, products, or settings.",
+      "codeExample": "// Creating objects\nconst user = {\n  name: 'Alice Johnson',\n  age: 28,\n  email: 'alice@example.com',\n  isActive: true,\n  skills: ['JavaScript', 'React', 'Node.js'],\n  \n  // Methods (functions inside objects)\n  introduce() {\n    return `Hi, I'm ${this.name} and I'm ${this.age} years old.`;\n  },\n  \n  addSkill(skill) {\n    this.skills.push(skill);\n    return `Added ${skill} to skills!`;\n  }\n};\n\n// Accessing properties\nconsole.log(user.name);           // Alice Johnson\nconsole.log(user['email']);       // alice@example.com\n\n// Using methods\nconsole.log(user.introduce());    // Hi, I'm Alice Johnson and I'm 28 years old.\nconsole.log(user.addSkill('Vue')); // Added Vue to skills!\n\n// Destructuring (extracting properties)\nconst { name, age, skills } = user;\nconsole.log(name);  // Alice Johnson\nconsole.log(age);   // 28\nconsole.log(skills); // ['JavaScript', 'React', 'Node.js', 'Vue']\n\n// Object methods\nconst keys = Object.keys(user);     // ['name', 'age', 'email', ...]\nconst values = Object.values(user); // ['Alice Johnson', 28, 'alice@example.com', ...]\n\n// Copying objects\nconst userCopy = { ...user };       // Spread operator\nuserCopy.name = 'Bob';              // Changes copy, not original\nconsole.log(user.name);             // Still 'Alice Johnson'\nconsole.log(userCopy.name);         // 'Bob'",
+      "keyPoints": [
+        "Objects group related data and functions together",
+        "Use 'this' inside methods to refer to the object",
+        "Destructuring extracts properties into variables",
+        "Spread operator (...) creates shallow copies"
+      ],
+      "quiz": {
+        "question": "What does 'this' refer to inside an object method?",
+        "options": ["The window", "The function", "The object itself", "undefined"],
+        "correctAnswer": 2,
+        "explanation": "Inside an object method, 'this' refers to the object that contains the method."
+      },
+      "tags": ["objects", "methods", "destructuring", "this"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}

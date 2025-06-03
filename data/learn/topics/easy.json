@@ -1,0 +1,90 @@
+{
+  "topicInfo": {
+    "id": "easy",
+    "title": "Easy",
+    "description": "Perfect for beginners",
+    "icon": "🌱",
+    "color": "#10b981",
+    "gradient": ["#dcfce7", "#bbf7d0", "#86efac"]
+  },
+  "cards": [
+    {
+      "id": "easy-variables",
+      "title": "Variables Made Simple",
+      "topicName": "Easy",
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "8 min",
+      "description": "Learn the basics of storing data in JavaScript variables.",
+      "content": "Variables are like boxes that store information. In JavaScript, we use 'let' for values that can change and 'const' for values that stay the same.",
+      "codeExample": "// Creating variables\nlet playerName = 'Alex';\nconst maxScore = 100;\n\n// Changing values\nplayerName = 'Sam';  // ✅ Works with let\n// maxScore = 200;   // ❌ Error with const\n\nconsole.log(playerName); // Sam\nconsole.log(maxScore);   // 100",
+      "keyPoints": [
+        "Use 'let' for values that change",
+        "Use 'const' for values that stay the same",
+        "Variable names should be descriptive",
+        "Start variable names with lowercase letters"
+      ],
+      "quiz": {
+        "question": "Which keyword should you use for a value that never changes?",
+        "options": ["let", "const", "var", "final"],
+        "correctAnswer": 1,
+        "explanation": "Use 'const' for values that never change, like a maximum score or your name."
+      },
+      "tags": ["variables", "basics", "beginner"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "easy-numbers",
+      "title": "Working with Numbers",
+      "topicName": "Easy",
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "10 min",
+      "description": "Learn how to use numbers and basic math in JavaScript.",
+      "content": "Numbers in JavaScript are simple to work with. You can do math operations like addition, subtraction, multiplication, and division.",
+      "codeExample": "// Basic numbers\nconst price = 25;\nconst quantity = 3;\n\n// Math operations\nconst total = price * quantity;     // 75\nconst discount = total - 10;        // 65\nconst average = total / 2;          // 37.5\nconst rounded = Math.round(average); // 38\n\nconsole.log(`Total: $${total}`);\nconsole.log(`After discount: $${discount}`);\nconsole.log(`Rounded average: ${rounded}`);\n\n// Useful number methods\nconst pi = 3.14159;\nconsole.log(pi.toFixed(2)); // 3.14",
+      "keyPoints": [
+        "Use +, -, *, / for basic math",
+        "Math.round() rounds to nearest whole number",
+        "toFixed() controls decimal places",
+        "Numbers can be whole or decimal"
+      ],
+      "quiz": {
+        "question": "What does Math.round(4.7) return?",
+        "options": ["4", "5", "4.7", "Error"],
+        "correctAnswer": 1,
+        "explanation": "Math.round(4.7) returns 5 because it rounds to the nearest whole number."
+      },
+      "tags": ["numbers", "math", "basics"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "easy-strings",
+      "title": "Text and Strings",
+      "topicName": "Easy",
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "12 min",
+      "description": "Learn how to work with text (strings) in JavaScript.",
+      "content": "Strings are text in JavaScript. You can combine them, make them uppercase or lowercase, and find their length.",
+      "codeExample": "// Creating strings\nconst firstName = 'John';\nconst lastName = 'Doe';\n\n// Combining strings\nconst fullName = firstName + ' ' + lastName;\nconst greeting = `Hello, ${firstName}!`; // Template literal\n\n// String methods\nconsole.log(fullName.length);        // 8\nconsole.log(fullName.toUpperCase());  // JOHN DOE\nconsole.log(fullName.toLowerCase());  // john doe\nconsole.log(firstName.charAt(0));     // J\n\n// Checking if text contains something\nconst message = 'Welcome to JavaScript';\nconsole.log(message.includes('Java')); // true\nconsole.log(message.startsWith('Welcome')); // true",
+      "keyPoints": [
+        "Use quotes to create strings: 'text' or \"text\"",
+        "Use backticks for template literals: `Hello ${name}`",
+        "length property tells you how many characters",
+        "Methods like toUpperCase() change the text"
+      ],
+      "quiz": {
+        "question": "What does 'Hello'.length return?",
+        "options": ["4", "5", "6", "Hello"],
+        "correctAnswer": 1,
+        "explanation": "'Hello' has 5 characters: H-e-l-l-o, so length returns 5."
+      },
+      "tags": ["strings", "text", "basics"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}

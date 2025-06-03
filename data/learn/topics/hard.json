@@ -1,0 +1,64 @@
+{
+  "topicInfo": {
+    "id": "hard",
+    "title": "Hard",
+    "description": "Challenge yourself",
+    "icon": "💪",
+    "color": "#ef4444",
+    "gradient": ["#fecaca", "#fca5a5", "#f87171"]
+  },
+  "cards": [
+    {
+      "id": "hard-closures",
+      "title": "Understanding Closures",
+      "topicName": "Hard",
+      "category": "Advanced Concepts",
+      "difficulty": "advanced",
+      "estimatedTime": "25 min",
+      "description": "Master one of JavaScript's most powerful and confusing concepts.",
+      "content": "A closure is when a function 'remembers' variables from its outer scope even after the outer function has finished executing. This creates powerful patterns for data privacy and function factories.",
+      "codeExample": "// Basic closure example\nfunction outerFunction(x) {\n  // This variable is in the outer scope\n  const outerVariable = x;\n  \n  // Inner function has access to outer variables\n  function innerFunction(y) {\n    return outerVariable + y; // Accesses outerVariable\n  }\n  \n  return innerFunction; // Return the inner function\n}\n\nconst addFive = outerFunction(5);\nconsole.log(addFive(3)); // 8 (5 + 3)\n\n// Practical example: Counter with private state\nfunction createCounter() {\n  let count = 0; // Private variable\n  \n  return {\n    increment() {\n      count++;\n      return count;\n    },\n    decrement() {\n      count--;\n      return count;\n    },\n    getCount() {\n      return count;\n    }\n  };\n}\n\nconst counter = createCounter();\nconsole.log(counter.increment()); // 1\nconsole.log(counter.increment()); // 2\nconsole.log(counter.getCount());  // 2\n// count is not directly accessible from outside!\n\n// Function factory with closures\nfunction createMultiplier(multiplier) {\n  return function(number) {\n    return number * multiplier;\n  };\n}\n\nconst double = createMultiplier(2);\nconst triple = createMultiplier(3);\n\nconsole.log(double(5)); // 10\nconsole.log(triple(5)); // 15",
+      "keyPoints": [
+        "Closures 'remember' variables from outer scopes",
+        "Inner functions can access outer function variables",
+        "Closures create private variables and data encapsulation",
+        "Useful for function factories and module patterns"
+      ],
+      "quiz": {
+        "question": "What will this code log: function outer(x) { return function(y) { return x + y; }; } const add5 = outer(5); console.log(add5(3));",
+        "options": ["3", "5", "8", "undefined"],
+        "correctAnswer": 2,
+        "explanation": "The inner function remembers x=5 from the outer function, so 5 + 3 = 8."
+      },
+      "tags": ["closures", "scope", "advanced", "functions"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "hard-async",
+      "title": "Async/Await Mastery",
+      "topicName": "Hard",
+      "category": "Asynchronous",
+      "difficulty": "advanced",
+      "estimatedTime": "30 min",
+      "description": "Master asynchronous JavaScript with async/await and error handling.",
+      "content": "Async/await makes asynchronous code look and behave more like synchronous code. It's built on top of Promises and provides a cleaner way to handle asynchronous operations.",
+      "codeExample": "// Basic async/await\nasync function fetchUserData(userId) {\n  try {\n    // Simulate API call\n    const response = await fetch(`/api/users/${userId}`);\n    const userData = await response.json();\n    return userData;\n  } catch (error) {\n    console.error('Failed to fetch user:', error);\n    throw error;\n  }\n}\n\n// Using the async function\nasync function displayUser() {\n  try {\n    const user = await fetchUserData(123);\n    console.log(`Welcome, ${user.name}!`);\n  } catch (error) {\n    console.log('Could not load user data');\n  }\n}\n\n// Multiple async operations\nasync function loadDashboard() {\n  try {\n    // Sequential (one after another)\n    const user = await fetchUserData(123);\n    const posts = await fetchUserPosts(user.id);\n    \n    // Parallel (at the same time)\n    const [notifications, settings] = await Promise.all([\n      fetchNotifications(user.id),\n      fetchUserSettings(user.id)\n    ]);\n    \n    return {\n      user,\n      posts,\n      notifications,\n      settings\n    };\n  } catch (error) {\n    console.error('Dashboard load failed:', error);\n  }\n}\n\n// Error handling with async/await\nasync function robustApiCall() {\n  const maxRetries = 3;\n  let attempt = 0;\n  \n  while (attempt < maxRetries) {\n    try {\n      const result = await fetch('/api/data');\n      if (!result.ok) {\n        throw new Error(`HTTP ${result.status}`);\n      }\n      return await result.json();\n    } catch (error) {\n      attempt++;\n      if (attempt >= maxRetries) {\n        throw new Error(`Failed after ${maxRetries} attempts: ${error.message}`);\n      }\n      // Wait before retrying\n      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));\n    }\n  }\n}",
+      "keyPoints": [
+        "async functions always return Promises",
+        "await pauses execution until Promise resolves",
+        "Use try/catch for error handling",
+        "Promise.all() runs multiple async operations in parallel"
+      ],
+      "quiz": {
+        "question": "What happens when you use 'await' without 'async'?",
+        "options": ["It works normally", "It returns undefined", "It throws a syntax error", "It becomes synchronous"],
+        "correctAnswer": 2,
+        "explanation": "'await' can only be used inside 'async' functions. Using it elsewhere causes a syntax error."
+      },
+      "tags": ["async", "await", "promises", "error-handling"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}

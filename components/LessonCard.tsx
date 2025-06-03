@@ -270,7 +270,9 @@ export default function LessonCard({
           >
             <View style={styles.header}>
               <View style={[styles.dayBadge, { backgroundColor: themeColors.primary }]}>
-                <Text style={styles.dayText}>DAY {lesson.day}</Text>
+                <Text style={styles.dayText}>
+                  {(lesson as any).topicName ? (lesson as any).topicName.toUpperCase() : `DAY ${lesson.day}`}
+                </Text>
               </View>
               <View style={styles.statusIcons}>
                 {lesson.quiz && (

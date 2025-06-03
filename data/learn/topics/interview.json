@@ -1,0 +1,90 @@
+{
+  "topicInfo": {
+    "id": "interview",
+    "title": "Interview",
+    "description": "Common questions",
+    "icon": "💼",
+    "color": "#ec4899",
+    "gradient": ["#fce7f3", "#fbcfe8", "#f9a8d4"]
+  },
+  "cards": [
+    {
+      "id": "interview-hoisting",
+      "title": "JavaScript Hoisting",
+      "topicName": "Interview",
+      "category": "Core Concepts",
+      "difficulty": "intermediate",
+      "estimatedTime": "20 min",
+      "description": "Understand hoisting - a common JavaScript interview topic.",
+      "content": "Hoisting is JavaScript's behavior of moving variable and function declarations to the top of their scope during compilation. This can lead to surprising behavior if you don't understand it.",
+      "codeExample": "// What happens with hoisting?\nconsole.log(myVar);        // undefined (not an error!)\nconsole.log(myFunction()); // \"Hello!\" (works!)\n\nvar myVar = 'Hello World';\n\nfunction myFunction() {\n  return 'Hello!';\n}\n\n// How JavaScript actually sees the above code:\n// var myVar;              // Declaration hoisted\n// function myFunction() { // Function hoisted\n//   return 'Hello!';\n// }\n// console.log(myVar);     // undefined\n// console.log(myFunction()); // \"Hello!\"\n// myVar = 'Hello World';  // Assignment stays here\n\n// let and const behave differently\nconsole.log(letVar);    // ReferenceError!\nlet letVar = 'I am let';\n\nconsole.log(constVar);  // ReferenceError!\nconst constVar = 'I am const';\n\n// Function expressions are NOT hoisted\nconsole.log(myFuncExpr()); // TypeError!\nvar myFuncExpr = function() {\n  return 'Function expression';\n};\n\n// Arrow functions are NOT hoisted\nconsole.log(myArrow()); // TypeError!\nvar myArrow = () => 'Arrow function';",
+      "keyPoints": [
+        "var declarations are hoisted and initialized with undefined",
+        "Function declarations are fully hoisted",
+        "let and const are hoisted but not initialized (temporal dead zone)",
+        "Function expressions and arrow functions are not hoisted"
+      ],
+      "quiz": {
+        "question": "What will console.log(x); var x = 5; output?",
+        "options": ["5", "undefined", "ReferenceError", "null"],
+        "correctAnswer": 1,
+        "explanation": "var declarations are hoisted and initialized with undefined, so x exists but has no value yet."
+      },
+      "tags": ["hoisting", "interview", "var", "let", "const"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "interview-this",
+      "title": "The 'this' Keyword",
+      "topicName": "Interview",
+      "category": "Core Concepts",
+      "difficulty": "intermediate",
+      "estimatedTime": "25 min",
+      "description": "Master the confusing 'this' keyword - a favorite interview question.",
+      "content": "The 'this' keyword refers to different objects depending on how a function is called. Understanding 'this' is crucial for JavaScript interviews and real-world development.",
+      "codeExample": "// Global context\nconsole.log(this); // Window object (in browser)\n\n// Object method\nconst person = {\n  name: 'Alice',\n  greet() {\n    console.log(this.name); // 'Alice'\n  },\n  greetArrow: () => {\n    console.log(this.name); // undefined (arrow functions don't have their own 'this')\n  }\n};\n\nperson.greet();      // 'Alice'\nperson.greetArrow(); // undefined\n\n// Function call\nfunction sayHello() {\n  console.log(this); // Window object (or undefined in strict mode)\n}\nsayHello();\n\n// Constructor function\nfunction Person(name) {\n  this.name = name;\n  this.greet = function() {\n    console.log(`Hello, I'm ${this.name}`);\n  };\n}\n\nconst alice = new Person('Alice');\nalice.greet(); // \"Hello, I'm Alice\"\n\n// Explicit binding with call, apply, bind\nconst bob = { name: 'Bob' };\nalice.greet.call(bob);  // \"Hello, I'm Bob\"\nalice.greet.apply(bob); // \"Hello, I'm Bob\"\n\nconst boundGreet = alice.greet.bind(bob);\nboundGreet(); // \"Hello, I'm Bob\"\n\n// Event handlers\nconst button = document.querySelector('#myButton');\nbutton.addEventListener('click', function() {\n  console.log(this); // The button element\n});\n\nbutton.addEventListener('click', () => {\n  console.log(this); // Window object (arrow function)\n});",
+      "keyPoints": [
+        "In object methods, 'this' refers to the object",
+        "In regular functions, 'this' refers to the global object",
+        "Arrow functions inherit 'this' from their enclosing scope",
+        "call(), apply(), and bind() can explicitly set 'this'"
+      ],
+      "quiz": {
+        "question": "In an arrow function, what does 'this' refer to?",
+        "options": ["The function itself", "The global object", "The enclosing scope's 'this'", "undefined"],
+        "correctAnswer": 2,
+        "explanation": "Arrow functions don't have their own 'this' - they inherit it from the enclosing scope."
+      },
+      "tags": ["this", "interview", "context", "binding"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "interview-scope",
+      "title": "Scope and Closures",
+      "topicName": "Interview",
+      "category": "Core Concepts",
+      "difficulty": "advanced",
+      "estimatedTime": "30 min",
+      "description": "Deep dive into scope chains and closures - essential interview knowledge.",
+      "content": "Scope determines where variables can be accessed in your code. Understanding scope and closures is fundamental to JavaScript and frequently tested in interviews.",
+      "codeExample": "// Global scope\nvar globalVar = 'I am global';\n\nfunction outerFunction() {\n  // Function scope\n  var outerVar = 'I am outer';\n  \n  function innerFunction() {\n    // Inner function scope\n    var innerVar = 'I am inner';\n    \n    // Can access all variables in scope chain\n    console.log(globalVar); // 'I am global'\n    console.log(outerVar);  // 'I am outer'\n    console.log(innerVar);  // 'I am inner'\n  }\n  \n  innerFunction();\n  // console.log(innerVar); // ReferenceError!\n}\n\nouterFunction();\n\n// Block scope with let and const\nif (true) {\n  var varVariable = 'var is function-scoped';\n  let letVariable = 'let is block-scoped';\n  const constVariable = 'const is block-scoped';\n}\n\nconsole.log(varVariable);   // 'var is function-scoped'\n// console.log(letVariable);   // ReferenceError!\n// console.log(constVariable); // ReferenceError!\n\n// Classic closure interview question\nfor (var i = 0; i < 3; i++) {\n  setTimeout(function() {\n    console.log(i); // Prints 3, 3, 3 (not 0, 1, 2!)\n  }, 100);\n}\n\n// Solution 1: Use let instead of var\nfor (let i = 0; i < 3; i++) {\n  setTimeout(function() {\n    console.log(i); // Prints 0, 1, 2\n  }, 100);\n}\n\n// Solution 2: Use closure\nfor (var i = 0; i < 3; i++) {\n  (function(index) {\n    setTimeout(function() {\n      console.log(index); // Prints 0, 1, 2\n    }, 100);\n  })(i);\n}\n\n// Module pattern using closures\nconst calculator = (function() {\n  let result = 0; // Private variable\n  \n  return {\n    add(x) {\n      result += x;\n      return this;\n    },\n    multiply(x) {\n      result *= x;\n      return this;\n    },\n    getResult() {\n      return result;\n    },\n    reset() {\n      result = 0;\n      return this;\n    }\n  };\n})();\n\ncalculator.add(5).multiply(2).add(3);\nconsole.log(calculator.getResult()); // 13",
+      "keyPoints": [
+        "JavaScript has function scope (var) and block scope (let/const)",
+        "Inner functions can access outer function variables",
+        "Closures 'remember' variables from their creation environment",
+        "Common interview trap: var in loops with setTimeout"
+      ],
+      "quiz": {
+        "question": "What will this code print: for(var i=0; i<3; i++) { setTimeout(() => console.log(i), 0); }",
+        "options": ["0, 1, 2", "3, 3, 3", "undefined", "Error"],
+        "correctAnswer": 1,
+        "explanation": "By the time setTimeout executes, the loop has finished and i equals 3. All callbacks print the same value."
+      },
+      "tags": ["scope", "closures", "interview", "var", "let"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}
