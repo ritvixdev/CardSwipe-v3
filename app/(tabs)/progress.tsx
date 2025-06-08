@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Animated, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Animated, Dimensions, Alert, Platform } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
 import { lessons } from '@/data/processors/dataLoader';
+import { router } from 'expo-router';
+import * as Haptics from 'expo-haptics';
 // Gamified Progress Page with Achievements and Rewards
 import {
   Calendar,
@@ -17,7 +19,8 @@ import {
   Clock,
   Zap,
   Crown,
-  Gift
+  Gift,
+  Book
 } from 'lucide-react-native';
 
 const { width } = Dimensions.get('window');
@@ -108,6 +111,77 @@ export default function ProgressScreen() {
       useNativeDriver: false,
     }).start();
   }, []);
+
+  // Handler functions
+  const handleStartLearning = () => {
+    if (Platform.OS !== 'web') {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+
+    // Find the next incomplete lesson
+    const nextLesson = lessons.find(lesson => !progress[lesson.id]?.completed);
+
+    if (nextLesson) {
+      router.push(`/lesson/${nextLesson.id}`);
+    } else {
+      Alert.alert(
+        "🎉 Congratulations!",
+        "You've completed all lessons! Try taking a quiz to test your knowledge.",
+        [
+          { text: "Take Quiz", onPress: () => router.push('/explore/practice-quiz') },
+          { text: "OK", style: "cancel" }
+        ]
+      );
+    }
+  };
+
+  const handleTakeQuiz = () => {
+    if (Platform.OS !== 'web') {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+    router.push('/explore/practice-quiz');
+  };
+
+  const handleViewAchievements = () => {
+    if (Platform.OS !== 'web') {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+
+    if (achievements.length === 0) {
+      Alert.alert(
+        "🎁 No Achievements Yet",
+        "Complete lessons and maintain streaks to unlock achievements!",
+        [{ text: "Start Learning", onPress: handleStartLearning }]
+      );
+    } else {
+      const achievementList = achievements
+        .map(a => `${a.icon} ${a.title}`)
+        .join('\n');
+
+      Alert.alert(
+        "🏆 Your Achievements",
+        `You've unlocked ${achievements.length} achievements:\n\n${achievementList}`,
+        [{ text: "Amazing!", style: "default" }]
+      );
+    }
+  };
+
+  const handleMotivationTap = () => {
+    if (Platform.OS !== 'web') {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    }
+
+    const motivationalMessages = [
+      "🔥 You're doing amazing! Keep the momentum going!",
+      "💪 Every lesson brings you closer to mastery!",
+      "🚀 Your consistency is building something incredible!",
+      "⭐ Small daily progress leads to big results!",
+      "🎯 You're on the path to becoming a JavaScript expert!"
+    ];
+
+    const randomMessage = motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+    Alert.alert("Daily Motivation", randomMessage);
+  };
   
   return (
     <View style={[styles.container, { backgroundColor: themeColors.background }]}>
@@ -188,35 +262,112 @@ export default function ProgressScreen() {
       >
         {selectedTab === 'overview' && (
           <>
-            {/* Hero Stats Card */}
-            <View style={[styles.heroCard, { backgroundColor: themeColors.primary }]}>
-              <View style={styles.heroContent}>
-                <View style={styles.heroLeft}>
-                  <Text style={styles.heroTitle}>Learning Journey</Text>
-                  <Text style={styles.heroSubtitle}>
-                    {completedCount} lessons • Level {currentLevel}
+            {/* Daily Motivation Hero */}
+            <TouchableOpacity
+              style={[styles.motivationCard, { backgroundColor: themeColors.primary }]}
+              onPress={handleMotivationTap}
+              activeOpacity={0.9}
+            >
+              <View style={styles.motivationContent}>
+                <View style={styles.motivationLeft}>
+                  <Text style={styles.motivationGreeting}>
+                    {streak > 0 ? `🔥 ${streak} Day Streak!` : '👋 Ready to Learn?'}
                   </Text>
-                  <View style={styles.heroStats}>
-                    <View style={styles.heroStat}>
-                      <Text style={styles.heroStatValue}>{streak}</Text>
-                      <Text style={styles.heroStatLabel}>Day Streak</Text>
-                    </View>
-                    <View style={styles.heroStat}>
-                      <Text style={styles.heroStatValue}>{Math.round(completionPercentage)}%</Text>
-                      <Text style={styles.heroStatLabel}>Complete</Text>
-                    </View>
-                  </View>
+                  <Text style={styles.motivationMessage}>
+                    {streak >= 7 ? "You're on fire! Keep it up!" :
+                     streak >= 3 ? "Great consistency! Don't break the chain!" :
+                     streak > 0 ? "Building momentum! One more day!" :
+                     "Start your learning journey today!"}
+                  </Text>
+                  <TouchableOpacity
+                    style={styles.todayGoal}
+                    onPress={handleStartLearning}
+                  >
+                    <Target size={16} color="#ffffff" />
+                    <Text style={styles.todayGoalText}>
+                      Today's Goal: {weeklyGoal.currentLessons < weeklyGoal.lessonsTarget ? 'Complete 1 lesson' : 'Goal achieved! 🎉'}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
-                <View style={styles.heroRight}>
-                  <View style={styles.heroCircle}>
-                    <Crown size={32} color="#ffffff" />
+                <TouchableOpacity
+                  style={styles.motivationRight}
+                  onPress={handleMotivationTap}
+                >
+                  <View style={styles.streakCircle}>
+                    <Flame size={28} color="#ffffff" />
+                    <Text style={styles.streakNumber}>{streak}</Text>
                   </View>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+
+            {/* Today's Focus */}
+            <View style={[styles.focusCard, { backgroundColor: themeColors.card }]}>
+              <View style={styles.focusHeader}>
+                <Calendar size={20} color={themeColors.primary} />
+                <Text style={[styles.focusTitle, { color: themeColors.text }]}>Today's Focus</Text>
+                <Text style={[styles.focusDate, { color: themeColors.textSecondary }]}>
+                  {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+                </Text>
+              </View>
+
+              <View style={styles.focusContent}>
+                <View style={styles.focusItem}>
+                  <View style={[styles.focusIcon, { backgroundColor: '#10b981' + '20' }]}>
+                    <Book size={18} color="#10b981" />
+                  </View>
+                  <View style={styles.focusText}>
+                    <Text style={[styles.focusItemTitle, { color: themeColors.text }]}>
+                      Continue Learning
+                    </Text>
+                    <Text style={[styles.focusItemDesc, { color: themeColors.textSecondary }]}>
+                      {completedCount < totalLessons ? `${totalLessons - completedCount} lessons remaining` : 'All lessons completed! 🎉'}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={[styles.focusButton, { backgroundColor: themeColors.primary }]}
+                    onPress={handleStartLearning}
+                  >
+                    <Text style={styles.focusButtonText}>Start</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.focusItem}>
+                  <View style={[styles.focusIcon, { backgroundColor: '#8b5cf6' + '20' }]}>
+                    <Zap size={18} color="#8b5cf6" />
+                  </View>
+                  <View style={styles.focusText}>
+                    <Text style={[styles.focusItemTitle, { color: themeColors.text }]}>
+                      Practice Quiz
+                    </Text>
+                    <Text style={[styles.focusItemDesc, { color: themeColors.textSecondary }]}>
+                      Test your knowledge
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={[styles.focusButton, { backgroundColor: '#8b5cf6' }]}
+                    onPress={handleTakeQuiz}
+                  >
+                    <Text style={styles.focusButtonText}>Quiz</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
 
             {/* Activity Calendar */}
-            <View style={[styles.calendarCard, { backgroundColor: themeColors.card }]}>
+            <TouchableOpacity
+              style={[styles.calendarCard, { backgroundColor: themeColors.card }]}
+              onPress={() => {
+                if (Platform.OS !== 'web') {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }
+                Alert.alert(
+                  "📅 Learning Activity",
+                  `You've been learning for ${Math.max(streak, 1)} days!\n\nTotal lessons completed: ${completedCount}\nBest streak: ${maxStreak} days\n\nKeep up the great work!`
+                );
+              }}
+              activeOpacity={0.9}
+            >
               <View style={styles.calendarHeader}>
                 <View style={styles.calendarHeaderLeft}>
                   <Calendar size={20} color={themeColors.primary} />
@@ -297,7 +448,7 @@ export default function ProgressScreen() {
                   </View>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
 
             {/* Weekly Goals */}
             <View style={[styles.card, { backgroundColor: themeColors.card }]}>
@@ -364,126 +515,76 @@ export default function ProgressScreen() {
               </View>
             </View>
 
-            {/* Enhanced Stats Grid */}
-            <View style={styles.statsGrid}>
-              <View style={[styles.statCard, styles.statCardGreen, { backgroundColor: themeColors.card }]}>
-                <View style={styles.statCardHeader}>
-                  <View style={[styles.statIcon, { backgroundColor: '#10b981' + '20' }]}>
-                    <CheckCircle2 size={20} color="#10b981" />
-                  </View>
-                  <View style={[styles.trendIndicator, { backgroundColor: '#10b981' }]}>
-                    <TrendingUp size={12} color="#ffffff" />
-                  </View>
-                </View>
-                <Text style={[styles.statValue, { color: themeColors.text }]}>{completedCount}</Text>
-                <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Lessons Completed</Text>
-                <View style={[styles.statProgress, { backgroundColor: '#10b981' + '20' }]}>
-                  <View
-                    style={[
-                      styles.statProgressFill,
-                      {
-                        backgroundColor: '#10b981',
-                        width: `${Math.min(completionPercentage, 100)}%`
-                      }
-                    ]}
-                  />
-                </View>
-              </View>
-
-              <View style={[styles.statCard, styles.statCardOrange, { backgroundColor: themeColors.card }]}>
-                <View style={styles.statCardHeader}>
-                  <View style={[styles.statIcon, { backgroundColor: '#ff6b35' + '20' }]}>
-                    <Flame size={20} color="#ff6b35" />
-                  </View>
-                  {streak > 0 && (
-                    <View style={[styles.streakBadgeSmall, { backgroundColor: '#ff6b35' }]}>
-                      <Text style={styles.streakBadgeText}>🔥</Text>
-                    </View>
-                  )}
-                </View>
-                <Text style={[styles.statValue, { color: themeColors.text }]}>{maxStreak}</Text>
-                <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Best Streak</Text>
-                <Text style={[styles.statSubtext, { color: themeColors.textSecondary }]}>
-                  Current: {streak} days
-                </Text>
-              </View>
-
-              <View style={[styles.statCard, styles.statCardBlue, { backgroundColor: themeColors.card }]}>
-                <View style={styles.statCardHeader}>
-                  <View style={[styles.statIcon, { backgroundColor: themeColors.primary + '20' }]}>
-                    <Clock size={20} color={themeColors.primary} />
-                  </View>
-                  <View style={[styles.timeBadge, { backgroundColor: themeColors.primary }]}>
-                    <Text style={styles.timeBadgeText}>⏱️</Text>
-                  </View>
-                </View>
-                <Text style={[styles.statValue, { color: themeColors.text }]}>{formatTime(totalTimeSpent)}</Text>
-                <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Time Invested</Text>
-                <Text style={[styles.statSubtext, { color: themeColors.textSecondary }]}>
-                  Avg: {totalTimeSpent > 0 ? formatTime(Math.floor(totalTimeSpent / Math.max(completedCount, 1))) : '0m'} per lesson
-                </Text>
-              </View>
-
-              <View style={[styles.statCard, styles.statCardPurple, { backgroundColor: themeColors.card }]}>
-                <View style={styles.statCardHeader}>
-                  <View style={[styles.statIcon, { backgroundColor: '#8b5cf6' + '20' }]}>
-                    <Zap size={20} color="#8b5cf6" />
-                  </View>
-                  {averageQuizScore >= 90 && (
-                    <View style={[styles.perfectBadge, { backgroundColor: '#fbbf24' }]}>
-                      <Text style={styles.perfectBadgeText}>⭐</Text>
-                    </View>
-                  )}
-                </View>
-                <Text style={[styles.statValue, { color: themeColors.text }]}>{Math.round(averageQuizScore)}%</Text>
-                <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Quiz Average</Text>
-                <Text style={[styles.statSubtext, { color: themeColors.textSecondary }]}>
-                  {quizzesTaken} quizzes taken
-                </Text>
-              </View>
-            </View>
-
-            {/* Learning Momentum */}
-            <View style={[styles.card, { backgroundColor: themeColors.card }]}>
-              <View style={styles.cardHeader}>
+            {/* Streak Momentum */}
+            <View style={[styles.momentumCard, { backgroundColor: themeColors.card }]}>
+              <View style={styles.momentumHeader}>
                 <TrendingUp size={20} color="#10b981" />
-                <Text style={[styles.cardTitle, { color: themeColors.text }]}>Learning Momentum</Text>
-                <View style={[styles.momentumBadge, { backgroundColor: streak >= 7 ? '#10b981' : '#fbbf24' }]}>
+                <Text style={[styles.momentumTitle, { color: themeColors.text }]}>Learning Momentum</Text>
+                <View style={[styles.momentumBadge, { backgroundColor: streak >= 7 ? '#10b981' : streak >= 3 ? '#fbbf24' : '#ef4444' }]}>
                   <Text style={styles.momentumBadgeText}>
-                    {streak >= 7 ? 'Hot' : streak >= 3 ? 'Good' : 'Building'}
+                    {streak >= 7 ? '🔥 Hot' : streak >= 3 ? '⚡ Good' : '🌱 Building'}
                   </Text>
                 </View>
               </View>
 
-              <View style={styles.momentumContainer}>
-                <View style={styles.momentumItem}>
-                  <Text style={[styles.momentumLabel, { color: themeColors.textSecondary }]}>
-                    This Week
-                  </Text>
-                  <Text style={[styles.momentumValue, { color: themeColors.text }]}>
-                    {weeklyGoal.currentLessons} lessons
-                  </Text>
+              <View style={styles.momentumGrid}>
+                <View style={styles.momentumStat}>
+                  <Text style={[styles.momentumNumber, { color: themeColors.text }]}>{streak}</Text>
+                  <Text style={[styles.momentumLabel, { color: themeColors.textSecondary }]}>Current</Text>
+                  <View style={[styles.momentumBar, { backgroundColor: themeColors.border }]}>
+                    <View
+                      style={[
+                        styles.momentumBarFill,
+                        {
+                          backgroundColor: '#ff6b35',
+                          width: `${Math.min((streak / Math.max(maxStreak, 7)) * 100, 100)}%`
+                        }
+                      ]}
+                    />
+                  </View>
                 </View>
 
-                <View style={styles.momentumItem}>
-                  <Text style={[styles.momentumLabel, { color: themeColors.textSecondary }]}>
-                    Current Streak
-                  </Text>
-                  <Text style={[styles.momentumValue, { color: themeColors.text }]}>
-                    {streak} days
-                  </Text>
+                <View style={styles.momentumStat}>
+                  <Text style={[styles.momentumNumber, { color: themeColors.text }]}>{maxStreak}</Text>
+                  <Text style={[styles.momentumLabel, { color: themeColors.textSecondary }]}>Best Ever</Text>
+                  <View style={[styles.momentumBar, { backgroundColor: themeColors.border }]}>
+                    <View
+                      style={[
+                        styles.momentumBarFill,
+                        {
+                          backgroundColor: '#fbbf24',
+                          width: '100%'
+                        }
+                      ]}
+                    />
+                  </View>
                 </View>
 
-                <View style={styles.momentumItem}>
-                  <Text style={[styles.momentumLabel, { color: themeColors.textSecondary }]}>
-                    Next Milestone
-                  </Text>
-                  <Text style={[styles.momentumValue, { color: themeColors.text }]}>
-                    {completedCount < 5 ? '5 lessons' :
-                     completedCount < 10 ? '10 lessons' :
-                     completedCount < 20 ? '20 lessons' : 'All done! 🎉'}
-                  </Text>
+                <View style={styles.momentumStat}>
+                  <Text style={[styles.momentumNumber, { color: themeColors.text }]}>{weeklyGoal.currentLessons}</Text>
+                  <Text style={[styles.momentumLabel, { color: themeColors.textSecondary }]}>This Week</Text>
+                  <View style={[styles.momentumBar, { backgroundColor: themeColors.border }]}>
+                    <View
+                      style={[
+                        styles.momentumBarFill,
+                        {
+                          backgroundColor: '#10b981',
+                          width: `${Math.min((weeklyGoal.currentLessons / weeklyGoal.lessonsTarget) * 100, 100)}%`
+                        }
+                      ]}
+                    />
+                  </View>
                 </View>
+              </View>
+
+              <View style={styles.nextMilestone}>
+                <Text style={[styles.milestoneLabel, { color: themeColors.textSecondary }]}>Next Milestone:</Text>
+                <Text style={[styles.milestoneText, { color: themeColors.text }]}>
+                  {streak < 3 ? '3-day streak 🎯' :
+                   streak < 7 ? '7-day streak 🔥' :
+                   streak < 30 ? '30-day streak 👑' :
+                   'Streak Master! 🏆'}
+                </Text>
               </View>
             </View>
 
@@ -812,7 +913,7 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 3,
   },
-  heroCard: {
+  motivationCard: {
     borderRadius: 20,
     padding: 24,
     marginBottom: 20,
@@ -822,52 +923,118 @@ const styles = StyleSheet.create({
     shadowRadius: 12,
     elevation: 6,
   },
-  heroContent: {
+  motivationContent: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  heroLeft: {
+  motivationLeft: {
     flex: 1,
   },
-  heroTitle: {
-    fontSize: 24,
+  motivationGreeting: {
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#ffffff',
-    marginBottom: 4,
+    marginBottom: 8,
   },
-  heroSubtitle: {
+  motivationMessage: {
     fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: 'rgba(255, 255, 255, 0.9)',
     marginBottom: 16,
+    lineHeight: 20,
   },
-  heroStats: {
+  todayGoal: {
     flexDirection: 'row',
-    gap: 24,
-  },
-  heroStat: {
     alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 12,
+    alignSelf: 'flex-start',
   },
-  heroStatValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  todayGoalText: {
     color: '#ffffff',
-  },
-  heroStatLabel: {
     fontSize: 12,
-    color: 'rgba(255, 255, 255, 0.8)',
-    marginTop: 2,
+    fontWeight: '600',
+    marginLeft: 6,
   },
-  heroRight: {
+  motivationRight: {
     marginLeft: 20,
   },
-  heroCircle: {
+  streakCircle: {
     width: 80,
     height: 80,
     borderRadius: 40,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
+  },
+  streakNumber: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    marginTop: 4,
+  },
+  focusCard: {
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  focusHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  focusTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 8,
+    flex: 1,
+  },
+  focusDate: {
+    fontSize: 12,
+  },
+  focusContent: {
+    gap: 12,
+  },
+  focusItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  focusIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  focusText: {
+    flex: 1,
+  },
+  focusItemTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 2,
+  },
+  focusItemDesc: {
+    fontSize: 13,
+  },
+  focusButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 12,
+  },
+  focusButtonText: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
   cardHeader: {
     flexDirection: 'row',
@@ -1210,9 +1377,30 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
   },
+  momentumCard: {
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  momentumHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  momentumTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 8,
+    flex: 1,
+  },
   momentumBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
     borderRadius: 12,
   },
   momentumBadgeText: {
@@ -1220,22 +1408,50 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
   },
-  momentumContainer: {
+  momentumGrid: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap: 16,
+    marginBottom: 20,
   },
-  momentumItem: {
-    alignItems: 'center',
+  momentumStat: {
     flex: 1,
+    alignItems: 'center',
+  },
+  momentumNumber: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 4,
   },
   momentumLabel: {
     fontSize: 12,
-    marginBottom: 4,
+    marginBottom: 8,
     textAlign: 'center',
   },
-  momentumValue: {
-    fontSize: 16,
+  momentumBar: {
+    width: '100%',
+    height: 4,
+    borderRadius: 2,
+    overflow: 'hidden',
+  },
+  momentumBarFill: {
+    height: '100%',
+    borderRadius: 2,
+  },
+  nextMilestone: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.02)',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    gap: 8,
+  },
+  milestoneLabel: {
+    fontSize: 14,
+  },
+  milestoneText: {
+    fontSize: 14,
     fontWeight: 'bold',
-    textAlign: 'center',
   },
 });

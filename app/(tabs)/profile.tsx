@@ -35,7 +35,7 @@ import {
   Camera,
   Award,
   TrendingUp,
-  BookOpen,
+  Book,
   Download,
   Upload,
   Database,
@@ -44,9 +44,13 @@ import {
   HelpCircle
 } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
+
+// Test icon imports to ensure they're available
+const testIcons = { Book, Trophy, Award, TrendingUp, ChevronRight };
 import * as Application from 'expo-application';
 import { lessons } from '@/data/processors/dataLoader';
-// Enhanced Profile Page with User Stats and Preferences
+import { router } from 'expo-router';
+// Enhanced Profile Page with User Stats and Preferences - Fixed imports
 
 const { width } = Dimensions.get('window');
 
@@ -85,13 +89,12 @@ export default function ProfileScreen() {
   const xpForNextLevel = getXpForNextLevel();
   const xpProgress = ((xp % 100) / 100) * 100;
 
-  // User profile data (in a real app, this would come from user authentication)
-  const userProfile = {
+  // Local user profile data (offline application)
+  const [userProfile, setUserProfile] = useState({
     name: 'JavaScript Learner',
-    email: 'learner@example.com',
-    joinDate: '2024-01-01',
-    avatar: null, // Would be user's profile picture
-  };
+    avatar: null, // Local avatar storage
+    joinDate: new Date().toISOString().split('T')[0],
+  });
 
   // Format time spent
   const formatTime = (seconds: number) => {
@@ -233,7 +236,67 @@ export default function ProfileScreen() {
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-    Alert.alert("Edit Profile", "Profile editing feature would open here.");
+
+    Alert.prompt(
+      "Edit Profile",
+      "Enter your name:",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        {
+          text: "Save",
+          onPress: (newName) => {
+            if (newName && newName.trim()) {
+              setUserProfile(prev => ({
+                ...prev,
+                name: newName.trim()
+              }));
+              Alert.alert("Profile Updated", "Your name has been updated successfully!");
+            }
+          }
+        }
+      ],
+      "plain-text",
+      userProfile.name
+    );
+  };
+
+  const handleChangeAvatar = () => {
+    if (Platform.OS !== 'web') {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+
+    const avatarOptions = ['👤', '👨‍💻', '👩‍💻', '🧑‍🎓', '👨‍🎓', '👩‍🎓', '🤓', '😎', '🚀', '⭐'];
+
+    Alert.alert(
+      "Choose Avatar",
+      "Select an emoji avatar:",
+      [
+        { text: "Cancel", style: "cancel" },
+        ...avatarOptions.map(emoji => ({
+          text: emoji,
+          onPress: () => {
+            setUserProfile(prev => ({
+              ...prev,
+              avatar: emoji
+            }));
+            Alert.alert("Avatar Updated", `Your avatar has been changed to ${emoji}!`);
+          }
+        })),
+        {
+          text: "Remove Avatar",
+          onPress: () => {
+            setUserProfile(prev => ({
+              ...prev,
+              avatar: null
+            }));
+          },
+          style: "destructive"
+        }
+      ]
+    );
   };
 
   const handleViewAchievements = () => {
@@ -311,11 +374,15 @@ export default function ProfileScreen() {
             <View style={styles.profileTop}>
               <View style={styles.avatarContainer}>
                 <View style={[styles.avatar, { backgroundColor: 'rgba(255, 255, 255, 0.2)' }]}>
-                  <User size={32} color="#ffffff" />
+                  {userProfile.avatar ? (
+                    <Text style={styles.avatarEmoji}>{userProfile.avatar}</Text>
+                  ) : (
+                    <User size={32} color="#ffffff" />
+                  )}
                 </View>
                 <TouchableOpacity
                   style={[styles.editAvatarButton, { backgroundColor: '#ffffff' }]}
-                  onPress={handleEditProfile}
+                  onPress={handleChangeAvatar}
                 >
                   <Camera size={12} color={themeColors.primary} />
                 </TouchableOpacity>
@@ -323,7 +390,10 @@ export default function ProfileScreen() {
 
               <View style={styles.profileInfo}>
                 <Text style={styles.userName}>{userProfile.name}</Text>
-                <Text style={styles.userEmail}>{userProfile.email}</Text>
+                <View style={styles.offlineIndicator}>
+                  <Text style={styles.offlineText}>📱 Offline Application</Text>
+                  <Text style={styles.offlineSubtext}>More features coming soon</Text>
+                </View>
                 <View style={styles.levelBadge}>
                   <Crown size={14} color="#ffffff" />
                   <Text style={styles.levelText}>Level {currentLevel}</Text>
@@ -361,88 +431,165 @@ export default function ProfileScreen() {
           </View>
         </SafeAreaView>
 
-        {/* Quick Stats */}
-        <View style={styles.quickStats}>
+        {/* Achievement Showcase */}
+        <View style={styles.achievementShowcase}>
           <TouchableOpacity
-            style={[styles.statItem, { backgroundColor: themeColors.card }]}
+            style={[styles.achievementCard, { backgroundColor: themeColors.card }]}
             onPress={handleViewAchievements}
           >
-            <Trophy size={20} color="#fbbf24" />
-            <Text style={[styles.statValue, { color: themeColors.text }]}>{achievements.length}</Text>
-            <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Achievements</Text>
+            <View style={styles.achievementHeader}>
+              <Trophy size={24} color="#fbbf24" />
+              <Text style={[styles.achievementTitle, { color: themeColors.text }]}>Achievements</Text>
+              <ChevronRight size={18} color={themeColors.textSecondary} />
+            </View>
+
+            <View style={styles.achievementContent}>
+              <Text style={[styles.achievementCount, { color: themeColors.text }]}>
+                {achievements.length} unlocked
+              </Text>
+              <Text style={[styles.achievementSubtext, { color: themeColors.textSecondary }]}>
+                {achievements.length === 0 ? 'Start learning to unlock achievements!' :
+                 achievements.length < 5 ? 'Great start! Keep learning to unlock more.' :
+                 'Amazing progress! You\'re a JavaScript champion!'}
+              </Text>
+
+              {achievements.length > 0 && (
+                <View style={styles.recentAchievements}>
+                  {achievements.slice(-3).map((achievement, index) => (
+                    <View key={achievement.id} style={styles.achievementBadge}>
+                      <Text style={styles.achievementEmoji}>{achievement.icon}</Text>
+                    </View>
+                  ))}
+                  {achievements.length > 3 && (
+                    <View style={[styles.achievementBadge, styles.moreAchievements]}>
+                      <Text style={[styles.moreText, { color: themeColors.textSecondary }]}>
+                        +{achievements.length - 3}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              )}
+            </View>
           </TouchableOpacity>
+        </View>
 
-          <View style={[styles.statItem, { backgroundColor: themeColors.card }]}>
-            <Target size={20} color="#10b981" />
-            <Text style={[styles.statValue, { color: themeColors.text }]}>{completedCount}</Text>
-            <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Completed</Text>
+        {/* Learning Identity */}
+        <View style={[styles.identityCard, { backgroundColor: themeColors.card }]}>
+          <View style={styles.identityHeader}>
+            <Award size={20} color={themeColors.primary} />
+            <Text style={[styles.identityTitle, { color: themeColors.text }]}>Learning Identity</Text>
           </View>
 
-          <View style={[styles.statItem, { backgroundColor: themeColors.card }]}>
-            <Calendar size={20} color="#ef4444" />
-            <Text style={[styles.statValue, { color: themeColors.text }]}>{streak}</Text>
-            <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Day Streak</Text>
-          </View>
+          <View style={styles.identityContent}>
+            <View style={styles.identityBadges}>
+              <View style={[styles.identityBadge, { backgroundColor: themeColors.primary + '20' }]}>
+                <Crown size={16} color={themeColors.primary} />
+                <Text style={[styles.identityBadgeText, { color: themeColors.primary }]}>
+                  Level {currentLevel}
+                </Text>
+              </View>
 
-          <View style={[styles.statItem, { backgroundColor: themeColors.card }]}>
-            <Clock size={20} color={themeColors.primary} />
-            <Text style={[styles.statValue, { color: themeColors.text }]}>{formatTime(totalTimeSpent)}</Text>
-            <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>Time Spent</Text>
+              {streak >= 7 && (
+                <View style={[styles.identityBadge, { backgroundColor: '#ff6b35' + '20' }]}>
+                  <Flame size={16} color="#ff6b35" />
+                  <Text style={[styles.identityBadgeText, { color: '#ff6b35' }]}>
+                    Streak Master
+                  </Text>
+                </View>
+              )}
+
+              {averageQuizScore >= 90 && (
+                <View style={[styles.identityBadge, { backgroundColor: '#fbbf24' + '20' }]}>
+                  <Star size={16} color="#fbbf24" />
+                  <Text style={[styles.identityBadgeText, { color: '#fbbf24' }]}>
+                    Quiz Expert
+                  </Text>
+                </View>
+              )}
+
+              {completedCount >= 10 && (
+                <View style={[styles.identityBadge, { backgroundColor: '#10b981' + '20' }]}>
+                  <Book size={16} color="#10b981" />
+                  <Text style={[styles.identityBadgeText, { color: '#10b981' }]}>
+                    Dedicated Learner
+                  </Text>
+                </View>
+              )}
+            </View>
+
+            <Text style={[styles.identityDescription, { color: themeColors.textSecondary }]}>
+              {completedCount === 0 ? 'Begin your JavaScript journey and earn your first badge!' :
+               completedCount < 5 ? 'You\'re just getting started. Keep going!' :
+               completedCount < 10 ? 'You\'re making great progress!' :
+               'You\'re becoming a JavaScript expert!'}
+            </Text>
           </View>
         </View>
 
-        {/* Learning Progress */}
+        {/* Quick Actions */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: themeColors.text }]}>Learning Progress</Text>
+          <Text style={[styles.sectionTitle, { color: themeColors.text }]}>Quick Actions</Text>
 
-          <View style={[styles.progressCard, { backgroundColor: themeColors.card }]}>
-            <View style={styles.progressHeader}>
-              <BookOpen size={20} color={themeColors.primary} />
-              <Text style={[styles.progressTitle, { color: themeColors.text }]}>Overall Progress</Text>
-            </View>
-
-            <View style={styles.progressContent}>
-              <Text style={[styles.progressPercentage, { color: themeColors.text }]}>
-                {Math.round(completionPercentage)}%
-              </Text>
-              <Text style={[styles.progressSubtext, { color: themeColors.textSecondary }]}>
-                {completedCount} of {totalLessons} lessons completed
-              </Text>
-
-              <View style={[styles.progressBar, { backgroundColor: themeColors.border }]}>
-                <Animated.View
-                  style={[
-                    styles.progressBarFill,
-                    {
-                      backgroundColor: themeColors.primary,
-                      width: animatedValue.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: ['0%', `${completionPercentage}%`],
-                      }),
-                    }
-                  ]}
-                />
+          <View style={styles.quickActionsGrid}>
+            <TouchableOpacity
+              style={[styles.quickAction, { backgroundColor: themeColors.card }]}
+              onPress={() => {
+                if (Platform.OS !== 'web') {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                }
+                const nextLesson = lessons.find(lesson => !progress[lesson.id]?.completed);
+                if (nextLesson) {
+                  router.push(`/lesson/${nextLesson.id}`);
+                } else {
+                  Alert.alert("🎉 All Done!", "You've completed all lessons! Try a quiz to test your knowledge.");
+                }
+              }}
+            >
+              <View style={[styles.quickActionIcon, { backgroundColor: '#10b981' + '20' }]}>
+                <Book size={20} color="#10b981" />
               </View>
+              <Text style={[styles.quickActionText, { color: themeColors.text }]}>Continue Learning</Text>
+            </TouchableOpacity>
 
-              <View style={styles.progressStats}>
-                <View style={styles.progressStat}>
-                  <Text style={[styles.progressStatValue, { color: themeColors.text }]}>
-                    {Math.round(averageQuizScore)}%
-                  </Text>
-                  <Text style={[styles.progressStatLabel, { color: themeColors.textSecondary }]}>
-                    Quiz Average
-                  </Text>
-                </View>
-                <View style={styles.progressStat}>
-                  <Text style={[styles.progressStatValue, { color: themeColors.text }]}>
-                    {maxStreak}
-                  </Text>
-                  <Text style={[styles.progressStatLabel, { color: themeColors.textSecondary }]}>
-                    Best Streak
-                  </Text>
-                </View>
+            <TouchableOpacity
+              style={[styles.quickAction, { backgroundColor: themeColors.card }]}
+              onPress={() => {
+                if (Platform.OS !== 'web') {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                }
+                router.push('/explore/practice-quiz');
+              }}
+            >
+              <View style={[styles.quickActionIcon, { backgroundColor: '#8b5cf6' + '20' }]}>
+                <Zap size={20} color="#8b5cf6" />
               </View>
-            </View>
+              <Text style={[styles.quickActionText, { color: themeColors.text }]}>Take Quiz</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.quickAction, { backgroundColor: themeColors.card }]}
+              onPress={handleViewAchievements}
+            >
+              <View style={[styles.quickActionIcon, { backgroundColor: '#fbbf24' + '20' }]}>
+                <Trophy size={20} color="#fbbf24" />
+              </View>
+              <Text style={[styles.quickActionText, { color: themeColors.text }]}>Achievements</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.quickAction, { backgroundColor: themeColors.card }]}
+              onPress={() => {
+                if (Platform.OS !== 'web') {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                }
+                router.push('/(tabs)/progress');
+              }}
+            >
+              <View style={[styles.quickActionIcon, { backgroundColor: themeColors.primary + '20' }]}>
+                <TrendingUp size={20} color={themeColors.primary} />
+              </View>
+              <Text style={[styles.quickActionText, { color: themeColors.text }]}>View Progress</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -898,6 +1045,22 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     marginBottom: 4,
   },
+  avatarEmoji: {
+    fontSize: 32,
+  },
+  offlineIndicator: {
+    marginBottom: 8,
+  },
+  offlineText: {
+    fontSize: 12,
+    color: 'rgba(255, 255, 255, 0.9)',
+    fontWeight: '600',
+  },
+  offlineSubtext: {
+    fontSize: 10,
+    color: 'rgba(255, 255, 255, 0.7)',
+    marginTop: 2,
+  },
   userEmail: {
     fontSize: 14,
     color: 'rgba(255, 255, 255, 0.8)',
@@ -949,31 +1112,136 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 3,
   },
-  quickStats: {
-    flexDirection: 'row',
+  achievementShowcase: {
     paddingHorizontal: 20,
-    gap: 12,
     marginBottom: 24,
   },
-  statItem: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 16,
+  achievementCard: {
     borderRadius: 16,
+    padding: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.1,
     shadowRadius: 8,
-    elevation: 2,
+    elevation: 3,
   },
-  statValue: {
+  achievementHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  achievementTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 8,
-    marginBottom: 4,
+    marginLeft: 8,
+    flex: 1,
   },
-  statLabel: {
-    fontSize: 11,
+  achievementContent: {
+    gap: 12,
+  },
+  achievementCount: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  achievementSubtext: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  recentAchievements: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  achievementBadge: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  achievementEmoji: {
+    fontSize: 20,
+  },
+  moreAchievements: {
+    backgroundColor: 'rgba(0,0,0,0.1)',
+  },
+  moreText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  identityCard: {
+    marginHorizontal: 20,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
+  },
+  identityHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  identityTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 8,
+  },
+  identityContent: {
+    gap: 16,
+  },
+  identityBadges: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  identityBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12,
+    gap: 4,
+  },
+  identityBadgeText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  identityDescription: {
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  quickActionsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  quickAction: {
+    flex: 1,
+    minWidth: (width - 64) / 2,
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  quickActionIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  quickActionText: {
+    fontSize: 12,
+    fontWeight: '600',
     textAlign: 'center',
   },
   section: {
