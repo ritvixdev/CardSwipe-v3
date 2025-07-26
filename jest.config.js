@@ -3,6 +3,10 @@ module.exports = {
   setupFilesAfterEnv: [
     '<rootDir>/__tests__/setup.ts'
   ],
+  // Detect infinite loops and memory leaks
+  detectOpenHandles: true,
+  forceExit: true,
+  maxWorkers: 1,
   testMatch: [
     '**/__tests__/**/*.(test|spec).(js|jsx|ts|tsx)',
     '**/*.(test|spec).(js|jsx|ts|tsx)'
@@ -36,9 +40,17 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/$1'
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(jest-)?react-native|@react-native|@react-navigation|expo|@expo|@unimodules|unimodules|sentry-expo|native-base|react-clone-referenced-element|@react-native-community|react-native-gesture-handler|@react-native-async-storage|zustand)'
+    'node_modules/(?!(jest-)?react-native|@react-native|@react-navigation|expo|@expo|@unimodules|unimodules|sentry-expo|native-base|react-clone-referenced-element|@react-native-community|react-native-gesture-handler|@react-native-async-storage|zustand|lucide-react-native|@testing-library)'
   ],
-  testEnvironment: 'node',
+  // Avoid shallow renderer issues
+  testEnvironmentOptions: {
+    customExportConditions: ['node', 'node-addons'],
+  },
+  testEnvironment: 'jsdom',
+  // Timeout for tests that might have infinite loops
+  testTimeout: 15000,
+  // Error on console.error to catch React warnings
+  errorOnDeprecated: true,
   verbose: true,
   clearMocks: true,
   resetMocks: true,

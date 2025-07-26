@@ -184,7 +184,7 @@ export default function ProgressScreen() {
   };
   
   return (
-    <View style={[styles.container, { backgroundColor: themeColors.background }]}>
+    <View style={[styles.container, { backgroundColor: themeColors.background }]} testID="progress-screen">
       {/* Header with Level and XP */}
       <SafeAreaView style={styles.safeArea}>
         <View style={[styles.header, { backgroundColor: themeColors.background }]}>

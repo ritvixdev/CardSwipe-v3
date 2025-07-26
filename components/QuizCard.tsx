@@ -61,9 +61,9 @@ export default function QuizCard({ quiz, lessonId }: QuizCardProps) {
   };
   
   return (
-    <View style={[styles.container, { backgroundColor: themeColors.card, borderColor: themeColors.border }]}>
+    <View style={[styles.container, { backgroundColor: themeColors.card, borderColor: themeColors.border }]} testID="quiz-card">
       <Text style={[styles.title, { color: themeColors.text }]}>Quiz</Text>
-      <Text style={[styles.question, { color: themeColors.textSecondary }]}>{quiz.question}</Text>
+      <Text style={[styles.question, { color: themeColors.textSecondary }]} accessibilityLabel="Quiz question">{quiz.question}</Text>
       
       <View style={styles.optionsContainer}>
         {quiz.options.map((option, index) => (
@@ -73,6 +73,9 @@ export default function QuizCard({ quiz, lessonId }: QuizCardProps) {
             onPress={() => handleOptionSelect(option)}
             activeOpacity={0.8}
             disabled={isAnswered}
+            accessibilityLabel={`Option ${index + 1}: ${option}`}
+            accessibilityRole="button"
+            accessibilityState={{ selected: selectedOption === option }}
           >
             <Text style={[styles.optionText, { color: themeColors.text }]}>{option}</Text>
           </TouchableOpacity>

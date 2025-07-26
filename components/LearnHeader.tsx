@@ -31,6 +31,10 @@ export default function LearnHeader({
         onPress={() => onTopicSelect(topic.id)}
         style={styles.topicPill}
         activeOpacity={0.7}
+        testID={`topic-pill-${topic.id}`}
+        accessibilityLabel={`Select ${topic.title} topic`}
+        accessibilityRole="button"
+        accessibilityState={{ selected: isSelected }}
       >
         <LinearGradient
           colors={isSelected ?
@@ -64,7 +68,7 @@ export default function LearnHeader({
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: themeColors.background }]}>
+    <View style={[styles.container, { backgroundColor: themeColors.background }]} testID="learn-header">
       {/* Title Row with Inline Pill Selector */}
       <View style={styles.titleRow}>
         {/* Static Title Section */}
@@ -81,6 +85,7 @@ export default function LearnHeader({
             end={{ x: 1, y: 0 }}
             style={styles.leftFade}
             pointerEvents="none"
+            testID="left-fade"
           />
 
           {/* Scrollable Pills */}
@@ -94,6 +99,7 @@ export default function LearnHeader({
             snapToAlignment="center"
             bounces={false}
             scrollEventThrottle={16}
+            testID="topic-selector"
           >
             {topics.map((topic, index) => renderTopicPill(topic, index))}
           </ScrollView>
@@ -105,6 +111,7 @@ export default function LearnHeader({
             end={{ x: 1, y: 0 }}
             style={styles.rightFade}
             pointerEvents="none"
+            testID="right-fade"
           />
         </View>
       </View>

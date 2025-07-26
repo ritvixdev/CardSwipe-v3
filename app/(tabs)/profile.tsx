@@ -361,7 +361,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: themeColors.background }]}>
+    <View style={[styles.container, { backgroundColor: themeColors.background }]} testID="profile-screen">
       {/* Scrollable Content */}
       <ScrollView
         style={styles.content}

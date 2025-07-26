@@ -14,7 +14,7 @@ export default function ProgressBar() {
   const percentComplete = (completedCount / totalLessons) * 100;
   
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="progress-bar-container">
       <View style={styles.progressRow}>
         <View style={[styles.progressBarContainer, { backgroundColor: themeColors.border }]}>
           <View
@@ -25,9 +25,10 @@ export default function ProgressBar() {
                 backgroundColor: themeColors.primary
               }
             ]}
+            testID="progress-bar-fill"
           />
         </View>
-        <Text style={[styles.percentText, { color: themeColors.primary }]}>
+        <Text style={[styles.percentText, { color: themeColors.primary }]} testID="progress-indicator">
           {Math.round(percentComplete)}%
         </Text>
       </View>

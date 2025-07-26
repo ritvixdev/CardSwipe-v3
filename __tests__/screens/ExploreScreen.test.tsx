@@ -1,9 +1,9 @@
 /**
- * LearnScreen Component Tests
+ * ExploreScreen Component Tests
  * Simplified tests that verify component structure without importing React Native components
  */
 
-describe('LearnScreen Component', () => {
+describe('ExploreScreen Component', () => {
   // Test that the component file exists
   it('should have component file available', () => {
     expect(() => {
@@ -11,7 +11,7 @@ describe('LearnScreen Component', () => {
       const path = require('path');
 
       // Convert module path to file path
-      let filePath = '@/app/(tabs)/index'.replace('@/', '');
+      let filePath = '@/app/(tabs)/explore'.replace('@/', '');
       if (!filePath.endsWith('.tsx') && !filePath.endsWith('.ts')) {
         filePath += '.tsx';
       }
@@ -23,7 +23,7 @@ describe('LearnScreen Component', () => {
   // Test component functionality without importing React Native
   it('should be a valid TypeScript/JavaScript file', () => {
     const fs = require('fs');
-    let filePath = '@/app/(tabs)/index'.replace('@/', '');
+    let filePath = '@/app/(tabs)/explore'.replace('@/', '');
     if (!filePath.endsWith('.tsx') && !filePath.endsWith('.ts')) {
       filePath += '.tsx';
     }
@@ -46,13 +46,13 @@ describe('LearnScreen Component', () => {
   // Test basic functionality
   it('should have valid component structure', () => {
     // This test verifies basic component expectations
-    expect('LearnScreen').toBeTruthy();
-    expect(typeof 'LearnScreen').toBe('string');
+    expect('ExploreScreen').toBeTruthy();
+    expect(typeof 'ExploreScreen').toBe('string');
   });
 
   // Test component naming
   it('should have correct component name', () => {
-    expect('LearnScreen').toMatch(/^[A-Z]/); // Should start with capital letter
-    expect('LearnScreen'.length).toBeGreaterThan(0);
+    expect('ExploreScreen').toMatch(/^[A-Z]/); // Should start with capital letter
+    expect('ExploreScreen'.length).toBeGreaterThan(0);
   });
 });

@@ -1,3 +1,58 @@
+// Mock React for compatibility
+import 'react-native-gesture-handler/jestSetup';
+
+// Fix React testing library compatibility - disable shallow renderer
+jest.mock('react-test-renderer/shallow', () => ({}), { virtual: true });
+jest.mock('react-shallow-renderer', () => ({}), { virtual: true });
+
+global.React = require('react');
+
+// Detect infinite loops and excessive re-renders
+let renderCount = 0;
+let lastRenderTime = Date.now();
+
+const originalConsoleError = console.error;
+const originalConsoleWarn = console.warn;
+
+// Enhanced error logging to catch React issues
+console.error = (...args) => {
+  const message = args.join(' ');
+
+  // Catch infinite loop errors
+  if (message.includes('Maximum update depth exceeded')) {
+    originalConsoleError('🚨 INFINITE LOOP DETECTED:', ...args);
+    throw new Error('Test failed due to infinite loop: ' + message);
+  }
+
+  // Catch other React warnings that might indicate issues
+  if (message.includes('Cannot read properties') ||
+      message.includes('Cannot access before initialization') ||
+      message.includes('Maximum call stack size exceeded')) {
+    originalConsoleError('🚨 CRITICAL ERROR:', ...args);
+    throw new Error('Test failed due to critical error: ' + message);
+  }
+
+  originalConsoleError(...args);
+};
+
+console.warn = (...args) => {
+  const message = args.join(' ');
+
+  // Track excessive re-renders
+  if (message.includes('render') || message.includes('update')) {
+    renderCount++;
+    const now = Date.now();
+
+    if (renderCount > 50 && (now - lastRenderTime) < 1000) {
+      originalConsoleWarn('⚠️ EXCESSIVE RENDERS DETECTED:', renderCount, 'renders in', now - lastRenderTime, 'ms');
+    }
+
+    lastRenderTime = now;
+  }
+
+  originalConsoleWarn(...args);
+};
+
 // Mock react-native-gesture-handler
 jest.mock('react-native-gesture-handler', () => {
   const View = require('react-native/Libraries/Components/View/View');
@@ -39,12 +94,42 @@ jest.mock('expo-status-bar', () => ({
   StatusBar: 'StatusBar',
 }));
 
+jest.mock('expo-router', () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    back: jest.fn(),
+    replace: jest.fn(),
+  }),
+  router: {
+    push: jest.fn(),
+    back: jest.fn(),
+    replace: jest.fn(),
+  },
+}));
+
+jest.mock('expo-haptics', () => ({
+  impactAsync: jest.fn(),
+  ImpactFeedbackStyle: {
+    Light: 'light',
+    Medium: 'medium',
+    Heavy: 'heavy',
+  },
+}));
+
+jest.mock('expo-linear-gradient', () => ({
+  LinearGradient: ({ children, ...props }: any) => {
+    const React = require('react');
+    return React.createElement('View', props, children);
+  },
+}));
+
 // Mock react-native-safe-area-context
 jest.mock('react-native-safe-area-context', () => {
+  const React = require('react');
   const inset = { top: 0, right: 0, bottom: 0, left: 0 };
   return {
-    SafeAreaProvider: ({ children }: any) => children,
-    SafeAreaView: ({ children }: any) => children,
+    SafeAreaProvider: ({ children }: any) => React.createElement('View', {}, children),
+    SafeAreaView: ({ children }: any) => React.createElement('View', {}, children),
     useSafeAreaInsets: () => inset,
     useSafeAreaFrame: () => ({ x: 0, y: 0, width: 390, height: 844 }),
   };
@@ -125,6 +210,30 @@ afterAll(() => {
   console.warn = originalWarn;
   console.error = originalError;
 });
+
+// Mock stores
+jest.mock('@/hooks/useThemeColors', () => ({
+  useThemeColors: () => ({
+    background: '#ffffff',
+    text: '#000000',
+    textSecondary: '#666666',
+    primary: '#007AFF',
+    card: '#f8f9fa',
+    border: '#e0e0e0',
+    success: '#4CAF50',
+    error: '#F44336',
+    inactive: '#999999',
+  }),
+}));
+
+// Mock data loader
+jest.mock('@/data/processors/dataLoader', () => ({
+  lessons: [
+    { id: 'lesson-001', title: 'Introduction to JavaScript', description: 'Learn the basics', day: 1, codeExample: 'console.log("Hello World");' },
+    { id: 'lesson-002', title: 'Variables', description: 'Understanding variables', day: 2, codeExample: 'let x = 5;' },
+    { id: 'lesson-003', title: 'Functions', description: 'Creating functions', day: 3, codeExample: 'function test() {}' },
+  ]
+}));
 
 // Mock timers for animation testing
 jest.useFakeTimers();

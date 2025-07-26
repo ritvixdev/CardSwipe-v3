@@ -262,11 +262,12 @@ export default function LessonCard({
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.cardContent}
             activeOpacity={0.9}
             onPress={handleCardPress}
             disabled={!isTopCard}
+            testID="lesson-card"
           >
             <View style={styles.header}>
               <View style={[styles.dayBadge, { backgroundColor: themeColors.primary }]}>

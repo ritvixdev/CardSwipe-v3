@@ -319,7 +319,7 @@ export default function ExploreScreen() {
   );
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} testID="explore-screen">
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerTop}>
