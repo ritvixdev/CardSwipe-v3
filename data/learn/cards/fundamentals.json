@@ -1,0 +1,82 @@
+{
+  "cards": [
+    {
+      "id": "js-history-1",
+      "title": "JavaScript's Birth Story",
+      "day": 1,
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "Discover the fascinating origin story of JavaScript - created in just 10 days!",
+      "content": "JavaScript was created by Brendan Eich at Netscape in May 1995, in just 10 days! Originally called 'Mocha', then 'LiveScript', it was finally renamed 'JavaScript' for marketing reasons to ride on Java's popularity. Despite the name similarity, JavaScript and Java are completely different languages - as different as 'car' and 'carpet'!",
+      "codeExample": "// JavaScript's first 'Hello World' (1995)\ndocument.write('Hello, World!');\n\n// Modern JavaScript (2024)\nconsole.log('Hello, World!');\n\n// Fun fact: This simple evolution shows 29 years of progress!",
+      "keyPoints": [
+        "Created in just 10 days by Brendan Eich in 1995",
+        "Originally named Mocha, then LiveScript, finally JavaScript",
+        "Named after Java for marketing, but they're completely different",
+        "Became the language of the web and now runs everywhere"
+      ],
+      "quiz": {
+        "question": "How long did it take to create the first version of JavaScript?",
+        "options": ["10 days", "10 weeks", "10 months", "1 year"],
+        "correctAnswer": 0,
+        "explanation": "Brendan Eich created the first version of JavaScript in just 10 days in May 1995 while working at Netscape."
+      },
+      "tags": ["history", "brendan-eich", "netscape", "origin"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "js-naming-confusion",
+      "title": "The Great JavaScript Naming Confusion",
+      "day": 1,
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "3 min",
+      "description": "Why JavaScript isn't Java, and the marketing story behind the name.",
+      "content": "One of the biggest misconceptions in programming is that JavaScript is related to Java. The truth? It's pure marketing! Netscape partnered with Sun Microsystems (Java's creator) and renamed their 'LiveScript' to 'JavaScript' to capitalize on Java's growing popularity. It's like calling a hamster a 'ham' to boost sales!",
+      "codeExample": "// Java (completely different language)\npublic class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}\n\n// JavaScript (our beloved web language)\nfunction sayHello() {\n    console.log('Hello, World!');\n}\nsayHello();\n\n// As you can see, they're as different as pizza and pineapple!",
+      "keyPoints": [
+        "JavaScript and Java are completely different languages",
+        "The name was chosen for marketing reasons in 1995",
+        "JavaScript is interpreted, Java is compiled",
+        "JavaScript runs in browsers, Java runs on JVM"
+      ],
+      "quiz": {
+        "question": "Why was JavaScript named after Java?",
+        "options": ["They're similar languages", "Marketing partnership with Sun Microsystems", "Same creator", "Technical compatibility"],
+        "correctAnswer": 1,
+        "explanation": "JavaScript was named after Java purely for marketing reasons when Netscape partnered with Sun Microsystems, despite the languages being completely different."
+      },
+      "tags": ["naming", "java", "marketing", "misconception"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "js-everywhere",
+      "title": "JavaScript: The Language That Conquered Everything",
+      "day": 1,
+      "category": "Fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "3 min",
+      "description": "From browsers to servers, mobile apps to desktop - JavaScript runs everywhere!",
+      "content": "JavaScript started as a simple browser scripting language, but it has since conquered the entire programming world! Today, you can build websites (React, Vue), mobile apps (React Native, Ionic), desktop applications (Electron), servers (Node.js), games (Phaser), AI/ML (TensorFlow.js), and even control robots and IoT devices. There's a famous saying: 'Any application that can be written in JavaScript, will eventually be written in JavaScript' - and it's proving true!",
+      "codeExample": "// Frontend (Browser)\ndocument.getElementById('app').innerHTML = 'Hello Web!';\n\n// Backend (Node.js)\nconst express = require('express');\nconst app = express();\napp.get('/', (req, res) => res.send('Hello Server!'));\n\n// Mobile (React Native)\nimport React from 'react';\nimport { Text, View } from 'react-native';\nconst App = () => <View><Text>Hello Mobile!</Text></View>;\n\n// Desktop (Electron)\nconst { app, BrowserWindow } = require('electron');\n// Creates desktop apps like VS Code, Discord, Slack!\n\n// One language, infinite possibilities! 🚀",
+      "keyPoints": [
+        "Runs in browsers, servers, mobile apps, and desktop applications",
+        "Powers popular apps like VS Code, Discord, WhatsApp Web",
+        "Single language for full-stack development",
+        "Largest ecosystem with over 1 million npm packages"
+      ],
+      "quiz": {
+        "question": "Which of these CANNOT be built with JavaScript?",
+        "options": ["Mobile apps", "Desktop applications", "Web servers", "None - JS can build all of these"],
+        "correctAnswer": 3,
+        "explanation": "JavaScript can build all of these! Mobile apps (React Native), desktop apps (Electron), web servers (Node.js), and of course web applications."
+      },
+      "tags": ["versatility", "platforms", "ecosystem", "full-stack"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "cards": [
+    {
+      "id": "variables-evolution",
+      "title": "Variables: From var to let to const",
+      "day": 2,
+      "category": "Data Structures",
+      "difficulty": "beginner",
+      "estimatedTime": "4 min",
+      "description": "Master the evolution of JavaScript variables and when to use each type.",
+      "content": "JavaScript variables have evolved significantly! We started with 'var' (function-scoped, hoisted, and problematic), then got 'let' (block-scoped, not hoisted) and 'const' (block-scoped, immutable binding). Understanding these differences is crucial for writing modern, bug-free JavaScript.",
+      "codeExample": "// var - the old way (avoid in modern JS)\nvar name = 'Alice';\nvar name = 'Bob'; // Redeclaration allowed (dangerous!)\nif (true) {\n  var age = 25;\n}\nconsole.log(age); // 25 (leaked outside block!)\n\n// let - for variables that change\nlet score = 100;\nscore = 150; // ✅ Reassignment allowed\n// let score = 200; // ❌ SyntaxError: Identifier 'score' has already been declared\n\nif (true) {\n  let level = 5;\n}\n// console.log(level); // ❌ ReferenceError: level is not defined\n\n// const - for constants (preferred when possible)\nconst PI = 3.14159;\n// PI = 3.14; // ❌ TypeError: Assignment to constant variable\n\n// const with objects/arrays (contents can change!)\nconst user = { name: 'Alice', age: 25 };\nuser.age = 26; // ✅ Allowed! We're not reassigning the variable\nuser.city = 'NYC'; // ✅ Allowed!\n// user = {}; // ❌ TypeError: Assignment to constant variable\n\nconst colors = ['red', 'green'];\ncolors.push('blue'); // ✅ Allowed! Array contents can change\n// colors = []; // ❌ TypeError: Assignment to constant variable",
+      "keyPoints": [
+        "Use 'const' by default for immutable bindings",
+        "Use 'let' when you need to reassign the variable",
+        "Avoid 'var' in modern JavaScript due to scoping issues",
+        "'const' objects/arrays can have their contents modified"
+      ],
+      "quiz": {
+        "question": "What happens when you try to reassign a const variable?",
+        "options": ["It works normally", "It gives a warning", "It throws a TypeError", "It creates a new variable"],
+        "correctAnswer": 2,
+        "explanation": "Attempting to reassign a const variable throws a TypeError because const creates an immutable binding to the value."
+      },
+      "tags": ["variables", "var", "let", "const", "scope"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "data-types-comprehensive",
+      "title": "JavaScript's 8 Data Types Explained",
+      "day": 2,
+      "category": "Data Structures",
+      "difficulty": "intermediate",
+      "estimatedTime": "5 min",
+      "description": "Master all JavaScript data types: 7 primitives + 1 object type.",
+      "content": "JavaScript has exactly 8 data types: 7 primitive types (number, string, boolean, undefined, null, symbol, bigint) and 1 object type (which includes arrays, functions, dates, etc.). Understanding these types and how JavaScript handles them is fundamental to becoming a proficient developer.",
+      "codeExample": "// 1. Number - integers and floats\nconst integer = 42;\nconst float = 3.14159;\nconst scientific = 1.23e-4; // 0.000123\nconst infinity = Infinity;\nconst notANumber = NaN;\nconsole.log(typeof 42); // 'number'\n\n// 2. String - text data\nconst singleQuote = 'Hello';\nconst doubleQuote = \"World\";\nconst templateLiteral = `Hello ${singleQuote}!`;\nconst multiline = `Line 1\nLine 2`;\nconsole.log(typeof 'text'); // 'string'\n\n// 3. Boolean - true/false\nconst isActive = true;\nconst isComplete = false;\nconsole.log(typeof true); // 'boolean'\n\n// 4. Undefined - declared but not assigned\nlet unassigned;\nconsole.log(unassigned); // undefined\nconsole.log(typeof undefined); // 'undefined'\n\n// 5. Null - intentional absence of value\nconst empty = null;\nconsole.log(typeof null); // 'object' (famous JavaScript quirk!)\n\n// 6. Symbol - unique identifier (ES6)\nconst sym1 = Symbol('id');\nconst sym2 = Symbol('id');\nconsole.log(sym1 === sym2); // false (always unique!)\nconsole.log(typeof sym1); // 'symbol'\n\n// 7. BigInt - large integers (ES2020)\nconst bigNumber = 1234567890123456789012345678901234567890n;\nconst anotherBig = BigInt('9007199254740991');\nconsole.log(typeof bigNumber); // 'bigint'\n\n// 8. Object - everything else!\nconst obj = { name: 'Alice', age: 25 };\nconst arr = [1, 2, 3, 4, 5];\nconst func = function() { return 'Hello'; };\nconst date = new Date();\nconsole.log(typeof obj); // 'object'\nconsole.log(typeof arr); // 'object'\nconsole.log(typeof func); // 'function' (special case)\nconsole.log(typeof date); // 'object'",
+      "keyPoints": [
+        "7 primitive types: number, string, boolean, undefined, null, symbol, bigint",
+        "1 object type: includes objects, arrays, functions, dates",
+        "typeof null returns 'object' (famous JavaScript bug)",
+        "Symbols are always unique, even with same description"
+      ],
+      "quiz": {
+        "question": "What does typeof null return?",
+        "options": ["'null'", "'undefined'", "'object'", "'boolean'"],
+        "correctAnswer": 2,
+        "explanation": "typeof null returns 'object' due to a famous bug in JavaScript that has been kept for backward compatibility."
+      },
+      "tags": ["data-types", "primitives", "typeof", "null", "symbol", "bigint"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}

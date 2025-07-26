@@ -1,0 +1,56 @@
+{
+  "cards": [
+    {
+      "id": "boolean-truthy-falsy",
+      "title": "Truthy vs Falsy: JavaScript's Truth System",
+      "day": 3,
+      "category": "Control Flow",
+      "difficulty": "beginner",
+      "estimatedTime": "4 min",
+      "description": "Master JavaScript's truthy and falsy values - essential for conditional logic.",
+      "content": "JavaScript has a unique system for determining what values are considered 'true' or 'false' in boolean contexts. Understanding truthy and falsy values is crucial for writing effective conditional statements and avoiding common bugs.",
+      "codeExample": "// Falsy values (only 8 in JavaScript!)\nconsole.log(Boolean(false));     // false\nconsole.log(Boolean(0));         // false\nconsole.log(Boolean(-0));        // false\nconsole.log(Boolean(0n));        // false (BigInt zero)\nconsole.log(Boolean(''));        // false (empty string)\nconsole.log(Boolean(null));      // false\nconsole.log(Boolean(undefined)); // false\nconsole.log(Boolean(NaN));       // false\n\n// Everything else is truthy!\nconsole.log(Boolean('0'));       // true (string '0')\nconsole.log(Boolean('false'));   // true (string 'false')\nconsole.log(Boolean([]));        // true (empty array)\nconsole.log(Boolean({}));        // true (empty object)\nconsole.log(Boolean(function(){})); // true (function)\n\n// Practical usage in conditions\nconst userInput = '';\nif (userInput) {\n  console.log('User provided input');\n} else {\n  console.log('No input provided'); // This runs\n}\n\n// Common gotcha\nconst items = [];\nif (items) {\n  console.log('Has items'); // This runs! Empty array is truthy\n}\nif (items.length) {\n  console.log('Actually has items'); // This doesn't run\n}",
+      "keyPoints": [
+        "Only 8 falsy values: false, 0, -0, 0n, '', null, undefined, NaN",
+        "Everything else is truthy, including '0', 'false', [], {}",
+        "Empty arrays and objects are truthy",
+        "Use .length or Object.keys() to check if arrays/objects have content"
+      ],
+      "quiz": {
+        "question": "Which of these values is truthy in JavaScript?",
+        "options": ["0", "''", "[]", "null"],
+        "correctAnswer": 2,
+        "explanation": "An empty array [] is truthy in JavaScript. Only 8 values are falsy: false, 0, -0, 0n, '', null, undefined, and NaN."
+      },
+      "tags": ["boolean", "truthy", "falsy", "conditionals"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "loops-comprehensive",
+      "title": "Loops: The Art of Repetition",
+      "day": 6,
+      "category": "Control Flow",
+      "difficulty": "beginner",
+      "estimatedTime": "6 min",
+      "description": "Master all types of loops in JavaScript: for, while, do-while, for...in, for...of, and forEach.",
+      "content": "Loops are fundamental for repeating operations in programming. JavaScript offers multiple loop types, each optimized for different scenarios. Understanding when to use each type makes your code more efficient and readable.",
+      "codeExample": "// 1. Traditional for loop - best for counting\nfor (let i = 0; i < 5; i++) {\n  console.log(`Count: ${i}`);\n}\n\n// 2. While loop - condition-based repetition\nlet count = 0;\nwhile (count < 3) {\n  console.log(`While count: ${count}`);\n  count++;\n}\n\n// 3. Do-while loop - executes at least once\nlet num = 10;\ndo {\n  console.log(`Do-while: ${num}`);\n  num++;\n} while (num < 10); // Still runs once even though condition is false\n\n// 4. For...in loop - iterates over object properties\nconst person = { name: 'Alice', age: 30, city: 'NYC' };\nfor (const key in person) {\n  console.log(`${key}: ${person[key]}`);\n}\n\n// 5. For...of loop - iterates over iterable values\nconst fruits = ['apple', 'banana', 'cherry'];\nfor (const fruit of fruits) {\n  console.log(`Fruit: ${fruit}`);\n}\n\n// 6. forEach method - functional approach\nfruits.forEach((fruit, index) => {\n  console.log(`${index}: ${fruit}`);\n});",
+      "keyPoints": [
+        "for loop: best for counting and performance",
+        "for...of: iterates over values of iterables",
+        "for...in: iterates over object properties (keys)",
+        "Modern methods (map, filter, reduce) are more functional"
+      ],
+      "quiz": {
+        "question": "What's the difference between for...in and for...of?",
+        "options": ["No difference", "for...in gets keys, for...of gets values", "for...of is faster", "for...in is deprecated"],
+        "correctAnswer": 1,
+        "explanation": "for...in iterates over enumerable property names (keys) of an object, while for...of iterates over values of iterable objects like arrays."
+      },
+      "tags": ["loops", "iteration", "for", "while", "control-flow"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}

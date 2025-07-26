@@ -1,0 +1,56 @@
+{
+  "cards": [
+    {
+      "id": "promises-async-await",
+      "title": "Promises & Async/Await: Mastering Asynchronous JavaScript",
+      "day": 18,
+      "category": "Asynchronous",
+      "difficulty": "intermediate",
+      "estimatedTime": "7 min",
+      "description": "Master modern asynchronous programming with Promises and async/await syntax.",
+      "content": "Asynchronous programming is essential for modern JavaScript applications. Promises and async/await provide elegant ways to handle operations that take time, like API calls, file operations, or timers, without blocking the main thread.",
+      "codeExample": "// Creating and using Promises\nconst fetchUserData = (userId) => {\n  return new Promise((resolve, reject) => {\n    // Simulate API call\n    setTimeout(() => {\n      if (userId > 0) {\n        resolve({ id: userId, name: 'Alice', email: 'alice@example.com' });\n      } else {\n        reject(new Error('Invalid user ID'));\n      }\n    }, 1000);\n  });\n};\n\n// Using Promises with .then()\nfetchUserData(1)\n  .then(user => {\n    console.log('User data:', user);\n    return fetchUserData(2); // Chain another promise\n  })\n  .then(user2 => {\n    console.log('Second user:', user2);\n  })\n  .catch(error => {\n    console.error('Error:', error.message);\n  })\n  .finally(() => {\n    console.log('Promise chain completed');\n  });\n\n// Modern async/await syntax (much cleaner!)\nasync function getUserData(userId) {\n  try {\n    const user = await fetchUserData(userId);\n    console.log('User data:', user);\n    \n    // Sequential async operations\n    const user2 = await fetchUserData(userId + 1);\n    console.log('Second user:', user2);\n    \n    return { user, user2 };\n  } catch (error) {\n    console.error('Error:', error.message);\n    throw error; // Re-throw if needed\n  }\n}\n\n// Parallel async operations\nasync function getMultipleUsers() {\n  try {\n    // All requests start simultaneously\n    const [user1, user2, user3] = await Promise.all([\n      fetchUserData(1),\n      fetchUserData(2),\n      fetchUserData(3)\n    ]);\n    \n    console.log('All users:', { user1, user2, user3 });\n  } catch (error) {\n    console.error('One or more requests failed:', error);\n  }\n}\n\n// Promise.allSettled - handles both success and failure\nasync function getAllUsersWithErrors() {\n  const results = await Promise.allSettled([\n    fetchUserData(1),\n    fetchUserData(-1), // This will fail\n    fetchUserData(3)\n  ]);\n  \n  results.forEach((result, index) => {\n    if (result.status === 'fulfilled') {\n      console.log(`User ${index + 1}:`, result.value);\n    } else {\n      console.error(`User ${index + 1} failed:`, result.reason.message);\n    }\n  });\n}\n\n// Real-world example: API with retry logic\nasync function fetchWithRetry(url, maxRetries = 3) {\n  for (let attempt = 1; attempt <= maxRetries; attempt++) {\n    try {\n      const response = await fetch(url);\n      if (!response.ok) {\n        throw new Error(`HTTP ${response.status}: ${response.statusText}`);\n      }\n      return await response.json();\n    } catch (error) {\n      console.log(`Attempt ${attempt} failed:`, error.message);\n      \n      if (attempt === maxRetries) {\n        throw new Error(`Failed after ${maxRetries} attempts: ${error.message}`);\n      }\n      \n      // Wait before retrying (exponential backoff)\n      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));\n    }\n  }\n}",
+      "keyPoints": [
+        "Promises handle asynchronous operations with resolve/reject",
+        "async/await provides cleaner syntax than .then() chains",
+        "Promise.all() runs operations in parallel",
+        "Always use try/catch with async/await for error handling"
+      ],
+      "quiz": {
+        "question": "What's the main advantage of async/await over .then()?",
+        "options": ["It's faster", "It's more readable and easier to debug", "It uses less memory", "It's supported in older browsers"],
+        "correctAnswer": 1,
+        "explanation": "async/await provides more readable, synchronous-looking code that's easier to debug and understand compared to .then() chains."
+      },
+      "tags": ["promises", "async", "await", "asynchronous"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "fetch-api",
+      "title": "Fetch API: Modern HTTP Requests",
+      "day": 18,
+      "category": "Asynchronous",
+      "difficulty": "intermediate",
+      "estimatedTime": "5 min",
+      "description": "Master the Fetch API for making HTTP requests in modern JavaScript applications.",
+      "content": "The Fetch API is the modern way to make HTTP requests in JavaScript, replacing the older XMLHttpRequest. It returns Promises and provides a clean, powerful interface for communicating with servers.",
+      "codeExample": "// Basic GET request\nasync function getUsers() {\n  try {\n    const response = await fetch('https://jsonplaceholder.typicode.com/users');\n    \n    if (!response.ok) {\n      throw new Error(`HTTP error! status: ${response.status}`);\n    }\n    \n    const users = await response.json();\n    console.log('Users:', users);\n    return users;\n  } catch (error) {\n    console.error('Fetch error:', error.message);\n  }\n}\n\n// POST request with JSON data\nasync function createUser(userData) {\n  try {\n    const response = await fetch('https://jsonplaceholder.typicode.com/users', {\n      method: 'POST',\n      headers: {\n        'Content-Type': 'application/json',\n        'Authorization': 'Bearer your-token-here'\n      },\n      body: JSON.stringify(userData)\n    });\n    \n    if (!response.ok) {\n      throw new Error(`Failed to create user: ${response.status}`);\n    }\n    \n    const newUser = await response.json();\n    console.log('Created user:', newUser);\n    return newUser;\n  } catch (error) {\n    console.error('Create user error:', error.message);\n  }\n}\n\n// PUT request for updates\nasync function updateUser(userId, updates) {\n  const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {\n    method: 'PUT',\n    headers: { 'Content-Type': 'application/json' },\n    body: JSON.stringify(updates)\n  });\n  \n  return response.json();\n}\n\n// DELETE request\nasync function deleteUser(userId) {\n  const response = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`, {\n    method: 'DELETE'\n  });\n  \n  if (response.ok) {\n    console.log(`User ${userId} deleted successfully`);\n  }\n}\n\n// File upload with FormData\nasync function uploadFile(file) {\n  const formData = new FormData();\n  formData.append('file', file);\n  formData.append('description', 'User uploaded file');\n  \n  try {\n    const response = await fetch('/api/upload', {\n      method: 'POST',\n      body: formData // Don't set Content-Type header for FormData\n    });\n    \n    const result = await response.json();\n    console.log('Upload result:', result);\n  } catch (error) {\n    console.error('Upload failed:', error);\n  }\n}\n\n// Advanced: Request with timeout\nfunction fetchWithTimeout(url, options = {}, timeout = 5000) {\n  return Promise.race([\n    fetch(url, options),\n    new Promise((_, reject) => \n      setTimeout(() => reject(new Error('Request timeout')), timeout)\n    )\n  ]);\n}\n\n// Usage with error handling and loading states\nasync function handleApiCall() {\n  const loadingElement = document.querySelector('#loading');\n  const errorElement = document.querySelector('#error');\n  \n  try {\n    loadingElement.style.display = 'block';\n    errorElement.style.display = 'none';\n    \n    const data = await fetchWithTimeout('/api/data', {}, 3000);\n    const result = await data.json();\n    \n    // Update UI with data\n    console.log('Success:', result);\n  } catch (error) {\n    errorElement.textContent = error.message;\n    errorElement.style.display = 'block';\n  } finally {\n    loadingElement.style.display = 'none';\n  }\n}",
+      "keyPoints": [
+        "Always check response.ok before processing data",
+        "Use appropriate HTTP methods (GET, POST, PUT, DELETE)",
+        "Set correct headers, especially Content-Type for JSON",
+        "Handle errors gracefully with try/catch blocks"
+      ],
+      "quiz": {
+        "question": "What does response.ok check in the Fetch API?",
+        "options": ["If the response has data", "If the status code is 200-299", "If the request was sent", "If the JSON is valid"],
+        "correctAnswer": 1,
+        "explanation": "response.ok returns true if the HTTP status code is in the 200-299 range, indicating a successful response."
+      },
+      "tags": ["fetch", "http", "api", "requests"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}

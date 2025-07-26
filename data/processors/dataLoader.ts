@@ -1,5 +1,5 @@
 // Data loader utilities for JSON files
-import learnCardsData from '../learn/cards.json';
+import learnConfigData from '../learn/config.json';
 import javascriptNotesData from '../explore/javascript-notes.json';
 import practiceQuizData from '../explore/practice-quiz.json';
 import interviewPrepData from '../explore/interview-prep.json';
@@ -8,7 +8,15 @@ import learningRoadmapData from '../explore/learning-roadmap.json';
 import designPatternsData from '../explore/design-patterns.json';
 import codingQuestionsData from '../explore/coding-questions.json';
 
-// Topic-specific cards
+// Modular card files
+import fundamentalsCards from '../learn/cards/fundamentals.json';
+import dataStructuresCards from '../learn/cards/data-structures.json';
+import controlFlowCards from '../learn/cards/control-flow.json';
+import webDevelopmentCards from '../learn/cards/web-development.json';
+import asynchronousCards from '../learn/cards/asynchronous.json';
+import advancedConceptsCards from '../learn/cards/advanced-concepts.json';
+
+// Topic-specific cards (keeping for backward compatibility)
 import easyTopicData from '../learn/topics/easy.json';
 import mediumTopicData from '../learn/topics/medium.json';
 import hardTopicData from '../learn/topics/hard.json';
@@ -140,11 +148,39 @@ export interface LearningRoadmap {
   connections: RoadmapConnection[];
 }
 
-// Learn Cards
-export const lessons: LearnCard[] = learnCardsData.lessons as LearnCard[];
-export const lessonCategories: string[] = learnCardsData.categories;
-export const lessonDifficulties: string[] = learnCardsData.difficulties;
-export const topics = learnCardsData.topics;
+// Combine all card files into a single lessons array
+const allCardFiles = [
+  fundamentalsCards,
+  dataStructuresCards,
+  controlFlowCards,
+  webDevelopmentCards,
+  asynchronousCards,
+  advancedConceptsCards
+];
+
+// Helper function to get cards by category
+export function getCardsByCategory(category: string): LearnCard[] {
+  const categoryMap: { [key: string]: any } = {
+    'Fundamentals': fundamentalsCards,
+    'Data Structures': dataStructuresCards,
+    'Control Flow': controlFlowCards,
+    'Web Development': webDevelopmentCards,
+    'Asynchronous': asynchronousCards,
+    'Advanced Concepts': advancedConceptsCards,
+  };
+
+  return categoryMap[category]?.cards || [];
+}
+
+// Helper function to add new card files (for future expansion)
+export function getAllCardFiles() {
+  return allCardFiles;
+}
+
+export const lessons: LearnCard[] = allCardFiles.flatMap(cardFile => cardFile.cards as LearnCard[]);
+export const lessonCategories: string[] = learnConfigData.categories;
+export const lessonDifficulties: string[] = learnConfigData.difficulties;
+export const topics = learnConfigData.topics;
 
 // Topic data map for static imports
 const topicDataMap: { [key: string]: any } = {
@@ -153,6 +189,13 @@ const topicDataMap: { [key: string]: any } = {
   hard: hardTopicData,
   interview: interviewTopicData,
   fundamentals: fundamentalsTopicData,
+  // New modular card files
+  'fundamentals-cards': fundamentalsCards,
+  'data-structures': dataStructuresCards,
+  'control-flow': controlFlowCards,
+  'web-development': webDevelopmentCards,
+  'asynchronous': asynchronousCards,
+  'advanced-concepts': advancedConceptsCards,
 };
 
 // JavaScript Notes

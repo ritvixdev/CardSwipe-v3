@@ -1,0 +1,56 @@
+{
+  "cards": [
+    {
+      "id": "dom-manipulation",
+      "title": "DOM Manipulation: Controlling Web Pages",
+      "day": 21,
+      "category": "Web Development",
+      "difficulty": "intermediate",
+      "estimatedTime": "5 min",
+      "description": "Master the Document Object Model and learn to dynamically control web pages.",
+      "content": "The DOM (Document Object Model) is JavaScript's gateway to controlling web pages. It represents the HTML document as a tree of objects that you can manipulate to create dynamic, interactive websites. Modern DOM manipulation is the foundation of all web frameworks!",
+      "codeExample": "// Selecting elements (modern methods)\nconst header = document.querySelector('h1');\nconst allButtons = document.querySelectorAll('button');\nconst byId = document.getElementById('myElement');\nconst byClass = document.getElementsByClassName('myClass');\n\n// Creating and modifying elements\nconst newDiv = document.createElement('div');\nnewDiv.textContent = 'Hello, DOM!';\nnewDiv.className = 'dynamic-content';\nnewDiv.style.color = 'blue';\nnewDiv.style.fontSize = '18px';\n\n// Adding elements to the page\ndocument.body.appendChild(newDiv);\n\n// Modifying existing elements\nheader.textContent = 'Updated Title';\nheader.classList.add('highlighted');\nheader.setAttribute('data-updated', 'true');\n\n// Event handling\nallButtons.forEach(button => {\n  button.addEventListener('click', (event) => {\n    console.log('Button clicked:', event.target.textContent);\n    event.target.style.backgroundColor = 'green';\n  });\n});\n\n// Removing elements\nconst oldElement = document.querySelector('.old-content');\nif (oldElement) {\n  oldElement.remove(); // Modern way\n  // oldElement.parentNode.removeChild(oldElement); // Old way\n}\n\n// Modern DOM manipulation patterns\nfunction createCard(title, content) {\n  const card = document.createElement('div');\n  card.className = 'card';\n  card.innerHTML = `\n    <h3>${title}</h3>\n    <p>${content}</p>\n    <button onclick=\"this.parentElement.remove()\">Delete</button>\n  `;\n  return card;\n}\n\n// Add multiple cards\nconst container = document.querySelector('#cards-container');\nconst cards = [\n  { title: 'Card 1', content: 'First card content' },\n  { title: 'Card 2', content: 'Second card content' }\n];\n\ncards.forEach(cardData => {\n  const card = createCard(cardData.title, cardData.content);\n  container.appendChild(card);\n});",
+      "keyPoints": [
+        "Use querySelector/querySelectorAll for modern element selection",
+        "createElement and appendChild for adding new elements",
+        "addEventListener for handling user interactions",
+        "classList methods for managing CSS classes dynamically"
+      ],
+      "quiz": {
+        "question": "What's the modern way to select the first element with class 'button'?",
+        "options": ["document.getElementsByClassName('button')[0]", "document.querySelector('.button')", "document.getElementByClass('button')", "document.findElement('.button')"],
+        "correctAnswer": 1,
+        "explanation": "document.querySelector('.button') is the modern way to select the first element with class 'button'. It uses CSS selector syntax."
+      },
+      "tags": ["dom", "manipulation", "elements", "events"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "event-handling",
+      "title": "Event Handling: Making Web Pages Interactive",
+      "day": 23,
+      "category": "Web Development",
+      "difficulty": "intermediate",
+      "estimatedTime": "6 min",
+      "description": "Master JavaScript events to create responsive, interactive web applications.",
+      "content": "Events are the heart of interactive web applications. From clicks and key presses to form submissions and page loads, understanding how to handle events properly is essential for creating engaging user experiences.",
+      "codeExample": "// Basic event handling\nconst button = document.querySelector('#myButton');\nbutton.addEventListener('click', function(event) {\n  console.log('Button clicked!');\n  console.log('Event type:', event.type);\n  console.log('Target element:', event.target);\n});\n\n// Modern arrow function syntax\nbutton.addEventListener('click', (e) => {\n  e.preventDefault(); // Prevent default behavior\n  e.stopPropagation(); // Stop event bubbling\n  console.log('Modern event handler');\n});\n\n// Multiple event types\nconst input = document.querySelector('#textInput');\ninput.addEventListener('focus', () => console.log('Input focused'));\ninput.addEventListener('blur', () => console.log('Input lost focus'));\ninput.addEventListener('input', (e) => {\n  console.log('Input value:', e.target.value);\n});\n\n// Keyboard events\ndocument.addEventListener('keydown', (e) => {\n  if (e.key === 'Enter') {\n    console.log('Enter key pressed');\n  }\n  if (e.ctrlKey && e.key === 's') {\n    e.preventDefault(); // Prevent browser save\n    console.log('Ctrl+S pressed - custom save!');\n  }\n});\n\n// Form handling\nconst form = document.querySelector('#myForm');\nform.addEventListener('submit', (e) => {\n  e.preventDefault(); // Prevent page reload\n  \n  const formData = new FormData(form);\n  const data = Object.fromEntries(formData);\n  console.log('Form data:', data);\n  \n  // Validate and submit\n  if (data.email && data.password) {\n    console.log('Form is valid, submitting...');\n  } else {\n    console.log('Please fill all fields');\n  }\n});\n\n// Event delegation (efficient for dynamic content)\nconst container = document.querySelector('#dynamic-container');\ncontainer.addEventListener('click', (e) => {\n  if (e.target.classList.contains('delete-btn')) {\n    e.target.closest('.item').remove();\n  }\n  if (e.target.classList.contains('edit-btn')) {\n    const item = e.target.closest('.item');\n    const text = item.querySelector('.text');\n    text.contentEditable = true;\n    text.focus();\n  }\n});\n\n// Custom events\nconst customEvent = new CustomEvent('userLoggedIn', {\n  detail: { username: 'alice', timestamp: Date.now() }\n});\n\ndocument.addEventListener('userLoggedIn', (e) => {\n  console.log('User logged in:', e.detail.username);\n});\n\n// Trigger custom event\ndocument.dispatchEvent(customEvent);",
+      "keyPoints": [
+        "Use addEventListener for modern event handling",
+        "preventDefault() stops default browser behavior",
+        "Event delegation is efficient for dynamic content",
+        "Custom events enable component communication"
+      ],
+      "quiz": {
+        "question": "What does event.stopPropagation() do?",
+        "options": ["Prevents default browser behavior", "Stops the event from bubbling up", "Removes the event listener", "Cancels the event"],
+        "correctAnswer": 1,
+        "explanation": "event.stopPropagation() prevents the event from bubbling up to parent elements, stopping the event propagation chain."
+      },
+      "tags": ["events", "interaction", "forms", "delegation"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}

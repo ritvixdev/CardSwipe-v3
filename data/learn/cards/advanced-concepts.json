@@ -1,0 +1,56 @@
+{
+  "cards": [
+    {
+      "id": "closures-advanced",
+      "title": "Closures: JavaScript's Superpower",
+      "day": 19,
+      "category": "Advanced Concepts",
+      "difficulty": "advanced",
+      "estimatedTime": "6 min",
+      "description": "Master closures - one of JavaScript's most powerful and misunderstood features.",
+      "content": "Closures are a fundamental concept in JavaScript that allows functions to access variables from their outer (enclosing) scope even after the outer function has finished executing. This creates powerful patterns for data privacy, function factories, and module systems.",
+      "codeExample": "// Basic closure example\nfunction outerFunction(x) {\n  // This variable is in the outer scope\n  const outerVariable = x;\n  \n  // Inner function has access to outer variables\n  function innerFunction(y) {\n    console.log(`Outer: ${outerVariable}, Inner: ${y}`);\n    return outerVariable + y;\n  }\n  \n  return innerFunction; // Return the inner function\n}\n\nconst addFive = outerFunction(5);\nconsole.log(addFive(10)); // 15\n// outerFunction has finished, but innerFunction still remembers outerVariable!\n\n// Practical example: Counter with private state\nfunction createCounter(initialValue = 0) {\n  let count = initialValue; // Private variable\n  \n  return {\n    increment: () => ++count,\n    decrement: () => --count,\n    getValue: () => count,\n    reset: () => { count = initialValue; }\n  };\n}\n\nconst counter = createCounter(10);\nconsole.log(counter.getValue()); // 10\nconsole.log(counter.increment()); // 11\nconsole.log(counter.increment()); // 12\nconsole.log(counter.decrement()); // 11\n// console.log(count); // ReferenceError: count is not accessible!\n\n// Function factory pattern\nfunction createMultiplier(multiplier) {\n  return function(number) {\n    return number * multiplier;\n  };\n}\n\nconst double = createMultiplier(2);\nconst triple = createMultiplier(3);\nconst quadruple = createMultiplier(4);\n\nconsole.log(double(5)); // 10\nconsole.log(triple(5)); // 15\nconsole.log(quadruple(5)); // 20\n\n// Module pattern with closures\nconst bankAccount = (function(initialBalance) {\n  let balance = initialBalance;\n  let transactionHistory = [];\n  \n  function addTransaction(type, amount) {\n    transactionHistory.push({\n      type,\n      amount,\n      timestamp: new Date(),\n      balance: balance\n    });\n  }\n  \n  return {\n    deposit(amount) {\n      if (amount > 0) {\n        balance += amount;\n        addTransaction('deposit', amount);\n        return balance;\n      }\n      throw new Error('Deposit amount must be positive');\n    },\n    \n    withdraw(amount) {\n      if (amount > 0 && amount <= balance) {\n        balance -= amount;\n        addTransaction('withdrawal', amount);\n        return balance;\n      }\n      throw new Error('Invalid withdrawal amount');\n    },\n    \n    getBalance() {\n      return balance;\n    },\n    \n    getHistory() {\n      return [...transactionHistory]; // Return copy, not reference\n    }\n  };\n})(1000); // IIFE with initial balance\n\nconsole.log(bankAccount.deposit(500)); // 1500\nconsole.log(bankAccount.withdraw(200)); // 1300\nconsole.log(bankAccount.getHistory());\n// balance and transactionHistory are completely private!\n\n// Common closure gotcha and solution\nconsole.log('--- Closure Gotcha ---');\n\n// Problem: All functions reference the same variable\nconst functions = [];\nfor (var i = 0; i < 3; i++) {\n  functions.push(function() {\n    console.log('var i:', i); // All will print 3!\n  });\n}\n\nfunctions.forEach(fn => fn()); // 3, 3, 3\n\n// Solution 1: Use let instead of var\nconst functionsFixed1 = [];\nfor (let i = 0; i < 3; i++) {\n  functionsFixed1.push(function() {\n    console.log('let i:', i); // Each has its own i\n  });\n}\n\nfunctionsFixed1.forEach(fn => fn()); // 0, 1, 2\n\n// Solution 2: IIFE to create separate scope\nconst functionsFixed2 = [];\nfor (var i = 0; i < 3; i++) {\n  functionsFixed2.push((function(index) {\n    return function() {\n      console.log('IIFE index:', index);\n    };\n  })(i));\n}\n\nfunctionsFixed2.forEach(fn => fn()); // 0, 1, 2",
+      "keyPoints": [
+        "Closures allow inner functions to access outer scope variables",
+        "Variables in closures persist even after outer function returns",
+        "Perfect for creating private variables and data encapsulation",
+        "Common in module patterns and function factories"
+      ],
+      "quiz": {
+        "question": "What makes a closure in JavaScript?",
+        "options": ["A function inside another function", "A function that returns another function", "A function that accesses variables from its outer scope", "A function with private variables"],
+        "correctAnswer": 2,
+        "explanation": "A closure is formed when a function accesses variables from its outer (enclosing) scope, creating a persistent connection to those variables."
+      },
+      "tags": ["closures", "scope", "private-variables", "advanced"],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "classes-oop",
+      "title": "Classes: Object-Oriented Programming in JavaScript",
+      "day": 15,
+      "category": "Advanced Concepts",
+      "difficulty": "intermediate",
+      "estimatedTime": "7 min",
+      "description": "Master JavaScript classes, inheritance, and modern OOP patterns for clean, maintainable code.",
+      "content": "ES6 classes provide a cleaner syntax for creating objects and implementing inheritance in JavaScript. While they're syntactic sugar over prototypes, they make object-oriented programming more intuitive and maintainable.",
+      "codeExample": "// Basic class definition\nclass Person {\n  // Constructor method\n  constructor(name, age) {\n    this.name = name;\n    this.age = age;\n    this._id = Math.random(); // Private-ish property\n  }\n\n  // Instance method\n  greet() {\n    return `Hello, I'm ${this.name} and I'm ${this.age} years old.`;\n  }\n\n  // Getter\n  get info() {\n    return `${this.name} (${this.age})`;\n  }\n\n  // Setter\n  set age(newAge) {\n    if (newAge < 0) {\n      throw new Error('Age cannot be negative');\n    }\n    this._age = newAge;\n  }\n\n  get age() {\n    return this._age;\n  }\n\n  // Static method (belongs to class, not instance)\n  static createAdult(name) {\n    return new Person(name, 18);\n  }\n\n  // Static property\n  static species = 'Homo sapiens';\n}\n\n// Creating instances\nconst alice = new Person('Alice', 25);\nconst bob = Person.createAdult('Bob');\n\nconsole.log(alice.greet()); // \"Hello, I'm Alice and I'm 25 years old.\"\nconsole.log(alice.info);    // \"Alice (25)\"\nconsole.log(Person.species); // \"Homo sapiens\"\n\n// Inheritance with extends\nclass Student extends Person {\n  constructor(name, age, major) {\n    super(name, age); // Call parent constructor\n    this.major = major;\n    this.grades = [];\n  }\n\n  // Override parent method\n  greet() {\n    return `${super.greet()} I'm studying ${this.major}.`;\n  }\n\n  // New method\n  addGrade(grade) {\n    this.grades.push(grade);\n  }\n\n  get gpa() {\n    if (this.grades.length === 0) return 0;\n    return this.grades.reduce((sum, grade) => sum + grade, 0) / this.grades.length;\n  }\n}\n\nconst student = new Student('Charlie', 20, 'Computer Science');\nstudent.addGrade(85);\nstudent.addGrade(92);\nconsole.log(student.greet()); // Includes major\nconsole.log(student.gpa);     // 88.5\n\n// Private fields (ES2022)\nclass BankAccount {\n  #balance = 0;     // Private field\n  #accountNumber;   // Private field\n\n  constructor(accountNumber) {\n    this.#accountNumber = accountNumber;\n  }\n\n  // Public method to access private field\n  deposit(amount) {\n    if (amount > 0) {\n      this.#balance += amount;\n    }\n  }\n\n  withdraw(amount) {\n    if (amount > 0 && amount <= this.#balance) {\n      this.#balance -= amount;\n      return amount;\n    }\n    throw new Error('Insufficient funds');\n  }\n\n  get balance() {\n    return this.#balance;\n  }\n\n  // Private method\n  #validateTransaction(amount) {\n    return amount > 0 && amount <= this.#balance;\n  }\n}\n\nconst account = new BankAccount('12345');\naccount.deposit(1000);\nconsole.log(account.balance); // 1000\n// console.log(account.#balance); // SyntaxError: Private field '#balance' must be declared in an enclosing class",
+      "keyPoints": [
+        "Classes are syntactic sugar over prototypes",
+        "Use super() to call parent class methods/constructor",
+        "Private fields (#field) are truly private in modern JS",
+        "Static methods/properties belong to the class, not instances"
+      ],
+      "quiz": {
+        "question": "What does the 'super' keyword do in a class?",
+        "options": ["Creates a new instance", "Calls parent class methods/constructor", "Makes a method static", "Defines private fields"],
+        "correctAnswer": 1,
+        "explanation": "The 'super' keyword is used to call methods and constructors from the parent class, enabling proper inheritance in JavaScript classes."
+      },
+      "tags": ["classes", "oop", "inheritance", "private-fields"],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}
