@@ -6,6 +6,7 @@ import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, 
 import { Check, Bookmark, ChevronUp, ChevronDown } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
+import Markdown from 'react-native-markdown-display';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useThemeStore } from '@/store/useThemeStore';
 import { useProgressStore } from '@/store/useProgressStore';
@@ -13,6 +14,8 @@ import { LearnCard } from '@/data/processors/dataLoader';
 
 const { width, height } = Dimensions.get('window');
 const SWIPE_THRESHOLD = 100;
+
+
 
 interface LessonCardProps {
   lesson: LearnCard;
@@ -295,36 +298,55 @@ export default function LessonCard({
             </View>
 
             <Text style={[styles.title, { color: themeColors.text }]}>{lesson.title}</Text>
-            <Text style={[styles.summary, { color: themeColors.textSecondary }]}>{lesson.description}</Text>
 
-            <View style={[styles.codePreview, {
-              backgroundColor: themeMode === 'dark' ? '#1e1e1e' : '#f8f8f8',
-              borderColor: themeMode === 'dark' ? '#333' : '#e0e0e0'
-            }]}>
-              <View style={[styles.codeHeader, {
-                backgroundColor: themeMode === 'dark' ? '#2d2d30' : '#f0f0f0',
-                borderBottomColor: themeMode === 'dark' ? '#333' : '#e0e0e0'
-              }]}>
-                <View style={styles.codeControls}>
-                  <View style={[styles.codeButton, { backgroundColor: '#ff5f56' }]} />
-                  <View style={[styles.codeButton, { backgroundColor: '#ffbd2e' }]} />
-                  <View style={[styles.codeButton, { backgroundColor: '#27ca3f' }]} />
-                </View>
-              </View>
-              <View style={styles.codeContent}>
-                <View style={styles.lineNumbers}>
-                  {(lesson.codeExample || '').split('\n').slice(0, 3).map((_, index) => (
-                    <Text key={index} style={[styles.lineNumber, { color: themeMode === 'dark' ? '#858585' : '#999999' }]}>
-                      {index + 1}
-                    </Text>
-                  ))}
-                </View>
-                <Text style={[styles.codeText, { color: themeMode === 'dark' ? '#d4d4d4' : '#333333' }]}>
-                  {(lesson.codeExample || '').split('\n').slice(0, 3).join('\n')}
-                  {(lesson.codeExample || '').split('\n').length > 3 ? '\n...' : ''}
-                </Text>
-              </View>
+            <View style={styles.contentContainer}>
+              <Markdown
+                style={{
+                  body: {
+                    fontSize: 16,
+                    lineHeight: 24,
+                    color: themeColors.textSecondary
+                  },
+                  heading1: { fontSize: 18, fontWeight: 'bold', color: themeColors.text, marginBottom: 8 },
+                  heading2: { fontSize: 16, fontWeight: 'bold', color: themeColors.text, marginBottom: 6 },
+                  heading3: { fontSize: 14, fontWeight: 'bold', color: themeColors.text, marginBottom: 4 },
+                  strong: { fontWeight: 'bold', color: themeColors.text },
+                  bullet_list: { marginBottom: 8 },
+                  list_item: { marginBottom: 2, color: themeColors.textSecondary },
+                  code_inline: {
+                    backgroundColor: themeColors.card,
+                    color: themeColors.text,
+                    paddingHorizontal: 4,
+                    paddingVertical: 2,
+                    borderRadius: 4,
+                    fontSize: 13,
+                    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace'
+                  },
+                  code_block: { display: 'none' }, // Hide code blocks in card view
+                  fence: { display: 'none' }, // Hide fenced code blocks
+                }}
+              >
+                {(() => {
+                  const content = lesson.content || lesson.description || '';
+                  const maxLength = 650; // Optimal length based on analysis
+                  if (content.length <= maxLength) {
+                    return content;
+                  }
+                  // Find a good breaking point (end of sentence or paragraph)
+                  const truncated = content.substring(0, maxLength);
+                  const lastSentence = truncated.lastIndexOf('.');
+                  const lastParagraph = truncated.lastIndexOf('\n\n');
+                  const breakPoint = Math.max(lastSentence, lastParagraph);
+
+                  if (breakPoint > maxLength * 0.8) {
+                    return content.substring(0, breakPoint + 1) + '\n\n*Tap to read more...*';
+                  }
+                  return truncated + '...\n\n*Tap to read more...*';
+                })()}
+              </Markdown>
             </View>
+
+
           </TouchableOpacity>
 
           {/* Swipe indicators */}
@@ -380,7 +402,12 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flex: 1,
-    justifyContent: 'space-between',
+    paddingBottom: 20, // Add padding to prevent overflow
+  },
+  contentContainer: {
+    flex: 1,
+    marginTop: 8,
+    overflow: 'hidden', // Prevent content overflow
   },
   header: {
     flexDirection: 'row',
@@ -420,59 +447,15 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 12,
+    marginBottom: 40, // Small readable gap between title and description
   },
   summary: {
     fontSize: 16,
-    marginBottom: 24,
+    marginBottom: 16, // Reduced from 24 to 16
     lineHeight: 24,
+    flex: 1, // Allow summary to take available space
   },
-  codePreview: {
-    borderRadius: 12,
-    marginBottom: 24,
-    borderWidth: 1,
-    overflow: 'hidden',
-  },
-  codeHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-  },
-  codeControls: {
-    flexDirection: 'row',
-    gap: 6,
-    marginRight: 12,
-  },
-  codeButton: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-  },
-  codeContent: {
-    flexDirection: 'row',
-    padding: 12,
-  },
-  lineNumbers: {
-    paddingRight: 12,
-    borderRightWidth: 1,
-    borderRightColor: 'rgba(128, 128, 128, 0.2)',
-    marginRight: 12,
-  },
-  lineNumber: {
-    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
-    fontSize: 11,
-    lineHeight: 18,
-    textAlign: 'right',
-    minWidth: 20,
-  },
-  codeText: {
-    fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
-    fontSize: 12,
-    lineHeight: 18,
-    flex: 1,
-  },
+
   indicator: {
     position: 'absolute',
     alignItems: 'center',

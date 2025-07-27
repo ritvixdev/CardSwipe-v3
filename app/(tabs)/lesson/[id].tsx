@@ -10,6 +10,8 @@ import * as Haptics from 'expo-haptics';
 import { useThemeStore } from '@/store/useThemeStore';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CodeBlock from '@/components/CodeBlock';
+import EnhancedMarkdown from '@/components/EnhancedMarkdown';
+import Markdown from 'react-native-markdown-display';
 
 export default function LessonDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -132,15 +134,27 @@ export default function LessonDetailScreen() {
         
         <View style={styles.content}>
           <Text style={[styles.sectionTitle, { color: themeColors.text }]}>Lesson Details</Text>
-          <Text style={[styles.detailsText, { color: themeColors.textSecondary }]}>{lesson.content}</Text>
-          
-          <Text style={[styles.sectionTitle, { color: themeColors.text }]}>Code Example</Text>
-          <CodeBlock
-            code={lesson.codeExample || 'No code example available'}
-            language="javascript"
-            size="medium"
-          />
-          
+
+          {/* Display contentDetails with enhanced markdown that supports syntax highlighting */}
+          {lesson.contentDetails ? (
+            <EnhancedMarkdown>
+              {lesson.contentDetails}
+            </EnhancedMarkdown>
+          ) : (
+            <Text style={[styles.detailsText, { color: themeColors.textSecondary }]}>{lesson.content}</Text>
+          )}
+
+          {lesson.codeExample && (
+            <>
+              <Text style={[styles.sectionTitle, { color: themeColors.text }]}>Code Example</Text>
+              <CodeBlock
+                code={lesson.codeExample}
+                language="javascript"
+                size="medium"
+              />
+            </>
+          )}
+
           {lesson.quiz && (
             <QuizCard quiz={lesson.quiz} lessonId={lessonId} />
           )}

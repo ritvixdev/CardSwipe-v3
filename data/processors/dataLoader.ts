@@ -33,6 +33,7 @@ export interface LearnCard {
   estimatedTime: string;
   description: string;
   content: string;
+  contentDetails?: string; // New field for structured markdown content
   codeExample?: string;
   keyPoints: string[];
   quiz: {
