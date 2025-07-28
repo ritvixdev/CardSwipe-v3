@@ -151,6 +151,7 @@ export default function LessonDetailScreen() {
                 code={lesson.codeExample}
                 language="javascript"
                 size="medium"
+                allowWrapping={true}
               />
             </>
           )}

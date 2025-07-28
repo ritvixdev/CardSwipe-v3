@@ -8,9 +8,10 @@ import { useThemeStore } from '@/store/useThemeStore';
 interface EnhancedMarkdownProps {
   children: string;
   style?: any;
+  allowCodeWrapping?: boolean;
 }
 
-export default function EnhancedMarkdown({ children, style }: EnhancedMarkdownProps) {
+export default function EnhancedMarkdown({ children, style, allowCodeWrapping = true }: EnhancedMarkdownProps) {
   const themeColors = useThemeColors();
   const themeMode = useThemeStore((state) => state.mode);
 
@@ -110,6 +111,7 @@ export default function EnhancedMarkdown({ children, style }: EnhancedMarkdownPr
               code={part.content}
               language={part.language}
               size="medium"
+              allowWrapping={allowCodeWrapping}
             />
           );
         } else {

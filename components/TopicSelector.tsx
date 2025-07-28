@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topicPill: {
-    height: 36,
+    height: 28, // Reduced to match QUIZ pill height
     marginRight: 12,
-    borderRadius: 18,
+    borderRadius: 12, // Reduced to match QUIZ pill radius
     overflow: 'hidden',
     elevation: 2,
     shadowColor: '#000',
@@ -114,16 +114,17 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    gap: 6,
+    paddingHorizontal: 8, // Reduced to match QUIZ pill padding
+    paddingVertical: 4,   // Reduced to match QUIZ pill padding
+    gap: 4,               // Reduced gap
   },
   topicIcon: {
-    fontSize: 16,
+    fontSize: 12,         // Reduced to match QUIZ pill text size
   },
   topicTitle: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 10,         // Reduced to match QUIZ pill text size
+    fontWeight: 'bold',   // Changed to bold to match QUIZ pill
     textAlign: 'center',
+    letterSpacing: 0.5,   // Added letter spacing to match QUIZ pill
   },
 });

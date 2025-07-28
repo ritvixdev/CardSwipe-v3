@@ -416,14 +416,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   dayBadge: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderRadius: 12,
   },
   dayText: {
-    color: '#fff',
+    color: '#ffffff',
+    fontSize: 10,
     fontWeight: 'bold',
-    fontSize: 12,
+    letterSpacing: 0.5,
   },
   statusIcons: {
     flexDirection: 'row',

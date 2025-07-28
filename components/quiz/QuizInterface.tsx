@@ -514,13 +514,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   enhancedDifficultyBadge: {
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 16,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
   enhancedDifficultyText: {
     color: '#ffffff',
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
     letterSpacing: 0.5,
   },
@@ -588,15 +588,16 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   difficultyBadge: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
     marginBottom: 16,
   },
   difficultyText: {
     color: '#ffffff',
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: 'bold',
+    letterSpacing: 0.5,
   },
   quizDescription: {
     fontSize: 16,

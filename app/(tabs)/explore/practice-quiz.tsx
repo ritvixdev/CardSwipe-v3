@@ -624,12 +624,12 @@ const styles = StyleSheet.create({
   },
   difficultyPill: {
     paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
   difficultyLabel: {
     color: '#ffffff',
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: 'bold',
     letterSpacing: 0.5,
   },

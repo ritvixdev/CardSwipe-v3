@@ -623,12 +623,12 @@ const styles = StyleSheet.create({
   },
   difficultyPill: {
     paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
   difficultyLabel: {
     color: '#ffffff',
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: 'bold',
     letterSpacing: 0.5,
   },
@@ -688,6 +688,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 10,
     fontWeight: 'bold',
+    letterSpacing: 0.5,
     textTransform: 'uppercase',
   },
   quizTitle: {
@@ -717,8 +718,9 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   companyText: {
-    fontSize: 11,
-    fontWeight: '500',
+    fontSize: 10,
+    fontWeight: 'bold',
+    letterSpacing: 0.5,
   },
   statsRow: {
     flexDirection: 'row',

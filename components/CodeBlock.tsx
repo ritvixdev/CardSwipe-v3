@@ -1,7 +1,8 @@
-import React from 'react';
-import { ScrollView, StyleSheet, View, Platform, Text } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, View, Platform, Text, TouchableOpacity } from 'react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { syntaxConfig, getDefaultTheme, getFontSize, getBackgroundColor, shouldShowLineNumbers, getLineNumberColor } from '@/config/syntaxHighlighting';
+import { WrapText, AlignLeft } from 'lucide-react-native';
 
 interface CodeBlockProps {
   code: string;
@@ -10,6 +11,7 @@ interface CodeBlockProps {
   style?: any;
   theme?: 'dark' | 'light' | 'vs2015' | 'dracula' | 'monokai';
   size?: 'small' | 'medium' | 'large';
+  allowWrapping?: boolean; // New prop to enable/disable wrapping toggle
 }
 
 // Simple but effective JavaScript syntax highlighting
@@ -73,8 +75,10 @@ export default function CodeBlock({
   showLineNumbers = shouldShowLineNumbers(),
   style,
   theme = getDefaultTheme(),
-  size = 'medium'
+  size = 'medium',
+  allowWrapping = true
 }: CodeBlockProps) {
+  const [isWrapped, setIsWrapped] = useState(false);
   // Get font family for current platform
   const getFontFamily = () => {
     if (Platform.OS === 'ios') return 'Menlo';
@@ -101,11 +105,29 @@ export default function CodeBlock({
         shadowOpacity: syntaxConfig.shadow.enabled ? syntaxConfig.shadow.shadowOpacity : 0,
       }
     ]}>
+      {/* Wrapping Toggle Button */}
+      {allowWrapping && (
+        <TouchableOpacity
+          style={styles.wrapToggle}
+          onPress={() => setIsWrapped(!isWrapped)}
+          activeOpacity={0.7}
+        >
+          {isWrapped ? (
+            <AlignLeft size={16} color="#858585" />
+          ) : (
+            <WrapText size={16} color="#858585" />
+          )}
+        </TouchableOpacity>
+      )}
+
       <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
+        horizontal={!isWrapped}
+        showsHorizontalScrollIndicator={!isWrapped}
         style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[
+          styles.scrollContent,
+          isWrapped && styles.wrappedContent
+        ]}
       >
         <View style={[
           styles.codeContent,
@@ -133,7 +155,10 @@ export default function CodeBlock({
               ))}
             </View>
           )}
-          <View style={styles.codeLines}>
+          <View style={[
+            styles.codeLines,
+            isWrapped && styles.wrappedCodeLines
+          ]}>
             {highlightedLines.map((line, index) => (
               <Text
                 key={index}
@@ -144,6 +169,7 @@ export default function CodeBlock({
                     fontSize: fontSize,
                     lineHeight: fontSize * 1.5,
                   },
+                  isWrapped && styles.wrappedCodeLine,
                   style
                 ]}
               >
@@ -167,12 +193,27 @@ const styles = StyleSheet.create({
       height: 2,
     },
     shadowRadius: 3.84,
+    position: 'relative',
+  },
+  wrapToggle: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    zIndex: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    borderRadius: 4,
+    padding: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
   scrollView: {
     flex: 1,
   },
   scrollContent: {
     minWidth: '100%',
+  },
+  wrappedContent: {
+    width: '100%',
   },
   codeContent: {
     flexDirection: 'row',
@@ -191,8 +232,15 @@ const styles = StyleSheet.create({
   codeLines: {
     flex: 1,
   },
+  wrappedCodeLines: {
+    width: '100%',
+  },
   codeLine: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+  },
+  wrappedCodeLine: {
+    flexWrap: 'wrap',
+    width: '100%',
   },
 });
