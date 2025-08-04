@@ -314,8 +314,8 @@ export default function LessonCard({
                   bullet_list: { marginBottom: 8 },
                   list_item: { marginBottom: 2, color: themeColors.textSecondary },
                   code_inline: {
-                    backgroundColor: themeColors.card,
-                    color: themeColors.text,
+                    backgroundColor: themeMode === 'dark' ? '#2d2d30' : '#f0f0f0',
+                    color: themeMode === 'dark' ? '#d4d4d4' : '#333333',
                     paddingHorizontal: 4,
                     paddingVertical: 2,
                     borderRadius: 4,

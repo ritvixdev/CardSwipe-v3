@@ -1,0 +1,117 @@
+{
+  "timestamp": "2025-07-28T06:44:05.806Z",
+  "frameworks": {
+    "core": {
+      "passed": false,
+      "details": "Command failed: npm test -- --passWithNoTests --silent\nPASS __tests__/smoke/basicFunctionality.test.ts\n  Basic App Functionality\n    Store Initialization\n      √ should initialize progress store without errors (47 ms)\n      √ should initialize theme store without errors (7 ms)\n    Data Loading\n      √ should load lesson data without errors (5 ms)\n    Basic Store Operations\n      √ should handle lesson completion without infinite loops (7 ms)\n      √ should handle theme changes without infinite loops (3 ms)\n      √ should handle multiple rapid operations without crashing (9 ms)\n    Error Handling\n      √ should handle invalid inputs gracefully (3 ms)\n      √ should maintain store integrity after errors (2 ms)\n    Performance Checks\n      √ should initialize stores quickly (2 ms)\n      √ should handle concurrent operations efficiently (54 ms)\n    Memory Management\n      √ should not create memory leaks during normal operations (58 ms)\n\nPASS __tests__/critical/infiniteLoopDetection.test.tsx\n  Infinite Loop Detection Tests\n    Component Render Stability\n      √ should not cause infinite loops in basic components (4 ms)\n      √ should detect components with potential infinite loops (3 ms)\n      √ should handle components with state updates (3 ms)\n    Store Update Stability\n      √ should handle store updates without infinite loops (3 ms)\n      √ should handle theme updates without infinite loops (2 ms)\n    Basic Performance Tests\n      √ should render simple components quickly (2 ms)\n      √ should handle multiple renders efficiently (2 ms)\n\nPASS __tests__/web-ui/comprehensive-web-tests.test.ts\n  Comprehensive Web UI Tests\n    🏠 App Initialization\n      √ should load the web app without errors (2 ms)\n      √ should display the main navigation tabs (1 ms)\n      √ should start on Learn tab by default (2 ms)\n    📚 Learn Screen Components\n      √ should display lesson cards in swipeable format (2 ms)\n      √ should show consistent pill styling (1 ms)\n      √ should display topic selector with consistent pills (5 ms)\n      √ should show proper card content truncation (1 ms)\n      √ should handle card interactions (2 ms)\n    📖 Lesson Detail Screen\n      √ should display enhanced markdown with syntax highlighting (2 ms)\n      √ should show text wrapping toggle for code blocks (2 ms)\n      √ should display lesson metadata correctly (3 ms)\n    🔍 Explore Screen Components\n      √ should display quiz options (1 ms)\n      √ should show practice quiz with consistent pills (1 ms)\n      √ should show interview quiz with consistent pills (1 ms)\n    📊 Progress Screen Components\n      √ should display progress overview (1 ms)\n      √ should show learning calendar (2 ms)\n      √ should display achievement badges (3 ms)\n    👤 Profile Screen Components\n      √ should display profile information (2 ms)\n      √ should show theme toggle functionality (3 ms)\n      √ should display settings and preferences (1 ms)\n    🎯 Quiz Interface Testing\n      √ should handle quiz interactions properly (1 ms)\n      √ should show consistent difficulty badges in quiz (1 ms)\n    🔄 Data Loading and Performance\n      √ should load lesson data without errors (1 ms)\n      √ should handle navigation smoothly (1 ms)\n    📱 Responsive Design\n      √ should work on different screen sizes (6 ms)\n      √ should handle mobile viewport correctly (1 ms)\n\nPASS __tests__/store/useProgressStore.test.ts\n  useProgressStore\n    Initial State\n      √ should have correct initial state (3 ms)\n      √ should have all required action functions (2 ms)\n    markAsCompleted\n      √ should mark lesson as completed and add XP (2 ms)\n      √ should not add XP if lesson already completed (2 ms)\n    toggleBookmark\n      √ should bookmark a lesson (2 ms)\n      √ should unbookmark a bookmarked lesson (2 ms)\n    Day Navigation\n      √ should increment day (3 ms)\n      √ should not increment day beyond 30 (3 ms)\n      √ should decrement day (2 ms)\n      √ should not decrement day below 1 (1 ms)\n    XP System\n      √ should add XP correctly (5 ms)\n    Streak System\n      √ should update streak when lesson completed today (2 ms)\n      √ should maintain streak for consecutive days (2 ms)\n      √ should reset streak if gap in completion (2 ms)\n    Progress Calculations\n      √ should calculate completion percentage correctly (2 ms)\n      √ should count bookmarked lessons correctly (2 ms)\n    Level System\n      √ should calculate level based on XP (2 ms)\n      √ should handle XP overflow correctly (2 ms)\n    Data Persistence\n      √ should persist state changes (2 ms)\n    Edge Cases\n      √ should handle invalid lesson IDs gracefully (2 ms)\n      √ should handle negative XP gracefully (1 ms)\n    resetProgress\n      √ should reset all progress to initial state (1 ms)\n\nPASS __tests__/components/LearningQuizManager.test.tsx\n  LearningQuizManager Component\n    √ should have component file available (1 ms)\n    √ should be a valid TypeScript/JavaScript file (2 ms)\n    √ should be able to import basic dependencies (2 ms)\n    √ should have valid component structure (1 ms)\n    √ should have correct component name (2 ms)\n\nPASS __tests__/screens/ProfileScreen.test.tsx\n  ProfileScreen Component\n    √ should have component file available (2 ms)\n    √ should be a valid TypeScript/JavaScript file (2 ms)\n    √ should be able to import basic dependencies (1 ms)\n    √ should have valid component structure (2 ms)\n    √ should have correct component name (1 ms)\n\nPASS __tests__/components/LearnHeader.test.tsx\n  LearnHeader Component\n    √ should have component file available (3 ms)\n    √ should be a valid TypeScript/JavaScript file (2 ms)\n    √ should be able to import basic dependencies (1 ms)\n    √ should have valid component structure (1 ms)\n    √ should have correct component name (2 ms)\n\nPASS __tests__/store/useThemeStore.test.ts\n  useThemeStore\n    Initial State\n      √ should have correct initial state (2 ms)\n      √ should have valid theme mode (2 ms)\n      √ should have system theme property (2 ms)\n    Theme Toggle\n      √ should toggle from light to dark (1 ms)\n      √ should toggle from dark to light (4 ms)\n      √ should have toggle functionality (1 ms)\n    Basic Functionality\n      √ should have setTheme function (1 ms)\n      √ should handle theme changes without errors (2 ms)\n\nPASS __tests__/components/XPNotification.test.tsx\n  XPNotification Component\n    √ should have component file available (2 ms)\n    √ should be a valid TypeScript/JavaScript file (2 ms)\n    √ should be able to import basic dependencies (1 ms)\n    √ should have valid component structure\n    √ should have correct component name (1 ms)\n\nPASS __tests__/screens/LearnScreen.test.tsx\n  LearnScreen Component\n    √ should have component file available (2 ms)\n    √ should be a valid TypeScript/JavaScript file (1 ms)\n    √ should be able to import basic dependencies (1 ms)\n    √ should have valid component structure (1 ms)\n    √ should have correct component name (1 ms)\n\nPASS __tests__/components/QuizManager.test.tsx\n  QuizManager Component\n    √ should have component file available (2 ms)\n    √ should be a valid TypeScript/JavaScript file (1 ms)\n    √ should be able to import basic dependencies (1 ms)\n    √ should have valid component structure (1 ms)\n    √ should have correct component name (1 ms)\n\nPASS __tests__/components/ProgressBar.test.tsx\n  ProgressBar Component\n    √ should have component file available (2 ms)\n    √ should be a valid TypeScript/JavaScript file (2 ms)\n    √ should be able to import basic dependencies (2 ms)\n    √ should have valid component structure (2 ms)\n    √ should have correct component name (2 ms)\n\nPASS __tests__/integration/SwipeFlow.test.tsx\n  SwipeFlow Component\n    √ should have component file available (2 ms)\n    √ should be a valid TypeScript/JavaScript file (1 ms)\n    √ should be able to import basic dependencies (1 ms)\n    √ should have valid component structure (2 ms)\n    √ should have correct component name (1 ms)\n\nPASS __tests__/screens/ExploreScreen.test.tsx\n  ExploreScreen Component\n    √ should have component file available (3 ms)\n    √ should be a valid TypeScript/JavaScript file (2 ms)\n    √ should be able to import basic dependencies (2 ms)\n    √ should have valid component structure (1 ms)\n    √ should have correct component name (1 ms)\n\nPASS __tests__/screens/ProgressScreen.test.tsx\n  ProgressScreen Component\n    √ should have component file available (2 ms)\n    √ should be a valid TypeScript/JavaScript file (2 ms)\n    √ should be able to import basic dependencies (1 ms)\n    √ should have valid component structure (1 ms)\n    √ should have correct component name (1 ms)\n\nPASS __tests__/basic.test.ts\n  Basic Test Suite\n    √ should run basic tests (3 ms)\n    √ should handle async operations (1 ms)\n    √ should test array operations (2 ms)\n    √ should test object properties (1 ms)\n\nPASS __tests__/components/QuizInterface.test.tsx\n  QuizInterface Component\n    √ should have component file available (1 ms)\n    √ should be a valid TypeScript/JavaScript file (1 ms)\n    √ should be able to import basic dependencies (1 ms)\n    √ should have valid component structure (2 ms)\n    √ should have correct component name (1 ms)\n\nPASS __tests__/components/QuizCard.test.tsx\n  QuizCard Component\n    √ should have component file available (1 ms)\n    √ should be a valid TypeScript/JavaScript file (1 ms)\n    √ should be able to import basic dependencies (1 ms)\n    √ should have valid component structure (1 ms)\n    √ should have correct component name (2 ms)\n\nFAIL __tests__/automation/playwright-e2e.spec.js\n  ● Test suite failed to run\n\n    Cannot find module '@playwright/test' from '__tests__/automation/playwright-e2e.spec.js'\n\n    \u001b[0m \u001b[90m 4 |\u001b[39m \u001b[90m */\u001b[39m\n     \u001b[90m 5 |\u001b[39m\n    \u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m \u001b[36mconst\u001b[39m { test\u001b[33m,\u001b[39m expect\u001b[33m,\u001b[39m devices } \u001b[33m=\u001b[39m require(\u001b[32m'@playwright/test'\u001b[39m)\u001b[33m;\u001b[39m\n     \u001b[90m   |\u001b[39m                                   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n     \u001b[90m 7 |\u001b[39m\n     \u001b[90m 8 |\u001b[39m \u001b[90m// Test configuration\u001b[39m\n     \u001b[90m 9 |\u001b[39m \u001b[36mconst\u001b[39m \u001b[33mTEST_CONFIG\u001b[39m \u001b[33m=\u001b[39m {\u001b[0m\n\n      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)\n      at Object.require (__tests__/automation/playwright-e2e.spec.js:6:35)\n\nTest Suites: 1 failed, 18 passed, 19 total\nTests:       138 passed, 138 total\nSnapshots:   0 total\nTime:        4.266 s\n"
+    },
+    "codeQuality": {
+      "passed": true,
+      "details": [
+        {
+          "name": "TypeScript Config",
+          "passed": true
+        },
+        {
+          "name": "Test Scripts",
+          "passed": true
+        },
+        {
+          "name": "Dependencies",
+          "passed": true
+        },
+        {
+          "name": "File: app.json",
+          "passed": true
+        },
+        {
+          "name": "File: App.tsx",
+          "passed": false
+        },
+        {
+          "name": "File: package.json",
+          "passed": true
+        }
+      ]
+    },
+    "performance": {
+      "passed": true,
+      "details": [
+        {
+          "name": "Project Size",
+          "passed": true,
+          "value": "9.10MB"
+        },
+        {
+          "name": "Optimizations",
+          "passed": false
+        }
+      ]
+    },
+    "build": {
+      "passed": false,
+      "details": [
+        {
+          "name": "Build Scripts",
+          "passed": false
+        },
+        {
+          "name": "Expo Framework",
+          "passed": true
+        },
+        {
+          "name": "App Config",
+          "passed": false
+        }
+      ]
+    },
+    "configuration": {
+      "passed": true,
+      "details": [
+        {
+          "name": "Config Files",
+          "passed": false
+        },
+        {
+          "name": "Assets",
+          "passed": true
+        },
+        {
+          "name": "Components",
+          "passed": true
+        }
+      ]
+    },
+    "security": {
+      "passed": true,
+      "details": [
+        {
+          "name": "Sensitive Files",
+          "passed": false
+        },
+        {
+          "name": "Git Ignore",
+          "passed": true
+        }
+      ]
+    }
+  },
+  "overall": {
+    "passed": 4,
+    "failed": 2,
+    "warnings": 0,
+    "duration": 6015
+  },
+  "productionReady": false,
+  "recommendations": [
+    "Resolve test execution errors",
+    "Fix build configuration issues",
+    "Review and secure sensitive files"
+  ],
+  "summary": {
+    "totalFrameworks": 6,
+    "successRate": "66.67",
+    "duration": "6.01s",
+    "productionReady": false
+  }
+}

@@ -1,6 +1,8 @@
 // Centralized Syntax Highlighting Configuration
 // All syntax highlighting styles and rules are managed from this single file
 
+import { Platform, Dimensions } from 'react-native';
+
 export type SyntaxThemeType = 'dark' | 'light' | 'vs2015' | 'dracula' | 'monokai';
 
 export interface CodeBlockConfig {
@@ -100,6 +102,16 @@ export const getBackgroundColor = (): string => {
 };
 
 export const shouldShowLineNumbers = (): boolean => {
+  // Hide line numbers on mobile devices to save space
+  const { width } = Dimensions.get('window');
+  const isMobile = Platform.OS === 'ios' || Platform.OS === 'android';
+  const isSmallScreen = width < 768; // Tablet breakpoint
+  
+  // Hide line numbers on mobile devices or small screens
+  if (isMobile && isSmallScreen) {
+    return false;
+  }
+  
   return syntaxConfig.lineNumbers.enabled;
 };
 

@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Test Report - 28/7/2025</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 8px 8px 0 0; }
+        .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 30px; }
+        .metric { text-align: center; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #28a745; }
+        .metric.failed { border-left-color: #dc3545; }
+        .metric h3 { margin: 0 0 10px 0; color: #333; }
+        .metric .value { font-size: 2em; font-weight: bold; color: #28a745; }
+        .metric.failed .value { color: #dc3545; }
+        .errors { padding: 30px; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; padding: 15px; margin: 10px 0; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; border-radius: 4px; padding: 20px; margin: 20px 30px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Automated Test Report</h1>
+            <p>Generated on 28/7/2025, 12:11:30 pm</p>
+            <p>Duration: 24.70s</p>
+        </div>
+
+        <div class="summary">
+            <div class="metric">
+                <h3>Total Tests</h3>
+                <div class="value">40</div>
+            </div>
+            <div class="metric">
+                <h3>Passed</h3>
+                <div class="value">37</div>
+            </div>
+            <div class="metric failed">
+                <h3>Failed</h3>
+                <div class="value">4</div>
+            </div>
+            <div class="metric">
+                <h3>Success Rate</h3>
+                <div class="value">92.50%</div>
+            </div>
+        </div>
+
+        <div class="errors"><h2>❌ Production Issues Detected</h2></div>
+
+        
+        <div class="errors">
+            <h2>Error Details</h2>
+            
+                <div class="error">
+                    <strong>CORE_TEST_FAILURE:</strong> Command failed: npm test -- --coverage --watchAll=false --verbose
+FAIL __tests__/automation/playwright-e2e.spec.js
+  ● Test suite failed to run
+
+    Cannot find module '@playwright/test' from '__tests__/automation/playwright-e2e.spec.js'
+
+    [0m [90m 4 |[39m [90m */[39m
+     [90m 5 |[39m
+    [31m[1m>[22m[39m[90m 6 |[39m [36mconst[39m { test[33m,[39m expect[33m,[39m devices } [33m=[39m require([32m'@playwright/test'[39m)[33m;[39m
+     [90m   |[39m                                   [31m[1m^[22m[39m
+     [90m 7 |[39m
+     [90m 8 |[39m [90m// Test configuration[39m
+     [90m 9 |[39m [36mconst[39m [33mTEST_CONFIG[39m [33m=[39m {[0m
+
+      at Resolver._throwModNotFoundError (node_modules/jest-resolve/build/resolver.js:427:11)
+      at Object.require (__tests__/automation/playwright-e2e.spec.js:6:35)
+
+PASS __tests__/components/LearningQuizManager.test.tsx
+  LearningQuizManager Component
+    √ should have component file available (4 ms)
+    √ should be a valid TypeScript/JavaScript file (3 ms)
+    √ should be able to import basic dependencies (2 ms)
+    √ should have valid component structure (2 ms)
+    √ should have correct component name (2 ms)
+
+PASS __tests__/web-ui/comprehensive-web-tests.test.ts
+  Comprehensive Web UI Tests
+    🏠 App Initialization
+      √ should load the web app without errors (4 ms)
+      √ should display the main navigation tabs (4 ms)
+      √ should start on Learn tab by default (5 ms)
+    📚 Learn Screen Components
+      √ should display lesson cards in swipeable format (6 ms)
+      √ should show consistent pill styling (7 ms)
+      √ should display topic selector with consistent pills (4 ms)
+      √ should show proper card content truncation (9 ms)
+      √ should handle card interactions (5 ms)
+    📖 Lesson Detail Screen
+      √ should display enhanced markdown with syntax highlighting (6 ms)
+      √ should show text wrapping toggle for code blocks (5 ms)
+      √ should display lesson metadata correctly (4 ms)
+    🔍 Explore Screen Components
+      √ should display quiz options (3 ms)
+      √ should show practice quiz with consistent pills (4 ms)
+      √ should show interview quiz with consistent pills (7 ms)
+    📊 Progress Screen Components
+      √ should display progress overview (4 ms)
+      √ should show learning calendar (3 ms)
+      √ should display achievement badges (4 ms)
+    👤 Profile Screen Components
+      √ should display profile information (4 ms)
+      √ should show theme toggle functionality (5 ms)
+      √ should display settings and preferences (6 ms)
+    🎯 Quiz Interface Testing
+      √ should handle quiz interactions properly (7 ms)
+      √ should show consistent difficulty badges in quiz (4 ms)
+    🔄 Data Loading and Performance
+      √ should load lesson data without errors (5 ms)
+      √ should handle navigation smoothly (6 ms)
+    📱 Responsive Design
+      √ should work on different screen sizes (7 ms)
+      √ should handle mobile viewport correctly (4 ms)
+
+PASS __tests__/critical/infiniteLoopDetection.test.tsx
+  Infinite Loop Detection Tests
+    Component Render Stability
+      √ should not cause infinite loops in basic components (2 ms)
+      √ should detect components with potential infinite loops (1 ms)
+      √ should handle components with state updates (4 ms)
+    Store Update Stability
+      √ should handle store updates without infinite loops (1 ms)
+      √ should handle theme updates without infinite loops (1 ms)
+    Basic Performance Tests
+      √ should render simple components quickly (1 ms)
+      √ should handle multiple renders efficiently (2 ms)
+
+PASS __tests__/smoke/basicFunctionality.test.ts
+  Basic App Functionality
+    Store Initialization
+      √ should initialize progress store without errors (1036 ms)
+      √ should initialize theme store without errors (38 ms)
+    Data Loading
+      √ should load lesson data without errors (3 ms)
+    Basic Store Operations
+      √ should handle lesson completion without infinite loops (5 ms)
+      √ should handle theme changes without infinite loops (2 ms)
+      √ should handle multiple rapid operations without crashing (6 ms)
+    Error Handling
+      √ should handle invalid inputs gracefully (3 ms)
+      √ should maintain store integrity after errors (6 ms)
+    Performance Checks
+      √ should initialize stores quickly (1 ms)
+      √ should handle concurrent operations efficiently (46 ms)
+    Memory Management
+      √ should not create memory leaks during normal operations (60 ms)
+
+PASS __tests__/store/useProgressStore.test.ts
+  useProgressStore
+    Initial State
+      √ should have correct initial state (3 ms)
+      √ should have all required action functions (1 ms)
+    markAsCompleted
+      √ should mark lesson as completed and add XP (2 ms)
+      √ should not add XP if lesson already completed (2 ms)
+    toggleBookmark
+      √ should bookmark a lesson (2 ms)
+      √ should unbookmark a bookmarked lesson (1 ms)
+    Day Navigation
+      √ should increment day (1 ms)
+      √ should not increment day beyond 30 (6 ms)
+      √ should decrement day (1 ms)
+      √ should not decrement day below 1 (1 ms)
+    XP System
+      √ should add XP correctly (1 ms)
+    Streak System
+      √ should update streak when lesson completed today (2 ms)
+      √ should maintain streak for consecutive days (1 ms)
+      √ should reset streak if gap in completion (1 ms)
+    Progress Calculations
+      √ should calculate completion percentage correctly (3 ms)
+      √ should count bookmarked lessons correctly (1 ms)
+    Level System
+      √ should calculate level based on XP (2 ms)
+      √ should handle XP overflow correctly (2 ms)
+    Data Persistence
+      √ should persist state changes (2 ms)
+    Edge Cases
+      √ should handle invalid lesson IDs gracefully (2 ms)
+      √ should handle negative XP gracefully (2 ms)
+    resetProgress
+      √ should reset all progress to initial state (2 ms)
+
+PASS __tests__/components/LearnHeader.test.tsx
+  LearnHeader Component
+    √ should have component file available (3 ms)
+    √ should be a valid TypeScript/JavaScript file (2 ms)
+    √ should be able to import basic dependencies (1 ms)
+    √ should have valid component structure (2 ms)
+    √ should have correct component name (1 ms)
+
+PASS __tests__/store/useThemeStore.test.ts
+  useThemeStore
+    Initial State
+      √ should have correct initial state (4 ms)
+      √ should have valid theme mode (2 ms)
+      √ should have system theme property (1 ms)
+    Theme Toggle
+      √ should toggle from light to dark (2 ms)
+      √ should toggle from dark to light (1 ms)
+      √ should have toggle functionality (1 ms)
+    Basic Functionality
+      √ should have setTheme function (1 ms)
+      √ should handle theme changes without errors (1 ms)
+
+PASS __tests__/components/QuizManager.test.tsx
+  QuizManager Component
+    √ should have component file available (1 ms)
+    √ should be a valid TypeScript/JavaScript file (2 ms)
+    √ should be able to import basic dependencies (1 ms)
+    √ should have valid component structure (1 ms)
+    √ should have correct component name (1 ms)
+
+PASS __tests__/screens/ExploreScreen.test.tsx
+  ExploreScreen Component
+    √ should have component file available (1 ms)
+    √ should be a valid TypeScript/JavaScript file (1 ms)
+    √ should be able to import basic dependencies (2 ms)
+    √ should have valid component structure (1 ms)
+    √ should have correct component name (1 ms)
+
+PASS __tests__/components/QuizInterface.test.tsx
+  QuizInterface Component
+    √ should have component file available (1 ms)
+    √ should be a valid TypeScript/JavaScript file (2 ms)
+    √ should be able to import basic dependencies (1 ms)
+    √ should have valid component structure (1 ms)
+    √ should have correct component name (1 ms)
+
+PASS __tests__/screens/ProgressScreen.test.tsx
+  ProgressScreen Component
+    √ should have component file available (2 ms)
+    √ should be a valid TypeScript/JavaScript file (2 ms)
+    √ should be able to import basic dependencies (1 ms)
+    √ should have valid component structure (1 ms)
+    √ should have correct component name (2 ms)
+
+PASS __tests__/screens/LearnScreen.test.tsx
+  LearnScreen Component
+    √ should have component file available (2 ms)
+    √ should be a valid TypeScript/JavaScript file (1 ms)
+    √ should be able to import basic dependencies (1 ms)
+    √ should have valid component structure (1 ms)
+    √ should have correct component name (1 ms)
+
+PASS __tests__/components/ProgressBar.test.tsx
+  ProgressBar Component
+    √ should have component file available (2 ms)
+    √ should be a valid TypeScript/JavaScript file (1 ms)
+    √ should be able to import basic dependencies (1 ms)
+    √ should have valid component structure (1 ms)
+    √ should have correct component name (1 ms)
+
+PASS __tests__/components/QuizCard.test.tsx
+  QuizCard Component
+    √ should have component file available (2 ms)
+    √ should be a valid TypeScript/JavaScript file (1 ms)
+    √ should be able to import basic dependencies (1 ms)
+    √ should have valid component structure (1 ms)
+    √ should have correct component name (1 ms)
+
+PASS __tests__/basic.test.ts
+  Basic Test Suite
+    √ should run basic tests (2 ms)
+    √ should handle async operations (1 ms)
+    √ should test array operations (1 ms)
+    √ should test object properties (1 ms)
+
+PASS __tests__/screens/ProfileScreen.test.tsx
+  ProfileScreen Component
+    √ should have component file available (1 ms)
+    √ should be a valid TypeScript/JavaScript file (2 ms)
+    √ should be able to import basic dependencies (1 ms)
+    √ should have valid component structure (2 ms)
+    √ should have correct component name (1 ms)
+
+PASS __tests__/components/XPNotification.test.tsx
+  XPNotification Component
+    √ should have component file available (1 ms)
+    √ should be a valid TypeScript/JavaScript file (1 ms)
+    √ should be able to import basic dependencies (1 ms)
+    √ should have valid component structure (1 ms)
+    √ should have correct component name (1 ms)
+
+PASS __tests__/integration/SwipeFlow.test.tsx
+  SwipeFlow Component
+    √ should have component file available (2 ms)
+    √ should be a valid TypeScript/JavaScript file (1 ms)
+    √ should be able to import basic dependencies (2 ms)
+    √ should have valid component structure (1 ms)
+    √ should have correct component name (2 ms)
+
+Jest: "global" coverage threshold for statements (80%) not met: 5.8%
+Jest: "global" coverage threshold for branches (80%) not met: 3.12%
+Jest: "global" coverage threshold for lines (80%) not met: 5.66%
+Jest: "global" coverage threshold for functions (80%) not met: 6.29%
+Test Suites: 1 failed, 18 passed, 19 total
+Tests:       138 passed, 138 total
+Snapshots:   0 total
+Time:        14.541 s
+Ran all test suites.
+
+                    
+                    
+                </div>
+            
+                <div class="error">
+                    <strong>COMPONENT_TEST_FAILURE:</strong> Component QuizInterface not found
+                    <br><em>Component: QuizInterface</em>
+                    
+                </div>
+            
+                <div class="error">
+                    <strong>COMPONENT_TEST_FAILURE:</strong> Component SwipeFlow not found
+                    <br><em>Component: SwipeFlow</em>
+                    
+                </div>
+            
+                <div class="error">
+                    <strong>CROSS_BROWSER_FAILURE:</strong> Browser compatibility issue in webkit
+                    
+                    
+                </div>
+            
+        </div>
+        
+    </div>
+</body>
+</html>

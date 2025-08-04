@@ -1,0 +1,115 @@
+{
+  "timestamp": "2025-07-28T08:03:43.306Z",
+  "frameworks": {
+    "core": {
+      "passed": true,
+      "details": "All Jest tests passed"
+    },
+    "codeQuality": {
+      "passed": true,
+      "details": [
+        {
+          "name": "TypeScript Config",
+          "passed": true
+        },
+        {
+          "name": "Test Scripts",
+          "passed": true
+        },
+        {
+          "name": "Dependencies",
+          "passed": true
+        },
+        {
+          "name": "File: app.json",
+          "passed": true
+        },
+        {
+          "name": "File: app/_layout.tsx",
+          "passed": true
+        },
+        {
+          "name": "File: package.json",
+          "passed": true
+        }
+      ]
+    },
+    "performance": {
+      "passed": true,
+      "details": [
+        {
+          "name": "Project Size",
+          "passed": true,
+          "value": "9.10MB"
+        },
+        {
+          "name": "Optimizations",
+          "passed": false
+        }
+      ]
+    },
+    "build": {
+      "passed": true,
+      "details": [
+        {
+          "name": "Build Scripts",
+          "passed": true
+        },
+        {
+          "name": "Expo Framework",
+          "passed": true
+        },
+        {
+          "name": "App Config",
+          "passed": false
+        }
+      ]
+    },
+    "configuration": {
+      "passed": true,
+      "details": [
+        {
+          "name": "Config Files",
+          "passed": false
+        },
+        {
+          "name": "Assets",
+          "passed": true
+        },
+        {
+          "name": "Components",
+          "passed": true
+        }
+      ]
+    },
+    "security": {
+      "passed": true,
+      "details": [
+        {
+          "name": "Sensitive Files",
+          "passed": false
+        },
+        {
+          "name": "Git Ignore",
+          "passed": true
+        }
+      ]
+    }
+  },
+  "overall": {
+    "passed": 6,
+    "failed": 0,
+    "warnings": 0,
+    "duration": 4968
+  },
+  "productionReady": false,
+  "recommendations": [
+    "Review and secure sensitive files"
+  ],
+  "summary": {
+    "totalFrameworks": 6,
+    "successRate": "100.00",
+    "duration": "4.97s",
+    "productionReady": false
+  }
+}
