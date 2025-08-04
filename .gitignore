@@ -35,3 +35,21 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 .vercel
+
+# Test reports and screenshots
+test-reports/
+screenshots/
+coverage/
+test-results/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.webp
+
+# Jest coverage
+lcov-report/
+*.lcov
+clover.xml
+coverage-final.json
