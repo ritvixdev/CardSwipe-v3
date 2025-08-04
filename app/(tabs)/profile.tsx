@@ -370,31 +370,31 @@ export default function ProfileScreen() {
       >
         {/* Profile Header */}
         <SafeAreaView style={styles.profileHeader}>
-          <View style={[styles.profileCard, { backgroundColor: themeColors.primary }]}>
+          <View style={[styles.profileCard, { backgroundColor: themeColors.card }]}>
             <View style={styles.profileTop}>
               <View style={styles.avatarContainer}>
-                <View style={[styles.avatar, { backgroundColor: 'rgba(255, 255, 255, 0.2)' }]}>
+                <View style={[styles.avatar, { backgroundColor: themeColors.primary + '20' }]}>
                   {userProfile.avatar ? (
                     <Text style={styles.avatarEmoji}>{userProfile.avatar}</Text>
                   ) : (
-                    <User size={32} color="#ffffff" />
+                    <User size={32} color={themeColors.primary} />
                   )}
                 </View>
                 <TouchableOpacity
-                  style={[styles.editAvatarButton, { backgroundColor: '#ffffff' }]}
+                  style={[styles.editAvatarButton, { backgroundColor: themeColors.primary }]}
                   onPress={handleChangeAvatar}
                 >
-                  <Camera size={12} color={themeColors.primary} />
+                  <Camera size={12} color="#ffffff" />
                 </TouchableOpacity>
               </View>
 
               <View style={styles.profileInfo}>
-                <Text style={styles.userName}>{userProfile.name}</Text>
+                <Text style={[styles.userName, { color: themeColors.text }]}>{userProfile.name}</Text>
                 <View style={styles.offlineIndicator}>
-                  <Text style={styles.offlineText}>📱 Offline Application</Text>
-                  <Text style={styles.offlineSubtext}>More features coming soon</Text>
+                  <Text style={[styles.offlineText, { color: themeColors.textSecondary }]}>📱 Offline Application</Text>
+                  <Text style={[styles.offlineSubtext, { color: themeColors.textSecondary }]}>More features coming soon</Text>
                 </View>
-                <View style={styles.levelBadge}>
+                <View style={[styles.levelBadge, { backgroundColor: themeColors.primary }]}>
                   <Crown size={14} color="#ffffff" />
                   <Text style={styles.levelText}>Level {currentLevel}</Text>
                 </View>
@@ -404,21 +404,22 @@ export default function ProfileScreen() {
                 style={styles.editButton}
                 onPress={handleEditProfile}
               >
-                <Edit3 size={18} color="#ffffff" />
+                <Edit3 size={18} color={themeColors.text} />
               </TouchableOpacity>
             </View>
 
             {/* XP Progress */}
             <View style={styles.xpContainer}>
               <View style={styles.xpInfo}>
-                <Text style={styles.xpText}>{xp} XP</Text>
-                <Text style={styles.xpNextText}>{xpForNextLevel} to next level</Text>
+                <Text style={[styles.xpText, { color: themeColors.text }]}>{xp} XP</Text>
+                <Text style={[styles.xpNextText, { color: themeColors.textSecondary }]}>{xpForNextLevel} to next level</Text>
               </View>
-              <View style={styles.xpProgressBar}>
+              <View style={[styles.xpProgressBar, { backgroundColor: themeColors.border }]}>
                 <Animated.View
                   style={[
                     styles.xpProgressFill,
                     {
+                      backgroundColor: themeColors.primary,
                       width: animatedValue.interpolate({
                         inputRange: [0, 1],
                         outputRange: ['0%', `${xpProgress}%`],
@@ -1042,7 +1043,6 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#ffffff',
     marginBottom: 4,
   },
   avatarEmoji: {
@@ -1053,23 +1053,19 @@ const styles = StyleSheet.create({
   },
   offlineText: {
     fontSize: 12,
-    color: 'rgba(255, 255, 255, 0.9)',
     fontWeight: '600',
   },
   offlineSubtext: {
     fontSize: 10,
-    color: 'rgba(255, 255, 255, 0.7)',
     marginTop: 2,
   },
   userEmail: {
     fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.8)',
     marginBottom: 8,
   },
   levelBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderRadius: 12,
@@ -1095,21 +1091,17 @@ const styles = StyleSheet.create({
   xpText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#ffffff',
   },
   xpNextText: {
     fontSize: 12,
-    color: 'rgba(255, 255, 255, 0.8)',
   },
   xpProgressBar: {
     height: 6,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
     borderRadius: 3,
     overflow: 'hidden',
   },
   xpProgressFill: {
     height: '100%',
-    backgroundColor: '#ffffff',
     borderRadius: 3,
   },
   achievementShowcase: {
