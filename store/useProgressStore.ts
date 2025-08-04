@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 interface LessonProgress {
   completed: boolean;
   bookmarked: boolean;
+  liked: boolean;
   lastViewed?: string;
   completedAt?: string;
   timeSpent?: number; // in seconds
@@ -48,6 +49,7 @@ interface ProgressState {
   // Actions
   markAsCompleted: (lessonId: string, timeSpent?: number) => void;
   toggleBookmark: (lessonId: string) => void;
+  toggleLike: (lessonId: string) => void;
   incrementDay: () => void;
   decrementDay: () => void;
   resetProgress: () => void;
@@ -102,7 +104,7 @@ export const useProgressStore = create<ProgressState>()(
       
       markAsCompleted: (lessonId: string, timeSpent = 0) => {
         set((state) => {
-          const lessonProgress = state.progress[lessonId] || { completed: false, bookmarked: false };
+          const lessonProgress = state.progress[lessonId] || { completed: false, bookmarked: false, liked: false };
 
           // Only add XP if not already completed
           let xpToAdd = 0;
@@ -123,6 +125,7 @@ export const useProgressStore = create<ProgressState>()(
               [lessonId]: {
                 ...lessonProgress,
                 completed: true,
+                liked: true, // Automatically like when completed
                 lastViewed: now,
                 completedAt: now,
                 timeSpent: (lessonProgress.timeSpent || 0) + timeSpent,
@@ -143,7 +146,7 @@ export const useProgressStore = create<ProgressState>()(
       
       toggleBookmark: (lessonId: string) => {
         set((state) => {
-          const lessonProgress = state.progress[lessonId] || { completed: false, bookmarked: false };
+          const lessonProgress = state.progress[lessonId] || { completed: false, bookmarked: false, liked: false };
           
           return {
             progress: {
@@ -151,6 +154,22 @@ export const useProgressStore = create<ProgressState>()(
               [lessonId]: {
                 ...lessonProgress,
                 bookmarked: !lessonProgress.bookmarked,
+              },
+            },
+          };
+        });
+      },
+
+      toggleLike: (lessonId: string) => {
+        set((state) => {
+          const lessonProgress = state.progress[lessonId] || { completed: false, bookmarked: false, liked: false };
+          
+          return {
+            progress: {
+              ...state.progress,
+              [lessonId]: {
+                ...lessonProgress,
+                liked: !lessonProgress.liked,
               },
             },
           };

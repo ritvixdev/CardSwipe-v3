@@ -42,13 +42,13 @@ export default function LearnScreen() {
   };
 
   const handleSwipeRight = () => {
-    // Bookmark the card and then load next card
-    console.log('Swipe right - bookmarking lesson', currentLesson.id);
+    // Like the card and then load next card
+    console.log('Swipe right - liking lesson', currentLesson.id);
 
-    // Toggle bookmark for the lesson
-    store.toggleBookmark(currentLesson.id);
+    // Toggle like for the lesson
+    store.toggleLike(currentLesson.id);
 
-    // Load next card after bookmarking (loop back to beginning if at end)
+    // Load next card after liking (loop back to beginning if at end)
     const newIndex = (currentLessonIndex + 1) % filteredLessons.length;
     setCurrentLessonIndex(newIndex);
     if (newIndex !== 0) {

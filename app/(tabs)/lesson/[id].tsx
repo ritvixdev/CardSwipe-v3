@@ -4,7 +4,7 @@ import { useLocalSearchParams, router } from 'expo-router';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
 import { lessons } from '@/data/processors/dataLoader';
-import { Bookmark, Check, ArrowLeft, ArrowRight } from 'lucide-react-native';
+import { Bookmark, Check, ArrowLeft, ArrowRight, Heart } from 'lucide-react-native';
 import QuizCard from '@/components/QuizCard';
 import * as Haptics from 'expo-haptics';
 import { useThemeStore } from '@/store/useThemeStore';
@@ -16,7 +16,7 @@ import Markdown from 'react-native-markdown-display';
 export default function LessonDetailScreen() {
   const { id } = useLocalSearchParams();
   const lessonId = id as string;
-  const { progress, markAsCompleted, toggleBookmark } = useProgressStore();
+  const { progress, markAsCompleted, toggleBookmark, toggleLike } = useProgressStore();
   const themeColors = useThemeColors();
   const themeMode = useThemeStore((state) => state.mode);
   
@@ -43,7 +43,7 @@ export default function LessonDetailScreen() {
     );
   }
   
-  const lessonProgress = progress[lessonId] || { completed: false, bookmarked: false };
+  const lessonProgress = progress[lessonId] || { completed: false, bookmarked: false, liked: false };
   
   const handleMarkAsCompleted = () => {
     if (Platform.OS !== 'web') {
@@ -57,6 +57,22 @@ export default function LessonDetailScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
     toggleBookmark(lessonId);
+  };
+
+  const handleToggleLike = () => {
+    if (Platform.OS !== 'web') {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    }
+    toggleLike(lessonId);
+  };
+
+  const handleQuizComplete = (correct: boolean) => {
+    if (correct) {
+      if (Platform.OS !== 'web') {
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      }
+      markAsCompleted(lessonId);
+    }
   };
   
   // Find previous and next lessons
@@ -85,24 +101,41 @@ export default function LessonDetailScreen() {
         </View>
         
         <View style={styles.actions}>
-          <TouchableOpacity 
+          <View 
             style={[
               styles.actionButton, 
               { backgroundColor: themeColors.card, borderColor: themeColors.border },
               lessonProgress.completed && { 
-                backgroundColor: themeColors.success,
-                borderColor: themeColors.success
+                backgroundColor: 'rgba(34, 197, 94, 0.35)',
+                borderColor: 'rgba(34, 197, 94, 0.5)'
+              },
+              { opacity: 0.6 }
+            ]}
+          >
+            <Text style={{
+              fontSize: 20,
+              color: lessonProgress.completed ? '#22c55e' : themeColors.textSecondary
+            }}>
+              {lessonProgress.completed ? '✅' : '⭕'}
+            </Text>
+          </View>
+          
+          <TouchableOpacity 
+            style={[
+              styles.actionButton, 
+              { backgroundColor: themeColors.card, borderColor: themeColors.border },
+              lessonProgress.bookmarked && { 
+                backgroundColor: 'rgba(59, 130, 246, 0.35)',
+                borderColor: 'rgba(59, 130, 246, 0.5)'
               }
             ]}
-            onPress={handleMarkAsCompleted}
+            onPress={handleToggleBookmark}
           >
-            <Check size={20} color={lessonProgress.completed ? '#fff' : themeColors.text} />
-            <Text style={[
-              styles.actionText,
-              { color: themeColors.text },
-              lessonProgress.completed && { color: '#fff' }
-            ]}>
-              {lessonProgress.completed ? 'Completed' : 'Mark as Completed'}
+            <Text style={{
+              fontSize: 20,
+              color: lessonProgress.bookmarked ? '#3b82f6' : themeColors.textSecondary
+            }}>
+              {lessonProgress.bookmarked ? '🔖' : '📑'}
             </Text>
           </TouchableOpacity>
           
@@ -110,24 +143,18 @@ export default function LessonDetailScreen() {
             style={[
               styles.actionButton, 
               { backgroundColor: themeColors.card, borderColor: themeColors.border },
-              lessonProgress.bookmarked && { 
-                backgroundColor: themeColors.primary,
-                borderColor: themeColors.primary
+              lessonProgress.liked && { 
+                backgroundColor: 'rgba(239, 68, 68, 0.35)',
+                borderColor: 'rgba(239, 68, 68, 0.5)'
               }
             ]}
-            onPress={handleToggleBookmark}
+            onPress={handleToggleLike}
           >
-            <Bookmark 
-              size={20} 
-              color={lessonProgress.bookmarked ? '#fff' : themeColors.text}
-              fill={lessonProgress.bookmarked ? '#fff' : 'transparent'}
-            />
-            <Text style={[
-              styles.actionText,
-              { color: themeColors.text },
-              lessonProgress.bookmarked && { color: '#fff' }
-            ]}>
-              {lessonProgress.bookmarked ? 'Bookmarked' : 'Bookmark'}
+            <Text style={{
+              fontSize: 20,
+              color: lessonProgress.liked ? '#ef4444' : themeColors.textSecondary
+            }}>
+              {lessonProgress.liked ? '❤️' : '🤍'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -157,7 +184,11 @@ export default function LessonDetailScreen() {
           )}
 
           {lesson.quiz && (
-            <QuizCard quiz={lesson.quiz} lessonId={lessonId} />
+            <QuizCard 
+              quiz={lesson.quiz} 
+              lessonId={lessonId} 
+              onQuizComplete={handleQuizComplete}
+            />
           )}
         </View>
         
@@ -209,11 +240,10 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 12,
-    borderRadius: 8,
+    padding: 16,
+    borderRadius: 12,
     borderWidth: 1,
   },
   actionText: {

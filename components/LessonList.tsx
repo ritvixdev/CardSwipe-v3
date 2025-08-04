@@ -4,7 +4,7 @@ import { useThemeColors } from '@/hooks/useThemeColors';
 import { Lesson } from '@/types/lesson';
 import { useProgressStore } from '@/store/useProgressStore';
 import { router } from 'expo-router';
-import { Bookmark, Check, ChevronRight } from 'lucide-react-native';
+import { Bookmark, Check, ChevronRight, Heart } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 
 interface LessonListProps {
@@ -45,7 +45,7 @@ export default function LessonList({ lessons, showBookmarkedOnly = false }: Less
       keyExtractor={(item) => item.id.toString()}
       contentContainerStyle={styles.listContainer}
       renderItem={({ item }) => {
-        const lessonProgress = progress[item.id] || { completed: false, bookmarked: false };
+        const lessonProgress = progress[item.id] || { completed: false, bookmarked: false, liked: false };
         
         return (
           <TouchableOpacity 
@@ -84,6 +84,12 @@ export default function LessonList({ lessons, showBookmarkedOnly = false }: Less
               {lessonProgress.bookmarked && (
                 <View style={styles.statusIcon}>
                   <Bookmark size={16} color={themeColors.primary} fill={themeColors.primary} />
+                </View>
+              )}
+              
+              {lessonProgress.liked && (
+                <View style={styles.statusIcon}>
+                  <Heart size={16} color="#ef4444" fill="#ef4444" />
                 </View>
               )}
               

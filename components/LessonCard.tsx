@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Dimensions, Platform, TouchableOpacity } from '
 import { LinearGradient } from 'expo-linear-gradient';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring, runOnJS } from 'react-native-reanimated';
-import { Check, Bookmark, ChevronUp, ChevronDown } from 'lucide-react-native';
+import { Check, Bookmark, ChevronUp, ChevronDown, Heart } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import Markdown from 'react-native-markdown-display';
@@ -40,7 +40,7 @@ export default function LessonCard({
   const themeMode = useThemeStore((state) => state.mode);
   const router = useRouter();
   const progress = useProgressStore((state) => state.progress);
-  const lessonProgress = progress[lesson.id] || { completed: false, bookmarked: false };
+  const lessonProgress = progress[lesson.id] || { completed: false, bookmarked: false, liked: false };
 
   // Animation values
   const pan = useSharedValue({ x: 0, y: 0 });
@@ -294,6 +294,11 @@ export default function LessonCard({
                     <Bookmark size={16} color={themeColors.primary} fill={themeColors.primary} />
                   </View>
                 )}
+                {lessonProgress.liked && (
+                  <View style={styles.statusIcon}>
+                    <Heart size={16} color="#ef4444" fill="#ef4444" />
+                  </View>
+                )}
               </View>
             </View>
 
@@ -359,9 +364,9 @@ export default function LessonCard({
 
           <Animated.View style={[styles.indicator, styles.rightIndicator, rightIndicatorOpacity]}>
             <View style={styles.iconContainer}>
-              <Check size={40} color="#4CAF50" strokeWidth={2} />
+              <Heart size={40} color="#ef4444" fill="none" strokeWidth={2} />
             </View>
-            <Text style={styles.indicatorText}>COMPLETED</Text>
+            <Text style={styles.indicatorText}>LIKED</Text>
           </Animated.View>
 
           <Animated.View style={[styles.indicator, styles.upIndicator, upIndicatorOpacity]}>

@@ -8,9 +8,10 @@ import * as Haptics from 'expo-haptics';
 interface QuizCardProps {
   quiz: Quiz;
   lessonId: number;
+  onQuizComplete?: (correct: boolean) => void;
 }
 
-export default function QuizCard({ quiz, lessonId }: QuizCardProps) {
+export default function QuizCard({ quiz, lessonId, onQuizComplete }: QuizCardProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const addXp = useProgressStore((state) => state.addXp);
@@ -26,10 +27,15 @@ export default function QuizCard({ quiz, lessonId }: QuizCardProps) {
     setSelectedOption(option);
     setIsAnswered(true);
     
+    const isCorrect = option === quiz.answer;
+    
     // Award XP if correct
-    if (option === quiz.answer) {
+    if (isCorrect) {
       addXp(10);
     }
+    
+    // Notify parent component about quiz completion
+    onQuizComplete?.(isCorrect);
   };
   
   const getOptionStyle = (option: string) => {
