@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Platform, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { PanGestureHandler } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, useAnimatedStyle, useAnimatedGestureHandler, withSpring, runOnJS } from 'react-native-reanimated';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
 import { Check, Bookmark, ChevronUp, ChevronDown, Heart } from 'lucide-react-native';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
@@ -79,23 +79,40 @@ export default function LessonCard({
       // Top card - animate from previous stack position (index 1) to top
       stackPromotion.value = 0; // Start as if it was the second card
 
-      // Animate to top position with slight zoom effect
-      stackPromotion.value = withSpring(1, {
-        damping: 25,
-        stiffness: 400,
-        mass: 0.8,
-        overshootClamping: false,
-      });
+      // Android-optimized animation to top position
+      const topCardConfig = Platform.OS === 'android'
+        ? {
+            damping: 20, // Lower damping for smoother animation
+            stiffness: 300, // Reduced stiffness for less jarring motion
+            mass: 0.6, // Lower mass for quicker response
+            overshootClamping: false,
+          }
+        : {
+            damping: 25,
+            stiffness: 400,
+            mass: 0.8,
+            overshootClamping: false,
+          };
+
+      stackPromotion.value = withSpring(1, topCardConfig);
     } else {
       // Background cards - move up one position in the stack
       stackPromotion.value = 0; // Start at current position
 
-      // Animate to new stack position
-      stackPromotion.value = withSpring(1, {
-        damping: 30,
-        stiffness: 500,
-        mass: 0.6,
-      });
+      // Android-optimized animation to new stack position
+      const stackConfig = Platform.OS === 'android'
+        ? {
+            damping: 25, // Smoother stack transitions
+            stiffness: 400, // Reduced stiffness
+            mass: 0.5, // Lower mass
+          }
+        : {
+            damping: 30,
+            stiffness: 500,
+            mass: 0.6,
+          };
+
+      stackPromotion.value = withSpring(1, stackConfig);
     }
   }, [lesson.id, index]);
 
@@ -110,7 +127,7 @@ export default function LessonCard({
     router.push(lessonPath as any);
   };
 
-  // Enhanced swipe animation with improved responsiveness
+  // Enhanced swipe animation with Android-specific optimizations
   const animateSwipe = (direction: 'left' | 'right' | 'up' | 'down', callback: () => void) => {
     const targetX = direction === 'left' ? -width * 1.3 : direction === 'right' ? width * 1.3 : 0;
     const targetY = direction === 'up' ? -height * 1.3 : direction === 'down' ? height * 1.3 : 0;
@@ -126,14 +143,24 @@ export default function LessonCard({
       })();
     }
 
+    // Android-optimized spring configuration for smoother animations
+    const springConfig = Platform.OS === 'android' 
+      ? {
+          damping: 20, // Lower damping for more fluid motion on Android
+          stiffness: 600, // Reduced stiffness for smoother feel
+          mass: 0.3, // Lower mass for quicker response
+          overshootClamping: true,
+        }
+      : {
+          damping: 25,
+          stiffness: 900,
+          mass: 0.4,
+          overshootClamping: true,
+        };
+
     pan.value = withSpring(
       { x: targetX, y: targetY },
-      {
-        damping: 25, // Slightly reduced for smoother exit
-        stiffness: 900, // Increased for snappier response
-        mass: 0.4, // Reduced for lighter feel
-        overshootClamping: true,
-      },
+      springConfig,
       (finished) => {
         if (finished) {
           runOnJS(callback)();
@@ -141,72 +168,80 @@ export default function LessonCard({
       }
     );
 
-    opacity.value = withSpring(0, {
-      damping: 20, // Faster fade out
-      stiffness: 700,
-    });
+    // Android-optimized opacity animation
+    const opacityConfig = Platform.OS === 'android'
+      ? { damping: 15, stiffness: 500 }
+      : { damping: 20, stiffness: 700 };
+
+    opacity.value = withSpring(0, opacityConfig);
   };
 
-  // Enhanced reset position with improved spring physics
+  // Enhanced reset position with Android-optimized spring physics
   const resetPosition = () => {
-    pan.value = withSpring(
-      { x: 0, y: 0 },
-      {
-        damping: 18, // Slightly reduced for more natural bounce
-        stiffness: 700, // Increased for snappier return
-        mass: 0.5, // Reduced for lighter feel
-        overshootClamping: false, // Allow slight overshoot for natural feel
-      }
-    );
+    const resetConfig = Platform.OS === 'android'
+      ? {
+          damping: 15, // Lower damping for smoother bounce on Android
+          stiffness: 500, // Reduced stiffness for more natural feel
+          mass: 0.4, // Lower mass for quicker response
+          overshootClamping: false,
+        }
+      : {
+          damping: 18,
+          stiffness: 700,
+          mass: 0.5,
+          overshootClamping: false,
+        };
+
+    pan.value = withSpring({ x: 0, y: 0 }, resetConfig);
   };
 
-  // Gesture handler
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart: () => {
-      // Add subtle haptic feedback on gesture start
-      if (Platform.OS !== 'web') {
-        runOnJS(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light))();
-      }
-    },
-    onActive: (event) => {
-      // Smooth interpolation for better responsiveness
+  // Simplified gesture handler for better Android compatibility
+  const panGesture = Gesture.Pan()
+    .onStart(() => {
+      'worklet';
+      console.log('Gesture started on card index:', index, 'isTopCard:', isTopCard);
+    })
+    .onUpdate((event) => {
+      'worklet';
+      // Simple direct translation without complex logic
       pan.value = { 
-        x: event.translationX * 0.8, // Slightly dampen for smoother feel
-        y: event.translationY * 0.8 
+        x: event.translationX,
+        y: event.translationY
       };
-    },
-    onEnd: (event) => {
+    })
+    .onEnd((event) => {
+      'worklet';
       const { translationX, translationY, velocityX, velocityY } = event;
       
-      // Enhanced velocity-based detection for more natural swiping
-      const velocityThreshold = 800;
-      const isQuickSwipe = Math.abs(velocityX) > velocityThreshold || Math.abs(velocityY) > velocityThreshold;
-      const adjustedThreshold = isQuickSwipe ? SWIPE_THRESHOLD * 0.6 : SWIPE_THRESHOLD;
-
+      // Simple threshold logic
+      const threshold = 50;
+      const velocityThreshold = 300;
+      
       if (Math.abs(translationX) > Math.abs(translationY)) {
         // Horizontal swipe
-        if (translationX > adjustedThreshold || velocityX > velocityThreshold) {
+        if (translationX > threshold || velocityX > velocityThreshold) {
           runOnJS(animateSwipe)('right', onSwipeRight);
-        } else if (translationX < -adjustedThreshold || velocityX < -velocityThreshold) {
+        } else if (translationX < -threshold || velocityX < -velocityThreshold) {
           runOnJS(animateSwipe)('left', onSwipeLeft);
         } else {
           runOnJS(resetPosition)();
         }
       } else {
         // Vertical swipe
-        if (translationY > adjustedThreshold || velocityY > velocityThreshold) {
+        if (translationY > threshold || velocityY > velocityThreshold) {
           runOnJS(animateSwipe)('down', onSwipeDown);
-        } else if (translationY < -adjustedThreshold * 0.7 || velocityY < -velocityThreshold * 0.7) {
+        } else if (translationY < -threshold || velocityY < -velocityThreshold) {
           runOnJS(animateSwipe)('up', onSwipeUp);
         } else {
           runOnJS(resetPosition)();
         }
       }
-    },
-  });
+    })
+    .enabled(index === 0); // Only enable gesture for top card
 
-  // Card stack promotion animated styles
+  // Card stack promotion animated styles with Android optimizations
   const animatedStyle = useAnimatedStyle(() => {
+    'worklet';
     const rotateValue = pan.value.x / ROTATION_FACTOR; // Use constant for consistent rotation
     const rotateString = rotateValue + 'deg';
 
@@ -263,8 +298,9 @@ export default function LessonCard({
     }
   });
 
-  // Enhanced indicator animations with improved responsiveness
+  // Enhanced indicator animations with Android optimizations
   const leftIndicatorOpacity = useAnimatedStyle(() => {
+    'worklet';
     if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
     const opacity = Math.max(0, Math.min(1, (-pan.value.x - 20) / 60)); // More responsive threshold
     const scale = 0.85 + opacity * 0.15; // Enhanced scale range
@@ -275,6 +311,7 @@ export default function LessonCard({
   });
 
   const rightIndicatorOpacity = useAnimatedStyle(() => {
+    'worklet';
     if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
     const opacity = Math.max(0, Math.min(1, (pan.value.x - 20) / 60)); // More responsive threshold
     const scale = 0.85 + opacity * 0.15; // Enhanced scale range
@@ -285,6 +322,7 @@ export default function LessonCard({
   });
 
   const upIndicatorOpacity = useAnimatedStyle(() => {
+    'worklet';
     if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
     const opacity = Math.max(0, Math.min(1, (-pan.value.y - 15) / 50)); // More responsive threshold
     const scale = 0.85 + opacity * 0.15; // Enhanced scale range
@@ -295,6 +333,7 @@ export default function LessonCard({
   });
 
   const downIndicatorOpacity = useAnimatedStyle(() => {
+    'worklet';
     if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
     const opacity = Math.max(0, Math.min(1, (pan.value.y - 15) / 50)); // More responsive threshold
     const scale = 0.85 + opacity * 0.15; // Enhanced scale range
@@ -309,7 +348,7 @@ export default function LessonCard({
     : ['rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)'];
 
   return (
-    <PanGestureHandler onGestureEvent={index === 0 ? gestureHandler : undefined} enabled={index === 0}>
+    <GestureDetector gesture={panGesture}>
       <Animated.View style={[dynamicStyles.container, animatedStyle]}>
         <LinearGradient
           colors={gradientColors}
@@ -319,9 +358,11 @@ export default function LessonCard({
         >
           <TouchableOpacity
             style={styles.cardContent}
-            activeOpacity={0.9}
+            activeOpacity={Platform.OS === 'android' ? 0.98 : 0.9}
             onPress={handleCardPress}
             disabled={!isTopCard}
+            delayPressIn={Platform.OS === 'android' ? 50 : 0}
+            delayPressOut={Platform.OS === 'android' ? 50 : 0}
             testID="lesson-card"
           >
             <View style={styles.header}>
@@ -432,7 +473,7 @@ export default function LessonCard({
           </Animated.View>
         </LinearGradient>
       </Animated.View>
-    </PanGestureHandler>
+    </GestureDetector>
   );
 }
 
