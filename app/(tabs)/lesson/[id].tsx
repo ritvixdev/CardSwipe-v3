@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, Animated } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
@@ -19,6 +19,10 @@ export default function LessonDetailScreen() {
   const { progress, markAsCompleted, toggleBookmark, toggleLike } = useProgressStore();
   const themeColors = useThemeColors();
   const themeMode = useThemeStore((state) => state.mode);
+  
+  // Animation values for smooth entrance
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(30)).current;
   
   const lesson = lessons.find(l => l.id === lessonId);
   
@@ -44,6 +48,22 @@ export default function LessonDetailScreen() {
   }
   
   const lessonProgress = progress[lessonId] || { completed: false, bookmarked: false, liked: false };
+  
+  // Smooth entrance animation
+  useEffect(() => {
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [fadeAnim, slideAnim]);
   
   const handleMarkAsCompleted = () => {
     if (Platform.OS !== 'web') {
@@ -82,7 +102,14 @@ export default function LessonDetailScreen() {
   
   return (
     <View style={[styles.container, { backgroundColor: themeColors.background }]}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <Animated.View 
+        style={{
+          flex: 1,
+          opacity: fadeAnim,
+          transform: [{ translateY: slideAnim }],
+        }}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContent}>
         {/* Back button and title in same row */}
         <SafeAreaView style={styles.safeArea}>
           <View style={styles.headerRow}>
@@ -194,6 +221,7 @@ export default function LessonDetailScreen() {
         
 
       </ScrollView>
+      </Animated.View>
     </View>
   );
 }

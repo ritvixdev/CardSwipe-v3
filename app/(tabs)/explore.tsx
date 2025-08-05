@@ -38,6 +38,16 @@ const exploreCards = [
     itemCount: 0
   },
   {
+    id: 'liked',
+    title: 'Liked Lessons',
+    description: 'Your favorite lessons that you enjoyed the most',
+    icon: '❤️',
+    color: '#ef4444',
+    route: '/(tabs)/explore/liked',
+    category: 'permanent',
+    itemCount: 0
+  },
+  {
     id: 'javascript-notes',
     title: 'JavaScript Notes',
     description: 'Essential concepts with examples and code snippets',
@@ -150,6 +160,7 @@ function getExploreCardsByCategory(category: 'permanent' | 'resource'): ExploreC
 
 const { width } = Dimensions.get('window');
 const cardWidth = (width - 60) / 2; // 2 cards per row with margins
+const isMobile = width < 768; // Consider devices under 768px width as mobile/tablet
 
 export default function ExploreScreen() {
   const themeColors = useThemeColors();
@@ -161,15 +172,18 @@ export default function ExploreScreen() {
   // Calculate dynamic counts for permanent cards
   const completedCount = Object.values(progress).filter(p => p.completed).length;
   const bookmarkedCount = Object.values(progress).filter(p => p.bookmarked).length;
+  const likedCount = Object.values(progress).filter(p => p.liked).length;
 
   // Update card counts
   useEffect(() => {
     const completedCard = exploreCards.find(c => c.id === 'completed');
     const bookmarksCard = exploreCards.find(c => c.id === 'bookmarks');
+    const likedCard = exploreCards.find(c => c.id === 'liked');
     
     if (completedCard) completedCard.itemCount = completedCount;
     if (bookmarksCard) bookmarksCard.itemCount = bookmarkedCount;
-  }, [completedCount, bookmarkedCount]);
+    if (likedCard) likedCard.itemCount = likedCount;
+  }, [completedCount, bookmarkedCount, likedCount]);
 
   const permanentCards = getExploreCardsByCategory('permanent');
   const resourceCards = getExploreCardsByCategory('resource');
@@ -184,6 +198,8 @@ export default function ExploreScreen() {
       router.push('/(tabs)/explore/completed');
     } else if (card.id === 'bookmarks') {
       router.push('/(tabs)/explore/bookmarks');
+    } else if (card.id === 'liked') {
+      router.push('/(tabs)/explore/liked');
     } else if (card.id === 'javascript-notes') {
       router.push('/(tabs)/explore/javascript-notes');
     } else if (card.id === 'interview-prep') {
@@ -216,6 +232,7 @@ export default function ExploreScreen() {
     <TouchableOpacity
       style={[
         styles.permanentCard,
+        isMobile && styles.permanentCardMobile,
         {
           backgroundColor: themeColors.card,
           borderColor: card.color,
@@ -223,26 +240,39 @@ export default function ExploreScreen() {
       ]}
       onPress={() => handleCardPress(card)}
     >
-      <View style={styles.permanentCardTop}>
-        <Text style={[styles.permanentCardIcon, { color: card.color }]}>{card.icon}</Text>
-        <View style={styles.permanentCardCount}>
-          <Text style={[styles.countNumber, { color: themeColors.text }]}>
+      {isMobile ? (
+        // Mobile view: Only emoji and number
+        <View style={styles.permanentCardMobileContent}>
+          <Text style={[styles.permanentCardIconMobile, { color: card.color }]}>{card.icon}</Text>
+          <Text style={[styles.countNumberMobile, { color: themeColors.text }]}>
             {card.itemCount}
           </Text>
-          <Text style={[styles.countLabel, { color: themeColors.textSecondary }]}>
-            items
-          </Text>
         </View>
-      </View>
+      ) : (
+        // Desktop view: Full content
+        <>
+          <View style={styles.permanentCardTop}>
+            <Text style={[styles.permanentCardIcon, { color: card.color }]}>{card.icon}</Text>
+            <View style={styles.permanentCardCount}>
+              <Text style={[styles.countNumber, { color: themeColors.text }]}>
+                {card.itemCount}
+              </Text>
+              <Text style={[styles.countLabel, { color: themeColors.textSecondary }]}>
+                items
+              </Text>
+            </View>
+          </View>
 
-      <View style={styles.permanentCardContent}>
-        <Text style={[styles.permanentCardTitle, { color: themeColors.text }]}>
-          {card.title}
-        </Text>
-        <Text style={[styles.permanentCardDescription, { color: themeColors.textSecondary }]}>
-          {card.description}
-        </Text>
-      </View>
+          <View style={styles.permanentCardContent}>
+            <Text style={[styles.permanentCardTitle, { color: themeColors.text }]}>
+              {card.title}
+            </Text>
+            <Text style={[styles.permanentCardDescription, { color: themeColors.textSecondary }]}>
+              {card.description}
+            </Text>
+          </View>
+        </>
+      )}
     </TouchableOpacity>
   );
 
@@ -468,6 +498,25 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 2,
     minHeight: 120,
+  },
+  permanentCardMobile: {
+    minHeight: 80,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  permanentCardMobileContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  permanentCardIconMobile: {
+    fontSize: 32,
+    marginBottom: 4,
+  },
+  countNumberMobile: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   permanentCardTop: {
     flexDirection: 'row',

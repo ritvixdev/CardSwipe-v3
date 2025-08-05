@@ -7,13 +7,16 @@ import { Check, Bookmark, ChevronUp, ChevronDown, Heart } from 'lucide-react-nat
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import Markdown from 'react-native-markdown-display';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useThemeStore } from '@/store/useThemeStore';
 import { useProgressStore } from '@/store/useProgressStore';
 import { LearnCard } from '@/data/processors/dataLoader';
 
 const { width, height } = Dimensions.get('window');
-const SWIPE_THRESHOLD = 100;
+const SWIPE_THRESHOLD = 80; // Reduced for more responsive swiping
+const ROTATION_FACTOR = 6; // Reduced for smoother rotation
+const SCALE_FACTOR = 0.03; // Reduced for subtler scaling
 
 
 
@@ -41,6 +44,25 @@ export default function LessonCard({
   const router = useRouter();
   const progress = useProgressStore((state) => state.progress);
   const lessonProgress = progress[lesson.id] || { completed: false, bookmarked: false, liked: false };
+  const insets = useSafeAreaInsets();
+  
+  // Calculate available height: screen height - status bar - tab bar - safe areas - extra padding
+  const TAB_BAR_HEIGHT = 70;
+  const EXTRA_PADDING = 40; // Increased padding to ensure card bottom curve is visible above tab bar
+  const availableHeight = height - insets.top - insets.bottom - TAB_BAR_HEIGHT - EXTRA_PADDING;
+  
+  // Create dynamic styles with calculated height
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      width: width,
+      height: availableHeight,
+      alignSelf: 'center',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+    },
+  });
 
   // Animation values
   const pan = useSharedValue({ x: 0, y: 0 });
@@ -88,17 +110,28 @@ export default function LessonCard({
     router.push(lessonPath as any);
   };
 
-  // Fast and snappy swipe animation
+  // Enhanced swipe animation with improved responsiveness
   const animateSwipe = (direction: 'left' | 'right' | 'up' | 'down', callback: () => void) => {
-    const targetX = direction === 'left' ? -width * 1.5 : direction === 'right' ? width * 1.5 : 0;
-    const targetY = direction === 'up' ? -height * 1.5 : direction === 'down' ? height * 1.5 : 0;
+    const targetX = direction === 'left' ? -width * 1.3 : direction === 'right' ? width * 1.3 : 0;
+    const targetY = direction === 'up' ? -height * 1.3 : direction === 'down' ? height * 1.3 : 0;
+
+    // Enhanced haptic feedback for swipe completion
+    if (Platform.OS !== 'web') {
+      runOnJS(() => {
+        if (direction === 'left' || direction === 'right') {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        } else {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        }
+      })();
+    }
 
     pan.value = withSpring(
       { x: targetX, y: targetY },
       {
-        damping: 30,
-        stiffness: 800,
-        mass: 0.5,
+        damping: 25, // Slightly reduced for smoother exit
+        stiffness: 900, // Increased for snappier response
+        mass: 0.4, // Reduced for lighter feel
         overshootClamping: true,
       },
       (finished) => {
@@ -109,47 +142,61 @@ export default function LessonCard({
     );
 
     opacity.value = withSpring(0, {
-      damping: 25,
-      stiffness: 600,
+      damping: 20, // Faster fade out
+      stiffness: 700,
     });
   };
 
-  // Fast reset position
+  // Enhanced reset position with improved spring physics
   const resetPosition = () => {
     pan.value = withSpring(
       { x: 0, y: 0 },
       {
-        damping: 20,
-        stiffness: 600,
-        mass: 0.6,
-        overshootClamping: false,
+        damping: 18, // Slightly reduced for more natural bounce
+        stiffness: 700, // Increased for snappier return
+        mass: 0.5, // Reduced for lighter feel
+        overshootClamping: false, // Allow slight overshoot for natural feel
       }
     );
   };
 
   // Gesture handler
   const gestureHandler = useAnimatedGestureHandler({
-    onStart: () => {},
+    onStart: () => {
+      // Add subtle haptic feedback on gesture start
+      if (Platform.OS !== 'web') {
+        runOnJS(() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light))();
+      }
+    },
     onActive: (event) => {
-      pan.value = { x: event.translationX, y: event.translationY };
+      // Smooth interpolation for better responsiveness
+      pan.value = { 
+        x: event.translationX * 0.8, // Slightly dampen for smoother feel
+        y: event.translationY * 0.8 
+      };
     },
     onEnd: (event) => {
-      const { translationX, translationY } = event;
+      const { translationX, translationY, velocityX, velocityY } = event;
+      
+      // Enhanced velocity-based detection for more natural swiping
+      const velocityThreshold = 800;
+      const isQuickSwipe = Math.abs(velocityX) > velocityThreshold || Math.abs(velocityY) > velocityThreshold;
+      const adjustedThreshold = isQuickSwipe ? SWIPE_THRESHOLD * 0.6 : SWIPE_THRESHOLD;
 
       if (Math.abs(translationX) > Math.abs(translationY)) {
         // Horizontal swipe
-        if (translationX > SWIPE_THRESHOLD) {
+        if (translationX > adjustedThreshold || velocityX > velocityThreshold) {
           runOnJS(animateSwipe)('right', onSwipeRight);
-        } else if (translationX < -SWIPE_THRESHOLD) {
+        } else if (translationX < -adjustedThreshold || velocityX < -velocityThreshold) {
           runOnJS(animateSwipe)('left', onSwipeLeft);
         } else {
           runOnJS(resetPosition)();
         }
       } else {
         // Vertical swipe
-        if (translationY > SWIPE_THRESHOLD) {
+        if (translationY > adjustedThreshold || velocityY > velocityThreshold) {
           runOnJS(animateSwipe)('down', onSwipeDown);
-        } else if (translationY < -SWIPE_THRESHOLD * 0.6) {
+        } else if (translationY < -adjustedThreshold * 0.7 || velocityY < -velocityThreshold * 0.7) {
           runOnJS(animateSwipe)('up', onSwipeUp);
         } else {
           runOnJS(resetPosition)();
@@ -160,7 +207,7 @@ export default function LessonCard({
 
   // Card stack promotion animated styles
   const animatedStyle = useAnimatedStyle(() => {
-    const rotateValue = pan.value.x / 8; // Smoother rotation
+    const rotateValue = pan.value.x / ROTATION_FACTOR; // Use constant for consistent rotation
     const rotateString = rotateValue + 'deg';
 
     if (index === 0) {
@@ -186,16 +233,17 @@ export default function LessonCard({
     } else {
       // Background cards - move up one position in stack with promotion animation
       const moveDistance = Math.sqrt(pan.value.x * pan.value.x + pan.value.y * pan.value.y);
-      const maxDistance = 200;
+      const maxDistance = 180; // Reduced for more responsive scaling
       const swipeProgress = Math.min(moveDistance / maxDistance, 1);
 
-      // Calculate stack positions
-      const startScale = 1 - ((index + 1) * 0.05); // Start at next position down
-      const endScale = 1 - (index * 0.05); // End at current position
+      // Calculate stack positions with improved scaling
+      const stackOffset = 0.04; // Slightly reduced for subtler effect
+      const startScale = 1 - ((index + 1) * stackOffset); // Start at next position down
+      const endScale = 1 - (index * stackOffset); // End at current position
       const currentScale = startScale + (stackPromotion.value * (endScale - startScale));
 
-      // Add swipe response for Tinder effect
-      const finalScale = currentScale + (swipeProgress * 0.03);
+      // Add swipe response for enhanced Tinder effect
+      const finalScale = currentScale + (swipeProgress * SCALE_FACTOR);
 
       const startY = -(index + 1) * 8; // Start at next position down
       const endY = -index * 8; // End at current position
@@ -215,40 +263,44 @@ export default function LessonCard({
     }
   });
 
-  // Fast and responsive indicator animations (only for top card)
+  // Enhanced indicator animations with improved responsiveness
   const leftIndicatorOpacity = useAnimatedStyle(() => {
     if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
-    const opacity = Math.max(0, Math.min(1, (-pan.value.x - 30) / 50));
+    const opacity = Math.max(0, Math.min(1, (-pan.value.x - 20) / 60)); // More responsive threshold
+    const scale = 0.85 + opacity * 0.15; // Enhanced scale range
     return {
-      opacity,
-      transform: [{ scale: 0.9 + opacity * 0.1 }],
+      opacity: opacity * 0.95, // Slightly more transparent for better aesthetics
+      transform: [{ scale }, { translateX: opacity * -5 }], // Add subtle movement
     };
   });
 
   const rightIndicatorOpacity = useAnimatedStyle(() => {
     if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
-    const opacity = Math.max(0, Math.min(1, (pan.value.x - 30) / 50));
+    const opacity = Math.max(0, Math.min(1, (pan.value.x - 20) / 60)); // More responsive threshold
+    const scale = 0.85 + opacity * 0.15; // Enhanced scale range
     return {
-      opacity,
-      transform: [{ scale: 0.9 + opacity * 0.1 }],
+      opacity: opacity * 0.95, // Slightly more transparent for better aesthetics
+      transform: [{ scale }, { translateX: opacity * 5 }], // Add subtle movement
     };
   });
 
   const upIndicatorOpacity = useAnimatedStyle(() => {
     if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
-    const opacity = Math.max(0, Math.min(1, (-pan.value.y - 20) / 40));
+    const opacity = Math.max(0, Math.min(1, (-pan.value.y - 15) / 50)); // More responsive threshold
+    const scale = 0.85 + opacity * 0.15; // Enhanced scale range
     return {
-      opacity,
-      transform: [{ scale: 0.9 + opacity * 0.1 }],
+      opacity: opacity * 0.95,
+      transform: [{ scale }, { translateY: opacity * -3 }], // Add subtle movement
     };
   });
 
   const downIndicatorOpacity = useAnimatedStyle(() => {
     if (index !== 0) return { opacity: 0, transform: [{ scale: 0 }] };
-    const opacity = Math.max(0, Math.min(1, (pan.value.y - 20) / 40));
+    const opacity = Math.max(0, Math.min(1, (pan.value.y - 15) / 50)); // More responsive threshold
+    const scale = 0.85 + opacity * 0.15; // Enhanced scale range
     return {
-      opacity,
-      transform: [{ scale: 0.9 + opacity * 0.1 }],
+      opacity: opacity * 0.95,
+      transform: [{ scale }, { translateY: opacity * 3 }], // Add subtle movement
     };
   });
 
@@ -258,7 +310,7 @@ export default function LessonCard({
 
   return (
     <PanGestureHandler onGestureEvent={index === 0 ? gestureHandler : undefined} enabled={index === 0}>
-      <Animated.View style={[styles.container, animatedStyle]}>
+      <Animated.View style={[dynamicStyles.container, animatedStyle]}>
         <LinearGradient
           colors={gradientColors}
           style={[styles.card, { borderColor: themeColors.border }]}
@@ -385,15 +437,6 @@ export default function LessonCard({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: width - 32,
-    height: height * 0.8,
-    alignSelf: 'center',
-    position: 'absolute',
-    top: 0,
-    left: 16,
-    right: 16,
-  },
   card: {
     flex: 1,
     borderRadius: 20,

@@ -101,6 +101,14 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
+        name="explore/liked"
+        options={{
+          href: null, // Hide from tab bar
+          headerShown: false,
+        }}
+      />
+
+      <Tabs.Screen
         name="explore/javascript-notes"
         options={{
           href: null, // Hide from tab bar
