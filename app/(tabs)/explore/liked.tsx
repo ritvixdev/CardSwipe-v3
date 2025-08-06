@@ -208,7 +208,7 @@ export default function LikedScreen() {
 
             {/* Lessons */}
             <View style={styles.lessonsContainer}>
-              {likedLessons.map((lesson) => (
+              {likedLessons?.map((lesson) => (
                 <LessonCard key={lesson.id} lesson={lesson} />
               ))}
             </View>

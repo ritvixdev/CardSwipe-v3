@@ -205,7 +205,7 @@ export default function CodingQuestionsScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.categoryContent}
           >
-            {categories.map((category) => {
+            {categories?.map((category) => {
               const categoryData = categoryHierarchy[category];
               const hasSubcategories = categoryData.subcategories.length > 0;
               const isSelected = selectedCategory === category;
@@ -256,7 +256,7 @@ export default function CodingQuestionsScreen() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.subcategoryContent}
               >
-                {categoryHierarchy[expandedCategory].subcategories.map((subcategory) => (
+                {categoryHierarchy[expandedCategory]?.subcategories?.map((subcategory) => (
                   <TouchableOpacity
                     key={subcategory}
                     style={[
@@ -287,7 +287,7 @@ export default function CodingQuestionsScreen() {
 
         {/* Questions List */}
         <View style={styles.questionsContainer}>
-          {filteredQuestions.map((question) => (
+          {filteredQuestions?.map((question) => (
             <QuestionCard key={question.id} question={question} />
           ))}
         </View>

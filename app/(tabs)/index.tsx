@@ -4,12 +4,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useProgressStore } from '@/store/useProgressStore';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { initializeTopics, getCardsByCategory, LearnCard, clearUnusedModules } from '@/data/processors/dataLoader';
-import { optimizedDataLoader } from '@/utils/optimizedDataLoader';
-import { lessonCache, PerformanceMonitor } from '@/utils/lessonCache';
 import LessonCard from '@/components/LessonCard';
 import LearnHeader from '@/components/LearnHeader';
 import XPNotification from '@/components/XPNotification';
-import PerformanceDisplay from '@/components/PerformanceMonitor';
 // import ComprehensivePerformanceDashboard from '@/components/ComprehensivePerformanceDashboard';
 // import { memoryLeakPrevention, useMemoryLeakPrevention } from '@/utils/memoryLeakPrevention';
 
@@ -20,8 +17,6 @@ export default function LearnScreen() {
   const [xpGained, setXpGained] = useState(0);
   const [selectedTopic, setSelectedTopic] = useState('all'); // Default to all lessons
   const [topicsData, setTopicsData] = useState<any[]>([]);
-  const [showPerformanceMonitor, setShowPerformanceMonitor] = useState(__DEV__); // Only show in development
-  const [showComprehensiveDashboard, setShowComprehensiveDashboard] = useState(false);
   
   // Memory leak prevention
   // useMemoryLeakPrevention('LearnScreen');
@@ -40,11 +35,11 @@ export default function LearnScreen() {
         let loadedLessons: LearnCard[] = [];
         
         if (selectedTopic === 'all' || !selectedTopic) {
-          // Use optimized loader for fundamentals only
-          loadedLessons = await optimizedDataLoader.getLessonCards('fundamentals');
-          console.log(`⚡ Optimized load: ${loadedLessons.length} fundamentals lessons`);
+          // Use data loader for fundamentals only
+          loadedLessons = await getCardsByCategory('fundamentals');
+          console.log(`⚡ Loaded: ${loadedLessons.length} fundamentals lessons`);
         } else {
-          // Map topic to category and use optimized loader
+          // Map topic to category and use data loader
           const topicCategoryMap: { [key: string]: string } = {
             'easy': 'fundamentals',
             'medium': 'data-structures', 
@@ -54,18 +49,13 @@ export default function LearnScreen() {
           };
           
           const category = topicCategoryMap[selectedTopic] || 'fundamentals';
-          loadedLessons = await optimizedDataLoader.getLessonCards(category);
-          console.log(`⚡ Optimized load: ${loadedLessons.length} lessons for ${selectedTopic} -> ${category}`);
+          loadedLessons = await getCardsByCategory(category);
+          console.log(`⚡ Loaded: ${loadedLessons.length} lessons for ${selectedTopic} -> ${category}`);
         }
         
-        // If optimized loader failed, try cache
+        // If loader failed, try traditional loader
         if (loadedLessons.length === 0) {
-          console.log('🔄 Falling back to cache...');
-          const cachedLessons = await lessonCache.getCachedLessonsByTopic(selectedTopic || 'fundamentals');
-          if (cachedLessons && cachedLessons.length > 0) {
-            loadedLessons = cachedLessons;
-            console.log(`📦 Cache fallback: ${cachedLessons.length} lessons`);
-          }
+          console.log('🔄 Falling back to traditional loader...');
         }
         
         // Last resort: use traditional loader (this should be rare)
@@ -76,11 +66,9 @@ export default function LearnScreen() {
         
         setLessons(loadedLessons);
         
-        // Cache the loaded lessons for faster future access
+        // Lessons loaded successfully
         if (loadedLessons.length > 0) {
-          lessonCache.getCachedLessonsByTopic(selectedTopic || 'fundamentals').then(() => {
-            console.log(`💾 Cached ${loadedLessons.length} lessons for future use`);
-          });
+          console.log(`✅ Successfully loaded ${loadedLessons.length} lessons`);
         }
         
         // Force memory cleanup
@@ -103,10 +91,8 @@ export default function LearnScreen() {
     loadLessonsForTopic();
   }, [selectedTopic]); // Re-load when topic changes
 
-  // Performance monitoring and optimization initialization
+  // App initialization
   useEffect(() => {
-    const endTimer = PerformanceMonitor.startRenderTimer('LearnScreen');
-    PerformanceMonitor.trackMemoryUsage();
     
     // Initialize EVERYTHING lazily
     const initializeApp = async () => {
@@ -125,10 +111,7 @@ export default function LearnScreen() {
         setTopicsData(loadedTopics);
         console.log(`⚡ Loaded ${loadedTopics.length} topics (lazy)`);
         
-        // 3. Initialize optimized data loader
-        await optimizedDataLoader.preloadEssentials();
-        
-        // 4. Force memory cleanup after initialization
+        // 3. Force memory cleanup after initialization
         clearUnusedModules([]);
         if (global.gc) {
           global.gc();
@@ -141,7 +124,6 @@ export default function LearnScreen() {
     };
     
     initializeApp();
-    endTimer();
   }, []);
 
   // React Compiler handles memoization automatically - no manual useMemo needed
@@ -261,20 +243,13 @@ export default function LearnScreen() {
         onComplete={() => setShowXPNotification(false)}
       />
 
-      {/* Performance Monitors - Only visible in development */}
-      <PerformanceDisplay
-        visible={showPerformanceMonitor && !showComprehensiveDashboard}
-        onToggle={() => setShowPerformanceMonitor(!showPerformanceMonitor)}
-      />
+      {/* Performance monitoring removed */}
       
       {/* <ComprehensivePerformanceDashboard
         visible={showComprehensiveDashboard}
         onToggle={() => {
           setShowComprehensiveDashboard(!showComprehensiveDashboard);
-          // Hide simple monitor when comprehensive is shown
-          if (!showComprehensiveDashboard) {
-            setShowPerformanceMonitor(false);
-          }
+          // Performance monitoring removed
         }}
       /> */}
     </SafeAreaView>

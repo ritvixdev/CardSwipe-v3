@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, Briefcase, Code, MessageCircle, Star, ChevronDown, ChevronRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { interviewQuestions, getInterviewQuestionsByCategory, interviewCategories } from '@/data/processors/dataLoader';
+import { getInterviewQuestions, getInterviewQuestionsByCategory, getInterviewCategories } from '@/data/processors/dataLoader';
 
 // Hierarchical category structure for interview questions
 const categoryHierarchy = {
@@ -42,8 +42,23 @@ export default function InterviewPrepScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+  const [interviewQuestions, setInterviewQuestions] = useState<any[]>([]);
 
   const categories = Object.keys(categoryHierarchy);
+
+  useEffect(() => {
+    const loadInterviewQuestions = async () => {
+      try {
+        const questions = await getInterviewQuestions();
+        setInterviewQuestions(questions);
+      } catch (error) {
+        console.error('Failed to load interview questions:', error);
+        setInterviewQuestions([]);
+      }
+    };
+
+    loadInterviewQuestions();
+  }, []);
 
   const getFilteredQuestions = () => {
     if (selectedSubcategory) {
@@ -158,7 +173,7 @@ export default function InterviewPrepScreen() {
           Answer Preview:
         </Text>
         <Text style={[styles.answerText, { color: themeColors.text }]}>
-          {note.answer.substring(0, 120)}...
+          {note.answer ? note.answer.substring(0, 120) + '...' : 'No answer available'}
         </Text>
       </View>
 
@@ -172,7 +187,7 @@ export default function InterviewPrepScreen() {
           </View>
           <View style={[styles.codeSnippet, { backgroundColor: themeColors.background }]}>
             <Text style={[styles.codeText, { color: themeColors.text }]}>
-              {note.codeExample.substring(0, 80)}...
+              {note.codeExample ? note.codeExample.substring(0, 80) + '...' : 'No code example'}
             </Text>
           </View>
         </View>
@@ -180,7 +195,7 @@ export default function InterviewPrepScreen() {
 
       <View style={styles.cardFooter}>
         <View style={styles.tagsContainer}>
-          {note.tags?.slice(0, 3).map((tag: string, index: number) => (
+          {note.tags?.slice(0, 3).filter(tag => tag && tag.trim()).map((tag: string, index: number) => (
             <View key={index} style={[styles.tag, { backgroundColor: themeColors.background }]}>
               <Text style={[styles.tagText, { color: themeColors.textSecondary }]}>
                 {tag}
@@ -226,7 +241,7 @@ export default function InterviewPrepScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.categoryContent}
           >
-            {categories.map((category) => {
+            {categories?.map((category) => {
               const categoryData = categoryHierarchy[category];
               const hasSubcategories = categoryData.subcategories.length > 0;
               const isSelected = selectedCategory === category;
@@ -277,7 +292,7 @@ export default function InterviewPrepScreen() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.subcategoryContent}
               >
-                {categoryHierarchy[expandedCategory].subcategories.map((subcategory) => (
+                {categoryHierarchy[expandedCategory]?.subcategories?.map((subcategory) => (
                   <TouchableOpacity
                     key={subcategory}
                     style={[
@@ -308,7 +323,7 @@ export default function InterviewPrepScreen() {
 
         {/* Interview Questions List */}
         <View style={styles.notesContainer}>
-          {filteredNotes.map((note) => (
+          {filteredNotes?.map((note) => (
             <InterviewCard key={note.id} note={note} />
           ))}
         </View>

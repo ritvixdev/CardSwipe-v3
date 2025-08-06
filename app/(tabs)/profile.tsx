@@ -81,7 +81,6 @@ export default function ProfileScreen() {
   const [autoBackup, setAutoBackup] = useState(true);
   const [animatedValue] = useState(new Animated.Value(0));
   const [lessons, setLessons] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [editName, setEditName] = useState('');
   const [editAvatar, setEditAvatar] = useState('');
@@ -95,8 +94,6 @@ export default function ProfileScreen() {
       } catch (error) {
         console.error('Failed to load lessons:', error);
         setLessons([]);
-      } finally {
-        setIsLoading(false);
       }
     };
     loadLessons();
@@ -446,14 +443,7 @@ export default function ProfileScreen() {
     }
   };
 
-  // Show loading state while lessons are being loaded
-  if (isLoading) {
-    return (
-      <View style={[styles.container, { backgroundColor: themeColors.background, justifyContent: 'center', alignItems: 'center' }]}>
-        <Text style={{ color: themeColors.text, fontSize: 16 }}>Loading profile...</Text>
-      </View>
-    );
-  }
+
 
   return (
     <View style={[styles.container, { backgroundColor: themeColors.background }]} testID="profile-screen">

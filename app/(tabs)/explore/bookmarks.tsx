@@ -208,7 +208,7 @@ export default function BookmarksScreen() {
 
             {/* Lessons */}
             <View style={styles.lessonsContainer}>
-              {bookmarkedLessons.map((lesson) => (
+              {bookmarkedLessons?.map((lesson) => (
                 <LessonCard key={lesson.id} lesson={lesson} />
               ))}
             </View>

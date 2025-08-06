@@ -12,7 +12,6 @@ import { useThemeColors } from '@/hooks/useThemeColors';
 import { useThemeStore } from '@/store/useThemeStore';
 import { useProgressStore } from '@/store/useProgressStore';
 import { LearnCard } from '@/data/processors/dataLoader';
-import { truncateContent, PerformanceMonitor } from '@/utils/lessonCache';
 
 const { width, height } = Dimensions.get('window');
 const SWIPE_THRESHOLD = 80; // Reduced for more responsive swiping
@@ -48,10 +47,11 @@ function LessonCard({
   const insets = useSafeAreaInsets();
 
   // Performance monitoring
-  React.useEffect(() => {
-    const endTimer = PerformanceMonitor.startRenderTimer('LessonCard');
-    endTimer();
-  }, []); // Add empty dependency array to run only once
+  // Simple content truncation function
+  const truncateContent = (content: string, maxLength: number): string => {
+    if (content.length <= maxLength) return content;
+    return content.substring(0, maxLength).trim() + '...';
+  };
 
   // React Compiler handles optimization automatically
   const optimizedContent = (() => {

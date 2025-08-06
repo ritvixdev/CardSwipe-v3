@@ -15,6 +15,7 @@ import * as Haptics from 'expo-haptics';
 
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
+import { designPatterns, codingQuestions } from '@/data/processors/dataLoader';
 // Temporary direct import to fix the issue
 const exploreCards = [
   {
@@ -120,7 +121,7 @@ const exploreCards = [
     color: '#6366f1',
     route: '/(tabs)/explore/design-patterns',
     category: 'resource',
-    itemCount: 8,
+    itemCount: designPatterns?.length || 0,
     difficulty: 'advanced',
     estimatedTime: '45 min read'
   },
@@ -132,7 +133,7 @@ const exploreCards = [
     color: '#8b5cf6',
     route: '/(tabs)/explore/coding-questions',
     category: 'resource',
-    itemCount: 20,
+    itemCount: codingQuestions?.length || 0,
     difficulty: 'intermediate',
     estimatedTime: '30 min',
     isPopular: true
@@ -386,7 +387,7 @@ export default function ExploreScreen() {
           </View>
           
           <View style={styles.permanentCardsContainer}>
-            {permanentCards.map((card) => (
+            {permanentCards?.map((card) => (
               <PermanentCard key={card.id} card={card} />
             ))}
           </View>
@@ -404,7 +405,7 @@ export default function ExploreScreen() {
           </View>
           
           <View style={styles.resourceCardsContainer}>
-            {resourceCards.map((card) => (
+            {resourceCards?.map((card) => (
               <ResourceCard key={card.id} card={card} />
             ))}
           </View>
@@ -423,8 +424,8 @@ export default function ExploreScreen() {
           
           <View style={styles.resourceCardsContainer}>
             {resourceCards
-              .filter(card => card.isPopular)
-              .map((card) => (
+              ?.filter(card => card.isPopular)
+              ?.map((card) => (
                 <ResourceCard key={`popular-${card.id}`} card={card} />
               ))}
           </View>

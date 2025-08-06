@@ -254,7 +254,7 @@ export default function JavaScriptNotesScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.categoryContent}
           >
-            {categories.map((category) => {
+            {categories?.map((category) => {
               const categoryData = categoryHierarchy[category];
               const hasSubcategories = categoryData.subcategories.length > 0;
               const isSelected = selectedCategory === category;
@@ -305,7 +305,7 @@ export default function JavaScriptNotesScreen() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.subcategoryContent}
               >
-                {categoryHierarchy[expandedCategory].subcategories.map((subcategory) => (
+                {categoryHierarchy[expandedCategory]?.subcategories?.map((subcategory) => (
                   <TouchableOpacity
                     key={subcategory}
                     style={[
@@ -336,7 +336,7 @@ export default function JavaScriptNotesScreen() {
 
         {/* Notes List */}
         <View style={styles.notesContainer}>
-          {filteredNotes.map((note) => (
+          {filteredNotes?.map((note) => (
             <NoteCard key={note.id} note={note} />
           ))}
         </View>

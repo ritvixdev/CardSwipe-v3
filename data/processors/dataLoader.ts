@@ -1010,3 +1010,17 @@ export async function getStats() {
     };
   }
 }
+
+// Synchronous exports for immediate use (initially empty, populated by async functions)
+export let designPatterns: DesignPattern[] = [];
+export let codingQuestions: CodingQuestion[] = [];
+
+// Initialize data on module load
+(async () => {
+  try {
+    designPatterns = await getDesignPatterns();
+    codingQuestions = await getCodingQuestions();
+  } catch (error) {
+    console.error('Failed to initialize synchronous exports:', error);
+  }
+})();

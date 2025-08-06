@@ -170,7 +170,7 @@ export default function LearningRoadmapScreen() {
               Topics Covered:
             </Text>
             <View style={styles.topicsList}>
-              {node.topics.map((topic: string, topicIndex: number) => (
+              {node.topics?.map((topic: string, topicIndex: number) => (
                 <View key={topicIndex} style={[styles.topicItem, { backgroundColor: themeColors.card }]}>
                   <Text style={[styles.topicText, { color: themeColors.text }]}>
                     {topic}
@@ -255,7 +255,7 @@ export default function LearningRoadmapScreen() {
 
         {/* Roadmap */}
         <View style={styles.roadmapContainer}>
-          {roadmapData.map((node, index) => (
+          {roadmapData?.map((node, index) => (
             <RoadmapNode key={node.id} node={node} index={index} />
           ))}
         </View>

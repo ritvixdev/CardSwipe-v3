@@ -112,7 +112,7 @@ export default function DesignPatternsScreen() {
 
         {/* Patterns List */}
         <View style={styles.patternsContainer}>
-          {designPatternsData.map((pattern) => (
+          {designPatternsData?.map((pattern) => (
             <PatternCard key={pattern.id} pattern={pattern} />
           ))}
         </View>

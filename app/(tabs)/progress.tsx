@@ -47,7 +47,6 @@ export default function ProgressScreen() {
   const [selectedTab, setSelectedTab] = useState<'overview' | 'achievements' | 'stats'>('overview');
   const [animatedValue] = useState(new Animated.Value(0));
   const [lessons, setLessons] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   // Load lessons on component mount
   useEffect(() => {
@@ -58,8 +57,6 @@ export default function ProgressScreen() {
       } catch (error) {
         console.error('Failed to load lessons:', error);
         setLessons([]);
-      } finally {
-        setIsLoading(false);
       }
     };
     loadLessons();
@@ -68,7 +65,7 @@ export default function ProgressScreen() {
   // Calculate stats
   const completedCount = Object.values(progress).filter(p => p.completed).length;
   const totalLessons = lessons.length;
-  const completionPercentage = (completedCount / totalLessons) * 100;
+  const completionPercentage = totalLessons > 0 ? (completedCount / totalLessons) * 100 : 0;
   const currentLevel = getLevel();
   const xpForNextLevel = getXpForNextLevel();
   const xpProgress = ((xp % 100) / 100) * 100; // Progress within current level
@@ -79,8 +76,8 @@ export default function ProgressScreen() {
     .slice(0, 3);
 
   // Weekly goal progress
-  const weeklyLessonsProgress = (weeklyGoal.currentLessons / weeklyGoal.lessonsTarget) * 100;
-  const weeklyXpProgress = (weeklyGoal.currentXp / weeklyGoal.xpTarget) * 100;
+  const weeklyLessonsProgress = weeklyGoal.lessonsTarget > 0 ? (weeklyGoal.currentLessons / weeklyGoal.lessonsTarget) * 100 : 0;
+  const weeklyXpProgress = weeklyGoal.xpTarget > 0 ? (weeklyGoal.currentXp / weeklyGoal.xpTarget) * 100 : 0;
 
   // Format time spent
   const formatTime = (seconds: number) => {
@@ -201,14 +198,7 @@ export default function ProgressScreen() {
     Alert.alert("Daily Motivation", randomMessage);
   };
   
-  // Show loading state while lessons are being loaded
-  if (isLoading) {
-    return (
-      <View style={[styles.container, { backgroundColor: themeColors.background, justifyContent: 'center', alignItems: 'center' }]}>
-        <Text style={[{ color: themeColors.text, fontSize: 16 }]}>Loading progress...</Text>
-      </View>
-    );
-  }
+
 
   return (
     <View style={[styles.container, { backgroundColor: themeColors.background }]} testID="progress-screen">
@@ -408,9 +398,9 @@ export default function ProgressScreen() {
               <View style={styles.calendarMainContainer}>
                 <View style={styles.calendarGridContainer}>
                   <View style={styles.calendarGrid}>
-                    {calendarData.map((week, weekIndex) => (
+                    {calendarData?.map((week, weekIndex) => (
                       <View key={weekIndex} style={styles.calendarWeek}>
-                        {week.map((day, dayIndex) => (
+                        {week?.map((day, dayIndex) => (
                           <View
                             key={`${weekIndex}-${dayIndex}`}
                             style={[
@@ -624,7 +614,7 @@ export default function ProgressScreen() {
                 </View>
 
                 <View style={styles.achievementsList}>
-                  {recentAchievements.map((achievement) => (
+                  {recentAchievements?.map((achievement) => (
                     <View key={achievement.id} style={styles.achievementItem}>
                       <Text style={styles.achievementIcon}>{achievement.icon}</Text>
                       <View style={styles.achievementContent}>
@@ -694,7 +684,7 @@ export default function ProgressScreen() {
 
             {achievements.length > 0 ? (
               <View style={styles.achievementsList}>
-                {achievements.map((achievement) => (
+                {achievements?.map((achievement) => (
                   <View key={achievement.id} style={styles.achievementItem}>
                     <Text style={styles.achievementIcon}>{achievement.icon}</Text>
                     <View style={styles.achievementContent}>

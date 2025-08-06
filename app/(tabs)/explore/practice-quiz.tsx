@@ -415,7 +415,7 @@ export default function PracticeQuizScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.categoryContent}
           >
-            {categories.map((category) => {
+            {categories?.map((category) => {
               const categoryData = categoryHierarchy[category];
               const hasSubcategories = categoryData.subcategories.length > 0;
               const isSelected = selectedCategory === category;
@@ -466,7 +466,7 @@ export default function PracticeQuizScreen() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.subcategoryContent}
               >
-                {categoryHierarchy[expandedCategory].subcategories.map((subcategory) => (
+                {categoryHierarchy[expandedCategory]?.subcategories?.map((subcategory) => (
                   <TouchableOpacity
                     key={subcategory}
                     style={[
@@ -497,7 +497,7 @@ export default function PracticeQuizScreen() {
 
         {/* Quizzes List */}
         <View style={styles.quizzesContainer}>
-          {filteredQuizzes.map((quiz) => (
+          {filteredQuizzes?.map((quiz) => (
             <QuizCard key={quiz.id} quiz={quiz} />
           ))}
         </View>
