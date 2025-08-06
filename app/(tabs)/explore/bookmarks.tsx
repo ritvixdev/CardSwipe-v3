@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -14,12 +14,30 @@ import * as Haptics from 'expo-haptics';
 
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import { lessons } from '@/data/processors/dataLoader';
+import { getAllLessons } from '@/data/processors/dataLoader';
 
 export default function BookmarksScreen() {
   const themeColors = useThemeColors();
   const progress = useProgressStore((state) => state.progress);
   const [searchQuery, setSearchQuery] = useState('');
+  const [lessons, setLessons] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load lessons on component mount
+  useEffect(() => {
+    const loadLessons = async () => {
+      try {
+        const allLessons = await getAllLessons();
+        setLessons(allLessons);
+      } catch (error) {
+        console.error('Failed to load lessons:', error);
+        setLessons([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadLessons();
+  }, []);
 
   const bookmarkedLessons = lessons.filter(lesson => 
     progress[lesson.id]?.bookmarked &&
@@ -115,6 +133,15 @@ export default function BookmarksScreen() {
       </TouchableOpacity>
     );
   };
+
+  // Show loading state while lessons are being loaded
+  if (isLoading) {
+    return (
+      <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background, justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={[{ color: themeColors.text, fontSize: 16 }]}>Loading bookmarked lessons...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]}>

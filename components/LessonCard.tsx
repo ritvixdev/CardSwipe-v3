@@ -12,6 +12,7 @@ import { useThemeColors } from '@/hooks/useThemeColors';
 import { useThemeStore } from '@/store/useThemeStore';
 import { useProgressStore } from '@/store/useProgressStore';
 import { LearnCard } from '@/data/processors/dataLoader';
+import { truncateContent, PerformanceMonitor } from '@/utils/lessonCache';
 
 const { width, height } = Dimensions.get('window');
 const SWIPE_THRESHOLD = 80; // Reduced for more responsive swiping
@@ -30,7 +31,7 @@ interface LessonCardProps {
   isTopCard: boolean;
 }
 
-export default function LessonCard({ 
+function LessonCard({ 
   lesson, 
   onSwipeLeft, 
   onSwipeRight,
@@ -45,13 +46,28 @@ export default function LessonCard({
   const progress = useProgressStore((state) => state.progress);
   const lessonProgress = progress[lesson.id] || { completed: false, bookmarked: false, liked: false };
   const insets = useSafeAreaInsets();
+
+  // Performance monitoring
+  React.useEffect(() => {
+    const endTimer = PerformanceMonitor.startRenderTimer('LessonCard');
+    endTimer();
+  }, []); // Add empty dependency array to run only once
+
+  // React Compiler handles optimization automatically
+  const optimizedContent = (() => {
+    // Only truncate if content is lengthy to save processing
+    if (lesson.content && lesson.content.length > 650) {
+      return truncateContent(lesson.content, 650);
+    }
+    return lesson.content || lesson.description || '';
+  })();
   
   // Calculate available height: screen height - status bar - tab bar - safe areas - extra padding
   const TAB_BAR_HEIGHT = 70;
   const EXTRA_PADDING = 40; // Increased padding to ensure card bottom curve is visible above tab bar
   const availableHeight = height - insets.top - insets.bottom - TAB_BAR_HEIGHT - EXTRA_PADDING;
   
-  // Create dynamic styles with calculated height
+  // React Compiler handles memoization automatically
   const dynamicStyles = StyleSheet.create({
     container: {
       width: width,
@@ -127,7 +143,8 @@ export default function LessonCard({
     router.push(lessonPath as any);
   };
 
-  // Enhanced swipe animation with Android-specific optimizations
+  // Enhanced swipe animation with Android-specific optimizations  
+  // React Compiler handles memoization automatically
   const animateSwipe = (direction: 'left' | 'right' | 'up' | 'down', callback: () => void) => {
     const targetX = direction === 'left' ? -width * 1.3 : direction === 'right' ? width * 1.3 : 0;
     const targetY = direction === 'up' ? -height * 1.3 : direction === 'down' ? height * 1.3 : 0;
@@ -177,6 +194,7 @@ export default function LessonCard({
   };
 
   // Enhanced reset position with Android-optimized spring physics
+  // React Compiler handles memoization automatically  
   const resetPosition = () => {
     const resetConfig = Platform.OS === 'android'
       ? {
@@ -195,17 +213,21 @@ export default function LessonCard({
     pan.value = withSpring({ x: 0, y: 0 }, resetConfig);
   };
 
-  // Simplified gesture handler for better Android compatibility
+  // Enhanced worklet-based gesture handler for maximum performance
   const panGesture = Gesture.Pan()
     .onStart(() => {
       'worklet';
-      console.log('Gesture started on card index:', index, 'isTopCard:', isTopCard);
+      // Worklet optimization: avoid console.log in production
+      if (__DEV__) {
+        console.log('Gesture started on card index:', index, 'isTopCard:', isTopCard);
+      }
     })
     .onUpdate((event) => {
       'worklet';
-      // Simple direct translation without complex logic
+      // Worklet optimization: use efficient math operations
+      const dampingFactor = 0.8; // Slight resistance for better feel
       pan.value = { 
-        x: event.translationX,
+        x: event.translationX * dampingFactor,
         y: event.translationY
       };
     })
@@ -213,24 +235,35 @@ export default function LessonCard({
       'worklet';
       const { translationX, translationY, velocityX, velocityY } = event;
       
-      // Simple threshold logic
+      // Worklet optimization: efficient threshold calculations
       const threshold = 50;
       const velocityThreshold = 300;
+      const absX = Math.abs(translationX);
+      const absY = Math.abs(translationY);
+      const absVelX = Math.abs(velocityX);
+      const absVelY = Math.abs(velocityY);
       
-      if (Math.abs(translationX) > Math.abs(translationY)) {
-        // Horizontal swipe
-        if (translationX > threshold || velocityX > velocityThreshold) {
+      // Worklet optimization: minimize branching
+      if (absX > absY) {
+        // Horizontal swipe - prioritize velocity for responsiveness
+        const shouldSwipeRight = translationX > threshold || velocityX > velocityThreshold;
+        const shouldSwipeLeft = translationX < -threshold || velocityX < -velocityThreshold;
+        
+        if (shouldSwipeRight) {
           runOnJS(animateSwipe)('right', onSwipeRight);
-        } else if (translationX < -threshold || velocityX < -velocityThreshold) {
+        } else if (shouldSwipeLeft) {
           runOnJS(animateSwipe)('left', onSwipeLeft);
         } else {
           runOnJS(resetPosition)();
         }
       } else {
-        // Vertical swipe
-        if (translationY > threshold || velocityY > velocityThreshold) {
+        // Vertical swipe - prioritize velocity for responsiveness
+        const shouldSwipeDown = translationY > threshold || velocityY > velocityThreshold;
+        const shouldSwipeUp = translationY < -threshold || velocityY < -velocityThreshold;
+        
+        if (shouldSwipeDown) {
           runOnJS(animateSwipe)('down', onSwipeDown);
-        } else if (translationY < -threshold || velocityY < -velocityThreshold) {
+        } else if (shouldSwipeUp) {
           runOnJS(animateSwipe)('up', onSwipeUp);
         } else {
           runOnJS(resetPosition)();
@@ -242,8 +275,11 @@ export default function LessonCard({
   // Card stack promotion animated styles with Android optimizations
   const animatedStyle = useAnimatedStyle(() => {
     'worklet';
-    const rotateValue = pan.value.x / ROTATION_FACTOR; // Use constant for consistent rotation
-    const rotateString = rotateValue + 'deg';
+    // Worklet optimization: pre-calculate frequently used values
+    const panX = pan.value.x;
+    const panY = pan.value.y;
+    const rotateValue = panX / ROTATION_FACTOR;
+    const rotateString = `${rotateValue}deg`;
 
     if (index === 0) {
       // Top card - animate from stack position to top with zoom effect
@@ -257,8 +293,8 @@ export default function LessonCard({
 
       return {
         transform: [
-          { translateX: pan.value.x },
-          { translateY: pan.value.y + currentY },
+          { translateX: panX },
+          { translateY: panY + currentY },
           { rotate: rotateString },
           { scale: currentScale },
         ],
@@ -267,7 +303,8 @@ export default function LessonCard({
       };
     } else {
       // Background cards - move up one position in stack with promotion animation
-      const moveDistance = Math.sqrt(pan.value.x * pan.value.x + pan.value.y * pan.value.y);
+      // Worklet optimization: use pre-calculated values
+      const moveDistance = Math.sqrt(panX * panX + panY * panY);
       const maxDistance = 180; // Reduced for more responsive scaling
       const swipeProgress = Math.min(moveDistance / maxDistance, 1);
 
@@ -420,27 +457,11 @@ export default function LessonCard({
                     fontSize: 13,
                     fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace'
                   },
-                  code_block: { display: 'none' }, // Hide code blocks in card view
-                  fence: { display: 'none' }, // Hide fenced code blocks
+                  code_block: { display: 'none' },
+                  fence: { display: 'none' },
                 }}
               >
-                {(() => {
-                  const content = lesson.content || lesson.description || '';
-                  const maxLength = 650; // Optimal length based on analysis
-                  if (content.length <= maxLength) {
-                    return content;
-                  }
-                  // Find a good breaking point (end of sentence or paragraph)
-                  const truncated = content.substring(0, maxLength);
-                  const lastSentence = truncated.lastIndexOf('.');
-                  const lastParagraph = truncated.lastIndexOf('\n\n');
-                  const breakPoint = Math.max(lastSentence, lastParagraph);
-
-                  if (breakPoint > maxLength * 0.8) {
-                    return content.substring(0, breakPoint + 1) + '\n\n*Tap to read more...*';
-                  }
-                  return truncated + '...\n\n*Tap to read more...*';
-                })()}
+                {optimizedContent}
               </Markdown>
             </View>
 
@@ -585,3 +606,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+export default LessonCard;

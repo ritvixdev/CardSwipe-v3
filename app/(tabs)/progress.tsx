@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Animated, Dimensi
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import { lessons } from '@/data/processors/dataLoader';
+import { getAllLessons } from '@/data/processors/dataLoader';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 // Gamified Progress Page with Achievements and Rewards
@@ -46,6 +46,24 @@ export default function ProgressScreen() {
 
   const [selectedTab, setSelectedTab] = useState<'overview' | 'achievements' | 'stats'>('overview');
   const [animatedValue] = useState(new Animated.Value(0));
+  const [lessons, setLessons] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Load lessons on component mount
+  useEffect(() => {
+    const loadLessons = async () => {
+      try {
+        const allLessons = await getAllLessons();
+        setLessons(allLessons);
+      } catch (error) {
+        console.error('Failed to load lessons:', error);
+        setLessons([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadLessons();
+  }, []);
 
   // Calculate stats
   const completedCount = Object.values(progress).filter(p => p.completed).length;
@@ -183,6 +201,15 @@ export default function ProgressScreen() {
     Alert.alert("Daily Motivation", randomMessage);
   };
   
+  // Show loading state while lessons are being loaded
+  if (isLoading) {
+    return (
+      <View style={[styles.container, { backgroundColor: themeColors.background, justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={[{ color: themeColors.text, fontSize: 16 }]}>Loading progress...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: themeColors.background }]} testID="progress-screen">
       {/* Header with Level and XP */}

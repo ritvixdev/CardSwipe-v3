@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import {
   View,
   Text,
@@ -28,44 +28,54 @@ interface TopicSelectorProps {
   onTopicSelect: (topicId: string) => void;
 }
 
-export default function TopicSelector({ topics, selectedTopic, onTopicSelect }: TopicSelectorProps) {
+const TopicSelector = memo(function TopicSelector({ topics, selectedTopic, onTopicSelect }: TopicSelectorProps) {
   const themeColors = useThemeColors();
 
-  const renderTopicPill = (topic: Topic, index: number) => {
-    const isSelected = selectedTopic === topic.id;
-    const isFirst = index === 0;
+  // Memoize the topic selection handler to prevent unnecessary re-renders
+  const handleTopicSelect = useCallback((topicId: string) => {
+    onTopicSelect(topicId);
+  }, [onTopicSelect]);
 
-    return (
-      <TouchableOpacity
-        key={topic.id}
-        onPress={() => onTopicSelect(topic.id)}
-        style={[
-          styles.topicPill,
-          isFirst && styles.firstPill,
-          isSelected && styles.selectedPill,
-        ]}
-        activeOpacity={0.8}
-      >
-        <LinearGradient
-          colors={isSelected ? [topic.color, topic.gradient[2]] : ['rgba(255,255,255,0.1)', 'rgba(255,255,255,0.05)']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
+  // Memoize the rendered topic pills to prevent recreation on every render
+  const topicPills = useMemo(() => {
+    return topics.map((topic, index) => {
+      const isSelected = selectedTopic === topic.id;
+      const isFirst = index === 0;
+
+      return (
+        <TouchableOpacity
+          key={topic.id}
+          onPress={() => handleTopicSelect(topic.id)}
           style={[
-            styles.pillGradient,
-            !isSelected && { backgroundColor: topic.gradient[0] }
+            styles.topicPill,
+            isFirst && styles.firstPill,
+            isSelected && styles.selectedPill,
           ]}
+          activeOpacity={0.8}
         >
-          <Text style={styles.topicIcon}>{topic.icon}</Text>
-          <Text style={[
-            styles.topicTitle,
-            { color: isSelected ? '#ffffff' : topic.color }
-          ]}>
-            {topic.title}
-          </Text>
-        </LinearGradient>
-      </TouchableOpacity>
-    );
-  };
+          <LinearGradient
+            colors={isSelected ? [topic.color, topic.gradient[2]] : ['rgba(255,255,255,0.1)', 'rgba(255,255,255,0.05)']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.pillGradient}
+          >
+            <Text style={[
+              styles.topicIcon,
+              { color: isSelected ? '#ffffff' : themeColors.textSecondary }
+            ]}>
+              {topic.icon}
+            </Text>
+            <Text style={[
+              styles.topicTitle,
+              { color: isSelected ? '#ffffff' : themeColors.textSecondary }
+            ]}>
+              {topic.title}
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      );
+    });
+  }, [topics, selectedTopic, themeColors, handleTopicSelect]);
 
   return (
     <View style={styles.container}>
@@ -74,12 +84,19 @@ export default function TopicSelector({ topics, selectedTopic, onTopicSelect }: 
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
         decelerationRate="fast"
+        snapToInterval={screenWidth * 0.8}
+        snapToAlignment="start"
+        removeClippedSubviews={true}
+        maxToRenderPerBatch={5}
+        windowSize={10}
       >
-        {topics.map((topic, index) => renderTopicPill(topic, index))}
+        {topicPills}
       </ScrollView>
     </View>
   );
-}
+});
+
+export default TopicSelector;
 
 const styles = StyleSheet.create({
   container: {

@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, Animated } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Platform, Animated, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import { lessons } from '@/data/processors/dataLoader';
+import { getLessonById, getAllLessons, LearnCard } from '@/data/processors/dataLoader';
 import { Bookmark, Check, ArrowLeft, ArrowRight, Heart } from 'lucide-react-native';
 import QuizCard from '@/components/QuizCard';
 import * as Haptics from 'expo-haptics';
@@ -24,7 +24,77 @@ export default function LessonDetailScreen() {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(30)).current;
   
-  const lesson = lessons.find(l => l.id === lessonId);
+  // State for async lesson loading
+  const [lesson, setLesson] = useState<LearnCard | null>(null);
+  const [lessons, setLessons] = useState<LearnCard[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  // Load lesson and all lessons asynchronously
+  useEffect(() => {
+    const loadLessonData = async () => {
+      try {
+        setLoading(true);
+        const [foundLesson, allLessons] = await Promise.all([
+          getLessonById(lessonId),
+          getAllLessons()
+        ]);
+        setLesson(foundLesson || null);
+        setLessons(allLessons);
+      } catch (error) {
+        console.error('Failed to load lesson data:', error);
+        setLesson(null);
+        setLessons([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    if (lessonId) {
+      loadLessonData();
+    }
+  }, [lessonId]);
+  
+  // Smooth entrance animation
+  useEffect(() => {
+    if (!loading && lesson) {
+      Animated.parallel([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 400,
+          useNativeDriver: true,
+        }),
+        Animated.timing(slideAnim, {
+          toValue: 0,
+          duration: 400,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+  }, [fadeAnim, slideAnim, loading, lesson]);
+  
+  const lessonProgress = progress[lessonId] || { completed: false, bookmarked: false, liked: false };
+  
+  // Show loading indicator
+  if (loading) {
+    return (
+      <View style={[styles.container, { backgroundColor: themeColors.background }]}>
+        <SafeAreaView style={styles.safeArea}>
+          <View style={styles.headerRow}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => router.back()}
+            >
+              <ArrowLeft size={24} color={themeColors.text} />
+            </TouchableOpacity>
+            <Text style={[styles.title, { color: themeColors.text }]}>Loading...</Text>
+          </View>
+        </SafeAreaView>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={themeColors.primary} />
+        </View>
+      </View>
+    );
+  }
   
   if (!lesson) {
     return (
@@ -46,24 +116,6 @@ export default function LessonDetailScreen() {
       </View>
     );
   }
-  
-  const lessonProgress = progress[lessonId] || { completed: false, bookmarked: false, liked: false };
-  
-  // Smooth entrance animation
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 400,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 400,
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, [fadeAnim, slideAnim]);
   
   const handleMarkAsCompleted = () => {
     if (Platform.OS !== 'web') {
@@ -349,5 +401,10 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 18,
     textAlign: 'center',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

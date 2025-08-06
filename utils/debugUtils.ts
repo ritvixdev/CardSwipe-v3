@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // Development-only utilities for debugging React issues
 const isDev = __DEV__;
@@ -45,7 +45,7 @@ export function useRenderTracker(componentName: string, maxRenders = 50) {
  * Hook to track prop changes that might cause re-renders
  */
 export function usePropChangeTracker(props: Record<string, any>, componentName: string) {
-  const prevProps = useRef<Record<string, any>>();
+  const prevProps = useRef<Record<string, any>>({});
   
   if (isDev) {
     useEffect(() => {
@@ -221,7 +221,7 @@ export function withRenderErrorBoundary<P extends object>(
       usePropChangeTracker(props as Record<string, any>, componentName);
       usePerformanceMonitor(componentName);
       
-      return <Component {...props} />;
+      return React.createElement(Component, props);
     } catch (error) {
       console.error(`💥 Render error in ${componentName}:`, error);
       return null;
@@ -250,7 +250,7 @@ export function useLifecycleLogger(componentName: string) {
  * Hook to detect dependency array issues
  */
 export function useDependencyDebugger(deps: any[], name: string) {
-  const prevDeps = useRef<any[]>();
+  const prevDeps = useRef<any[]>([]);
   
   if (isDev) {
     useEffect(() => {

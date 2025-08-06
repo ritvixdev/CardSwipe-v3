@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { Flame, Trophy, BookOpen } from 'lucide-react-native';
 import { useProgressStore } from '@/store/useProgressStore';
 
-export default function StatsCard() {
+const StatsCard = memo(function StatsCard() {
   const { streak, xp } = useProgressStore();
   const progress = useProgressStore((state) => state.progress);
   const themeColors = useThemeColors();
   
-  // Calculate completed lessons
-  const completedCount = Object.values(progress).filter(p => p.completed).length;
+  // Memoize completed lessons calculation to prevent recalculation on every render
+  const completedCount = useMemo(() => {
+    return Object.values(progress).filter(p => p.completed).length;
+  }, [progress]);
+
+  // Memoize icon container styles to prevent recreation
+  const iconContainerStyles = useMemo(() => ({
+    flame: [styles.iconContainer, { backgroundColor: 'rgba(239, 68, 68, 0.2)' }],
+    book: [styles.iconContainer, { backgroundColor: 'rgba(99, 102, 241, 0.2)' }],
+    trophy: [styles.iconContainer, { backgroundColor: 'rgba(139, 92, 246, 0.2)' }],
+  }), []);
   
   return (
     <View style={[styles.container, { backgroundColor: themeColors.card, borderColor: themeColors.border }]}>
       <View style={styles.statItem}>
-        <View style={[styles.iconContainer, { backgroundColor: 'rgba(239, 68, 68, 0.2)' }]}>
+        <View style={iconContainerStyles.flame}>
           <Flame size={20} color={themeColors.error} />
         </View>
         <View>
@@ -27,7 +36,7 @@ export default function StatsCard() {
       <View style={[styles.divider, { backgroundColor: themeColors.border }]} />
       
       <View style={styles.statItem}>
-        <View style={[styles.iconContainer, { backgroundColor: 'rgba(99, 102, 241, 0.2)' }]}>
+        <View style={iconContainerStyles.book}>
           <BookOpen size={20} color={themeColors.primary} />
         </View>
         <View>
@@ -39,7 +48,7 @@ export default function StatsCard() {
       <View style={[styles.divider, { backgroundColor: themeColors.border }]} />
       
       <View style={styles.statItem}>
-        <View style={[styles.iconContainer, { backgroundColor: 'rgba(139, 92, 246, 0.2)' }]}>
+        <View style={iconContainerStyles.trophy}>
           <Trophy size={20} color={themeColors.secondary} />
         </View>
         <View>
@@ -49,7 +58,9 @@ export default function StatsCard() {
       </View>
     </View>
   );
-}
+});
+
+export default StatsCard;
 
 const styles = StyleSheet.create({
   container: {

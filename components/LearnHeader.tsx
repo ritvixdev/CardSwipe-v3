@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import {
   View,
   Text,
@@ -15,14 +15,14 @@ interface LearnHeaderProps {
   onTopicSelect: (topicId: string) => void;
 }
 
-export default function LearnHeader({
+const LearnHeader = memo(function LearnHeader({
   topics,
   selectedTopic,
   onTopicSelect,
 }: LearnHeaderProps) {
   const themeColors = useThemeColors();
 
-  const renderTopicPill = (topic: any, index: number) => {
+  const renderTopicPill = useCallback((topic: any, index: number) => {
     const isSelected = selectedTopic === topic.id;
 
     return (
@@ -65,7 +65,7 @@ export default function LearnHeader({
         </LinearGradient>
       </TouchableOpacity>
     );
-  };
+  }, [selectedTopic, onTopicSelect, themeColors]);
 
   return (
     <View style={[styles.container, { backgroundColor: themeColors.background }]} testID="learn-header">
@@ -117,7 +117,9 @@ export default function LearnHeader({
       </View>
     </View>
   );
-}
+});
+
+export default LearnHeader;
 
 const styles = StyleSheet.create({
   container: {

@@ -58,46 +58,70 @@ export class NotificationService {
 
   async scheduleReminder(title: string, body: string, trigger: Date): Promise<string | null> {
     if (!this.notificationsEnabled) {
-      console.log('Notifications disabled, skipping reminder');
       return null;
     }
-
-    // In a real implementation, this would schedule an actual notification
-    console.log(`Reminder scheduled: ${title} - ${body} at ${trigger.toISOString()}`);
     
-    // Return a mock notification ID
-    return `notification_${Date.now()}`;
+    try {
+      const notificationId = await Notifications.scheduleNotificationAsync({
+        content: {
+          title,
+          body,
+          sound: true,
+        },
+        trigger: { date: trigger },
+      });
+      
+      console.log(`Scheduled notification: ${title} - ${body} at ${trigger}`);
+      return notificationId;
+    } catch (error) {
+      console.error('Failed to schedule notification:', error);
+      return null;
+    }
   }
 
   async scheduleDailyReminder(hour: number = 19, minute: number = 0): Promise<string | null> {
     if (!this.notificationsEnabled) {
       return null;
     }
-
-    const now = new Date();
-    const reminderTime = new Date();
-    reminderTime.setHours(hour, minute, 0, 0);
-
-    // If the time has passed today, schedule for tomorrow
-    if (reminderTime <= now) {
-      reminderTime.setDate(reminderTime.getDate() + 1);
+    
+    try {
+      const notificationId = await Notifications.scheduleNotificationAsync({
+        content: {
+          title: '📚 Daily Learning Reminder',
+          body: 'Time for your daily lesson! Keep your streak alive.',
+          sound: true,
+        },
+        trigger: {
+          hour,
+          minute,
+          repeats: true,
+        },
+      });
+      
+      console.log(`Scheduled daily reminder at ${hour}:${minute}`);
+      return notificationId;
+    } catch (error) {
+      console.error('Failed to schedule daily reminder:', error);
+      return null;
     }
-
-    return this.scheduleReminder(
-      'Time to Learn JavaScript! 🚀',
-      'Continue your JavaScript journey with SwipeLearn JS',
-      reminderTime
-    );
   }
 
   async cancelNotification(notificationId: string): Promise<void> {
-    // In a real implementation, this would cancel the actual notification
-    console.log(`Notification cancelled: ${notificationId}`);
+    try {
+      await Notifications.cancelScheduledNotificationAsync(notificationId);
+      console.log(`Cancelled notification: ${notificationId}`);
+    } catch (error) {
+      console.error('Failed to cancel notification:', error);
+    }
   }
 
   async cancelAllNotifications(): Promise<void> {
-    // In a real implementation, this would cancel all notifications
-    console.log('All notifications cancelled');
+    try {
+      await Notifications.cancelAllScheduledNotificationsAsync();
+      console.log('Cancelled all notifications');
+    } catch (error) {
+      console.error('Failed to cancel all notifications:', error);
+    }
   }
 
   async scheduleStreakReminder(): Promise<void> {
@@ -126,21 +150,139 @@ export class NotificationService {
     console.log(`🎉 Lesson completed: ${lessonTitle}`);
   }
 
-  // Mock methods for compatibility
   async getScheduledNotifications(): Promise<any[]> {
-    return [];
+    try {
+      return await Notifications.getAllScheduledNotificationsAsync();
+    } catch (error) {
+      console.error('Failed to get scheduled notifications:', error);
+      return [];
+    }
   }
 
   async getBadgeCount(): Promise<number> {
-    return 0;
+    try {
+      return await Notifications.getBadgeCountAsync();
+    } catch (error) {
+      console.error('Failed to get badge count:', error);
+      return 0;
+    }
   }
 
   async setBadgeCount(count: number): Promise<void> {
-    console.log(`Badge count set to: ${count}`);
+    try {
+      await Notifications.setBadgeCountAsync(count);
+      console.log(`Set badge count to: ${count}`);
+    } catch (error) {
+      console.error('Failed to set badge count:', error);
+    }
   }
 
   async clearBadge(): Promise<void> {
-    console.log('Badge cleared');
+    try {
+      await Notifications.setBadgeCountAsync(0);
+      console.log('Badge cleared');
+    } catch (error) {
+      console.error('Failed to clear badge:', error);
+    }
+  }
+
+  // Performance optimization: Setup notification listeners
+  private setupNotificationListeners(): void {
+    // Handle notification received while app is in foreground
+    Notifications.addNotificationReceivedListener((notification) => {
+      console.log('Notification received:', notification);
+    });
+
+    // Handle notification response (user tapped notification)
+    Notifications.addNotificationResponseReceivedListener((response) => {
+      console.log('Notification response:', response);
+      this.handleNotificationResponse(response);
+    });
+  }
+
+  // Handle notification responses for better UX
+  private handleNotificationResponse(response: Notifications.NotificationResponse): void {
+    const { notification } = response;
+    const data = notification.request.content.data;
+    
+    // Handle navigation based on notification data
+    if (data?.screen) {
+      console.log('Navigate to screen:', data.screen);
+      // Implement navigation logic here
+    }
+  }
+
+  // Performance optimization: Throttled notification sending
+  async sendThrottledNotification(title: string, body: string, data?: any): Promise<string | null> {
+    if (!this.notificationsEnabled) {
+      return null;
+    }
+
+    const now = Date.now();
+    if (now - this.lastNotificationTime < this.minNotificationInterval) {
+      // Add to queue instead of sending immediately
+      this.addToQueue({ title, body, data });
+      return null;
+    }
+
+    try {
+      const notificationId = await Notifications.scheduleNotificationAsync({
+        content: {
+          title,
+          body,
+          data: data || {},
+          sound: true,
+        },
+        trigger: null, // Send immediately
+      });
+
+      this.lastNotificationTime = now;
+      return notificationId;
+    } catch (error) {
+      console.error('Failed to send throttled notification:', error);
+      return null;
+    }
+  }
+
+  // Queue management for performance
+  private addToQueue(notification: any): void {
+    if (this.notificationQueue.length >= this.maxQueueSize) {
+      this.notificationQueue.shift(); // Remove oldest
+    }
+    this.notificationQueue.push(notification);
+    
+    // Process queue after minimum interval
+    setTimeout(() => {
+      this.processQueue();
+    }, this.minNotificationInterval);
+  }
+
+  private async processQueue(): Promise<void> {
+    if (this.notificationQueue.length === 0) return;
+
+    const notification = this.notificationQueue.shift();
+    if (notification) {
+      await this.sendThrottledNotification(
+        notification.title,
+        notification.body,
+        notification.data
+      );
+    }
+  }
+
+  // Get performance statistics
+  getStats(): {
+    queueSize: number;
+    lastNotificationTime: number;
+    isInitialized: boolean;
+    notificationsEnabled: boolean;
+  } {
+    return {
+      queueSize: this.notificationQueue.length,
+      lastNotificationTime: this.lastNotificationTime,
+      isInitialized: this.isInitialized,
+      notificationsEnabled: this.notificationsEnabled,
+    };
   }
 }
 

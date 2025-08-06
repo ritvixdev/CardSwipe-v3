@@ -1,27 +1,156 @@
-// Data loader utilities for JSON files
-import learnConfigData from '../learn/config.json';
-import javascriptNotesData from '../explore/javascript-notes.json';
-import practiceQuizData from '../explore/practice-quiz.json';
-import interviewPrepData from '../explore/interview-prep.json';
-import interviewQuizData from '../explore/interview-quiz.json';
-import learningRoadmapData from '../explore/learning-roadmap.json';
-import designPatternsData from '../explore/design-patterns.json';
-import codingQuestionsData from '../explore/coding-questions.json';
+// Data loader utilities with STRICT lazy loading for memory optimization
+// ONLY load config data - NO lesson data at startup
 
-// Modular card files
-import fundamentalsCards from '../learn/cards/fundamentals.json';
-import dataStructuresCards from '../learn/cards/data-structures.json';
-import controlFlowCards from '../learn/cards/control-flow.json';
-import webDevelopmentCards from '../learn/cards/web-development.json';
-import asynchronousCards from '../learn/cards/asynchronous.json';
-import advancedConceptsCards from '../learn/cards/advanced-concepts.json';
+// Lazy import config only when needed
+let configData: any = null;
+async function getConfigData() {
+  if (!configData) {
+    configData = await import('../learn/config.json');
+  }
+  return configData;
+}
 
-// Topic-specific cards (keeping for backward compatibility)
-import easyTopicData from '../learn/topics/easy.json';
-import mediumTopicData from '../learn/topics/medium.json';
-import hardTopicData from '../learn/topics/hard.json';
-import interviewTopicData from '../learn/topics/interview.json';
-import fundamentalsTopicData from '../learn/topics/fundamentals.json';
+// Lazy loading imports - data loaded on demand
+let cachedModules: { [key: string]: any } = {};
+let loadingPromises: { [key: string]: Promise<any> } = {};
+
+// Lazy load functions for card files
+async function loadCardModule(category: string): Promise<any> {
+  const moduleKey = `cards-${category}`;
+  
+  if (cachedModules[moduleKey]) {
+    return cachedModules[moduleKey];
+  }
+  
+  if (loadingPromises[moduleKey]) {
+    return await loadingPromises[moduleKey];
+  }
+  
+  const loadPromise = (async () => {
+    switch (category.toLowerCase()) {
+      case 'fundamentals':
+        return await import('../learn/cards/fundamentals.json');
+      case 'data-structures':
+        return await import('../learn/cards/data-structures.json');
+      case 'control-flow':
+        return await import('../learn/cards/control-flow.json');
+      case 'web-development':
+        return await import('../learn/cards/web-development.json');
+      case 'asynchronous':
+        return await import('../learn/cards/asynchronous.json');
+      case 'advanced-concepts':
+        return await import('../learn/cards/advanced-concepts.json');
+      default:
+        console.warn(`Unknown category: ${category}, loading fundamentals as fallback`);
+        return await import('../learn/cards/fundamentals.json');
+    }
+  })();
+  
+  loadingPromises[moduleKey] = loadPromise;
+  
+  try {
+    const module = await loadPromise;
+    cachedModules[moduleKey] = module;
+    delete loadingPromises[moduleKey];
+    return module;
+  } catch (error) {
+    delete loadingPromises[moduleKey];
+    console.error(`Failed to load card module: ${category}`, error);
+    throw error;
+  }
+}
+
+// Lazy load functions for explore data
+async function loadExploreModule(type: string): Promise<any> {
+  const moduleKey = `explore-${type}`;
+  
+  if (cachedModules[moduleKey]) {
+    return cachedModules[moduleKey];
+  }
+  
+  if (loadingPromises[moduleKey]) {
+    return await loadingPromises[moduleKey];
+  }
+  
+  const loadPromise = (async () => {
+    switch (type) {
+      case 'javascript-notes':
+        return await import('../explore/javascript-notes.json');
+      case 'practice-quiz':
+        return await import('../explore/practice-quiz.json');
+      case 'interview-prep':
+        return await import('../explore/interview-prep.json');
+      case 'interview-quiz':
+        return await import('../explore/interview-quiz.json');
+      case 'learning-roadmap':
+        return await import('../explore/learning-roadmap.json');
+      case 'design-patterns':
+        return await import('../explore/design-patterns.json');
+      case 'coding-questions':
+        return await import('../explore/coding-questions.json');
+      default:
+        throw new Error(`Unknown explore type: ${type}`);
+    }
+  })();
+  
+  loadingPromises[moduleKey] = loadPromise;
+  
+  try {
+    const module = await loadPromise;
+    cachedModules[moduleKey] = module;
+    delete loadingPromises[moduleKey];
+    return module;
+  } catch (error) {
+    delete loadingPromises[moduleKey];
+    console.error(`Failed to load explore module: ${type}`, error);
+    throw error;
+  }
+}
+
+// Lazy load functions for topic data
+async function loadTopicModule(topicId: string): Promise<any> {
+  const moduleKey = `topic-${topicId}`;
+  
+  if (cachedModules[moduleKey]) {
+    return cachedModules[moduleKey];
+  }
+  
+  if (loadingPromises[moduleKey]) {
+    return await loadingPromises[moduleKey];
+  }
+  
+  const loadPromise = (async () => {
+    switch (topicId) {
+      case 'easy':
+        return await import('../learn/topics/easy.json');
+      case 'medium':
+        return await import('../learn/topics/medium.json');
+      case 'hard':
+        return await import('../learn/topics/hard.json');
+      case 'interview':
+        return await import('../learn/topics/interview.json');
+      case 'fundamentals':
+        return await import('../learn/topics/fundamentals.json');
+      default:
+        // For topics without dedicated JSON files, return null to trigger category-based fallback
+        console.log(`No dedicated topic file for: ${topicId}, will use category-based loading`);
+        return null;
+    }
+  })();
+  
+  loadingPromises[moduleKey] = loadPromise;
+  
+  try {
+    const module = await loadPromise;
+    cachedModules[moduleKey] = module;
+    delete loadingPromises[moduleKey];
+    return module;
+  } catch (error) {
+    delete loadingPromises[moduleKey];
+    console.error(`Failed to load topic module: ${topicId}`, error);
+    throw error;
+  }
+}
 
 // Type definitions
 export interface LearnCard {
@@ -149,327 +278,735 @@ export interface LearningRoadmap {
   connections: RoadmapConnection[];
 }
 
-// Combine all card files into a single lessons array
-const allCardFiles = [
-  fundamentalsCards,
-  dataStructuresCards,
-  controlFlowCards,
-  webDevelopmentCards,
-  asynchronousCards,
-  advancedConceptsCards
-];
+// Helper function to get cards by category (now async with lazy loading)
+export async function getCardsByCategory(category: string): Promise<LearnCard[]> {
+  try {
+    const module = await loadCardModule(category);
+    return module.cards || [];
+  } catch (error) {
+    console.error(`Failed to load cards for category: ${category}`, error);
+    return [];
+  }
+}
 
-// Helper function to get cards by category
-export function getCardsByCategory(category: string): LearnCard[] {
-  const categoryMap: { [key: string]: any } = {
-    'Fundamentals': fundamentalsCards,
-    'Data Structures': dataStructuresCards,
-    'Control Flow': controlFlowCards,
-    'Web Development': webDevelopmentCards,
-    'Asynchronous': asynchronousCards,
-    'Advanced Concepts': advancedConceptsCards,
+// Helper function to get all available categories (lazy)
+export async function getAllCategories(): Promise<string[]> {
+  const config = await getConfigData();
+  return config.categories || [];
+}
+
+// Async function to get all lessons (loads all card files)
+export async function getAllLessons(): Promise<LearnCard[]> {
+  const categories = ['fundamentals', 'data-structures', 'control-flow', 'web-development', 'asynchronous', 'advanced-concepts'];
+  const allLessons: LearnCard[] = [];
+  
+  for (const category of categories) {
+    try {
+      const lessons = await getCardsByCategory(category);
+      allLessons.push(...lessons);
+    } catch (error) {
+      console.error(`Failed to load lessons for category: ${category}`, error);
+    }
+  }
+  
+  return allLessons;
+}
+
+// Get lesson by ID
+export async function getLessonById(id: string): Promise<LearnCard | undefined> {
+  try {
+    const allLessons = await getAllLessons();
+    return allLessons.find(lesson => lesson.id === id);
+  } catch (error) {
+    console.error(`Failed to load lesson by id: ${id}`, error);
+    return undefined;
+  }
+}
+
+// Export config data (loaded lazily)
+export async function getLessonCategories(): Promise<string[]> {
+  const config = await getConfigData();
+  return config.categories || [];
+}
+
+export async function getLessonDifficulties(): Promise<string[]> {
+  const config = await getConfigData();
+  return config.difficulties || [];
+}
+
+// Topics loaded lazily but cached
+let topicsCache: any[] | null = null;
+export const topics = new Proxy([], {
+  get: function(target, prop) {
+    if (prop === 'find' || prop === 'filter' || prop === 'map') {
+      // Return async-compatible methods
+      return function(...args: any[]) {
+        if (!topicsCache) {
+          console.warn('Topics not loaded yet, using empty array');
+          return [];
+        }
+        return Array.prototype[prop as any].apply(topicsCache, args);
+      };
+    }
+    return topicsCache?.[prop as any];
+  }
+});
+
+// Initialize topics lazily
+export async function initializeTopics(): Promise<any[]> {
+  if (!topicsCache) {
+    const config = await getConfigData();
+    topicsCache = config.topics || [];
+    console.log(`⚡ Loaded ${topicsCache.length} topics lazily`);
+  }
+  return topicsCache;
+}
+
+// Memory optimization: Clear unused modules
+export function clearUnusedModules(keepModules: string[] = []): void {
+  const moduleKeys = Object.keys(cachedModules);
+  let clearedCount = 0;
+  
+  moduleKeys.forEach(key => {
+    if (!keepModules.includes(key)) {
+      delete cachedModules[key];
+      clearedCount++;
+    }
+  });
+  
+  console.log(`🧹 Memory optimization: Cleared ${clearedCount} unused modules`);
+}
+
+// Get memory usage statistics
+export function getMemoryStats(): { loadedModules: number; moduleKeys: string[]; estimatedSize: string } {
+  const moduleKeys = Object.keys(cachedModules);
+  let estimatedSize = 0;
+  
+  // Rough estimation of memory usage
+  Object.values(cachedModules).forEach((module) => {
+    estimatedSize += JSON.stringify(module).length;
+  });
+  
+  return {
+    loadedModules: moduleKeys.length,
+    moduleKeys,
+    estimatedSize: `${(estimatedSize / 1024).toFixed(2)} KB`
   };
-
-  return categoryMap[category]?.cards || [];
 }
 
-// Helper function to add new card files (for future expansion)
-export function getAllCardFiles() {
-  return allCardFiles;
+// JavaScript Notes (lazy loaded)
+export async function getNotes(): Promise<JavaScriptNote[]> {
+  try {
+    const module = await loadExploreModule('javascript-notes');
+    return module.notes || [];
+  } catch (error) {
+    console.error('Failed to load JavaScript notes', error);
+    return [];
+  }
 }
 
-export const lessons: LearnCard[] = allCardFiles.flatMap(cardFile => cardFile.cards as LearnCard[]);
-export const lessonCategories: string[] = learnConfigData.categories;
-export const lessonDifficulties: string[] = learnConfigData.difficulties;
-export const topics = learnConfigData.topics;
-
-// Topic data map for static imports
-const topicDataMap: { [key: string]: any } = {
-  easy: easyTopicData,
-  medium: mediumTopicData,
-  hard: hardTopicData,
-  interview: interviewTopicData,
-  fundamentals: fundamentalsTopicData,
-  // New modular card files
-  'fundamentals-cards': fundamentalsCards,
-  'data-structures': dataStructuresCards,
-  'control-flow': controlFlowCards,
-  'web-development': webDevelopmentCards,
-  'asynchronous': asynchronousCards,
-  'advanced-concepts': advancedConceptsCards,
-};
-
-// JavaScript Notes
-export const notes: JavaScriptNote[] = javascriptNotesData.notes as JavaScriptNote[];
-export const noteCategories: string[] = javascriptNotesData.categories;
-
-export function getNotesByCategory(category: string): JavaScriptNote[] {
-  return notes.filter(note => note.category === category);
+export async function getNoteCategories(): Promise<string[]> {
+  try {
+    const module = await loadExploreModule('javascript-notes');
+    return module.categories || [];
+  } catch (error) {
+    console.error('Failed to load note categories', error);
+    return [];
+  }
 }
 
-// Learn Cards utility functions
-export function getLessonsByCategory(category: string): LearnCard[] {
-  return lessons.filter(lesson => lesson.category === category);
+export async function getNotesByCategory(category: string): Promise<JavaScriptNote[]> {
+  try {
+    const notes = await getNotes();
+    return notes.filter(note => note.category === category);
+  } catch (error) {
+    console.error(`Failed to load notes for category: ${category}`, error);
+    return [];
+  }
 }
 
-export function getLessonsByDifficulty(difficulty: 'beginner' | 'intermediate' | 'advanced'): LearnCard[] {
-  return lessons.filter(lesson => lesson.difficulty === difficulty);
+// Learn Cards utility functions (now async with lazy loading)
+export async function getLessonsByDifficulty(difficulty: 'beginner' | 'intermediate' | 'advanced'): Promise<LearnCard[]> {
+  try {
+    const allLessons = await getAllLessons();
+    return allLessons.filter(lesson => lesson.difficulty === difficulty);
+  } catch (error) {
+    console.error(`Failed to load lessons by difficulty: ${difficulty}`, error);
+    return [];
+  }
 }
 
-export function getLessonById(id: string): LearnCard | undefined {
-  return lessons.find(lesson => lesson.id === id);
+export async function getCompletedLessons(): Promise<LearnCard[]> {
+  try {
+    const allLessons = await getAllLessons();
+    return allLessons.filter(lesson => lesson.isCompleted);
+  } catch (error) {
+    console.error('Failed to load completed lessons', error);
+    return [];
+  }
 }
 
-export function getCompletedLessons(): LearnCard[] {
-  return lessons.filter(lesson => lesson.isCompleted);
+export async function getBookmarkedLessons(): Promise<LearnCard[]> {
+  try {
+    const allLessons = await getAllLessons();
+    return allLessons.filter(lesson => lesson.isBookmarked);
+  } catch (error) {
+    console.error('Failed to load bookmarked lessons', error);
+    return [];
+  }
 }
 
-export function getBookmarkedLessons(): LearnCard[] {
-  return lessons.filter(lesson => lesson.isBookmarked);
+export async function searchLessons(query: string): Promise<LearnCard[]> {
+  try {
+    const allLessons = await getAllLessons();
+    const lowercaseQuery = query.toLowerCase();
+    return allLessons.filter(lesson =>
+      lesson.title.toLowerCase().includes(lowercaseQuery) ||
+      lesson.content.toLowerCase().includes(lowercaseQuery) ||
+      lesson.description.toLowerCase().includes(lowercaseQuery) ||
+      lesson.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+    );
+  } catch (error) {
+    console.error(`Failed to search lessons with query: ${query}`, error);
+    return [];
+  }
 }
 
-export function searchLessons(query: string): LearnCard[] {
-  const lowercaseQuery = query.toLowerCase();
-  return lessons.filter(lesson =>
-    lesson.title.toLowerCase().includes(lowercaseQuery) ||
-    lesson.content.toLowerCase().includes(lowercaseQuery) ||
-    lesson.description.toLowerCase().includes(lowercaseQuery) ||
-    lesson.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
-  );
-}
-
-export function getLessonsByTopic(topicId: string): LearnCard[] {
-  // If it's the default "all" topic or no topic, return main lessons
+export async function getLessonsByTopic(topicId: string): Promise<LearnCard[]> {
+  // If it's the default "all" topic or no topic, return fundamentals as default
   if (!topicId || topicId === 'all') {
-    return lessons;
+    return await getCardsByCategory('fundamentals');
   }
 
-  // Check if we have topic-specific cards
-  const topicData = topicDataMap[topicId];
-  if (topicData && topicData.cards) {
-    return topicData.cards as LearnCard[];
+  // Try to load topic-specific data first
+  try {
+    const topicModule = await loadTopicModule(topicId);
+    if (topicModule && topicModule.cards) {
+      return topicModule.cards as LearnCard[];
+    }
+    // If topicModule is null, fall through to category-based loading
+  } catch (error) {
+    console.warn(`No specific topic data for: ${topicId}, using category-based filtering`);
   }
 
-  // Fallback to filtering main lessons
+  // Fallback to category-based loading with topic filtering
   const topic = topics.find((t: any) => t.id === topicId);
-  if (!topic) return lessons;
+  if (!topic || !topic.filter) {
+    return await getCardsByCategory('fundamentals');
+  }
 
   const { filter } = topic;
-  return lessons.filter(lesson => {
-    // Check difficulty filter
-    if (filter.difficulty && !filter.difficulty.includes(lesson.difficulty)) {
-      return false;
-    }
+  
+  // Load lessons from the first category in the filter
+  if (filter.category && filter.category.length > 0) {
+    const categoryLessons = await getCardsByCategory(filter.category[0]);
+    
+    // Apply additional filtering if needed
+    return categoryLessons.filter(lesson => {
+      // Check difficulty filter
+      if (filter.difficulty && !filter.difficulty.includes(lesson.difficulty)) {
+        return false;
+      }
 
-    // Check category filter
-    if (filter.category && !filter.category.includes(lesson.category)) {
-      return false;
-    }
+      // Check tags filter
+      if (filter.tags && !filter.tags.some((tag: string) => lesson.tags.includes(tag))) {
+        return false;
+      }
 
-    // Check tags filter
-    if (filter.tags && !filter.tags.some((tag: string) => lesson.tags.includes(tag))) {
-      return false;
-    }
-
-    return true;
-  });
-}
-
-export function getTopicInfo(topicId: string) {
-  // Check if we have topic-specific data
-  const topicData = topicDataMap[topicId];
-  if (topicData && topicData.topicInfo) {
-    return topicData.topicInfo;
+      return true;
+    });
   }
 
-  // Fallback to main topics array
-  return topics.find((t: any) => t.id === topicId);
+  // Final fallback
+  return await getCardsByCategory('fundamentals');
 }
 
-export function getNotesByDifficulty(difficulty: 'beginner' | 'intermediate' | 'advanced'): JavaScriptNote[] {
-  return notes.filter(note => note.difficulty === difficulty);
+export async function getTopicInfo(topicId: string): Promise<any> {
+  try {
+    const module = await loadTopicModule(topicId);
+    return module.topicInfo || topics.find((t: any) => t.id === topicId) || null;
+  } catch (error) {
+    console.error(`Failed to load topic info for: ${topicId}`, error);
+    return topics.find((t: any) => t.id === topicId) || null;
+  }
 }
 
-export function getNoteById(id: string): JavaScriptNote | undefined {
-  return notes.find(note => note.id === id);
+export async function getNotesByDifficulty(difficulty: 'beginner' | 'intermediate' | 'advanced'): Promise<JavaScriptNote[]> {
+  try {
+    const notes = await getNotes();
+    return notes.filter(note => note.difficulty === difficulty);
+  } catch (error) {
+    console.error(`Failed to load notes by difficulty: ${difficulty}`, error);
+    return [];
+  }
 }
 
-export function searchNotes(query: string): JavaScriptNote[] {
-  const lowercaseQuery = query.toLowerCase();
-  return notes.filter(note =>
-    note.title.toLowerCase().includes(lowercaseQuery) ||
-    note.content.toLowerCase().includes(lowercaseQuery) ||
-    note.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
-  );
+export async function getNoteById(id: string): Promise<JavaScriptNote | undefined> {
+  try {
+    const notes = await getNotes();
+    return notes.find(note => note.id === id);
+  } catch (error) {
+    console.error(`Failed to load note by id: ${id}`, error);
+    return undefined;
+  }
 }
 
-// Practice Quizzes
-export const quizzes: Quiz[] = practiceQuizData.quizzes as Quiz[];
-export const quizCategories: string[] = practiceQuizData.categories;
-
-export function getQuizzesByCategory(category: string): Quiz[] {
-  return quizzes.filter(quiz => quiz.category === category);
+export async function searchNotes(query: string): Promise<JavaScriptNote[]> {
+  try {
+    const notes = await getNotes();
+    const lowercaseQuery = query.toLowerCase();
+    return notes.filter(note =>
+      note.title.toLowerCase().includes(lowercaseQuery) ||
+      note.content.toLowerCase().includes(lowercaseQuery) ||
+      note.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+    );
+  } catch (error) {
+    console.error(`Failed to search notes with query: ${query}`, error);
+    return [];
+  }
 }
 
-export function getQuizzesByDifficulty(difficulty: 'easy' | 'medium' | 'hard'): Quiz[] {
-  return quizzes.filter(quiz => quiz.difficulty === difficulty);
+// Practice Quizzes (lazy loaded)
+export async function getQuizzes(): Promise<Quiz[]> {
+  try {
+    const module = await loadExploreModule('practice-quiz');
+    return module.quizzes || [];
+  } catch (error) {
+    console.error('Failed to load quizzes', error);
+    return [];
+  }
 }
 
-export function getQuizById(id: string): Quiz | undefined {
-  return quizzes.find(quiz => quiz.id === id);
+export async function getQuizCategories(): Promise<string[]> {
+  try {
+    const module = await loadExploreModule('practice-quiz');
+    return module.categories || [];
+  } catch (error) {
+    console.error('Failed to load quiz categories', error);
+    return [];
+  }
 }
 
-// Interview Prep
-export const interviewQuestions: InterviewQuestion[] = interviewPrepData.interviewQuestions as InterviewQuestion[];
-export const interviewCategories: string[] = interviewPrepData.categories;
-
-export function getInterviewQuestionsByCategory(category: string): InterviewQuestion[] {
-  return interviewQuestions.filter(question => question.category === category);
+export async function getQuizzesByCategory(category: string): Promise<Quiz[]> {
+  try {
+    const quizzes = await getQuizzes();
+    return quizzes.filter(quiz => quiz.category === category);
+  } catch (error) {
+    console.error(`Failed to load quizzes by category: ${category}`, error);
+    return [];
+  }
 }
 
-export function getInterviewQuestionsByDifficulty(difficulty: 'easy' | 'medium' | 'hard'): InterviewQuestion[] {
-  return interviewQuestions.filter(question => question.difficulty === difficulty);
+export async function getQuizzesByDifficulty(difficulty: 'easy' | 'medium' | 'hard'): Promise<Quiz[]> {
+  try {
+    const quizzes = await getQuizzes();
+    return quizzes.filter(quiz => quiz.difficulty === difficulty);
+  } catch (error) {
+    console.error(`Failed to load quizzes by difficulty: ${difficulty}`, error);
+    return [];
+  }
 }
 
-export function getInterviewQuestionById(id: string): InterviewQuestion | undefined {
-  return interviewQuestions.find(question => question.id === id);
+export async function getQuizById(id: string): Promise<Quiz | undefined> {
+  try {
+    const quizzes = await getQuizzes();
+    return quizzes.find(quiz => quiz.id === id);
+  } catch (error) {
+    console.error(`Failed to load quiz by id: ${id}`, error);
+    return undefined;
+  }
 }
 
-export function searchInterviewQuestions(query: string): InterviewQuestion[] {
-  const lowercaseQuery = query.toLowerCase();
-  return interviewQuestions.filter(question =>
-    question.question.toLowerCase().includes(lowercaseQuery) ||
-    question.answer.toLowerCase().includes(lowercaseQuery) ||
-    question.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
-  );
+// Interview Prep (lazy loaded)
+export async function getInterviewQuestions(): Promise<InterviewQuestion[]> {
+  try {
+    const module = await loadExploreModule('interview-prep');
+    return module.interviewQuestions || [];
+  } catch (error) {
+    console.error('Failed to load interview questions', error);
+    return [];
+  }
 }
 
-// Interview Quizzes
-export const interviewQuizzes: Quiz[] = interviewQuizData.interviewQuizzes as Quiz[];
-export const interviewQuizCategories: string[] = interviewQuizData.categories;
-
-export function getInterviewQuizzesByCategory(category: string): Quiz[] {
-  return interviewQuizzes.filter(quiz => quiz.category === category);
+export async function getInterviewCategories(): Promise<string[]> {
+  try {
+    const module = await loadExploreModule('interview-prep');
+    return module.categories || [];
+  } catch (error) {
+    console.error('Failed to load interview categories', error);
+    return [];
+  }
 }
 
-export function getInterviewQuizById(id: string): Quiz | undefined {
-  return interviewQuizzes.find(quiz => quiz.id === id);
+export async function getInterviewQuestionsByCategory(category: string): Promise<InterviewQuestion[]> {
+  try {
+    const questions = await getInterviewQuestions();
+    return questions.filter(question => question.category === category);
+  } catch (error) {
+    console.error(`Failed to load interview questions by category: ${category}`, error);
+    return [];
+  }
 }
 
-// Learning Roadmap
-export const learningRoadmap: LearningRoadmap = learningRoadmapData.roadmap as LearningRoadmap;
-
-export function getRoadmapNodeById(id: string): RoadmapNode | undefined {
-  return learningRoadmap.nodes.find(node => node.id === id);
+export async function getInterviewQuestionsByDifficulty(difficulty: 'easy' | 'medium' | 'hard'): Promise<InterviewQuestion[]> {
+  try {
+    const questions = await getInterviewQuestions();
+    return questions.filter(question => question.difficulty === difficulty);
+  } catch (error) {
+    console.error(`Failed to load interview questions by difficulty: ${difficulty}`, error);
+    return [];
+  }
 }
 
-export function getNodesByLevel(level: number): RoadmapNode[] {
-  return learningRoadmap.nodes.filter(node => node.level === level);
+export async function getInterviewQuestionById(id: string): Promise<InterviewQuestion | undefined> {
+  try {
+    const questions = await getInterviewQuestions();
+    return questions.find(question => question.id === id);
+  } catch (error) {
+    console.error(`Failed to load interview question by id: ${id}`, error);
+    return undefined;
+  }
 }
 
-export function getNodesByStatus(status: 'completed' | 'current' | 'locked'): RoadmapNode[] {
-  return learningRoadmap.nodes.filter(node => node.status === status);
+export async function searchInterviewQuestions(query: string): Promise<InterviewQuestion[]> {
+  try {
+    const questions = await getInterviewQuestions();
+    const lowercaseQuery = query.toLowerCase();
+    return questions.filter(question =>
+      question.question.toLowerCase().includes(lowercaseQuery) ||
+      question.answer.toLowerCase().includes(lowercaseQuery) ||
+      question.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+    );
+  } catch (error) {
+    console.error(`Failed to search interview questions with query: ${query}`, error);
+    return [];
+  }
 }
 
-export function getPrerequisites(nodeId: string): RoadmapNode[] {
-  const node = getRoadmapNodeById(nodeId);
-  if (!node) return [];
-  
-  return node.prerequisites.map(prereqId => getRoadmapNodeById(prereqId)).filter(Boolean) as RoadmapNode[];
+// Interview Quizzes (lazy loaded)
+export async function getInterviewQuizzes(): Promise<Quiz[]> {
+  try {
+    const module = await loadExploreModule('interview-quiz');
+    return module.interviewQuizzes || [];
+  } catch (error) {
+    console.error('Failed to load interview quizzes', error);
+    return [];
+  }
 }
 
-export function getNextNodes(nodeId: string): RoadmapNode[] {
-  return learningRoadmap.nodes.filter(node =>
-    node.prerequisites.includes(nodeId)
-  );
+export async function getInterviewQuizCategories(): Promise<string[]> {
+  try {
+    const module = await loadExploreModule('interview-quiz');
+    return module.categories || [];
+  } catch (error) {
+    console.error('Failed to load interview quiz categories', error);
+    return [];
+  }
 }
 
-// Design Patterns
-export const designPatterns: DesignPattern[] = designPatternsData.designPatterns as DesignPattern[];
-export const designPatternCategories: string[] = designPatternsData.categories;
-
-export function getDesignPatternsByCategory(category: string): DesignPattern[] {
-  return designPatterns.filter(pattern => pattern.category === category);
+export async function getInterviewQuizzesByCategory(category: string): Promise<Quiz[]> {
+  try {
+    const quizzes = await getInterviewQuizzes();
+    return quizzes.filter(quiz => quiz.category === category);
+  } catch (error) {
+    console.error(`Failed to load interview quizzes by category: ${category}`, error);
+    return [];
+  }
 }
 
-export function getDesignPatternsByDifficulty(difficulty: 'beginner' | 'intermediate' | 'advanced'): DesignPattern[] {
-  return designPatterns.filter(pattern => pattern.difficulty === difficulty);
+export async function getInterviewQuizById(id: string): Promise<Quiz | undefined> {
+  try {
+    const quizzes = await getInterviewQuizzes();
+    return quizzes.find(quiz => quiz.id === id);
+  } catch (error) {
+    console.error(`Failed to load interview quiz by id: ${id}`, error);
+    return undefined;
+  }
 }
 
-export function getDesignPatternById(id: string): DesignPattern | undefined {
-  return designPatterns.find(pattern => pattern.id === id);
+// Learning Roadmap (lazy loaded)
+export async function getLearningRoadmap(): Promise<LearningRoadmap> {
+  try {
+    const module = await loadExploreModule('learning-roadmap');
+    return module.roadmap || { title: '', description: '', totalNodes: 0, estimatedTime: '', nodes: [], connections: [] };
+  } catch (error) {
+    console.error('Failed to load learning roadmap', error);
+    return { title: '', description: '', totalNodes: 0, estimatedTime: '', nodes: [], connections: [] };
+  }
 }
 
-export function searchDesignPatterns(query: string): DesignPattern[] {
-  const lowercaseQuery = query.toLowerCase();
-  return designPatterns.filter(pattern =>
-    pattern.name.toLowerCase().includes(lowercaseQuery) ||
-    pattern.description.toLowerCase().includes(lowercaseQuery) ||
-    pattern.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
-  );
+export async function getRoadmapNodeById(id: string): Promise<RoadmapNode | undefined> {
+  try {
+    const roadmap = await getLearningRoadmap();
+    return roadmap.nodes.find(node => node.id === id);
+  } catch (error) {
+    console.error(`Failed to load roadmap node by id: ${id}`, error);
+    return undefined;
+  }
 }
 
-// Coding Questions
-export const codingQuestions: CodingQuestion[] = codingQuestionsData.codingQuestions as CodingQuestion[];
-export const codingQuestionCategories: string[] = codingQuestionsData.categories;
-export const codingQuestionDifficulties: string[] = codingQuestionsData.difficulties;
-
-export function getCodingQuestionsByCategory(category: string): CodingQuestion[] {
-  return codingQuestions.filter(question => question.category === category);
+export async function getNodesByLevel(level: number): Promise<RoadmapNode[]> {
+  try {
+    const roadmap = await getLearningRoadmap();
+    return roadmap.nodes.filter(node => node.level === level);
+  } catch (error) {
+    console.error(`Failed to load nodes by level: ${level}`, error);
+    return [];
+  }
 }
 
-export function getCodingQuestionsByDifficulty(difficulty: 'easy' | 'medium' | 'hard'): CodingQuestion[] {
-  return codingQuestions.filter(question => question.difficulty === difficulty);
+export async function getNodesByStatus(status: 'completed' | 'current' | 'locked'): Promise<RoadmapNode[]> {
+  try {
+    const roadmap = await getLearningRoadmap();
+    return roadmap.nodes.filter(node => node.status === status);
+  } catch (error) {
+    console.error(`Failed to load nodes by status: ${status}`, error);
+    return [];
+  }
 }
 
-export function getCodingQuestionById(id: string): CodingQuestion | undefined {
-  return codingQuestions.find(question => question.id === id);
+export async function getPrerequisites(nodeId: string): Promise<RoadmapNode[]> {
+  try {
+    const node = await getRoadmapNodeById(nodeId);
+    if (!node) return [];
+    
+    const roadmap = await getLearningRoadmap();
+    return node.prerequisites.map(prereqId => roadmap.nodes.find(n => n.id === prereqId)).filter(Boolean) as RoadmapNode[];
+  } catch (error) {
+    console.error(`Failed to load prerequisites for node: ${nodeId}`, error);
+    return [];
+  }
 }
 
-export function searchCodingQuestions(query: string): CodingQuestion[] {
-  const lowercaseQuery = query.toLowerCase();
-  return codingQuestions.filter(question =>
-    question.title.toLowerCase().includes(lowercaseQuery) ||
-    question.description.toLowerCase().includes(lowercaseQuery) ||
-    question.category.toLowerCase().includes(lowercaseQuery)
-  );
+export async function getNextNodes(nodeId: string): Promise<RoadmapNode[]> {
+  try {
+    const roadmap = await getLearningRoadmap();
+    return roadmap.nodes.filter(node => node.prerequisites.includes(nodeId));
+  } catch (error) {
+    console.error(`Failed to load next nodes for: ${nodeId}`, error);
+    return [];
+  }
+}
+
+// Design Patterns (lazy loaded)
+export async function getDesignPatterns(): Promise<DesignPattern[]> {
+  try {
+    const module = await loadExploreModule('design-patterns');
+    return module.designPatterns || [];
+  } catch (error) {
+    console.error('Failed to load design patterns', error);
+    return [];
+  }
+}
+
+export async function getDesignPatternCategories(): Promise<string[]> {
+  try {
+    const module = await loadExploreModule('design-patterns');
+    return module.categories || [];
+  } catch (error) {
+    console.error('Failed to load design pattern categories', error);
+    return [];
+  }
+}
+
+export async function getDesignPatternsByCategory(category: string): Promise<DesignPattern[]> {
+  try {
+    const patterns = await getDesignPatterns();
+    return patterns.filter(pattern => pattern.category === category);
+  } catch (error) {
+    console.error(`Failed to load design patterns by category: ${category}`, error);
+    return [];
+  }
+}
+
+export async function getDesignPatternsByDifficulty(difficulty: 'beginner' | 'intermediate' | 'advanced'): Promise<DesignPattern[]> {
+  try {
+    const patterns = await getDesignPatterns();
+    return patterns.filter(pattern => pattern.difficulty === difficulty);
+  } catch (error) {
+    console.error(`Failed to load design patterns by difficulty: ${difficulty}`, error);
+    return [];
+  }
+}
+
+export async function getDesignPatternById(id: string): Promise<DesignPattern | undefined> {
+  try {
+    const patterns = await getDesignPatterns();
+    return patterns.find(pattern => pattern.id === id);
+  } catch (error) {
+    console.error(`Failed to load design pattern by id: ${id}`, error);
+    return undefined;
+  }
+}
+
+export async function searchDesignPatterns(query: string): Promise<DesignPattern[]> {
+  try {
+    const patterns = await getDesignPatterns();
+    const lowercaseQuery = query.toLowerCase();
+    return patterns.filter(pattern =>
+      pattern.name.toLowerCase().includes(lowercaseQuery) ||
+      pattern.description.toLowerCase().includes(lowercaseQuery) ||
+      pattern.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
+    );
+  } catch (error) {
+    console.error(`Failed to search design patterns with query: ${query}`, error);
+    return [];
+  }
+}
+
+// Coding Questions (lazy loaded)
+export async function getCodingQuestions(): Promise<CodingQuestion[]> {
+  try {
+    const module = await loadExploreModule('coding-questions');
+    return module.codingQuestions || [];
+  } catch (error) {
+    console.error('Failed to load coding questions', error);
+    return [];
+  }
+}
+
+export async function getCodingQuestionCategories(): Promise<string[]> {
+  try {
+    const module = await loadExploreModule('coding-questions');
+    return module.categories || [];
+  } catch (error) {
+    console.error('Failed to load coding question categories', error);
+    return [];
+  }
+}
+
+export async function getCodingQuestionDifficulties(): Promise<string[]> {
+  try {
+    const module = await loadExploreModule('coding-questions');
+    return module.difficulties || [];
+  } catch (error) {
+    console.error('Failed to load coding question difficulties', error);
+    return [];
+  }
+}
+
+export async function getCodingQuestionsByCategory(category: string): Promise<CodingQuestion[]> {
+  try {
+    const questions = await getCodingQuestions();
+    return questions.filter(question => question.category === category);
+  } catch (error) {
+    console.error(`Failed to load coding questions by category: ${category}`, error);
+    return [];
+  }
+}
+
+export async function getCodingQuestionsByDifficulty(difficulty: 'easy' | 'medium' | 'hard'): Promise<CodingQuestion[]> {
+  try {
+    const questions = await getCodingQuestions();
+    return questions.filter(question => question.difficulty === difficulty);
+  } catch (error) {
+    console.error(`Failed to load coding questions by difficulty: ${difficulty}`, error);
+    return [];
+  }
+}
+
+export async function getCodingQuestionById(id: string): Promise<CodingQuestion | undefined> {
+  try {
+    const questions = await getCodingQuestions();
+    return questions.find(question => question.id === id);
+  } catch (error) {
+    console.error(`Failed to load coding question by id: ${id}`, error);
+    return undefined;
+  }
+}
+
+export async function searchCodingQuestions(query: string): Promise<CodingQuestion[]> {
+  try {
+    const questions = await getCodingQuestions();
+    const lowercaseQuery = query.toLowerCase();
+    return questions.filter(question =>
+      question.title.toLowerCase().includes(lowercaseQuery) ||
+      question.description.toLowerCase().includes(lowercaseQuery) ||
+      question.category.toLowerCase().includes(lowercaseQuery)
+    );
+  } catch (error) {
+    console.error(`Failed to search coding questions with query: ${query}`, error);
+    return [];
+  }
 }
 
 // Utility functions
-export function getAllCategories(): string[] {
-  const allCategories = [
-    ...noteCategories,
-    ...quizCategories,
-    ...interviewCategories,
-    ...interviewQuizCategories
-  ];
-  return [...new Set(allCategories)].sort();
-}
-
 export function getRandomItems<T>(items: T[], count: number): T[] {
   const shuffled = [...items].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
 }
 
-export function getItemsByTag(tag: string): (JavaScriptNote | InterviewQuestion)[] {
-  const notesWithTag = notes.filter(note => note.tags.includes(tag));
-  const questionsWithTag = interviewQuestions.filter(question => question.tags.includes(tag));
-  return [...notesWithTag, ...questionsWithTag];
+export async function getItemsByTag(tag: string): Promise<(JavaScriptNote | InterviewQuestion)[]> {
+  try {
+    const [notes, questions] = await Promise.all([
+      getNotes(),
+      getInterviewQuestions()
+    ]);
+    const notesWithTag = notes.filter(note => note.tags.includes(tag));
+    const questionsWithTag = questions.filter(question => question.tags.includes(tag));
+    return [...notesWithTag, ...questionsWithTag];
+  } catch (error) {
+    console.error(`Failed to load items by tag: ${tag}`, error);
+    return [];
+  }
 }
 
-// Statistics
-export function getStats() {
-  return {
-    totalNotes: notes.length,
-    totalQuizzes: quizzes.length,
-    totalInterviewQuestions: interviewQuestions.length,
-    totalInterviewQuizzes: interviewQuizzes.length,
-    totalDesignPatterns: designPatterns.length,
-    totalCodingQuestions: codingQuestions.length,
-    totalRoadmapNodes: learningRoadmap.nodes.length,
-    categoriesCount: getAllCategories().length,
-    completedNodes: getNodesByStatus('completed').length,
-    currentNodes: getNodesByStatus('current').length,
-    lockedNodes: getNodesByStatus('locked').length
-  };
+// Statistics (lazy loaded)
+export async function getStats() {
+  try {
+    const [
+      notes,
+      quizzes,
+      interviewQuestions,
+      interviewQuizzes,
+      designPatterns,
+      codingQuestions,
+      roadmap,
+      categories,
+      completedNodes,
+      currentNodes,
+      lockedNodes
+    ] = await Promise.all([
+      getNotes(),
+      getQuizzes(),
+      getInterviewQuestions(),
+      getInterviewQuizzes(),
+      getDesignPatterns(),
+      getCodingQuestions(),
+      getLearningRoadmap(),
+      getAllCategories(),
+      getNodesByStatus('completed'),
+      getNodesByStatus('current'),
+      getNodesByStatus('locked')
+    ]);
+    
+    return {
+      totalNotes: notes.length,
+      totalQuizzes: quizzes.length,
+      totalInterviewQuestions: interviewQuestions.length,
+      totalInterviewQuizzes: interviewQuizzes.length,
+      totalDesignPatterns: designPatterns.length,
+      totalCodingQuestions: codingQuestions.length,
+      totalRoadmapNodes: roadmap.nodes.length,
+      categoriesCount: categories.length,
+      completedNodes: completedNodes.length,
+      currentNodes: currentNodes.length,
+      lockedNodes: lockedNodes.length
+    };
+  } catch (error) {
+    console.error('Failed to load stats', error);
+    return {
+      totalNotes: 0,
+      totalQuizzes: 0,
+      totalInterviewQuestions: 0,
+      totalInterviewQuizzes: 0,
+      totalDesignPatterns: 0,
+      totalCodingQuestions: 0,
+      totalRoadmapNodes: 0,
+      categoriesCount: 0,
+      completedNodes: 0,
+      currentNodes: 0,
+      lockedNodes: 0
+    };
+  }
 }

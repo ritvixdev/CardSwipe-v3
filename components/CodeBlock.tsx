@@ -50,23 +50,27 @@ const renderHighlightedText = (text: string, themeColors: any) => {
 
   const parts = text.split(/(<\w+>.*?<\/\w+>)/g);
 
-  return parts.map((part, index) => {
-    if (part.startsWith('<keyword>')) {
-      const content = part.replace(/<\/?keyword>/g, '');
-      return <Text key={index} style={{ color: colors.keyword, fontWeight: 'bold' }}>{content}</Text>;
-    } else if (part.startsWith('<string>')) {
-      const content = part.replace(/<\/?string>/g, '');
-      return <Text key={index} style={{ color: colors.string }}>{content}</Text>;
-    } else if (part.startsWith('<number>')) {
-      const content = part.replace(/<\/?number>/g, '');
-      return <Text key={index} style={{ color: colors.number }}>{content}</Text>;
-    } else if (part.startsWith('<comment>')) {
-      const content = part.replace(/<\/?comment>/g, '');
-      return <Text key={index} style={{ color: colors.comment, fontStyle: 'italic' }}>{content}</Text>;
-    } else {
-      return <Text key={index} style={{ color: colors.default }}>{part}</Text>;
-    }
-  });
+  return (
+    <>
+      {parts.map((part, index) => {
+        if (part.startsWith('<keyword>')) {
+          const content = part.replace(/<\/?keyword>/g, '');
+          return <Text key={index} style={{ color: colors.keyword, fontWeight: 'bold' }}>{content}</Text>;
+        } else if (part.startsWith('<string>')) {
+          const content = part.replace(/<\/?string>/g, '');
+          return <Text key={index} style={{ color: colors.string }}>{content}</Text>;
+        } else if (part.startsWith('<number>')) {
+          const content = part.replace(/<\/?number>/g, '');
+          return <Text key={index} style={{ color: colors.number }}>{content}</Text>;
+        } else if (part.startsWith('<comment>')) {
+          const content = part.replace(/<\/?comment>/g, '');
+          return <Text key={index} style={{ color: colors.comment, fontStyle: 'italic' }}>{content}</Text>;
+        } else {
+          return <Text key={index} style={{ color: colors.default }}>{part}</Text>;
+        }
+      })}
+    </>
+  );
 };
 
 export default function CodeBlock({

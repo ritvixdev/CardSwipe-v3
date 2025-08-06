@@ -3,7 +3,10 @@ module.exports = function (api) {
   return {
     presets: [["babel-preset-expo", { unstable_transformImportMeta: true }]],
     plugins: [
-      "react-native-reanimated/plugin"
+      ["babel-plugin-react-compiler", {
+        target: '19'
+      }],
+      "react-native-reanimated/plugin"  // Keep this last
     ],
   };
 };

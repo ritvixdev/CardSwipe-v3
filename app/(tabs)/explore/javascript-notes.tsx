@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, BookOpen, Code, Lightbulb, ChevronDown, ChevronRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { notes, getNotesByCategory, noteCategories } from '@/data/processors/dataLoader';
+import { getNotes, getNotesByCategory, noteCategories, JavaScriptNote } from '@/data/processors/dataLoader';
 import CodeBlock from '@/components/CodeBlock';
 
 // Hierarchical category structure
@@ -43,8 +44,28 @@ export default function JavaScriptNotesScreen() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+  const [notes, setNotes] = useState<JavaScriptNote[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const categories = Object.keys(categoryHierarchy);
+
+  // Load notes asynchronously
+  useEffect(() => {
+    const loadNotes = async () => {
+      try {
+        setLoading(true);
+        const allNotes = await getNotes();
+        setNotes(allNotes);
+      } catch (error) {
+        console.error('Failed to load notes:', error);
+        setNotes([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    loadNotes();
+  }, []);
 
   const getFilteredNotes = () => {
     if (selectedSubcategory) {
@@ -123,6 +144,29 @@ export default function JavaScriptNotesScreen() {
       default: return themeColors.textSecondary;
     }
   };
+
+  // Show loading indicator
+  if (loading) {
+    return (
+      <View style={[styles.container, { backgroundColor: themeColors.background }]}>
+        <SafeAreaView style={styles.safeArea}>
+          <View style={styles.headerRow}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => router.push('/(tabs)/explore')}
+            >
+              <ArrowLeft size={24} color={themeColors.text} />
+            </TouchableOpacity>
+            <Text style={[styles.title, { color: themeColors.text }]}>JavaScript Notes</Text>
+          </View>
+        </SafeAreaView>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={themeColors.primary} />
+          <Text style={[styles.loadingText, { color: themeColors.textSecondary }]}>Loading notes...</Text>
+        </View>
+      </View>
+    );
+  }
 
   const NoteCard = ({ note }: { note: any }) => (
     <TouchableOpacity
@@ -462,5 +506,15 @@ const styles = StyleSheet.create({
   },
   pointsText: {
     fontSize: 12,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 16,
+  },
+  loadingText: {
+    fontSize: 16,
+    textAlign: 'center',
   },
 });

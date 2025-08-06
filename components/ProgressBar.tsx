@@ -1,30 +1,41 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
 import { lessons } from '@/data/processors/dataLoader';
 
-export default function ProgressBar() {
+const ProgressBar = memo(function ProgressBar() {
   const progress = useProgressStore((state) => state.progress);
   const themeColors = useThemeColors();
   
-  // Calculate completed lessons
-  const completedCount = Object.values(progress).filter(p => p.completed).length;
-  const totalLessons = lessons.length;
-  const percentComplete = (completedCount / totalLessons) * 100;
+  // Memoize calculations to prevent recalculation on every render
+  const { completedCount, totalLessons, percentComplete } = useMemo(() => {
+    const completed = Object.values(progress).filter(p => p.completed).length;
+    const total = lessons.length;
+    const percent = total > 0 ? (completed / total) * 100 : 0;
+    
+    return {
+      completedCount: completed,
+      totalLessons: total,
+      percentComplete: percent
+    };
+  }, [progress]);
+
+  // Memoize progress bar styles to prevent recreation
+  const progressBarStyle = useMemo(() => ([
+    styles.progressBar,
+    {
+      width: `${percentComplete}%`,
+      backgroundColor: themeColors.primary
+    }
+  ]), [percentComplete, themeColors.primary]);
   
   return (
     <View style={styles.container} testID="progress-bar-container">
       <View style={styles.progressRow}>
         <View style={[styles.progressBarContainer, { backgroundColor: themeColors.border }]}>
           <View
-            style={[
-              styles.progressBar,
-              {
-                width: `${percentComplete}%`,
-                backgroundColor: themeColors.primary
-              }
-            ]}
+            style={progressBarStyle}
             testID="progress-bar-fill"
           />
         </View>
@@ -34,7 +45,9 @@ export default function ProgressBar() {
       </View>
     </View>
   );
-}
+});
+
+export default ProgressBar;
 
 const styles = StyleSheet.create({
   container: {

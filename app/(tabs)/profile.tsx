@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Switch, ScrollView, Alert, Platform, Linking, Share, Animated, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Switch, ScrollView, Alert, Platform, Linking, Share, Animated, Dimensions, Modal, TextInput } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useProgressStore } from '@/store/useProgressStore';
 import { useThemeStore } from '@/store/useThemeStore';
@@ -48,7 +48,7 @@ import * as Haptics from 'expo-haptics';
 // Test icon imports to ensure they're available
 const testIcons = { Book, Trophy, Award, TrendingUp, ChevronRight };
 import * as Application from 'expo-application';
-import { lessons } from '@/data/processors/dataLoader';
+import { getAllLessons } from '@/data/processors/dataLoader';
 import { router } from 'expo-router';
 // Enhanced Profile Page with User Stats and Preferences - Fixed imports
 
@@ -80,11 +80,32 @@ export default function ProfileScreen() {
   const [hapticEnabled, setHapticEnabled] = useState(true);
   const [autoBackup, setAutoBackup] = useState(true);
   const [animatedValue] = useState(new Animated.Value(0));
+  const [lessons, setLessons] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [editName, setEditName] = useState('');
+  const [editAvatar, setEditAvatar] = useState('');
+
+  // Load lessons on component mount
+  useEffect(() => {
+    const loadLessons = async () => {
+      try {
+        const allLessons = await getAllLessons();
+        setLessons(allLessons);
+      } catch (error) {
+        console.error('Failed to load lessons:', error);
+        setLessons([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadLessons();
+  }, []);
 
   // Calculate user stats
   const completedCount = Object.values(progress).filter(p => p.completed).length;
   const totalLessons = lessons.length;
-  const completionPercentage = (completedCount / totalLessons) * 100;
+  const completionPercentage = totalLessons > 0 ? (completedCount / totalLessons) * 100 : 0;
   const currentLevel = getLevel();
   const xpForNextLevel = getXpForNextLevel();
   const xpProgress = ((xp % 100) / 100) * 100;
@@ -236,68 +257,133 @@ export default function ProfileScreen() {
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
+    setEditName(userProfile.name);
+    setEditAvatar(userProfile.avatar);
+    setIsEditModalVisible(true);
+  };
 
-    Alert.prompt(
-      "Edit Profile",
-      "Enter your name:",
-      [
-        {
-          text: "Cancel",
-          style: "cancel"
-        },
-        {
-          text: "Save",
-          onPress: (newName) => {
-            if (newName && newName.trim()) {
-              setUserProfile(prev => ({
-                ...prev,
-                name: newName.trim()
-              }));
-              Alert.alert("Profile Updated", "Your name has been updated successfully!");
-            }
-          }
-        }
-      ],
-      "plain-text",
-      userProfile.name
-    );
+  const handleSaveProfile = () => {
+    if (editName.trim()) {
+      setUserProfile(prev => ({
+        ...prev,
+        name: editName.trim(),
+        avatar: editAvatar
+      }));
+      setIsEditModalVisible(false);
+      if (Platform.OS === 'web') {
+        alert('Profile Updated! Your profile has been updated successfully!');
+      } else {
+        Alert.alert("Profile Updated", "Your profile has been updated successfully!");
+      }
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditModalVisible(false);
+    setEditName('');
+    setEditAvatar('');
   };
 
   const handleChangeAvatar = () => {
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
-
-    const avatarOptions = ['👤', '👨‍💻', '👩‍💻', '🧑‍🎓', '👨‍🎓', '👩‍🎓', '🤓', '😎', '🚀', '⭐'];
-
-    Alert.alert(
-      "Choose Avatar",
-      "Select an emoji avatar:",
-      [
-        { text: "Cancel", style: "cancel" },
-        ...avatarOptions.map(emoji => ({
-          text: emoji,
-          onPress: () => {
-            setUserProfile(prev => ({
-              ...prev,
-              avatar: emoji
-            }));
-            Alert.alert("Avatar Updated", `Your avatar has been changed to ${emoji}!`);
-          }
-        })),
-        {
-          text: "Remove Avatar",
-          onPress: () => {
-            setUserProfile(prev => ({
-              ...prev,
-              avatar: null
-            }));
-          },
-          style: "destructive"
-        }
-      ]
-    );
+    setEditName(userProfile.name);
+    setEditAvatar(userProfile.avatar);
+    setIsEditModalVisible(true);
   };
+
+  const avatarOptions = ['👤', '👨‍💻', '👩‍💻', '🧑‍🎓', '👨‍🎓', '👩‍🎓', '🤓', '😎', '🚀', '⭐', '🎯', '💡', '🔥', '⚡', '🌟', '🎨'];
+
+  const handleSelectAvatar = (avatar) => {
+    setEditAvatar(avatar);
+  };
+
+  const renderEditModal = () => (
+    <Modal
+      visible={isEditModalVisible}
+      transparent={true}
+      animationType="slide"
+      onRequestClose={handleCancelEdit}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={[styles.modalContent, { backgroundColor: themeColors.card }]}>
+          <View style={styles.modalHeader}>
+            <Text style={[styles.modalTitle, { color: themeColors.text }]}>Edit Profile</Text>
+            <TouchableOpacity onPress={handleCancelEdit} style={styles.modalCloseButton}>
+              <Text style={[styles.modalCloseText, { color: themeColors.textSecondary }]}>✕</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.editSection}>
+            <Text style={[styles.editLabel, { color: themeColors.text }]}>Profile Picture</Text>
+            <View style={styles.avatarGrid}>
+              {avatarOptions.map((avatar, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.avatarOption,
+                    {
+                      backgroundColor: editAvatar === avatar ? themeColors.primary + '20' : themeColors.background,
+                      borderColor: editAvatar === avatar ? themeColors.primary : themeColors.border
+                    }
+                  ]}
+                  onPress={() => handleSelectAvatar(avatar)}
+                >
+                  <Text style={styles.avatarOptionEmoji}>{avatar}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
+          <View style={styles.editSection}>
+            <Text style={[styles.editLabel, { color: themeColors.text }]}>Name</Text>
+            <TextInput
+              style={[
+                styles.nameInput,
+                {
+                  backgroundColor: themeColors.background,
+                  borderColor: themeColors.border,
+                  color: themeColors.text
+                }
+              ]}
+              value={editName}
+              onChangeText={setEditName}
+              placeholder="Enter your name"
+              placeholderTextColor={themeColors.textSecondary}
+              maxLength={30}
+            />
+          </View>
+
+          <View style={styles.readOnlySection}>
+            <Text style={[styles.editLabel, { color: themeColors.text }]}>Level & XP (Read Only)</Text>
+            <View style={styles.readOnlyInfo}>
+              <View style={[styles.levelBadgeSmall, { backgroundColor: themeColors.primary }]}>
+                <Crown size={12} color="#ffffff" />
+                <Text style={styles.levelTextSmall}>Level {currentLevel}</Text>
+              </View>
+              <Text style={[styles.xpTextSmall, { color: themeColors.text }]}>{xp} XP</Text>
+            </View>
+          </View>
+
+          <View style={styles.modalActions}>
+            <TouchableOpacity
+              style={[styles.modalButton, styles.cancelButton, { borderColor: themeColors.border }]}
+              onPress={handleCancelEdit}
+            >
+              <Text style={[styles.cancelButtonText, { color: themeColors.textSecondary }]}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.modalButton, styles.saveButton, { backgroundColor: themeColors.primary }]}
+              onPress={handleSaveProfile}
+            >
+              <Text style={styles.saveButtonText}>Save Changes</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
 
   const handleViewAchievements = () => {
     if (Platform.OS !== 'web') {
@@ -360,8 +446,18 @@ export default function ProfileScreen() {
     }
   };
 
+  // Show loading state while lessons are being loaded
+  if (isLoading) {
+    return (
+      <View style={[styles.container, { backgroundColor: themeColors.background, justifyContent: 'center', alignItems: 'center' }]}>
+        <Text style={{ color: themeColors.text, fontSize: 16 }}>Loading profile...</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: themeColors.background }]} testID="profile-screen">
+      {renderEditModal()}
       {/* Scrollable Content */}
       <ScrollView
         style={styles.content}
@@ -390,10 +486,6 @@ export default function ProfileScreen() {
 
               <View style={styles.profileInfo}>
                 <Text style={[styles.userName, { color: themeColors.text }]}>{userProfile.name}</Text>
-                <View style={styles.offlineIndicator}>
-                  <Text style={[styles.offlineText, { color: themeColors.textSecondary }]}>📱 Offline Application</Text>
-                  <Text style={[styles.offlineSubtext, { color: themeColors.textSecondary }]}>More features coming soon</Text>
-                </View>
                 <View style={[styles.levelBadge, { backgroundColor: themeColors.primary }]}>
                   <Crown size={14} color="#ffffff" />
                   <Text style={styles.levelText}>Level {currentLevel}</Text>
@@ -1048,17 +1140,7 @@ const styles = StyleSheet.create({
   avatarEmoji: {
     fontSize: 32,
   },
-  offlineIndicator: {
-    marginBottom: 8,
-  },
-  offlineText: {
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  offlineSubtext: {
-    fontSize: 10,
-    marginTop: 2,
-  },
+
   userEmail: {
     fontSize: 14,
     marginBottom: 8,
@@ -1399,5 +1481,116 @@ const styles = StyleSheet.create({
   versionText: {
     fontSize: 12,
     textAlign: 'center',
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalContent: {
+    width: '100%',
+    maxWidth: 400,
+    borderRadius: 20,
+    padding: 24,
+    maxHeight: '80%',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  modalCloseButton: {
+    padding: 4,
+  },
+  modalCloseText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  editSection: {
+    marginBottom: 24,
+  },
+  editLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 12,
+  },
+  avatarGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  avatarOption: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+  },
+  avatarOptionEmoji: {
+    fontSize: 24,
+  },
+  nameInput: {
+    borderWidth: 1,
+    borderRadius: 12,
+    padding: 16,
+    fontSize: 16,
+  },
+  readOnlySection: {
+    marginBottom: 24,
+  },
+  readOnlyInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  levelBadgeSmall: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    gap: 4,
+  },
+  levelTextSmall: {
+    color: '#ffffff',
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  xpTextSmall: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  modalActions: {
+    flexDirection: 'row',
+    gap: 12,
+  },
+  modalButton: {
+    flex: 1,
+    paddingVertical: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+  },
+  cancelButton: {
+    borderWidth: 1,
+  },
+  saveButton: {
+    // backgroundColor set dynamically
+  },
+  cancelButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  saveButtonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

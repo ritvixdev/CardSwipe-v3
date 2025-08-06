@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, memo, useMemo } from 'react';
 import { Animated, Text, StyleSheet, View } from 'react-native';
 import { Star } from 'lucide-react-native';
 
@@ -8,45 +8,63 @@ interface XPNotificationProps {
   onComplete: () => void;
 }
 
-export default function XPNotification({ visible, xpGained, onComplete }: XPNotificationProps) {
+const XPNotification = memo(function XPNotification({ visible, xpGained, onComplete }: XPNotificationProps) {
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(50)).current;
   const scale = useRef(new Animated.Value(0.5)).current;
 
+  // Memoize animation configurations for better performance
+  const animationConfig = useMemo(() => ({
+    fadeIn: {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    },
+    slideIn: {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    },
+    scaleIn: {
+      toValue: 1,
+      friction: 6,
+      tension: 100,
+      useNativeDriver: true,
+    },
+    fadeOut: {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    },
+    slideOut: {
+      toValue: -50,
+      duration: 300,
+      useNativeDriver: true,
+    }
+  }), []);
+
+  // Memoize animated styles to prevent recreation
+  const animatedStyle = useMemo(() => ({
+    opacity,
+    transform: [
+      { translateY },
+      { scale }
+    ]
+  }), [opacity, translateY, scale]);
+
   useEffect(() => {
     if (visible) {
-      // Animate in
+      // Animate in using memoized configurations
       Animated.parallel([
-        Animated.timing(opacity, {
-          toValue: 1,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.timing(translateY, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.spring(scale, {
-          toValue: 1,
-          friction: 6,
-          tension: 100,
-          useNativeDriver: true,
-        }),
+        Animated.timing(opacity, animationConfig.fadeIn),
+        Animated.timing(translateY, animationConfig.slideIn),
+        Animated.spring(scale, animationConfig.scaleIn),
       ]).start(() => {
         // Hold for a moment, then animate out
         setTimeout(() => {
           Animated.parallel([
-            Animated.timing(opacity, {
-              toValue: 0,
-              duration: 300,
-              useNativeDriver: true,
-            }),
-            Animated.timing(translateY, {
-              toValue: -50,
-              duration: 300,
-              useNativeDriver: true,
-            }),
+            Animated.timing(opacity, animationConfig.fadeOut),
+            Animated.timing(translateY, animationConfig.slideOut),
           ]).start(() => {
             onComplete();
             // Reset values for next time
@@ -57,7 +75,7 @@ export default function XPNotification({ visible, xpGained, onComplete }: XPNoti
         }, 1500);
       });
     }
-  }, [visible]);
+  }, [visible, onComplete, animationConfig]);
 
   if (!visible) return null;
 
@@ -65,10 +83,7 @@ export default function XPNotification({ visible, xpGained, onComplete }: XPNoti
     <Animated.View
       style={[
         styles.container,
-        {
-          opacity,
-          transform: [{ translateY }, { scale }],
-        },
+        animatedStyle
       ]}
     >
       <View style={styles.notification}>
@@ -77,7 +92,9 @@ export default function XPNotification({ visible, xpGained, onComplete }: XPNoti
       </View>
     </Animated.View>
   );
-}
+});
+
+export default XPNotification;
 
 const styles = StyleSheet.create({
   container: {
