@@ -15,9 +15,9 @@ import * as Haptics from 'expo-haptics';
 
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import { designPatterns, codingQuestions } from '@/data/processors/dataLoader';
-// Temporary direct import to fix the issue
-const exploreCards = [
+import { designPatterns, codingQuestions, getAllLessons } from '@/data/processors/dataLoader';
+// Base explore cards template
+const baseExploreCards = [
   {
     id: 'completed',
     title: 'Completed Lessons',
@@ -51,54 +51,52 @@ const exploreCards = [
   {
     id: 'javascript-notes',
     title: 'JavaScript Notes',
-    description: 'Essential concepts with examples and code snippets',
-    icon: '📚',
-    color: '#8b5cf6',
+    description: 'Comprehensive notes covering all JavaScript concepts',
+    icon: '📝',
+    color: '#10b981',
     route: '/(tabs)/explore/javascript-notes',
     category: 'resource',
-    itemCount: 8,
+    itemCount: 25,
+    difficulty: 'beginner',
+    estimatedTime: '2 hours read'
+  },
+  {
+    id: 'interview-prep',
+    title: 'Interview Prep',
+    description: 'Common JavaScript interview questions and answers',
+    icon: '💼',
+    color: '#f59e0b',
+    route: '/(tabs)/explore/interview-prep',
+    category: 'resource',
+    itemCount: 50,
     difficulty: 'intermediate',
-    estimatedTime: '20 min read',
+    estimatedTime: '3 hours',
     isPopular: true
   },
   {
     id: 'practice-quiz',
     title: 'Practice Quiz',
-    description: 'Interactive quizzes to test your JavaScript knowledge',
+    description: 'Test your JavaScript knowledge with interactive quizzes',
     icon: '🧠',
-    color: '#10b981',
+    color: '#8b5cf6',
     route: '/(tabs)/explore/practice-quiz',
     category: 'resource',
-    itemCount: 12,
-    difficulty: 'beginner',
-    estimatedTime: '15 min',
-    isNew: true
-  },
-  {
-    id: 'interview-prep',
-    title: 'Interview Prep',
-    description: 'Common JavaScript interview questions with detailed answers',
-    icon: '💼',
-    color: '#f59e0b',
-    route: '/(tabs)/explore/interview-prep',
-    category: 'resource',
     itemCount: 15,
-    difficulty: 'intermediate',
-    estimatedTime: '30 min read',
-    isPopular: true
+    difficulty: 'beginner',
+    estimatedTime: '20 min'
   },
   {
     id: 'interview-quiz',
     title: 'Interview Quiz',
-    description: 'Practice with real interview questions and scenarios',
+    description: 'Advanced quiz questions commonly asked in interviews',
     icon: '🎯',
     color: '#ef4444',
     route: '/(tabs)/explore/interview-quiz',
     category: 'resource',
-    itemCount: 10,
+    itemCount: 20,
     difficulty: 'advanced',
-    estimatedTime: '25 min',
-    isPopular: true
+    estimatedTime: '30 min',
+    isNew: true
   },
   {
     id: 'learning-roadmap',
@@ -156,7 +154,7 @@ interface ExploreCard {
 }
 
 function getExploreCardsByCategory(category: 'permanent' | 'resource'): ExploreCard[] {
-  return exploreCards.filter(card => card.category === category);
+  return baseExploreCards.filter(card => card.category === category);
 }
 
 const { width } = Dimensions.get('window');
@@ -169,25 +167,58 @@ export default function ExploreScreen() {
   
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'beginner' | 'intermediate' | 'advanced'>('all');
+  const [lessons, setLessons] = useState<any[]>([]);
+
+  // Load lessons data
+  useEffect(() => {
+    const loadLessons = async () => {
+      try {
+        const allLessons = await getAllLessons();
+        setLessons(allLessons);
+      } catch (error) {
+        console.error('Failed to load lessons:', error);
+        setLessons([]);
+      }
+    };
+    loadLessons();
+  }, []);
 
   // Calculate dynamic counts for permanent cards
-  const completedCount = Object.values(progress).filter(p => p.completed).length;
+  // For completed: only count lessons with quizzes that have been answered correctly
+  const completedCount = Object.entries(progress).filter(([lessonId, lessonProgress]) => {
+    if (!lessonProgress.completed) return false;
+    
+    // Find the lesson data to check if it has a quiz
+    const lesson = lessons.find(l => l.id === lessonId);
+    if (!lesson || !lesson.quiz) {
+      // If lesson doesn't have a quiz, don't count it as completed
+      return false;
+    }
+    
+    // Only count as completed if the lesson has a quiz and was completed with a passing score
+    // We assume that if it's marked as completed and has a score, the quiz was answered correctly
+    return lessonProgress.score !== undefined && lessonProgress.score >= 70; // 70% passing score
+  }).length;
+  
   const bookmarkedCount = Object.values(progress).filter(p => p.bookmarked).length;
   const likedCount = Object.values(progress).filter(p => p.liked).length;
 
-  // Update card counts
-  useEffect(() => {
-    const completedCard = exploreCards.find(c => c.id === 'completed');
-    const bookmarksCard = exploreCards.find(c => c.id === 'bookmarks');
-    const likedCard = exploreCards.find(c => c.id === 'liked');
-    
-    if (completedCard) completedCard.itemCount = completedCount;
-    if (bookmarksCard) bookmarksCard.itemCount = bookmarkedCount;
-    if (likedCard) likedCard.itemCount = likedCount;
-  }, [completedCount, bookmarkedCount, likedCount]);
+  // Create reactive explore cards with updated counts
+  const exploreCards = baseExploreCards.map(card => {
+    if (card.id === 'completed') {
+      return { ...card, itemCount: completedCount };
+    }
+    if (card.id === 'bookmarks') {
+      return { ...card, itemCount: bookmarkedCount };
+    }
+    if (card.id === 'liked') {
+      return { ...card, itemCount: likedCount };
+    }
+    return card;
+  });
 
-  const permanentCards = getExploreCardsByCategory('permanent');
-  const resourceCards = getExploreCardsByCategory('resource');
+  const permanentCards = exploreCards.filter(card => card.category === 'permanent');
+  const resourceCards = exploreCards.filter(card => card.category === 'resource');
 
   const handleCardPress = (card: ExploreCard) => {
     if (Platform.OS !== 'web') {

@@ -4,11 +4,12 @@ import { Star } from 'lucide-react-native';
 
 interface XPNotificationProps {
   visible: boolean;
-  xpGained: number;
-  onComplete: () => void;
+  xp: number;
+  description?: string;
+  onHide: () => void;
 }
 
-const XPNotification = memo(function XPNotification({ visible, xpGained, onComplete }: XPNotificationProps) {
+const XPNotification = memo(function XPNotification({ visible, xp, description, onHide }: XPNotificationProps) {
   const opacity = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(50)).current;
   const scale = useRef(new Animated.Value(0.5)).current;
@@ -66,7 +67,7 @@ const XPNotification = memo(function XPNotification({ visible, xpGained, onCompl
             Animated.timing(opacity, animationConfig.fadeOut),
             Animated.timing(translateY, animationConfig.slideOut),
           ]).start(() => {
-            onComplete();
+            onHide();
             // Reset values for next time
             opacity.setValue(0);
             translateY.setValue(50);
@@ -75,7 +76,7 @@ const XPNotification = memo(function XPNotification({ visible, xpGained, onCompl
         }, 1500);
       });
     }
-  }, [visible, onComplete, animationConfig]);
+  }, [visible, onHide, animationConfig]);
 
   if (!visible) return null;
 
@@ -88,7 +89,12 @@ const XPNotification = memo(function XPNotification({ visible, xpGained, onCompl
     >
       <View style={styles.notification}>
         <Star size={24} color="#FFD700" fill="#FFD700" />
-        <Text style={styles.xpText}>+{xpGained} XP</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.xpText}>+{xp} XP</Text>
+          {description && (
+            <Text style={styles.descriptionText}>{description}</Text>
+          )}
+        </View>
       </View>
     </Animated.View>
   );
@@ -117,11 +123,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
+    maxWidth: 300,
+  },
+  textContainer: {
+    marginLeft: 8,
+    flex: 1,
   },
   xpText: {
     color: '#FFD700',
     fontSize: 18,
     fontWeight: 'bold',
-    marginLeft: 8,
+  },
+  descriptionText: {
+    color: '#FFFFFF',
+    fontSize: 12,
+    marginTop: 2,
+    opacity: 0.8,
   },
 });

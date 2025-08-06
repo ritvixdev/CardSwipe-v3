@@ -55,7 +55,7 @@ interface ProgressState {
   resetProgress: () => void;
   updateStreak: () => void;
   addXp: (amount: number) => void;
-  addQuizScore: (score: number) => void;
+  addQuizScore: (lessonId: string, score: number) => void;
   checkAchievements: () => void;
   updateWeeklyGoal: () => void;
   getLevel: () => number;
@@ -241,14 +241,24 @@ export const useProgressStore = create<ProgressState>()(
         }));
       },
 
-      addQuizScore: (score: number) => {
+      addQuizScore: (lessonId: string, score: number) => {
         set((state) => {
           const newQuizCount = state.quizzesTaken + 1;
           const newAverageScore = ((state.averageQuizScore * state.quizzesTaken) + score) / newQuizCount;
 
+          // Update lesson-specific progress with the quiz score
+          const lessonProgress = state.progress[lessonId] || { completed: false, bookmarked: false, liked: false };
+          
           return {
             quizzesTaken: newQuizCount,
             averageQuizScore: newAverageScore,
+            progress: {
+              ...state.progress,
+              [lessonId]: {
+                ...lessonProgress,
+                score: score,
+              },
+            },
           };
         });
 

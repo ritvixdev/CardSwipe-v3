@@ -40,15 +40,23 @@ export default function CompletedScreen() {
     loadLessons();
   }, []);
 
-  const completedLessons = lessons.filter(lesson => 
-    progress[lesson.id]?.completed &&
-    (searchQuery === '' || 
-     lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-     lesson.description.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const completedLessons = lessons.filter(lesson => {
+    const lessonProgress = progress[lesson.id];
+    if (!lessonProgress) return false;
+    
+    // Check if lesson is truly completed based on quiz requirements
+    const isCompleted = lesson.quiz 
+      ? (lessonProgress.score !== undefined && lessonProgress.score >= 70) // Quiz lessons need passing score
+      : lessonProgress.completed; // Non-quiz lessons just need to be marked as completed
+    
+    return isCompleted &&
+      (searchQuery === '' || 
+       lesson.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+       lesson.description.toLowerCase().includes(searchQuery.toLowerCase()));
+  });
 
-  const totalEarnedXP = completedLessons.reduce((total, lesson) => total + (progress[lesson.id]?.xp || 0), 0);
-  const averageScore = completedLessons.length > 0 ? Math.round(totalEarnedXP / completedLessons.length) : 0;
+  const completionRate = lessons.length > 0 ? Math.round((completedLessons.length / lessons.length) * 100) : 0;
+  const quizzesCompleted = completedLessons.filter(lesson => lesson.quiz).length;
 
   const handleBack = () => {
     if (Platform.OS !== 'web') {
@@ -65,7 +73,7 @@ export default function CompletedScreen() {
   };
 
   const LessonCard = ({ lesson }: { lesson: any }) => {
-    const lessonProgress = progress[lesson.id] || { completed: false, bookmarked: false, xp: 0 };
+    const lessonProgress = progress[lesson.id] || { completed: false, bookmarked: false };
     const completedDate = lessonProgress.completedAt ? new Date(lessonProgress.completedAt) : new Date();
     
     return (
@@ -92,7 +100,7 @@ export default function CompletedScreen() {
           <View style={styles.xpContainer}>
             <Star size={16} color="#f59e0b" fill="#f59e0b" />
             <Text style={[styles.xpText, { color: themeColors.text }]}>
-              {lessonProgress.xp} XP
+              Completed
             </Text>
           </View>
         </View>
@@ -116,21 +124,21 @@ export default function CompletedScreen() {
           )}
         </View>
 
-        {/* Performance Indicator */}
+        {/* Completion Indicator */}
         <View style={styles.performanceContainer}>
           <View style={styles.performanceBar}>
             <View 
               style={[
                 styles.performanceFill,
                 { 
-                  backgroundColor: lessonProgress.xp >= 45 ? '#10b981' : lessonProgress.xp >= 35 ? '#f59e0b' : '#ef4444',
-                  width: `${(lessonProgress.xp / 50) * 100}%`
+                  backgroundColor: '#10b981',
+                  width: '100%'
                 }
               ]}
             />
           </View>
           <Text style={[styles.performanceText, { color: themeColors.textSecondary }]}>
-            {lessonProgress.xp >= 45 ? 'Excellent' : lessonProgress.xp >= 35 ? 'Good' : 'Needs Review'}
+            {lesson.quiz ? 'Quiz Completed' : 'Lesson Completed'}
           </Text>
         </View>
       </TouchableOpacity>
@@ -199,7 +207,7 @@ export default function CompletedScreen() {
                 <View style={styles.statItem}>
                   <Star size={20} color="#f59e0b" />
                   <Text style={[styles.statValue, { color: themeColors.text }]}>
-                    {totalEarnedXP}
+                    {totalXP}
                   </Text>
                   <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>
                     Total XP
@@ -209,10 +217,10 @@ export default function CompletedScreen() {
                 <View style={styles.statItem}>
                   <BookOpen size={20} color={themeColors.primary} />
                   <Text style={[styles.statValue, { color: themeColors.text }]}>
-                    {averageScore}
+                    {quizzesCompleted}
                   </Text>
                   <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>
-                    Avg Score
+                    Quizzes
                   </Text>
                 </View>
               </View>

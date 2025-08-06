@@ -4,6 +4,8 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useProgressStore } from '@/store/useProgressStore';
 import { useThemeStore } from '@/store/useThemeStore';
 import { useThemeColors } from '@/hooks/useThemeColors';
+import { useRewardSystem } from '@/hooks/useRewardSystem';
+import RewardSystemStats from '@/components/RewardSystemStats';
 import {
   RefreshCw,
   ExternalLink,
@@ -70,6 +72,7 @@ export default function ProfileScreen() {
     getXpForNextLevel,
   } = useProgressStore();
 
+  const { getRewardStats } = useRewardSystem();
   const themeMode = useThemeStore((state) => state.mode);
   const setTheme = useThemeStore((state) => state.setTheme);
   const themeColors = useThemeColors();
@@ -84,6 +87,7 @@ export default function ProfileScreen() {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [editName, setEditName] = useState('');
   const [editAvatar, setEditAvatar] = useState('');
+  const [rewardStats, setRewardStats] = useState(null);
 
   // Load lessons on component mount
   useEffect(() => {
@@ -97,6 +101,19 @@ export default function ProfileScreen() {
       }
     };
     loadLessons();
+  }, []);
+
+  // Load reward stats
+  useEffect(() => {
+    const loadRewardStats = async () => {
+      try {
+        const stats = await getRewardStats();
+        setRewardStats(stats);
+      } catch (error) {
+        console.error('Failed to load reward stats:', error);
+      }
+    };
+    loadRewardStats();
   }, []);
 
   // Calculate user stats
@@ -608,6 +625,14 @@ export default function ProfileScreen() {
             </Text>
           </View>
         </View>
+
+        {/* Reward System Stats */}
+        {rewardStats && (
+          <View style={styles.section}>
+            <Text style={[styles.sectionTitle, { color: themeColors.text }]}>Learning Analytics</Text>
+            <RewardSystemStats />
+          </View>
+        )}
 
         {/* Quick Actions */}
         <View style={styles.section}>

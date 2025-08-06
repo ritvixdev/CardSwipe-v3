@@ -12,6 +12,7 @@ import { useThemeColors } from '@/hooks/useThemeColors';
 import { useThemeStore } from '@/store/useThemeStore';
 import { useProgressStore } from '@/store/useProgressStore';
 import { LearnCard } from '@/data/processors/dataLoader';
+import { rewardSystem } from '@/services/RewardSystem';
 
 const { width, height } = Dimensions.get('window');
 const SWIPE_THRESHOLD = 80; // Reduced for more responsive swiping
@@ -28,6 +29,7 @@ interface LessonCardProps {
   onSwipeDown: () => void;
   index: number;
   isTopCard: boolean;
+  onXPAwarded?: (xp: number, description: string) => void;
 }
 
 function LessonCard({ 
@@ -37,7 +39,8 @@ function LessonCard({
   onSwipeUp,
   onSwipeDown,
   index,
-  isTopCard
+  isTopCard,
+  onXPAwarded
 }: LessonCardProps) {
   const themeColors = useThemeColors();
   const themeMode = useThemeStore((state) => state.mode);
@@ -133,12 +136,25 @@ function LessonCard({
   }, [lesson.id, index]);
 
   // Handle card tap navigation
-  const handleCardPress = () => {
+  const handleCardPress = async () => {
     if (!isTopCard) return;
 
     if (Platform.OS !== 'web') {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
+
+    // Award XP for opening the card
+    await rewardSystem.awardXP(
+      lesson.id,
+      'card_opened',
+      lesson,
+      (xp, description, bonuses) => {
+        if (xp > 0 && onXPAwarded) {
+          onXPAwarded(xp, description + (bonuses.length > 0 ? ` (${bonuses.join(', ')})` : ''));
+        }
+      }
+    );
+
     const lessonPath = '/(tabs)/lesson/' + lesson.id;
     router.push(lessonPath as any);
   };

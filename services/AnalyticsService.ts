@@ -1,6 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Application from 'expo-application';
 import { Platform } from 'react-native';
+import { ActionMetadata, ActionType, EnhancedProgressState } from '@/store/enhancedProgressStore';
+
+// ============================================================================
+// COMPREHENSIVE TYPE DEFINITIONS
+// ============================================================================
 
 interface AnalyticsEvent {
   event: string;
@@ -23,12 +28,103 @@ interface UserProperties {
   totalXP: number;
 }
 
+export interface EngagementMetrics {
+  dailyActiveStreak: number;
+  sessionFrequency: number; // sessions per week
+  averageSessionDuration: number; // minutes
+  actionDiversity: number; // 0-1, variety of actions performed
+  contentCompletionRate: number; // 0-1
+  interactionDepth: number; // 0-1, how deeply users engage with content
+  socialEngagement: number; // 0-1, sharing, feedback, etc.
+  overallScore: number; // 0-100
+}
+
+export interface LearningPattern {
+  id: string;
+  name: string;
+  description: string;
+  indicators: Array<{
+    metric: string;
+    threshold: number;
+    operator: 'above' | 'below' | 'equals';
+  }>;
+  recommendations: string[];
+  riskLevel: 'low' | 'medium' | 'high';
+}
+
+export interface PredictiveInsights {
+  churnRisk: {
+    score: number; // 0-1
+    factors: Array<{
+      factor: string;
+      impact: number;
+      description: string;
+    }>;
+    recommendations: string[];
+  };
+  nextBestAction: {
+    action: ActionType;
+    entityId: string;
+    confidence: number;
+    expectedOutcome: string;
+  };
+  optimalLearningTime: {
+    preferredHours: number[];
+    recommendedSessionLength: number;
+    confidence: number;
+  };
+}
+
+export interface BehaviorAnalysis {
+  engagement: EngagementMetrics;
+  patterns: LearningPattern[];
+  insights: PredictiveInsights;
+  lastUpdated: number;
+}
+
+export interface AnalyticsConfig {
+  enableRealTimeAnalysis: boolean;
+  analysisIntervalMinutes: number;
+  retentionDays: number;
+  privacyMode: 'full' | 'anonymized' | 'minimal';
+  enablePredictiveAnalytics: boolean;
+  maxStoredReports: number;
+}
+
 export class AnalyticsService {
   private static instance: AnalyticsService;
   private sessionId: string = '';
   private userId: string = '';
   private sessionStartTime: number = 0;
   private isInitialized: boolean = false;
+  
+  // Advanced analytics properties
+  private config: AnalyticsConfig;
+  private behaviorAnalysis: BehaviorAnalysis | null = null;
+  private analysisTimer: NodeJS.Timeout | null = null;
+  
+  // Storage keys
+  private readonly BEHAVIOR_ANALYSIS_KEY = '@analytics_behavior_analysis';
+  private readonly CONFIG_KEY = '@analytics_config';
+  
+  // Performance tracking
+  private analyticsStats = {
+    totalAnalyses: 0,
+    averageAnalysisTime: 0,
+    cacheHitRate: 0,
+    predictionAccuracy: 0
+  };
+
+  constructor() {
+    this.config = {
+      enableRealTimeAnalysis: true,
+      analysisIntervalMinutes: 15,
+      retentionDays: 90,
+      privacyMode: 'anonymized',
+      enablePredictiveAnalytics: true,
+      maxStoredReports: 50
+    };
+  }
 
   static getInstance(): AnalyticsService {
     if (!AnalyticsService.instance) {
@@ -48,6 +144,14 @@ export class AnalyticsService {
       // Initialize user properties
       await this.initializeUserProperties();
       
+      // Initialize advanced analytics
+      await this.loadConfig();
+      await this.loadBehaviorAnalysis();
+      
+      if (this.config.enableRealTimeAnalysis) {
+        this.startRealTimeAnalysis();
+      }
+      
       this.isInitialized = true;
       
       // Track app launch
@@ -56,6 +160,8 @@ export class AnalyticsService {
         device_type: Platform.OS === 'ios' ? 'phone' : 'phone',
         app_version: Application.nativeApplicationVersion,
       });
+      
+      console.log('📊 Enhanced AnalyticsService initialized');
     } catch (error) {
       console.error('Failed to initialize analytics:', error);
     }
@@ -291,6 +397,350 @@ export class AnalyticsService {
       console.log('User analytics data deleted');
     } catch (error) {
       console.error('Failed to delete user data:', error);
+    }
+  }
+
+  // =====================================================================
+  // ADVANCED ANALYTICS METHODS
+  // =====================================================================
+
+  private async loadConfig(): Promise<void> {
+    try {
+      const savedConfig = await AsyncStorage.getItem(this.CONFIG_KEY);
+      if (savedConfig) {
+        this.config = { ...this.config, ...JSON.parse(savedConfig) };
+      }
+    } catch (error) {
+      console.error('Failed to load analytics config:', error);
+    }
+  }
+
+  private async loadBehaviorAnalysis(): Promise<void> {
+    try {
+      const savedAnalysis = await AsyncStorage.getItem(this.BEHAVIOR_ANALYSIS_KEY);
+      if (savedAnalysis) {
+        this.behaviorAnalysis = JSON.parse(savedAnalysis);
+        
+        // Check if analysis is stale
+        const staleThreshold = this.config.analysisIntervalMinutes * 60 * 1000;
+        if (this.behaviorAnalysis && 
+            (Date.now() - this.behaviorAnalysis.lastUpdated) > staleThreshold) {
+          this.refreshBehaviorAnalysis();
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load behavior analysis:', error);
+    }
+  }
+
+  private startRealTimeAnalysis(): void {
+    if (this.analysisTimer) {
+      clearInterval(this.analysisTimer);
+    }
+    
+    this.analysisTimer = setInterval(() => {
+      this.refreshBehaviorAnalysis();
+    }, this.config.analysisIntervalMinutes * 60 * 1000);
+  }
+
+  async analyzeUserBehavior(
+    userState: EnhancedProgressState,
+    recentActions: ActionMetadata[]
+  ): Promise<BehaviorAnalysis> {
+    const startTime = Date.now();
+    this.analyticsStats.totalAnalyses++;
+    
+    try {
+      const engagement = await this.calculateEngagementMetrics(userState, recentActions);
+      const patterns = await this.identifyLearningPatterns(userState, recentActions);
+      const insights = await this.generatePredictiveInsights(userState, recentActions, engagement);
+      
+      const analysis: BehaviorAnalysis = {
+        engagement,
+        patterns,
+        insights,
+        lastUpdated: Date.now()
+      };
+      
+      this.behaviorAnalysis = analysis;
+      await this.saveBehaviorAnalysis();
+      
+      const analysisTime = Date.now() - startTime;
+      this.updateAnalyticsStats(analysisTime);
+      
+      return analysis;
+    } catch (error) {
+      console.error('❌ Behavior analysis failed:', error);
+      throw error;
+    }
+  }
+
+  private async calculateEngagementMetrics(
+    userState: EnhancedProgressState,
+    recentActions: ActionMetadata[]
+  ): Promise<EngagementMetrics> {
+    const now = Date.now();
+    const weekMs = 7 * 24 * 60 * 60 * 1000;
+    
+    // Calculate daily active streak
+    const dailyActiveStreak = this.calculateActiveStreak(userState.analytics.dailyActions);
+    
+    // Calculate session frequency
+    const recentSessions = userState.sessions.history.filter(
+      session => (now - session.startTime) <= weekMs
+    );
+    const sessionFrequency = recentSessions.length;
+    
+    // Calculate average session duration
+    const validSessions = recentSessions.filter(s => s.endTime);
+    const averageSessionDuration = validSessions.length > 0
+      ? validSessions.reduce((sum, s) => sum + (s.endTime! - s.startTime), 0) / validSessions.length / (60 * 1000)
+      : 0;
+    
+    // Calculate action diversity
+    const uniqueActionTypes = new Set(recentActions.map(a => a.actionType));
+    const actionDiversity = uniqueActionTypes.size / 25;
+    
+    // Calculate content completion rate
+    const lessonsStarted = Object.keys(userState.lessons).length;
+    const lessonsCompleted = Object.values(userState.lessons).filter(l => l.status === 'completed').length;
+    const contentCompletionRate = lessonsStarted > 0 ? lessonsCompleted / lessonsStarted : 0;
+    
+    // Calculate interaction depth
+    const deepInteractions = recentActions.filter(a => 
+      ['lesson_completed', 'quiz_completed', 'code_example_run', 'content_shared'].includes(a.actionType)
+    ).length;
+    const totalInteractions = recentActions.length;
+    const interactionDepth = totalInteractions > 0 ? deepInteractions / totalInteractions : 0;
+    
+    // Calculate social engagement
+    const socialActions = recentActions.filter(a => 
+      ['content_shared', 'feedback_submitted'].includes(a.actionType)
+    ).length;
+    const socialEngagement = Math.min(socialActions / 10, 1);
+    
+    // Calculate overall engagement score (0-100)
+    const overallScore = Math.round(
+      (dailyActiveStreak / 30) * 20 +
+      Math.min(sessionFrequency / 7, 1) * 20 +
+      Math.min(averageSessionDuration / 30, 1) * 15 +
+      actionDiversity * 15 +
+      contentCompletionRate * 20 +
+      interactionDepth * 10
+    );
+    
+    return {
+      dailyActiveStreak,
+      sessionFrequency,
+      averageSessionDuration,
+      actionDiversity,
+      contentCompletionRate,
+      interactionDepth,
+      socialEngagement,
+      overallScore
+    };
+  }
+
+  private calculateActiveStreak(dailyActions: Record<string, number>): number {
+    const sortedDates = Object.keys(dailyActions).sort().reverse();
+    let streak = 0;
+    
+    for (const date of sortedDates) {
+      if (dailyActions[date] > 0) {
+        streak++;
+      } else {
+        break;
+      }
+    }
+    
+    return streak;
+  }
+
+  private async identifyLearningPatterns(
+    userState: EnhancedProgressState,
+    recentActions: ActionMetadata[]
+  ): Promise<LearningPattern[]> {
+    const patterns: LearningPattern[] = [];
+    
+    // Pattern 1: Consistent Learner
+    if (userState.user.currentStreak >= 7) {
+      patterns.push({
+        id: 'consistent_learner',
+        name: 'Consistent Learner',
+        description: 'Maintains regular learning habits',
+        indicators: [
+          { metric: 'dailyActiveStreak', threshold: 7, operator: 'above' }
+        ],
+        recommendations: [
+          'Consider increasing daily learning goals',
+          'Try more challenging content',
+          'Share achievements with others'
+        ],
+        riskLevel: 'low'
+      });
+    }
+    
+    // Pattern 2: At Risk of Churn
+    const daysSinceLastAction = userState.user.lastActiveAt 
+      ? (Date.now() - userState.user.lastActiveAt) / (24 * 60 * 60 * 1000)
+      : 0;
+    
+    if (daysSinceLastAction > 3) {
+      patterns.push({
+        id: 'churn_risk',
+        name: 'At Risk of Churn',
+        description: 'Showing signs of decreased engagement',
+        indicators: [
+          { metric: 'daysSinceLastAction', threshold: 3, operator: 'above' }
+        ],
+        recommendations: [
+          'Send gentle re-engagement notification',
+          'Offer easier content to rebuild momentum',
+          'Highlight progress made so far'
+        ],
+        riskLevel: 'high'
+      });
+    }
+    
+    return patterns;
+  }
+
+  private async generatePredictiveInsights(
+    userState: EnhancedProgressState,
+    recentActions: ActionMetadata[],
+    engagement: EngagementMetrics
+  ): Promise<PredictiveInsights> {
+    // Calculate churn risk
+    let churnRisk = 0;
+    const factors: Array<{ factor: string; impact: number; description: string }> = [];
+    
+    const daysSinceActive = (Date.now() - userState.user.lastActiveAt) / (24 * 60 * 60 * 1000);
+    if (daysSinceActive > 7) {
+      churnRisk += 0.3;
+      factors.push({
+        factor: 'inactivity',
+        impact: 0.3,
+        description: `${Math.round(daysSinceActive)} days since last activity`
+      });
+    }
+    
+    if (engagement.overallScore < 30) {
+      churnRisk += 0.25;
+      factors.push({
+        factor: 'low_engagement',
+        impact: 0.25,
+        description: `Low engagement score (${engagement.overallScore})`
+      });
+    }
+    
+    const recommendations = [];
+    if (churnRisk > 0.5) {
+      recommendations.push('Send re-engagement campaign');
+      recommendations.push('Offer simplified content');
+    }
+    
+    // Predict next best action
+    const recentActionTypes = recentActions.slice(0, 10).map(a => a.actionType);
+    const nextBestAction = !recentActionTypes.includes('lesson_completed') 
+      ? {
+          action: 'lesson_started' as ActionType,
+          entityId: 'recommended_lesson',
+          confidence: 0.8,
+          expectedOutcome: 'Complete a lesson to build momentum'
+        }
+      : {
+          action: 'quiz_started' as ActionType,
+          entityId: 'recommended_quiz',
+          confidence: 0.7,
+          expectedOutcome: 'Test knowledge and earn bonus XP'
+        };
+    
+    // Determine optimal learning times
+    const hourCounts: Record<number, number> = {};
+    recentActions.forEach(action => {
+      const hour = new Date(action.timestamp).getHours();
+      hourCounts[hour] = (hourCounts[hour] || 0) + 1;
+    });
+    
+    const preferredHours = Object.entries(hourCounts)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 3)
+      .map(([hour]) => parseInt(hour));
+    
+    return {
+      churnRisk: {
+        score: Math.min(churnRisk, 1),
+        factors,
+        recommendations
+      },
+      nextBestAction,
+      optimalLearningTime: {
+        preferredHours: preferredHours.length > 0 ? preferredHours : [9, 14, 20],
+        recommendedSessionLength: 20,
+        confidence: preferredHours.length > 0 ? 0.8 : 0.3
+      }
+    };
+  }
+
+  async refreshBehaviorAnalysis(): Promise<void> {
+    try {
+      // This would integrate with the enhanced progress store
+      console.log('📊 Refreshing behavior analysis...');
+    } catch (error) {
+      console.error('Failed to refresh behavior analysis:', error);
+    }
+  }
+
+  getBehaviorAnalysis(): BehaviorAnalysis | null {
+    return this.behaviorAnalysis;
+  }
+
+  getAnalyticsStats(): typeof this.analyticsStats {
+    return { ...this.analyticsStats };
+  }
+
+  async updateConfig(newConfig: Partial<AnalyticsConfig>): Promise<void> {
+    this.config = { ...this.config, ...newConfig };
+    
+    try {
+      await AsyncStorage.setItem(this.CONFIG_KEY, JSON.stringify(this.config));
+      
+      if (this.config.enableRealTimeAnalysis) {
+        this.startRealTimeAnalysis();
+      } else if (this.analysisTimer) {
+        clearInterval(this.analysisTimer);
+        this.analysisTimer = null;
+      }
+    } catch (error) {
+      console.error('Failed to update analytics config:', error);
+    }
+  }
+
+  getConfig(): AnalyticsConfig {
+    return { ...this.config };
+  }
+
+  private async saveBehaviorAnalysis(): Promise<void> {
+    try {
+      if (this.behaviorAnalysis) {
+        await AsyncStorage.setItem(this.BEHAVIOR_ANALYSIS_KEY, JSON.stringify(this.behaviorAnalysis));
+      }
+    } catch (error) {
+      console.error('Failed to save behavior analysis:', error);
+    }
+  }
+
+  private updateAnalyticsStats(analysisTime: number): void {
+    this.analyticsStats.averageAnalysisTime = 
+      (this.analyticsStats.averageAnalysisTime * (this.analyticsStats.totalAnalyses - 1) + analysisTime) /
+      this.analyticsStats.totalAnalyses;
+  }
+
+  // Cleanup method for app shutdown
+  destroy(): void {
+    if (this.analysisTimer) {
+      clearInterval(this.analysisTimer);
+      this.analysisTimer = null;
     }
   }
 }

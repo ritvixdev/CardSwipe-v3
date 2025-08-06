@@ -68,7 +68,7 @@ export default function LikedScreen() {
   };
 
   const LessonCard = ({ lesson }: { lesson: any }) => {
-    const lessonProgress = progress[lesson.id] || { completed: false, liked: false, xp: 0 };
+    const lessonProgress = progress[lesson.id] || { completed: false, liked: false };
     
     return (
       <TouchableOpacity
@@ -119,14 +119,12 @@ export default function LikedScreen() {
             </View>
           )}
           
-          {lessonProgress.xp > 0 && (
-            <View style={styles.metaItem}>
-              <Star size={14} color="#f59e0b" />
-              <Text style={[styles.metaText, { color: themeColors.textSecondary }]}>
-                {lessonProgress.xp} XP
-              </Text>
-            </View>
-          )}
+          <View style={styles.metaItem}>
+            <Star size={14} color="#f59e0b" />
+            <Text style={[styles.metaText, { color: themeColors.textSecondary }]}>
+              XP Earned
+            </Text>
+          </View>
         </View>
 
 
@@ -198,10 +196,10 @@ export default function LikedScreen() {
               <View style={styles.statItem}>
                 <Star size={20} color={themeColors.primary} />
                 <Text style={[styles.statValue, { color: themeColors.text }]}>
-                  {likedLessons.reduce((total, lesson) => total + (progress[lesson.id]?.xp || 0), 0)}
+                  {likedLessons.filter(lesson => lesson.quiz).length}
                 </Text>
                 <Text style={[styles.statLabel, { color: themeColors.textSecondary }]}>
-                  Total XP
+                  With Quiz
                 </Text>
               </View>
             </View>

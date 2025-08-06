@@ -10,7 +10,8 @@
       "Bash(npx expo start:*)",
       "Bash(npx react-compiler-healthcheck:*)",
       "Bash(npm install:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(touch services/AnalyticsService.ts)"
     ],
     "deny": []
   }

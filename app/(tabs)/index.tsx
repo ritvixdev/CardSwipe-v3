@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useProgressStore } from '@/store/useProgressStore';
 import { useThemeColors } from '@/hooks/useThemeColors';
@@ -7,6 +7,7 @@ import { initializeTopics, getCardsByCategory, LearnCard, clearUnusedModules } f
 import LessonCard from '@/components/LessonCard';
 import LearnHeader from '@/components/LearnHeader';
 import XPNotification from '@/components/XPNotification';
+import { rewardSystem } from '@/services/RewardSystem';
 // import ComprehensivePerformanceDashboard from '@/components/ComprehensivePerformanceDashboard';
 // import { memoryLeakPrevention, useMemoryLeakPrevention } from '@/utils/memoryLeakPrevention';
 
@@ -15,6 +16,7 @@ export default function LearnScreen() {
   const [currentLessonIndex, setCurrentLessonIndex] = useState(0);
   const [showXPNotification, setShowXPNotification] = useState(false);
   const [xpGained, setXpGained] = useState(0);
+  const [xpDescription, setXpDescription] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('all'); // Default to all lessons
   const [topicsData, setTopicsData] = useState<any[]>([]);
   
@@ -99,12 +101,8 @@ export default function LearnScreen() {
       try {
         console.log('🚀 Starting OPTIMIZED initialization (no static imports)');
         
-        // 1. Initialize memory leak prevention first
-        // memoryLeakPrevention.initialize({
-        //   memoryThreshold: 80,
-        //   checkInterval: 10000,
-        //   autoCleanup: true
-        // });
+        // 1. Initialize reward system
+        await rewardSystem.initialize();
         
         // 2. Load ONLY topics configuration (minimal data)
         const loadedTopics = await initializeTopics();
@@ -133,17 +131,30 @@ export default function LearnScreen() {
   const currentLesson = filteredLessons[currentLessonIndex] || filteredLessons[0];
   
   // React Compiler handles memoization - no manual useCallback needed
-  const handleSwipeLeft = () => {
-    // Mark as read/dismiss and then load next card
-    console.log('Swipe left - marking lesson', currentLesson?.id, 'as completed');
+  const handleSwipeLeft = async () => {
+    // Swipe left = bookmark action (1 XP only)
+    console.log('Swipe left - bookmarking lesson', currentLesson?.id);
 
     if (currentLesson) {
-      // Mark lesson as completed and show XP notification
-      store.markAsCompleted(currentLesson.id);
-      setXpGained(50);
-      setShowXPNotification(true);
+      // Toggle bookmark for the lesson (no automatic lesson completion)
+      store.toggleBookmark(currentLesson.id);
 
-      // Load next card after marking as read (loop back to beginning if at end)
+      // Award XP for swipe left (bookmark) action
+      await rewardSystem.awardXP(
+        currentLesson.id,
+        'swipe_left',
+        currentLesson,
+        (xp, description, bonuses) => {
+          if (xp > 0) {
+            store.addXp(xp);
+            setXpGained(xp);
+            setXpDescription(`Bookmarked card (${description})`);
+            setShowXPNotification(true);
+          }
+        }
+      );
+
+      // Load next card after bookmarking
       const newIndex = (currentLessonIndex + 1) % filteredLessons.length;
       setCurrentLessonIndex(newIndex);
       if (newIndex !== 0) {
@@ -152,13 +163,28 @@ export default function LearnScreen() {
     }
   };
 
-  const handleSwipeRight = () => {
-    // Like the card and then load next card
+  const handleSwipeRight = async () => {
+    // Swipe right = like action (1 XP only)
     console.log('Swipe right - liking lesson', currentLesson?.id);
 
     if (currentLesson) {
       // Toggle like for the lesson
       store.toggleLike(currentLesson.id);
+
+      // Award XP for swipe right (like) action
+      await rewardSystem.awardXP(
+        currentLesson.id,
+        'swipe_right',
+        currentLesson,
+        (xp, description, bonuses) => {
+          if (xp > 0) {
+            store.addXp(xp);
+            setXpGained(xp);
+            setXpDescription(`Liked card (${description})`);
+            setShowXPNotification(true);
+          }
+        }
+      );
 
       // Load next card after liking (loop back to beginning if at end)
       const newIndex = (currentLessonIndex + 1) % filteredLessons.length;
@@ -169,7 +195,24 @@ export default function LearnScreen() {
     }
   };
 
-  const handleSwipeUp = () => {
+  const handleSwipeUp = async () => {
+    // Swipe up = next card action (1 XP only)
+    if (currentLesson) {
+      await rewardSystem.awardXP(
+        currentLesson.id,
+        'swipe_up',
+        currentLesson,
+        (xp, description, bonuses) => {
+          if (xp > 0) {
+            store.addXp(xp);
+            setXpGained(xp);
+            setXpDescription(`Next card (${description})`);
+            setShowXPNotification(true);
+          }
+        }
+      );
+    }
+
     // Load next card (loop back to beginning if at end)
     const newIndex = (currentLessonIndex + 1) % filteredLessons.length;
     setCurrentLessonIndex(newIndex);
@@ -192,6 +235,16 @@ export default function LearnScreen() {
     setCurrentLessonIndex(0); // Reset to first card when changing topic
   };
 
+  // Handle XP awards from card interactions
+  const handleCardXPAward = (xp: number, description: string) => {
+    store.addXp(xp);
+    setXpGained(xp);
+    setXpDescription(description);
+    setShowXPNotification(true);
+  };
+
+
+
   // Show loading indicator while lessons are being loaded
   if (loading) {
     return (
@@ -211,6 +264,8 @@ export default function LearnScreen() {
         selectedTopic={selectedTopic}
         onTopicSelect={handleTopicSelect}
       />
+      
+
 
       <View style={styles.cardContainer}>
         {/* Render multiple cards for Tinder-style stacking with optimization */}
@@ -232,6 +287,7 @@ export default function LearnScreen() {
               onSwipeDown={isTopCard ? handleSwipeDown : () => {}}
               index={cardIndex}
               isTopCard={isTopCard}
+              onXPAwarded={handleCardXPAward}
             />
           );
         })}
@@ -239,8 +295,8 @@ export default function LearnScreen() {
 
       <XPNotification
         visible={showXPNotification}
-        xpGained={xpGained}
-        onComplete={() => setShowXPNotification(false)}
+        xp={xpGained}
+        onHide={() => setShowXPNotification(false)}
       />
 
       {/* Performance monitoring removed */}

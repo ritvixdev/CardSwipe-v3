@@ -12,6 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import CodeBlock from '@/components/CodeBlock';
 import EnhancedMarkdown from '@/components/EnhancedMarkdown';
 import Markdown from 'react-native-markdown-display';
+import XPNotification from '@/components/XPNotification';
 
 export default function LessonDetailScreen() {
   const { id } = useLocalSearchParams();
@@ -28,6 +29,11 @@ export default function LessonDetailScreen() {
   const [lesson, setLesson] = useState<LearnCard | null>(null);
   const [lessons, setLessons] = useState<LearnCard[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // XP notification state
+  const [showXPNotification, setShowXPNotification] = useState(false);
+  const [xpGained, setXpGained] = useState(0);
+  const [xpDescription, setXpDescription] = useState('');
   
   // Load lesson and all lessons asynchronously
   useEffect(() => {
@@ -73,6 +79,13 @@ export default function LessonDetailScreen() {
   }, [fadeAnim, slideAnim, loading, lesson]);
   
   const lessonProgress = progress[lessonId] || { completed: false, bookmarked: false, liked: false };
+  
+  // Auto-complete lessons without quizzes when viewed
+  useEffect(() => {
+    if (lesson && !lesson.quiz && !lessonProgress.completed) {
+      markAsCompleted(lessonId);
+    }
+  }, [lesson, lessonProgress.completed, lessonId, markAsCompleted]);
   
   // Show loading indicator
   if (loading) {
@@ -147,6 +160,12 @@ export default function LessonDetailScreen() {
     }
   };
   
+  const handleXPAwarded = (xp: number, description: string) => {
+    setXpGained(xp);
+    setXpDescription(description);
+    setShowXPNotification(true);
+  };
+  
   // Find previous and next lessons
   const currentIndex = lessons.findIndex(l => l.id === lessonId);
   const prevLesson = currentIndex > 0 ? lessons[currentIndex - 1] : null;
@@ -184,7 +203,11 @@ export default function LessonDetailScreen() {
             style={[
               styles.actionButton, 
               { backgroundColor: themeColors.card, borderColor: themeColors.border },
-              lessonProgress.completed && { 
+              // Show as completed if:
+              // 1. Lesson has no quiz and is marked as completed (viewed)
+              // 2. Lesson has a quiz and it was answered correctly (score >= 70)
+              ((lesson.quiz && lessonProgress.score !== undefined && lessonProgress.score >= 70) || 
+               (!lesson.quiz && lessonProgress.completed)) && { 
                 backgroundColor: 'rgba(34, 197, 94, 0.35)',
                 borderColor: 'rgba(34, 197, 94, 0.5)'
               },
@@ -193,9 +216,11 @@ export default function LessonDetailScreen() {
           >
             <Text style={{
               fontSize: 20,
-              color: lessonProgress.completed ? '#22c55e' : themeColors.textSecondary
+              color: ((lesson.quiz && lessonProgress.score !== undefined && lessonProgress.score >= 70) || 
+                     (!lesson.quiz && lessonProgress.completed)) ? '#22c55e' : themeColors.textSecondary
             }}>
-              {lessonProgress.completed ? '✅' : '⭕'}
+              {((lesson.quiz && lessonProgress.score !== undefined && lessonProgress.score >= 70) || 
+                (!lesson.quiz && lessonProgress.completed)) ? '✅' : '⭕'}
             </Text>
           </View>
           
@@ -265,8 +290,10 @@ export default function LessonDetailScreen() {
           {lesson.quiz && (
             <QuizCard 
               quiz={lesson.quiz} 
-              lessonId={lessonId} 
+              lessonId={parseInt(lessonId)} 
+              lesson={lesson}
               onQuizComplete={handleQuizComplete}
+              onXPAwarded={handleXPAwarded}
             />
           )}
         </View>
@@ -274,6 +301,14 @@ export default function LessonDetailScreen() {
 
       </ScrollView>
       </Animated.View>
+      
+      {/* XP Notification */}
+      <XPNotification
+        visible={showXPNotification}
+        xp={xpGained}
+        description={xpDescription}
+        onHide={() => setShowXPNotification(false)}
+      />
     </View>
   );
 }

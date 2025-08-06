@@ -3,21 +3,25 @@ import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { Quiz } from '@/types/lesson';
 import { useProgressStore } from '@/store/useProgressStore';
+import { rewardSystem } from '@/services/RewardSystem';
 import * as Haptics from 'expo-haptics';
 
 interface QuizCardProps {
   quiz: Quiz;
   lessonId: number;
+  lesson?: any;
   onQuizComplete?: (correct: boolean) => void;
+  onXPAwarded?: (xp: number, description: string) => void;
 }
 
-export default function QuizCard({ quiz, lessonId, onQuizComplete }: QuizCardProps) {
+export default function QuizCard({ quiz, lessonId, lesson, onQuizComplete, onXPAwarded }: QuizCardProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
-  const addXp = useProgressStore((state) => state.addXp);
+  const [xpAwarded, setXpAwarded] = useState(0);
   const themeColors = useThemeColors();
+  const { addQuizScore } = useProgressStore();
   
-  const handleOptionSelect = (option: string) => {
+  const handleOptionSelect = async (option: string) => {
     if (isAnswered) return;
     
     if (Platform.OS !== 'web') {
@@ -29,9 +33,23 @@ export default function QuizCard({ quiz, lessonId, onQuizComplete }: QuizCardPro
     
     const isCorrect = option === quiz.answer;
     
-    // Award XP if correct
+    // Calculate and save quiz score (100 for correct, 0 for incorrect)
+    const score = isCorrect ? 100 : 0;
+    addQuizScore(lessonId.toString(), score);
+    
+    // Award XP if correct using new reward system
     if (isCorrect) {
-      addXp(10);
+      await rewardSystem.awardXP(
+        lessonId.toString(),
+        'quiz_completed',
+        lesson,
+        (xp, description, bonuses) => {
+          if (xp > 0) {
+            setXpAwarded(xp);
+            onXPAwarded?.(xp, `${description}${bonuses.length > 0 ? ` (${bonuses.join(', ')})` : ''}`);
+          }
+        }
+      );
     }
     
     // Notify parent component about quiz completion
@@ -91,7 +109,7 @@ export default function QuizCard({ quiz, lessonId, onQuizComplete }: QuizCardPro
       {isAnswered && (
         <View style={[styles.resultContainer, { backgroundColor: themeColors.background }]}>
           {selectedOption === quiz.answer ? (
-            <Text style={[styles.correctText, { color: themeColors.success }]}>Correct! +10 XP</Text>
+            <Text style={[styles.correctText, { color: themeColors.success }]}>Correct! +{xpAwarded || 5} XP</Text>
           ) : (
             <View>
               <Text style={[styles.incorrectText, { color: themeColors.error }]}>Incorrect</Text>

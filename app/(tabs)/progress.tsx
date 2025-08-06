@@ -3,9 +3,11 @@ import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Animated, Dimensi
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
+import { useRewardSystem } from '@/hooks/useRewardSystem';
 import { getAllLessons } from '@/data/processors/dataLoader';
 import { router } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import RewardSystemStats from '@/components/RewardSystemStats';
 // Gamified Progress Page with Achievements and Rewards
 import {
   Calendar,
@@ -41,12 +43,14 @@ export default function ProgressScreen() {
     getXpForNextLevel,
   } = useProgressStore();
 
+  const { getRewardStats } = useRewardSystem();
   const themeColors = useThemeColors();
   const insets = useSafeAreaInsets();
 
   const [selectedTab, setSelectedTab] = useState<'overview' | 'achievements' | 'stats'>('overview');
   const [animatedValue] = useState(new Animated.Value(0));
   const [lessons, setLessons] = useState<any[]>([]);
+  const [rewardStats, setRewardStats] = useState(null);
 
   // Load lessons on component mount
   useEffect(() => {
@@ -62,8 +66,29 @@ export default function ProgressScreen() {
     loadLessons();
   }, []);
 
-  // Calculate stats
-  const completedCount = Object.values(progress).filter(p => p.completed).length;
+  // Load reward stats
+  useEffect(() => {
+    const loadRewardStats = async () => {
+      try {
+        const stats = await getRewardStats();
+        setRewardStats(stats);
+      } catch (error) {
+        console.error('Failed to load reward stats:', error);
+      }
+    };
+    loadRewardStats();
+  }, []);
+
+  // Calculate stats with proper quiz completion logic
+  const completedCount = lessons.filter(lesson => {
+    const lessonProgress = progress[lesson.id];
+    if (!lessonProgress) return false;
+    
+    // Check if lesson is truly completed based on quiz requirements
+    return lesson.quiz 
+      ? (lessonProgress.score !== undefined && lessonProgress.score >= 70) // Quiz lessons need passing score
+      : lessonProgress.completed; // Non-quiz lessons just need to be marked as completed
+  }).length;
   const totalLessons = lessons.length;
   const completionPercentage = totalLessons > 0 ? (completedCount / totalLessons) * 100 : 0;
   const currentLevel = getLevel();
@@ -133,8 +158,18 @@ export default function ProgressScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     }
 
-    // Find the next incomplete lesson
-    const nextLesson = lessons.find(lesson => !progress[lesson.id]?.completed);
+    // Find the next incomplete lesson using proper completion logic
+    const nextLesson = lessons.find(lesson => {
+      const lessonProgress = progress[lesson.id];
+      if (!lessonProgress) return true; // Not started = incomplete
+      
+      // Check if lesson is truly completed based on quiz requirements
+      const isCompleted = lesson.quiz 
+        ? (lessonProgress.score !== undefined && lessonProgress.score >= 70) // Quiz lessons need passing score
+        : lessonProgress.completed; // Non-quiz lessons just need to be marked as completed
+      
+      return !isCompleted;
+    });
 
     if (nextLesson) {
       router.push(`/lesson/${nextLesson.id}`);
@@ -429,7 +464,7 @@ export default function ProgressScreen() {
                   <View style={styles.calendarStats}>
                     <View style={styles.calendarStat}>
                       <Text style={[styles.calendarStatValue, { color: themeColors.text }]}>
-                        {Object.values(progress).filter(p => p.completed).length}
+                        {completedCount}
                       </Text>
                       <Text style={[styles.calendarStatLabel, { color: themeColors.textSecondary }]}>
                         Total lessons
@@ -669,6 +704,17 @@ export default function ProgressScreen() {
                 </View>
               </View>
             </View>
+
+            {/* Reward System Stats */}
+            {rewardStats && (
+              <View style={[styles.card, { backgroundColor: themeColors.card }]}>
+                <View style={styles.cardHeader}>
+                  <Award size={20} color={themeColors.primary} />
+                  <Text style={[styles.cardTitle, { color: themeColors.text }]}>Reward Analytics</Text>
+                </View>
+                <RewardSystemStats />
+              </View>
+            )}
           </>
         )}
 
@@ -768,6 +814,15 @@ export default function ProgressScreen() {
                   <Text style={[styles.statRowValue, { color: themeColors.text }]}>{achievements.length}</Text>
                 </View>
               </View>
+            </View>
+
+            {/* Reward System Stats */}
+            <View style={[styles.card, { backgroundColor: themeColors.card }]}>
+              <View style={styles.cardHeader}>
+                <Trophy size={20} color={themeColors.primary} />
+                <Text style={[styles.cardTitle, { color: themeColors.text }]}>Reward System Analytics</Text>
+              </View>
+              <RewardSystemStats />
             </View>
 
             {/* Learning Insights */}
