@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "functions-notes-016",
+    "topic": "functions",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "intermediate",
+    "tags": [
+      "functions",
+      "day-16",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.123Z"
+  },
+  "notes": [
+    {
+      "id": "functions-note-016",
+      "title": "16_day_json - Study Notes",
+      "category": "functions",
+      "difficulty": "intermediate",
+      "readTime": 15,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: JSON</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 15](../15_Day_Classes/15_day_classes.md) | [Day 17 >>](../17_Day_Web_storages/17_day_web_storages.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_16.png)\n\n- [Day 16](day-16)\n\t- [JSON](json)\n\t\t- [Converting JSON to JavaScript Object](converting-json-to-javascript-object)\n\t\t\t- [JSON.parse()](jsonparse)\n\t\t- [Using a reviver function with JSON.parse()](using-a-reviver-function-with-jsonpar",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: JSON</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 16](#day-16)",
+        "[JSON](#json)",
+        "[Converting JSON to JavaScript Object](#converting-json-to-javascript-object)",
+        "[JSON.parse()](#jsonparse)"
+      ],
+      "tags": [
+        "functions",
+        "day-16",
+        "notes"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "metadata": {
+    "topicId": "objects",
+    "name": "Objects & Classes",
+    "description": "Object-oriented programming, classes, and advanced object concepts",
+    "difficulty": "intermediate",
+    "estimatedHours": 12,
+    "prerequisites": [
+      "functions"
+    ],
+    "tags": [
+      "objects",
+      "intermediate"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T09:04:49.586Z",
+    "updatedAt": "2025-08-07T09:04:49.586Z"
+  },
+  "structure": {
+    "totalFiles": 25,
+    "cardFiles": 15,
+    "noteFiles": 5,
+    "quizFiles": 5,
+    "days": [
+      21,
+      22,
+      23,
+      24,
+      25
+    ]
+  },
+  "files": {
+    "cards": [
+      {
+        "fileId": "objects-006-1754557488949",
+        "path": "learn/cards/objects/objects-006-1754557488949.json",
+        "day": 1754557488949,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-007-1754557488953",
+        "path": "learn/cards/objects/objects-007-1754557488953.json",
+        "day": 1754557488953,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-008-1754557488955",
+        "path": "learn/cards/objects/objects-008-1754557488955.json",
+        "day": 1754557488955,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-009-1754557488959",
+        "path": "learn/cards/objects/objects-009-1754557488959.json",
+        "day": 1754557488959,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-010-1754557488961",
+        "path": "learn/cards/objects/objects-010-1754557488961.json",
+        "day": 1754557488961,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-011-1754557488964",
+        "path": "learn/cards/objects/objects-011-1754557488964.json",
+        "day": 1754557488964,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-012-1754557488966",
+        "path": "learn/cards/objects/objects-012-1754557488966.json",
+        "day": 1754557488966,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-013-1754557488972",
+        "path": "learn/cards/objects/objects-013-1754557488972.json",
+        "day": 1754557488972,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-014-1754557488975",
+        "path": "learn/cards/objects/objects-014-1754557488975.json",
+        "day": 1754557488975,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-015-1754557488979",
+        "path": "learn/cards/objects/objects-015-1754557488979.json",
+        "day": 1754557488979,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-021",
+        "path": "learn/cards/objects/objects-021.json",
+        "day": 21,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-022",
+        "path": "learn/cards/objects/objects-022.json",
+        "day": 22,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-023",
+        "path": "learn/cards/objects/objects-023.json",
+        "day": 23,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-024",
+        "path": "learn/cards/objects/objects-024.json",
+        "day": 24,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "objects-025",
+        "path": "learn/cards/objects/objects-025.json",
+        "day": 25,
+        "estimatedCards": 2
+      }
+    ],
+    "notes": [
+      {
+        "fileId": "objects-notes-021",
+        "path": "explore/javascript-notes/objects-notes-021.json",
+        "day": 21
+      },
+      {
+        "fileId": "objects-notes-022",
+        "path": "explore/javascript-notes/objects-notes-022.json",
+        "day": 22
+      },
+      {
+        "fileId": "objects-notes-023",
+        "path": "explore/javascript-notes/objects-notes-023.json",
+        "day": 23
+      },
+      {
+        "fileId": "objects-notes-024",
+        "path": "explore/javascript-notes/objects-notes-024.json",
+        "day": 24
+      },
+      {
+        "fileId": "objects-notes-025",
+        "path": "explore/javascript-notes/objects-notes-025.json",
+        "day": 25
+      }
+    ],
+    "quizzes": [
+      {
+        "fileId": "objects-quiz-021",
+        "path": "explore/practice-quiz/objects-quiz-021.json",
+        "day": 21
+      },
+      {
+        "fileId": "objects-quiz-022",
+        "path": "explore/practice-quiz/objects-quiz-022.json",
+        "day": 22
+      },
+      {
+        "fileId": "objects-quiz-023",
+        "path": "explore/practice-quiz/objects-quiz-023.json",
+        "day": 23
+      },
+      {
+        "fileId": "objects-quiz-024",
+        "path": "explore/practice-quiz/objects-quiz-024.json",
+        "day": 24
+      },
+      {
+        "fileId": "objects-quiz-025",
+        "path": "explore/practice-quiz/objects-quiz-025.json",
+        "day": 25
+      }
+    ]
+  },
+  "progression": {
+    "unlockCriteria": {
+      "type": "sequential",
+      "requiresPrevious": true
+    },
+    "rewards": {
+      "completionXP": 600,
+      "masteryBadge": "objects-master",
+      "nextUnlock": "dom"
+    }
+  },
+  "analytics": {
+    "averageCompletionTime": "12 hours",
+    "difficultyRating": 4,
+    "popularityScore": 85
+  }
+}

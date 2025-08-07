@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "control-flow-notes-011",
+    "topic": "control-flow",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "intermediate",
+    "tags": [
+      "control-flow",
+      "day-11",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.071Z"
+  },
+  "notes": [
+    {
+      "id": "control-flow-note-011",
+      "title": "11_day_destructuring_and_spreading - Study Notes",
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "readTime": 16,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Destructuring and Spreading</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 10](../10_Day_Sets_and_Maps/10_day_Sets_and_Maps.md) | [Day 12>>](../12_Day_Regular_expressions/12_day_regular_expressions.md)\n\n![Day 11](../images/banners/day_1_11.png)\n\n- [Day 11](day-11)\n\t- [Destructuring and Spread](destructuring-and-spread)\n\t\t- [Destructing Arrays](destructing-arrays)\n\t\t- [Destructuring during iteration](destructuring-during-iteration)\n\t\t- [Dest",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Destructuring and Spreading</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 11](#day-11)",
+        "[Destructuring and Spread](#destructuring-and-spread)",
+        "[Destructing Arrays](#destructing-arrays)",
+        "[Destructuring during iteration](#destructuring-during-iteration)"
+      ],
+      "tags": [
+        "control-flow",
+        "day-11",
+        "notes"
+      ]
+    }
+  ]
+}

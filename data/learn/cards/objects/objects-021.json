@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "fileId": "objects-021",
+    "topic": "objects",
+    "subtopic": "21_day_dom",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "advanced",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-20"
+    ],
+    "tags": [
+      "objects",
+      "day-21"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.174Z",
+    "updatedAt": "2025-08-07T08:51:50.174Z"
+  },
+  "cards": [
+    {
+      "id": "objects-021-001",
+      "title": "21_day_dom",
+      "day": 21,
+      "category": "objects",
+      "difficulty": "advanced",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Document Object Model(DOM)</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Document Object Model(DOM)</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 20](../20_Day_Writing_clean_codes/20_day_writing_clean_codes.md) | [Day 22 >>](../22_Day_Manipulating_DOM_object/22_day_manipulating_DOM_object.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_21.png)\n\n- [Day 21](day-21)\n\t- [Document Object Model (DOM) - Day 1](document-object-model-dom---day-1)\n\t\t- [Getting Element](getting-element)\n\t\t\t- [Getting elements by tag name](getting-elements-by-tag-name)\n\t\t\t- [Getting elements by class name](getting-elements-by-class-name)\n\t\t\t- [Getting an element by id](getting-an-element-by-id)\n\t\t\t- [Getting elements by using querySelector methods](getting-elements-by-using-queryselector-methods)\n\t\t- [Adding attribute](adding-attribute)\n\t\t\t- [Adding attribute using setAttribute](adding-attribute-using-setattribute)\n\t\t\t- [Adding attribute without setAttribute](adding-attribute-without-setattribute)\n\t\t\t- [Adding class using classList](adding-class-using-classlist)\n\t\t\t- [Removing class using remove](removing-class-using-remove)\n\t\t- [Adding Text to HTML element](adding-text-to-html-element)\n\t\t\t- [Adding Text content using textContent](adding-text-content-using-textcontent)\n\t\t\t- [Adding Text Content using innerHTML](adding-text-content-using-innerhtml)\n\t\t\t\t- [Text Content](text-content)\n\t\t\t\t- [Inner HTML](inner-html)\n\t\t- [Adding style](adding-style)\n\t\t\t- [Adding Style Color](adding-style-color)\n\t\t\t- [Adding Style Background Color](adding-style-background-color)\n\t\t\t- [Adding Style Font Size](adding-style-font-size)\n\t- [Exercises](exercises)\n\t\t- [Exercise: Level 1](exercise-level-1)\n\t\t- [Exercise: Level 2](exercise-level-2)\n\t\t- [Exercise: Level 3](exercise-level-3)\n\t\t\t- [DOM: Mini project 1](dom-mini-project-1)\n\nDay 21",
+      "codeExample": "<!DOCTYPE html>\n  <html lang=\"en\">\n    <head>\n      <title>Document Object Model</title>\n    </head>\n    <body>\n\n     <h1 class='title' id='first-title'>First Title</h1>\n     <h1 class='title' id='second-title'>Second Title</h1>\n     <h1 class='title' id='third-title'>Third Title</h1>\n     <h1></h1>\n\n    </body>\n  </html>",
+      "keyPoints": [
+        "[Day 21](#day-21)",
+        "[Document Object Model (DOM) - Day 1](#document-object-model-dom---day-1)",
+        "[Getting Element](#getting-element)",
+        "[Getting elements by tag name](#getting-elements-by-tag-name)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "objects",
+        "day-21"
+      ]
+    },
+    {
+      "id": "objects-021-002",
+      "title": "21_day_dom - Part 2",
+      "day": 21,
+      "category": "objects",
+      "difficulty": "advanced",
+      "estimatedTime": "2 min",
+      "description": "Document Object Model (DOM) - Day 1\n\nHTML document is structured as a JavaScript Object....",
+      "content": "Document Object Model (DOM) - Day 1\n\nHTML document is structured as a JavaScript Object. Every HTML element has a different properties which can help to manipulate it. It is possible to get, create, append or remove HTML elements using JavaScript. Check the examples below. Selecting HTML element using JavaScript is similar to selecting using CSS. To select an HTML element, we use tag name, id, class name or other attributes.\n\nGetting Element\n\nWe can access already created element or elements using JavaScript. To access or get elements we use different methods. The code below has four _h1_ elements. Let us see the different methods to access the _h1_ elements.\n\n`html\n<!DOCTYPE html>\n  <html lang=\"en\">\n    <head>\n      <title>Document Object Model</title>\n    </head>\n    <body>\n\n     <h1 class='title' id='first-title'>First Title</h1>\n     <h1 class='title' id='second-title'>Second Title</h1>\n     <h1 class='title' id='third-title'>Third Title</h1>\n     <h1></h1>\n\n    </body>\n  </html>\n`\n\nGetting elements by tag name\n\n_getElementsByTagName()_:takes a tag name as a string parameter and this method returns an HTMLCollection object. An HTMLCollection is an array like object of HTML elements. The length property provides the size of the collection. Whenever we use this method we access the individual elements using index or after loop through each individual items. An HTMLCollection does not support all array methods therefore we should use regular for loop instead of forEach.\n\n`js\n// syntax\ndocument.getElementsByTagName('tagname')\n`\n\n`js\nconst allTitles = document.getElementsByTagName('h1')\n\nconsole.log(allTitles) //HTMLCollections\nconsole.log(allTitles.length) // 4\n\nfor (let i = 0; i < allTitles.length; i++) {\n  console.log(allTitles[i]) // prints each elements in the HTMLCollection\n}\n`\n\nGetting elements by class name\n\n_getElementsByClassName()_ method returns an HTMLCollection object. An HTMLCollection is an array like list of HTML elements. The length property provides the size of the collection. It is possible to loop through all the HTMLCollection elements. See the example below\n\n`js\n//syntax\ndocument.getElementsByClassName('classname')\n`\n\n`js\nconst allTitles = document.getElementsByClassName('title')\n\nconsole.log(allTitles) //HTMLCollections\nconsole.log(allTitles.length) // 4\n\nfor (let i = 0; i < allTitles.length; i++) {\n  console.log(allTitles[i]) // prints each elements in the HTMLCollection\n}\n`\n\nGetting an element by id\n\n_getElementsById()_ targets a single HTML element. We pass the id without as an argument.\n\n`js\n//syntax\ndocument.getElementById('id')\n`\n\n`js\nlet firstTitle = document.getElementById('first-title')\nconsole.log(firstTitle) // <h1>First Title</h1>\n`\n\nGetting elements by using querySelector methods\n\nThe _document.querySelector_ method can select an HTML or HTML elements by tag name, by id or by class name.\n\n_querySelector_: can be used to select HTML element by its tag name, id or class. If the tag name is used it selects only the first element.\n\n`js\nlet firstTitle = document.querySelector('h1') // select the first available h1 element\nlet firstTitle = document.querySelector('first-title') // select id with first-title\nlet firstTitle = document.querySelector('.title') // select the first available element with class title\n`\n\n_querySelectorAll_: can be used to select html elements by its tag name or class. It returns a nodeList which is an array like object which supports array methods. We can use _for loop_ or _forEach_ to loop through each nodeList elements.\n\n`js\nconst allTitles = document.querySelectorAll('h1') selects all the available h1 elements in the page\n\nconsole.log(allTitles.length) // 4\nfor (let i = 0; i < allTitles.length; i++) {\n  console.log(allTitles[i])\n}\n\nallTitles.forEach(title => console.log(title))\nconst allTitles = document.querySelectorAll('.title') // the same goes for selecting using class\n`\n\nAdding attribute\n\nAn attribute is added in the opening tag of HTML which gives additional information about the element. Common HTML attributes: id, class, src, style, href,disabled, title, alt. Lets add id and class for the fourth title.\n\n`js\nconst titles = document.querySelectorAll('h1')\ntitles[3].className = 'title'\ntitles[3].id = 'fourth-title'\n`\n\nAdding attribute using setAttribute\n\nThe _setAttribute()_ method set any html attribute. It takes two parameters the type of the attribute and the name of the attribute.\nLet's add class and id attribute for the fourth title.\n\n`js\nconst titles = document.querySelectorAll('h1')\ntitles[3].setAttribute('class', 'title')\ntitles[3].setAttribute('id', 'fourth-title')\n`\n\nAdding attribute without setAttribute\n\nWe can use normal object setting method to set an attribute but this can not work for all elements. Some attributes are DOM object property and they can be set directly. For instance id and class\n\n`js\n//another way to setting an attribute\ntitles[3].className = 'title'\ntitles[3].id = 'fourth-title'\n`\n\nAdding class using classList\n\nThe class list method is a good method to append additional class. It does not override the original class if a class exists rather it adds additional class for the element.\n\n`js\n//another way to setting an attribute: append the class, doesn't over ride\ntitles[3].classList.add('title', 'header-title')\n`\n\nRemoving class using remove\n\nSimilar to adding we can also remove class from an element. We can remove a specific class from an element.\n\n`js\n//another way to setting an attribute: append the class, doesn't over ride\ntitles[3].classList.remove('title', 'header-title')\n`\n\nAdding Text to HTML element\n\nAn HTML is a build block of an opening tag, a closing tag and a text content. We can add a text content using the property _textContent_ or \\*innerHTML.\n\nAdding Text content using textContent\n\nThe _textContent_ property is used to add text to an HTML element.\n\n`js\nconst titles = document.querySelectorAll('h1')\ntitles[3].textContent = 'Fourth Title'\n`\n\nAdding Text Content using innerHTML\n\nMost people get confused between _textContent_ and _innerHTML_. _textContent_ is meant to add text to an HTML element, however innerHTML can add a text or HTML element or elements as a child.\n\nText Content\n\nWe assign textContent HTML object property to a text\n\n`js\nconst titles = document.querySelectorAll('h1')\ntitles[3].textContent = 'Fourth Title'\n`\n\nInner HTML\n\nWe use innerHTML property when we like to replace or a completely new children content to a parent element.\nIt value we assign is going to be a string of HTML elements.\n\n`html\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <title>JavaScript for Everyone:DOM</title>\n  </head>\n  <body>\n    <div class=\"wrapper\">\n        <h1>Asabeneh Yetayeh challenges in 2020</h1>\n        <h2>30DaysOfJavaScript Challenge</h2>\n        <ul></ul>\n    </div>\n    <script>\n    const lists = `\n    <li>30DaysOfPython Challenge Done</li>\n            <li>30DaysOfJavaScript Challenge Ongoing</li>\n            <li>30DaysOfReact Challenge Coming</li>\n            <li>30DaysOfFullStack Challenge Coming</li>\n            <li>30DaysOfDataAnalysis Challenge Coming</li>\n            <li>30DaysOfReactNative Challenge Coming</li>\n            <li>30DaysOfMachineLearning Challenge Coming</li>`\n  const ul = document.querySelector('ul')\n  ul.innerHTML = lists\n    </script>\n  </body>\n</html>\n`\n\nThe innerHTML property can allow us also to remove all the children of a parent element. Instead of using removeChild() I would recommend the following method.\n\n`html\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <title>JavaScript for Everyone:DOM</title>\n  </head>\n  <body>\n    <div class=\"wrapper\">\n        <h1>Asabeneh Yetayeh challenges in 2020</h1>\n        <h2>30DaysOfJavaScript Challenge</h2>\n        <ul>\n            <li>30DaysOfPython Challenge Done</li>\n            <li>30DaysOfJavaScript Challenge Ongoing</li>\n            <li>30DaysOfReact Challenge Coming</li>\n            <li>30DaysOfFullStack Challenge Coming</li>\n            <li>30DaysOfDataAnalysis Challenge Coming</li>\n            <li>30DaysOfReactNative Challenge Coming</li>\n            <li>30DaysOfMachineLearning Challenge Coming</li>\n        </ul>\n    </div>\n    <script>\n  const ul = document.querySelector('ul')\n  ul.innerHTML = ''\n    </script>\n  </body>\n</html>\n`\n\nAdding style\n\nAdding Style Color\n\nLet us add some style to our titles. If the element has even index we give it green color else red.\n\n`js\nconst titles = document.querySelectorAll('h1')\ntitles.forEach((title, i) => {\n  title.style.fontSize = '24px' // all titles will have 24px font size\n  if (i % 2 === 0) {\n    title.style.color = 'green'\n  } else {\n    title.style.color = 'red'\n  }\n})\n`\n\nAdding Style Background Color\n\nLet us add some style to our titles. If the element has even index we give it green color else red.\n\n`js\nconst titles = document.querySelectorAll('h1')\ntitles.forEach((title, i) => {\n  title.style.fontSize = '24px' // all titles will have 24px font size\n  if (i % 2 === 0) {\n    title.style.backgroundColor = 'green'\n  } else {\n    title.style.backgroundColor = 'red'\n  }\n})\n`\n\nAdding Style Font Size\n\nLet us add some style to our titles. If the element has even index we give it 20px else 30px\n\n`js\nconst titles = document.querySelectorAll('h1')\ntitles.forEach((title, i) => {\n  title.style.fontSize = '24px' // all titles will have 24px font size\n  if (i % 2 === 0) {\n    title.style.fontSize = '20px'\n  } else {\n    title.style.fontSize = '30px'\n  }\n})\n`\n\nAs you have notice, the properties of css when we use it in JavaScript is going to be a camelCase. The  following CSS properties change from background-color to backgroundColor, font-size to fontSize, font-family to fontFamily, margin-bottom to marginBottom.\n\n---\n\n🌕 Now,  you are fully charged with a super power, you have completed the most important and challenging part of the challenge and in general JavaScript. You learned DOM and now you have the capability to build and develop applications. Now do some exercises for your brain and for your muscle.",
+      "codeExample": "<!DOCTYPE html>\n  <html lang=\"en\">\n    <head>\n      <title>Document Object Model</title>\n    </head>\n    <body>\n\n     <h1 class='title' id='first-title'>First Title</h1>\n     <h1 class='title' id='second-title'>Second Title</h1>\n     <h1 class='title' id='third-title'>Third Title</h1>\n     <h1></h1>\n\n    </body>\n  </html>",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "objects",
+        "day-21"
+      ]
+    },
+    {
+      "id": "objects-021-003",
+      "title": "21_day_dom - Part 3",
+      "day": 21,
+      "category": "objects",
+      "difficulty": "advanced",
+      "estimatedTime": "2 min",
+      "description": "Exercises\n\n### Exercise: Level 1\n\n1....",
+      "content": "Exercises\n\nExercise: Level 1\n\n1. Create an index.html file and put four p elements as above: Get the first paragraph by using _document.querySelector(tagname)_ and tag name\n2. Get each of the the paragraph using _document.querySelector('id')_ and by their id\n3. Get all the p as nodeList using _document.querySelectorAll(tagname)_ and by their tag name\n4. Loop through the nodeList and get the text content of each paragraph\n5. Set a text content to paragraph the fourth paragraph,_Fourth Paragraph_\n6. Set id and class attribute for all the paragraphs using different attribute setting methods\n\nExercise: Level 2\n\n1. Change stye of each paragraph using JavaScript(eg. color, background, border, font-size, font-family)\n1. Select all paragraphs and loop through each elements and give the first and third paragraph a color of green, and the second and the fourth paragraph a red color\n1. Set text content, id and class to each paragraph\n\nExercise: Level 3\n\nDOM: Mini project 1\n\n1. Develop the following application, use the following HTML elements to get started with. You will get the same code on starter folder.  Apply all the styles and functionality using JavaScript only.\n\n   - The year color is changing every 1 second\n   - The date and time background color is changing every on seconds\n   - Completed challenge has background green\n   - Ongoing challenge has background yellow\n   - Coming challenges have background red\n\n`html\n<!-- index.html -->\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <title>JavaScript for Everyone:DOM</title>\n  </head>\n  <body>\n    <div class=\"wrapper\">\n        <h1>Asabeneh Yetayeh challenges in 2020</h1>\n        <h2>30DaysOfJavaScript Challenge</h2>\n        <ul>\n            <li>30DaysOfPython Challenge Done</li>\n            <li>30DaysOfJavaScript Challenge Ongoing</li>\n            <li>30DaysOfReact Challenge Coming</li>\n            <li>30DaysOfFullStack Challenge Coming</li>\n            <li>30DaysOfDataAnalysis Challenge Coming</li>\n            <li>30DaysOfReactNative Challenge Coming</li>\n            <li>30DaysOfMachineLearning Challenge Coming</li>\n        </ul>\n    </div>\n  </body>\n</html>\n`\n\n![Project 1](../images/projects/dom_min_project_challenge_info_day_1.1.gif)\n\n![Project 2](../images/projects/dom_min_project_challenge_info_day_1.1.png)\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 20](../20_Day_Writing_clean_codes/20_day_writing_clean_codes.md) | [Day 22 >>](../22_Day_Manipulating_DOM_object/22_day_manipulating_DOM_object.md)",
+      "codeExample": "<!-- index.html -->\n<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <title>JavaScript for Everyone:DOM</title>\n  </head>\n  <body>\n    <div class=\"wrapper\">\n        <h1>Asabeneh Yetayeh challenges in 2020</h1>\n        <h2>30DaysOfJavaScript Challenge</h2>\n        <ul>\n            <li>30DaysOfPython Challenge Done</li>\n            <li>30DaysOfJavaScript Challenge Ongoing</li>\n            <li>30DaysOfReact Challenge Coming</li>\n            <li>30DaysOfFullStack Challenge Coming</li>\n            <li>30DaysOfDataAnalysis Challenge Coming</li>\n            <li>30DaysOfReactNative Challenge Coming</li>\n            <li>30DaysOfMachineLearning Challenge Coming</li>\n        </ul>\n    </div>\n  </body>\n</html>",
+      "keyPoints": [
+        "The year color is changing every 1 second",
+        "The date and time background color is changing every on seconds",
+        "Completed challenge has background green",
+        "Ongoing challenge has background yellow"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "objects",
+        "day-21"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "metadata": {
+    "topicId": "control-flow",
+    "name": "Control Flow",
+    "description": "Conditionals, loops, and program flow control",
+    "difficulty": "intermediate",
+    "estimatedHours": 8,
+    "prerequisites": [
+      "fundamentals"
+    ],
+    "tags": [
+      "control-flow",
+      "intermediate"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T09:04:49.581Z",
+    "updatedAt": "2025-08-07T09:04:49.581Z"
+  },
+  "structure": {
+    "totalFiles": 25,
+    "cardFiles": 15,
+    "noteFiles": 5,
+    "quizFiles": 5,
+    "days": [
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "files": {
+    "cards": [
+      {
+        "fileId": "control-flow-006-1754557488783",
+        "path": "learn/cards/control-flow/control-flow-006-1754557488783.json",
+        "day": 1754557488783,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-007-1754557488786",
+        "path": "learn/cards/control-flow/control-flow-007-1754557488786.json",
+        "day": 1754557488786,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-008-1754557488789",
+        "path": "learn/cards/control-flow/control-flow-008-1754557488789.json",
+        "day": 1754557488789,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-009-1754557488792",
+        "path": "learn/cards/control-flow/control-flow-009-1754557488792.json",
+        "day": 1754557488792,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-010-1754557488795",
+        "path": "learn/cards/control-flow/control-flow-010-1754557488795.json",
+        "day": 1754557488795,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-011-1754557488798",
+        "path": "learn/cards/control-flow/control-flow-011-1754557488798.json",
+        "day": 1754557488798,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-011",
+        "path": "learn/cards/control-flow/control-flow-011.json",
+        "day": 11,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-012-1754557488800",
+        "path": "learn/cards/control-flow/control-flow-012-1754557488800.json",
+        "day": 1754557488800,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-012",
+        "path": "learn/cards/control-flow/control-flow-012.json",
+        "day": 12,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-013-1754557488804",
+        "path": "learn/cards/control-flow/control-flow-013-1754557488804.json",
+        "day": 1754557488804,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-013",
+        "path": "learn/cards/control-flow/control-flow-013.json",
+        "day": 13,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-014-1754557488807",
+        "path": "learn/cards/control-flow/control-flow-014-1754557488807.json",
+        "day": 1754557488807,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-014",
+        "path": "learn/cards/control-flow/control-flow-014.json",
+        "day": 14,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-015-1754557488810",
+        "path": "learn/cards/control-flow/control-flow-015-1754557488810.json",
+        "day": 1754557488810,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "control-flow-015",
+        "path": "learn/cards/control-flow/control-flow-015.json",
+        "day": 15,
+        "estimatedCards": 2
+      }
+    ],
+    "notes": [
+      {
+        "fileId": "control-flow-notes-011",
+        "path": "explore/javascript-notes/control-flow-notes-011.json",
+        "day": 11
+      },
+      {
+        "fileId": "control-flow-notes-012",
+        "path": "explore/javascript-notes/control-flow-notes-012.json",
+        "day": 12
+      },
+      {
+        "fileId": "control-flow-notes-013",
+        "path": "explore/javascript-notes/control-flow-notes-013.json",
+        "day": 13
+      },
+      {
+        "fileId": "control-flow-notes-014",
+        "path": "explore/javascript-notes/control-flow-notes-014.json",
+        "day": 14
+      },
+      {
+        "fileId": "control-flow-notes-015",
+        "path": "explore/javascript-notes/control-flow-notes-015.json",
+        "day": 15
+      }
+    ],
+    "quizzes": [
+      {
+        "fileId": "control-flow-quiz-011",
+        "path": "explore/practice-quiz/control-flow-quiz-011.json",
+        "day": 11
+      },
+      {
+        "fileId": "control-flow-quiz-012",
+        "path": "explore/practice-quiz/control-flow-quiz-012.json",
+        "day": 12
+      },
+      {
+        "fileId": "control-flow-quiz-013",
+        "path": "explore/practice-quiz/control-flow-quiz-013.json",
+        "day": 13
+      },
+      {
+        "fileId": "control-flow-quiz-014",
+        "path": "explore/practice-quiz/control-flow-quiz-014.json",
+        "day": 14
+      },
+      {
+        "fileId": "control-flow-quiz-015",
+        "path": "explore/practice-quiz/control-flow-quiz-015.json",
+        "day": 15
+      }
+    ]
+  },
+  "progression": {
+    "unlockCriteria": {
+      "type": "sequential",
+      "requiresPrevious": true
+    },
+    "rewards": {
+      "completionXP": 400,
+      "masteryBadge": "control-flow-master",
+      "nextUnlock": "functions"
+    }
+  },
+  "analytics": {
+    "averageCompletionTime": "8 hours",
+    "difficultyRating": 4,
+    "popularityScore": 85
+  }
+}

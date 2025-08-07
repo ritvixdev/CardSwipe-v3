@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "fileId": "control-flow-012",
+    "topic": "control-flow",
+    "subtopic": "12_day_regular_expressions",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "intermediate",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-11"
+    ],
+    "tags": [
+      "control-flow",
+      "day-12"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.078Z",
+    "updatedAt": "2025-08-07T08:51:50.078Z"
+  },
+  "cards": [
+    {
+      "id": "control-flow-012-001",
+      "title": "12_day_regular_expressions",
+      "day": 12,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Regular Expressions</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Regular Expressions</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 11](../11_Day_Destructuring_and_spreading/11_day_destructuring_and_spreading.md) | [Day 13>>](../13_Day_Console_object_methods/13_day_console_object_methods.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_12.png)\n\n- [📘 Day 12](-day-12)\n\t- [Regular Expressions](regular-expressions)\n\t\t- [RegExp parameters](regexp-parameters)\n\t\t\t- [Pattern](pattern)\n\t\t\t- [Flags](flags)\n\t\t- [Creating a pattern with RegExp Constructor](creating-a-pattern-with-regexp-constructor)\n\t\t- [Creating a pattern without RegExp Constructor](creating-a-pattern-without-regexp-constructor)\n\t\t- [RegExpp Object Methods](regexpp-object-methods)\n\t\t\t- [Testing for  a match](testing-for--a-match)\n\t\t\t- [Array containing all of the match](array-containing-all-of-the-match)\n\t\t\t- [Replacing a substring](replacing-a-substring)\n\t\t- [Square Bracket](square-bracket)\n\t\t- [Escape character(\\\\) in RegExp](escape-character-in-regexp)\n\t\t- [One or more times(+)](one-or-more-times)\n\t\t- [Period(.)](period)\n\t\t- [Zero or more times(*)](zero-or-more-times)\n\t\t- [Zero or one times(?)](zero-or-one-times)\n\t\t- [Quantifier in RegExp](quantifier-in-regexp)\n\t\t- [Cart ^](cart-)\n\t\t- [Exact match](exact-match)\n\t- [💻 Exercises](-exercises)\n\t\t- [Exercises: Level 1](exercises-level-1)\n\t\t- [Exercises: Level 2](exercises-level-2)\n\t\t- [Exercises: Level 3](exercises-level-3)\n\n📘 Day 12",
+      "codeExample": "// without flag\nlet pattern = 'love'\nlet regEx = new RegExp(pattern)",
+      "keyPoints": [
+        "[📘 Day 12](#-day-12)",
+        "[Regular Expressions](#regular-expressions)",
+        "[RegExp parameters](#regexp-parameters)",
+        "[Pattern](#pattern)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-12"
+      ]
+    },
+    {
+      "id": "control-flow-012-002",
+      "title": "12_day_regular_expressions - Part 2",
+      "day": 12,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Regular Expressions\n\nA regular expression or RegExp is a small programming language that helps to find pattern in data....",
+      "content": "Regular Expressions\n\nA regular expression or RegExp is a small programming language that helps to find pattern in data. A RegExp can be used to check if some pattern exists in a different data types. To use RegExp in JavaScript either we use RegExp constructor or we can declare a RegExp pattern using two forward slashes followed by a flag. We can create a pattern in two ways.\n\nTo declare a string we use a single quote, double quote a backtick to declare a regular expression we use two forward slashes and an optional flag. The flag could be g, i, m, s, u or y.\n\nRegExp parameters\n\nA regular expression takes two parameters. One required search pattern and an optional flag.\n\nPattern\n\nA pattern could be a text or any form of pattern which some sort of similarity. For instance the word spam in an email could be a pattern we are interested to look for in an email or a phone number format number might be our interest to look for.\n\nFlags\n\nFlags are optional parameters in a regular expression which determine the type of searching. Let us see some of the flags:\n\n- g: a global flag which means looking for a pattern in whole text\n- i: case insensitive flag(it searches for both lowercase and uppercase)\n- m: multiline\n\nCreating a pattern with RegExp Constructor\n\nDeclaring regular expression without global flag and case insensitive flag.\n\n`js\n// without flag\nlet pattern = 'love'\nlet regEx = new RegExp(pattern)\n`\n\nDeclaring regular expression with global flag and case insensitive flag.\n\n`js\nlet pattern = 'love'\nlet flag = 'gi'\nlet regEx = new RegExp(pattern, flag)\n`\n\nDeclaring a regex pattern using RegExp object. Writing the pattern and the flag inside the RegExp constructor\n\n`js\nlet regEx = new RegExp('love','gi')\n`\n\nCreating a pattern without RegExp Constructor\n\nDeclaring regular expression with global flag and case insensitive flag.\n\n`js\nlet regEx= /love/gi\n`\n\nThe above regular expression is the same as the one which we created with RegExp constructor\n\n`js\nlet regEx= new RegExp('love','gi')\n`\n\nRegExpp Object Methods\n\nLet us see some of RegExp methods\n\nTesting for  a match\n\ntest():Tests for a match in a string. It returns true or false.\n\n`js\nconst str = 'I love JavaScript'\nconst pattern = /love/\nconst result = pattern.test(str)\nconsole.log(result)\n`\n\n`sh\ntrue\n`\n\nArray containing all of the match\n\nmatch():Returns an array containing all of the matches, including capturing groups, or null if no match is found.\nIf we do not use a global flag, match() returns an array containing the pattern, index, input and group.\n\n`js\nconst str = 'I love JavaScript'\nconst pattern = /love/\nconst result = str.match(pattern)\nconsole.log(result)\n`\n\n`sh\n[\"love\", index: 2, input: \"I love JavaScript\", groups: undefined]\n`\n\n`js\nconst str = 'I love JavaScript'\nconst pattern = /love/g\nconst result = str.match(pattern)\nconsole.log(result)\n`\n\n`sh\n[\"love\"]\n`\n\nsearch(): Tests for a match in a string. It returns the index of the match, or -1 if the search fails.\n\n`js\nconst str = 'I love JavaScript'\nconst pattern = /love/g\nconst result = str.search(pattern)\nconsole.log(result)\n`\n\n`sh\n2\n`\n\nReplacing a substring\n\nreplace(): Executes a search for a match in a string, and replaces the matched substring with a replacement substring.\n\n`js\nconst txt = 'Python is the most beautiful language that a human begin has ever created.\\\nI recommend python for a first programming language'\n\nmatchReplaced = txt.replace(/Python|python/, 'JavaScript')\nconsole.log(matchReplaced)\n`\n\n`sh\nJavaScript is the most beautiful language that a human begin has ever created.I recommend python for a first programming language\n`\n\n`js\nconst txt = 'Python is the most beautiful language that a human begin has ever created.\\\nI recommend python for a first programming language'\n\nmatchReplaced = txt.replace(/Python|python/g, 'JavaScript')\nconsole.log(matchReplaced)\n`\n\n`sh\nJavaScript is the most beautiful language that a human begin has ever created.I recommend JavaScript for a first programming language\n`\n\n`js\nconst txt = 'Python is the most beautiful language that a human begin has ever created.\\\nI recommend python for a first programming language'\n\nmatchReplaced = txt.replace(/Python/gi, 'JavaScript')\nconsole.log(matchReplaced)\n`\n\n`sh\nJavaScript is the most beautiful language that a human begin has ever created.I recommend JavaScript for a first programming language\n`\n\n`js\n\nconst txt = '%I a%m te%%a%%che%r% a%n%d %% I l%o%ve te%ach%ing.\\\nT%he%re i%s n%o%th%ing as m%ore r%ewarding a%s e%duc%at%i%ng a%n%d e%m%p%ow%er%ing \\\np%e%o%ple.\\\nI fo%und te%a%ching m%ore i%n%t%er%%es%ting t%h%an any other %jobs.\\\nD%o%es thi%s m%ot%iv%a%te %y%o%u to b%e a t%e%a%cher.'\n\nmatches = txt.replace(/%/g, '')\nconsole.log(matches)  \n`\n\n`sh\nI am teacher and  I love teaching.There is nothing as more rewarding as educating and empowering people.I found teaching more interesting than any other jobs.Does this motivate you to be a teacher.\n`\n\n* []:  A set of characters\n  * [a-c] means, a or b or c\n  * [a-z] means, any letter a to z\n  * [A-Z] means, any character A to Z\n  * [0-3] means, 0 or 1 or 2 or 3\n  * [0-9] means any number 0 to 9\n  * [A-Za-z0-9] any character which is a to z, A to Z, 0 to 9\n* \\\\:  uses to escape special characters\n  * \\d mean: match where the string contains digits (numbers from 0-9)\n  * \\D mean: match where the string does not contain digits\n* . : any character except new line character(\\n)\n* ^: starts with\n  * r'^substring' eg r'^love', a sentence which starts with a word love\n  * r'[^abc] mean not a, not b, not c.\n* $: ends with\n  * r'substring$' eg r'love$', sentence ends with a word love\n : zero or more times\n   r'[a]' means a optional or it can occur many times.\n* +: one or more times\n  * r'[a]+' means at least once or more times\n* ?: zero or one times\n  *  r'[a]?' means zero times or once\n* \\b: word bounder, matches with the beginning or ending of a word\n* {3}: Exactly 3 characters\n* {3,}: At least 3 characters\n* {3,8}: 3 to 8 characters\n* |: Either or\n  * r'apple|banana' mean either of an apple or a banana\n* (): Capture and group\n\n![Regular Expression cheat sheet](../images/regex.png)\n\nLet's use example to clarify the above meta characters\n\nSquare Bracket\n\nLet's use square bracket to include lower and upper case\n\n`js\nconst pattern = '[Aa]pple' // this square bracket means either A or a\nconst txt = 'Apple and banana are fruits. An old cliche says an apple a day keeps the  doctor way has been replaced by a banana a day keeps the doctor far far away. '\nconst matches = txt.match(pattern)\n\nconsole.log(matches)  \n`\n\n`sh\n[\"Apple\", index: 0, input: \"Apple and banana are fruits. An old cliche says an apple a day keeps the  doctor way has been replaced by a banana a day keeps the doctor far far away.\", groups: undefined]\n\n`\n\n`js\nconst pattern = /[Aa]pple/g // this square bracket means either A or a\nconst txt = 'Apple and banana are fruits. An old cliche says an apple a day a doctor way has been replaced by a banana a day keeps the doctor far far away. '\nconst matches = txt.match(pattern)\n\nconsole.log(matches)  \n`\n\n`sh\n[\"Apple\", \"apple\"]\n`\n\nIf we want to look for the banana, we write the pattern as follows:\n\n`js\nconst pattern = /[Aa]pple|[Bb]anana/g // this square bracket mean either A or a\nconst txt = 'Apple and banana are fruits. An old cliche says an apple a day a doctor way has been replaced by a banana a day keeps the doctor far far away. Banana is easy to eat too.'\nconst matches = txt.match(pattern)\n\nconsole.log(matches)  \n`\n\n`sh\n[\"Apple\", \"banana\", \"apple\", \"banana\", \"Banana\"]\n`\n\nUsing the square bracket and or operator , we manage to extract Apple, apple, Banana and banana.\n\nEscape character(\\\\) in RegExp\n\n`js\nconst pattern = /\\d/g  // d is a special character which means digits\nconst txt = 'This regular expression example was made in January 12,  2020.'\nconst matches = txt. match(pattern)\n\nconsole.log(matches)  // [\"1\", \"2\", \"2\", \"0\", \"2\", \"0\"], this is not what we want\n`\n\n`js\nconst pattern = /\\d+/g  // d is a special character which means digits\nconst txt = 'This regular expression example was made in January 12,  2020.'\nconst matches = txt. match(pattern)\n\nconsole.log(matches)  // [\"12\", \"2020\"], this is not what we want\n`\n\nOne or more times(+)\n\n`js\nconst pattern = /\\d+/g  // d is a special character which means digits\nconst txt = 'This regular expression example was made in January 12,  2020.'\nconst matches = txt. match(pattern)\nconsole.log(matches)  // [\"12\", \"2020\"], this is not what we want\n`\n\nPeriod(.)\n\n`js\nconst pattern = /[a]./g  // this square bracket means a and . means any character except new line\nconst txt = 'Apple and banana are fruits'\nconst matches = txt.match(pattern)\n\nconsole.log(matches)  // [\"an\", \"an\", \"an\", \"a \", \"ar\"]\n`\n\n`js\nconst pattern = /[a].+/g  // . any character, + any character one or more times \nconst txt = 'Apple and banana are fruits'\nconst matches = txt.match(pattern)\n\nconsole.log(matches)  // ['and banana are fruits']\n`\n\nZero or more times(*)\n\nZero or many times. The pattern may not occur or it can occur many times.\n\n`js\n\nconst pattern = /[a].*/g  //. any character, + any character one or more times \nconst txt = 'Apple and banana are fruits'\nconst matches = txt.match(pattern)\n\nconsole.log(matches)  // ['and banana are fruits']\n\n`\n\nZero or one times(?)\n\nZero or one times. The pattern may not occur or it may occur once.\n\n`js\nconst txt = 'I am not sure if there is a convention how to write the word e-mail.\\\nSome people write it email others may write it as Email or E-mail.'\nconst pattern = /[Ee]-?mail/g  // ? means optional\nmatches = txt.match(pattern)\n\nconsole.log(matches)  // [\"e-mail\", \"email\", \"Email\", \"E-mail\"]\n\n`\n\nQuantifier in RegExp\n\nWe can specify the length of the substring we look for in a text, using a curly bracket. Let us see, how ot use RegExp quantifiers. Imagine, we are interested in substring that their length are 4 characters\n\n`js\nconst txt = 'This regular expression example was made in December 6,  2019.'\nconst pattern = /\\\\b\\w{4}\\b/g  //  exactly four character words\nconst matches = txt.match(pattern)\nconsole.log(matches)  //['This', 'made', '2019']\n`\n\n`js\nconst txt = 'This regular expression example was made in December 6,  2019.'\nconst pattern = /\\b[a-zA-Z]{4}\\b/g  //  exactly four character  words without numbers\nconst matches = txt.match(pattern)\nconsole.log(matches)  //['This', 'made']\n`\n\n`js\nconst txt = 'This regular expression example was made in December 6,  2019.'\nconst pattern = /\\d{4}/g  // a number and exactly four digits\nconst matches = txt.match(pattern)\nconsole.log(matches)  // ['2019']\n`\n\n`js\nconst txt = 'This regular expression example was made in December 6,  2019.'\nconst pattern = /\\d{1,4}/g   // 1 to 4\nconst matches = txt.match(pattern)\nconsole.log(matches)  // ['6', '2019']\n`\n\nCart ^\n\n- Starts with\n  \n`js\nconst txt = 'This regular expression example was made in December 6,  2019.'\nconst pattern = /^This/ // ^ means starts with\nconst matches = txt.match(pattern)\nconsole.log(matches)  // ['This']\n`\n\n- Negation\n\n`js\nconst txt = 'This regular expression example was made in December 6,  2019.'\nconst pattern = /[^A-Za-z,. ]+/g  // ^ in set character means negation, not A to Z, not a to z, no space, no comma no period\nconst matches = txt.match(pattern)\nconsole.log(matches)  // [\"6\", \"2019\"]\n`\n\nExact match\n\nIt should have ^ starting and $ which is an end.\n\n`js\nlet pattern = /^[A-Z][a-z]{3,12}$/;\nlet name = 'Asabeneh';\nlet result = pattern.test(name)\n\nconsole.log(result) // true\n`\n\n🌕 You are going far. Keep going! Now, you are super charged with the power of regular expression. You have the power to extract and clean any kind of text and you can make meaning out of unstructured data. You have just completed day 12 challenges and you are 12 steps a head in to your way to greatness. Now do some exercises for your brain and for your muscle.",
+      "codeExample": "// without flag\nlet pattern = 'love'\nlet regEx = new RegExp(pattern)",
+      "keyPoints": [
+        "g: a global flag which means looking for a pattern in whole text",
+        "i: case insensitive flag(it searches for both lowercase and uppercase)",
+        "m: multiline",
+        "[]:  A set of characters"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-12"
+      ]
+    },
+    {
+      "id": "control-flow-012-003",
+      "title": "12_day_regular_expressions - Part 3",
+      "day": 12,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "💻 Exercises\n\n### Exercises: Level 1\n\n1....",
+      "content": "💻 Exercises\n\nExercises: Level 1\n\n1. Calculate the total annual income of the person from the following text. ‘He earns 4000 euro from salary per month, 10000 euro annual bonus, 5500 euro online courses per month.’\n1. The position of some particles on the horizontal x-axis -12, -4, -3 and  -1 in the negative direction, 0 at origin, 4 and 8 in the positive direction. Extract these numbers and find the distance between the two furthest particles.\n\n`js\npoints = ['-1', '2', '-4', '-3', '-1', '0', '4', '8']\nsortedPoints =  [-4, -3, -1, -1, 0, 2, 4, 8]\ndistance = 12\n`\n\n1. Write a pattern which identify if a string is a valid JavaScript variable\n\n    `sh\n    is_valid_variable('first_name') True\n    is_valid_variable('first-name') False\n    is_valid_variable('1first_name') False\n    is_valid_variable('firstname') True\n    `\n\nExercises: Level 2\n\n1. Write a function called tenMostFrequentWords which get the ten most frequent word from a string?\n\n    `js\n        paragraph = I love teaching. If you do not love teaching what else can you love. I love Python if you do not love something which can give you all the capabilities to develop an application what else can you love.\n        console.log(tenMostFrequentWords(paragraph))\n    `\n\n    `sh\n        [\n        {word:'love', count:6},\n        {word:'you', count:5},\n        {word:'can', count:3},\n        {word:'what', count:2},\n        {word:'teaching', count:2},\n        {word:'not', count:2},\n        {word:'else', count:2},\n        {word:'do', count:2},\n        {word:'I', count:2},\n        {word:'which', count:1},\n        {word:'to', count:1},\n        {word:'the', count:1},\n        {word:'something', count:1},\n        {word:'if', count:1},\n        {word:'give', count:1},\n        {word:'develop',count:1},\n        {word:'capabilities',count:1},\n        {word:'application', count:1},\n        {word:'an',count:1},\n        {word:'all',count:1},\n        {word:'Python',count:1},\n        {word:'If',count:1}]\n    `\n\n    `js\n    console.log(tenMostFrequentWords(paragraph, 10))\n    `\n\n    `sh\n   [{word:'love', count:6},\n    {word:'you', count:5},\n    {word:'can', count:3},\n    {word:'what', count:2},\n    {word:'teaching', count:2},\n    {word:'not', count:2},\n    {word:'else', count:2},\n    {word:'do', count:2},\n    {word:'I', count:2},\n    {word:'which', count:1}\n    ]\n    `\n\nExercises: Level 3\n\n1. Writ a function which cleans text. Clean the following text. After cleaning, count three most frequent words in the string.\n  \n  `js\n    sentence = %I $am@% a %tea@cher%, &and& I lo%ve %tea@ching%;. There $is nothing; &as& mo@re rewarding as educa@ting &and& @emp%o@wering peo@ple. ;I found tea@ching m%o@re interesting tha@n any other %jo@bs. %Do@es thi%s mo@tivate yo@u to be a tea@cher!?\n    console.log(cleanText(sentence))\n   `\n\n   `sh\n    I am a teacher and I love teaching There is nothing as more rewarding as educating and empowering people I found teaching more interesting than any other jobs Does this motivate you to be a teacher\n    `\n2. Write a function which find the most frequent words. After cleaning, count three most frequent words in the string.\n\n  `js\n    console.log(mostFrequentWords(cleanedText))\n    [{word:'I', count:3}, {word:'teaching', count:2}, {word:'teacher', count:2}]\n  `\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 11](../11_Day_Destructuring_and_spreading/11_day_destructuring_and_spreading.md) | [Day 13 >>](../13_Day_Console_object_methods/13_day_console_object_methods.md)",
+      "codeExample": "points = ['-1', '2', '-4', '-3', '-1', '0', '4', '8']\nsortedPoints =  [-4, -3, -1, -1, 0, 2, 4, 8]\ndistance = 12",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-12"
+      ]
+    }
+  ]
+}

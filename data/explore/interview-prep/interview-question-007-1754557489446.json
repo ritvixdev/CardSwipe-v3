@@ -1,0 +1,28 @@
+{
+  "id": "interview-question-007-1754557489446",
+  "title": "Interview Question #7 - behavioral",
+  "type": "interview-question",
+  "category": "behavioral",
+  "question": "Describe a challenging project you worked on and how you overcame obstacles.",
+  "expectedAnswer": "Comprehensive answer covering key points and demonstrating understanding of the topic.",
+  "followUpQuestions": [
+    "Can you elaborate on that point?",
+    "How would you handle edge cases?",
+    "What alternatives did you consider?"
+  ],
+  "tips": [
+    "Be specific and provide examples",
+    "Show your thought process",
+    "Ask clarifying questions"
+  ],
+  "metadata": {
+    "difficulty": "intermediate",
+    "estimatedTime": 10,
+    "tags": [
+      "interview",
+      "behavioral",
+      "preparation"
+    ],
+    "createdAt": "2025-08-07T09:04:49.446Z"
+  }
+}

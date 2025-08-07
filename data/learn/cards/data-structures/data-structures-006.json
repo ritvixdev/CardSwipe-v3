@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "fileId": "data-structures-006",
+    "topic": "data-structures",
+    "subtopic": "loops",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "beginner",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-5"
+    ],
+    "tags": [
+      "data-structures",
+      "day-6"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.016Z",
+    "updatedAt": "2025-08-07T08:51:50.016Z"
+  },
+  "cards": [
+    {
+      "id": "data-structures-006-001",
+      "title": "Loops",
+      "day": 6,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Loops</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Loops</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 5](../05_Day_Arrays/05_day_arrays.md) | [Day 7 >>](../07_Day_Functions/07_day_functions.md)\n\n![Day 5](../images/banners/day_1_6.png)\n\n- [📔 Day 6](-day-6)\n\t- [Loops](loops)\n\t\t- [for Loop](for-loop)\n\t\t- [while loop](while-loop)\n\t\t- [do while loop](do-while-loop)\n\t\t- [for of loop](for-of-loop)\n\t\t- [break](break)\n\t\t- [continue](continue)\n\t- [💻 Exercises:Day 6](-exercisesday-6)\n\t\t- [Exercises: Level 1](exercises-level-1)\n\t\t- [Exercises: Level 2](exercises-level-2)\n\t\t- [Exercises: Level 3](exercises-level-3)\n\n📔 Day 6",
+      "codeExample": "// For loop structure\nfor(initialization, condition, increment/decrement){\n  // code goes here\n}",
+      "keyPoints": [
+        "[📔 Day 6](#-day-6)",
+        "[Loops](#loops)",
+        "[for Loop](#for-loop)",
+        "[while loop](#while-loop)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "data-structures",
+        "day-6"
+      ]
+    },
+    {
+      "id": "data-structures-006-002",
+      "title": "Loops - Part 2",
+      "day": 6,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "Loops\n\nMost of the activities we do in life are full of repetitions....",
+      "content": "Loops\n\nMost of the activities we do in life are full of repetitions. Imagine if I ask you to print out from 0 to 100 using console.log(). To implement this simple task it may take you 2 to 5 minutes, such kind of tedious and repetitive task can be carried out using loop. If you prefer watching the videos, you can checkout the [video tutorials](https://www.youtube.com/channel/UCM4xOopkYiPwJqyKsSqL9mw)\n\nIn programming languages to carry out repetitive task we use different kinds of loops. The following examples are the commonly used loops in JavaScript and other programming languages.\n\nfor Loop\n\n`js\n// For loop structure\nfor(initialization, condition, increment/decrement){\n  // code goes here\n}\n`\n\n`js\nfor(let i = 0; i <= 5; i++){\n  console.log(i)\n}\n\n// 0 1 2 3 4 5\n`\n\n`js\nfor(let i = 5; i >= 0; i--){\n  console.log(i)\n}\n\n// 5 4 3 2 1 0\n`\n\n`js\nfor(let i = 0; i <= 5; i++){\n  console.log(${i}  ${i} = ${i  i})\n}\n`\n\n`sh\n0 * 0 = 0\n1 * 1 = 1\n2 * 2 = 4\n3 * 3 = 9\n4 * 4 = 16\n5 * 5 = 25\n`\n\n`js\nconst countries = ['Finland', 'Sweden', 'Denmark', 'Norway', 'Iceland']\nconst newArr = []\nfor(let i = 0; i < countries.length; i++){\n  newArr.push(countries[i].toUpperCase())\n}\n\n// [\"FINLAND\", \"SWEDEN\", \"DENMARK\", \"NORWAY\", \"ICELAND\"]\n`\n\nAdding all elements in the array\n\n`js\nconst numbers = [1, 2, 3, 4, 5]\nlet sum = 0\nfor(let i = 0; i < numbers.length; i++){\n  sum  = sum + numbers[i]  // can be shorten, sum += numbers[i]\n\n}\n\nconsole.log(sum)  // 15\n`\n\nCreating a new array based on the existing array\n\n`js\nconst numbers = [1, 2, 3, 4, 5]\nconst newArr = []\nlet sum = 0\nfor(let i = 0; i < numbers.length; i++){\n  newArr.push( numbers[i]  2)\n\n}\n\nconsole.log(newArr)  // [1, 4, 9, 16, 25]\n`\n\n`js\nconst countries = ['Finland', 'Sweden', 'Norway', 'Denmark', 'Iceland']\nconst newArr = []\nfor(let i = 0; i < countries.length; i++){\n  newArr.push(countries[i].toUpperCase())\n}\n\nconsole.log(newArr)  // [\"FINLAND\", \"SWEDEN\", \"NORWAY\", \"DENMARK\", \"ICELAND\"]\n`\n\nwhile loop\n\n`js\nlet i = 0\nwhile (i <= 5) {\n  console.log(i)\n  i++\n}\n\n// 0 1 2 3 4 5\n`\n\ndo while loop\n\n`js\nlet i = 0\ndo {\n  console.log(i)\n  i++\n} while (i <= 5)\n\n// 0 1 2 3 4 5\n`\n\nfor of loop\n\nWe use for of loop for arrays. It is very hand way to iterate through an array if we are not interested in the index of each element in the array.\n\n`js\nfor (const element of arr) {\n  // code goes here\n}\n`\n\n`js\n\nconst numbers = [1, 2, 3, 4, 5]\n\nfor (const num of numbers) {\n  console.log(num)\n}\n\n// 1 2 3 4 5\n\nfor (const num of numbers) {\n  console.log(num * num)\n}\n\n// 1 4 9 16 25\n\n// adding all the numbers in the array\nlet sum = 0\nfor (const num of numbers) {\n  sum = sum + num  \n\t// can be also shorten like this, sum += num\n  // after this we will use the shorter synthax(+=, -=, *=, /= etc)\n}\nconsole.log(sum) // 15\n\nconst webTechs = [\n  'HTML',\n  'CSS',\n  'JavaScript',\n  'React',\n  'Redux',\n  'Node',\n  'MongoDB'\n]\n\nfor (const tech of webTechs) {\n  console.log(tech.toUpperCase())\n}\n\n// HTML CSS JAVASCRIPT REACT NODE MONGODB\n\nfor (const tech of webTechs) {\n  console.log(tech[0]) // get only the first letter of each element,  H C J R N M\n}\n\n`\n\n`js\nconst countries = ['Finland', 'Sweden', 'Norway', 'Denmark', 'Iceland']\nconst newArr = []\nfor(const country of countries){\n  newArr.push(country.toUpperCase())\n}\n\nconsole.log(newArr)  // [\"FINLAND\", \"SWEDEN\", \"NORWAY\", \"DENMARK\", \"ICELAND\"]\n`\n\nbreak\n\nBreak is used to interrupt a loop.\n\n`js\nfor(let i = 0; i <= 5; i++){\n  if(i == 3){\n    break\n  }\n  console.log(i)\n}\n\n// 0 1 2\n`\n\nThe above code stops if 3 found in the iteration process.\n\ncontinue\n\nWe use the keyword continue to skip a certain iterations. \n\n`js\nfor(let i = 0; i <= 5; i++){\n  if(i == 3){\n    continue\n  }\n  console.log(i)\n}\n\n// 0 1 2 4 5\n`\n\n🌕 You are so brave, you made it to this far. Now, you have gained the power to automate repetitive and tedious tasks. You have just completed day 6 challenges and you are 6 steps a head in to your way to greatness. Now do some exercises for your brain and for your muscle.",
+      "codeExample": "// For loop structure\nfor(initialization, condition, increment/decrement){\n  // code goes here\n}",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "data-structures",
+        "day-6"
+      ]
+    },
+    {
+      "id": "data-structures-006-003",
+      "title": "Loops - Part 3",
+      "day": 6,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "💻 Exercises:Day 6\n\n### Exercises: Level 1\n\n  ```js\n  const countries = [\n    'Albania',\n    'Bolivia',\n    'Canada',\n    'Denmark',\n    'Ethiopia',\n ...",
+      "content": "💻 Exercises:Day 6\n\nExercises: Level 1\n\n  `js\n  const countries = [\n    'Albania',\n    'Bolivia',\n    'Canada',\n    'Denmark',\n    'Ethiopia',\n    'Finland',\n    'Germany',\n    'Hungary',\n    'Ireland',\n    'Japan',\n    'Kenya'\n  ]\n\n  const webTechs = [\n    'HTML',\n    'CSS',\n    'JavaScript',\n    'React',\n    'Redux',\n    'Node',\n    'MongoDB'\n  ]\n\n  const mernStack = ['MongoDB', 'Express', 'React', 'Node']\n  `\n\n1. Iterate 0 to 10 using for loop, do the same using while and do while loop\n2. Iterate 10 to 0 using for loop, do the same using while and do while loop\n3. Iterate 0 to n using for loop\n4. Write a loop that makes the following pattern using console.log():\n\n   `js\n       `\n\n5. Use loop to print the following pattern:\n\n   `sh\n   0 x 0 = 0\n   1 x 1 = 1\n   2 x 2 = 4\n   3 x 3 = 9\n   4 x 4 = 16\n   5 x 5 = 25\n   6 x 6 = 36\n   7 x 7 = 49\n   8 x 8 = 64\n   9 x 9 = 81\n   10 x 10 = 100\n   `\n\n6. Using loop print the following pattern\n\n   `sh\n    i    i^2   i^3\n    0    0     0\n    1    1     1\n    2    4     8\n    3    9     27\n    4    16    64\n    5    25    125\n    6    36    216\n    7    49    343\n    8    64    512\n    9    81    729\n    10   100   1000\n   `\n\n7. Use for loop to iterate from 0 to 100 and print only even numbers\n8. Use for loop to iterate from 0 to 100 and print only odd numbers\n9. Use for loop to iterate from 0 to 100 and print only prime numbers\n10. Use for loop to iterate from 0 to 100 and print the sum of all numbers.\n\n    `sh\n    The sum of all numbers from 0 to 100 is 5050.\n    `\n\n11. Use for loop to iterate from 0 to 100 and print the sum of all evens and the sum of all odds.\n\n    `sh\n    The sum of all evens from 0 to 100 is 2550. And the sum of all odds from 0 to 100 is 2500.\n    `\n\n12. Use for loop to iterate from 0 to 100 and print the sum of all evens and the sum of all odds. Print sum of evens and sum of odds as array\n\n    `sh\n      [2550, 2500]\n    `\n\n13. Develop a small script which generate array of 5 random numbers\n14. Develop a small script which generate array of 5 random numbers and the numbers must be unique\n15. Develop a small script which generate a six characters random id:\n\n    `sh\n    5j2khz\n    `\n\nExercises: Level 2\n\n1. Develop a small script which generate any number of characters random id:\n\n    `sh\n      fe3jo1gl124g\n    `\n\n    `sh\n      xkqci4utda1lmbelpkm03rba\n    `\n\n1. Write a script which generates a random hexadecimal number.\n\n    `sh\n    'ee33df'\n    `\n\n1. Write a script which generates a random rgb color number.\n\n    `sh\n    rgb(240,180,80)\n    `\n\n1. Using the above countries array, create the following new array.\n\n    `sh\n    [\"ALBANIA\", \"BOLIVIA\", \"CANADA\", \"DENMARK\", \"ETHIOPIA\", \"FINLAND\", \"GERMANY\", \"HUNGARY\", \"IRELAND\", \"JAPAN\", \"KENYA\"]\n    `\n\n1. Using the above countries array, create an array for countries length'.\n\n    `sh\n    [7, 7, 6, 7, 8, 7, 7, 7, 7, 5, 5]\n    `\n\n1. Use the countries array to create the following array of arrays:\n\n    `sh\n      [\n      ['Albania', 'ALB', 7],\n      ['Bolivia', 'BOL', 7],\n      ['Canada', 'CAN', 6],\n      ['Denmark', 'DEN', 7],\n      ['Ethiopia', 'ETH', 8],\n      ['Finland', 'FIN', 7],\n      ['Germany', 'GER', 7],\n      ['Hungary', 'HUN', 7],\n      ['Ireland', 'IRE', 7],\n      ['Iceland', 'ICE', 7],\n      ['Japan', 'JAP', 5],\n      ['Kenya', 'KEN', 5]\n    ]\n    `\n\n2. In above countries array, check if there is a country or countries containing the word 'land'. If there are countries containing 'land', print it as array. If there is no country containing the word 'land', print 'All these countries are without land'.\n\n    `sh\n    ['Finland','Ireland', 'Iceland']\n    `\n\n3. In above countries array, check if there is  a country or countries end with a substring 'ia'. If there are countries end with, print it as array. If there is no country containing the word 'ai', print 'These are countries ends without ia'.\n\n    `sh\n    ['Albania', 'Bolivia','Ethiopia']\n    `\n\n4. Using the above countries array, find the country containing the biggest number of characters.\n\n      `sh\n      Ethiopia\n      `\n\n5. Using the above countries array, find the country containing only 5 characters.\n\n    `sh\n    ['Japan', 'Kenya']\n    `\n\n6. Find the longest word in the webTechs array\n7. Use the webTechs array to create the following array of arrays:\n\n    `sh\n    [[\"HTML\", 4], [\"CSS\", 3],[\"JavaScript\", 10],[\"React\", 5],[\"Redux\", 5],[\"Node\", 4],[\"MongoDB\", 7]]\n    `\n\n8. An application created using MongoDB, Express, React and Node is called a MERN stack app. Create the acronym MERN by using the array mernStack\n9. Iterate through the array, [\"HTML\", \"CSS\", \"JS\", \"React\", \"Redux\", \"Node\", \"Express\", \"MongoDB\"] using a for loop or for of loop and print out the items.\n10. This is a fruit array , ['banana', 'orange', 'mango', 'lemon'] reverse the order using loop without using a reverse method.\n11. Print all the elements of array as shown below.\n\n    `js\n      const fullStack = [\n        ['HTML', 'CSS', 'JS', 'React'],\n        ['Node', 'Express', 'MongoDB']\n      ]\n    \n\n    `sh\n      HTML\n      CSS\n      JS\n      REACT\n      NODE\n      EXPRESS\n      MONGODB\n    `\n\nExercises: Level 3\n\n1. Copy countries array(Avoid mutation)\n1. Arrays are mutable. Create a copy of array which does not modify the original. Sort the copied array and store in a variable sortedCountries\n1. Sort the webTechs array and mernStack array\n1. Extract all the countries contain the word 'land' from the [countries array](https://github.com/Asabeneh/30DaysOfJavaScript/tree/master/data/countries.js) and print it as array\n1. Find the country containing the hightest number of characters in the [countries array](https://github.com/Asabeneh/30DaysOfJavaScript/tree/master/data/countries.js)\n1. Extract all the countries contain the word 'land' from the [countries array](https://github.com/Asabeneh/30DaysOfJavaScript/tree/master/data/countries.js) and print it as array\n1. Extract all the countries containing only four characters from the [countries array](https://github.com/Asabeneh/30DaysOfJavaScript/tree/master/data/countries.js) and print it as array\n1. Extract all the countries containing two or more words from the [countries array](https://github.com/Asabeneh/30DaysOfJavaScript/tree/master/data/countries.js) and print it as array\n1. Reverse the [countries array](https://github.com/Asabeneh/30DaysOfJavaScript/tree/master/data/countries.js) and capitalize each country and stored it as an array\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 5](../05_Day_Arrays/05_day_arrays.md) | [Day 7 >>](../07_Day_Functions/07_day_functions.md)",
+      "codeExample": "const countries = [\n    'Albania',\n    'Bolivia',\n    'Canada',\n    'Denmark',\n    'Ethiopia',\n    'Finland',\n    'Germany',\n    'Hungary',\n    'Ireland',\n    'Japan',\n    'Kenya'\n  ]\n\n  const webTechs = [\n    'HTML',\n    'CSS',\n    'JavaScript',\n    'React',\n    'Redux',\n    'Node',\n    'MongoDB'\n  ]\n\n  const mernStack = ['MongoDB', 'Express', 'React', 'Node']",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "data-structures",
+        "day-6"
+      ]
+    }
+  ]
+}

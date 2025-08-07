@@ -1,0 +1,163 @@
+{
+  "metadata": {
+    "topicId": "dom",
+    "name": "DOM Manipulation",
+    "description": "Document Object Model manipulation and web interactions",
+    "difficulty": "advanced",
+    "estimatedHours": 6,
+    "prerequisites": [
+      "objects"
+    ],
+    "tags": [
+      "dom",
+      "advanced"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T09:04:49.591Z",
+    "updatedAt": "2025-08-07T09:04:49.591Z"
+  },
+  "structure": {
+    "totalFiles": 19,
+    "cardFiles": 15,
+    "noteFiles": 2,
+    "quizFiles": 2,
+    "days": [
+      26,
+      27
+    ]
+  },
+  "files": {
+    "cards": [
+      {
+        "fileId": "dom-003-1754557488837",
+        "path": "learn/cards/dom/dom-003-1754557488837.json",
+        "day": 1754557488837,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-004-1754557488839",
+        "path": "learn/cards/dom/dom-004-1754557488839.json",
+        "day": 1754557488839,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-005-1754557488844",
+        "path": "learn/cards/dom/dom-005-1754557488844.json",
+        "day": 1754557488844,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-006-1754557488847",
+        "path": "learn/cards/dom/dom-006-1754557488847.json",
+        "day": 1754557488847,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-007-1754557488851",
+        "path": "learn/cards/dom/dom-007-1754557488851.json",
+        "day": 1754557488851,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-008-1754557488854",
+        "path": "learn/cards/dom/dom-008-1754557488854.json",
+        "day": 1754557488854,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-009-1754557488857",
+        "path": "learn/cards/dom/dom-009-1754557488857.json",
+        "day": 1754557488857,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-010-1754557488862",
+        "path": "learn/cards/dom/dom-010-1754557488862.json",
+        "day": 1754557488862,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-011-1754557488865",
+        "path": "learn/cards/dom/dom-011-1754557488865.json",
+        "day": 1754557488865,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-012-1754557488868",
+        "path": "learn/cards/dom/dom-012-1754557488868.json",
+        "day": 1754557488868,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-013-1754557488875",
+        "path": "learn/cards/dom/dom-013-1754557488875.json",
+        "day": 1754557488875,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-014-1754557488878",
+        "path": "learn/cards/dom/dom-014-1754557488878.json",
+        "day": 1754557488878,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-015-1754557488882",
+        "path": "learn/cards/dom/dom-015-1754557488882.json",
+        "day": 1754557488882,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-026",
+        "path": "learn/cards/dom/dom-026.json",
+        "day": 26,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "dom-027",
+        "path": "learn/cards/dom/dom-027.json",
+        "day": 27,
+        "estimatedCards": 2
+      }
+    ],
+    "notes": [
+      {
+        "fileId": "dom-notes-026",
+        "path": "explore/javascript-notes/dom-notes-026.json",
+        "day": 26
+      },
+      {
+        "fileId": "dom-notes-027",
+        "path": "explore/javascript-notes/dom-notes-027.json",
+        "day": 27
+      }
+    ],
+    "quizzes": [
+      {
+        "fileId": "dom-quiz-026",
+        "path": "explore/practice-quiz/dom-quiz-026.json",
+        "day": 26
+      },
+      {
+        "fileId": "dom-quiz-027",
+        "path": "explore/practice-quiz/dom-quiz-027.json",
+        "day": 27
+      }
+    ]
+  },
+  "progression": {
+    "unlockCriteria": {
+      "type": "sequential",
+      "requiresPrevious": true
+    },
+    "rewards": {
+      "completionXP": 300,
+      "masteryBadge": "dom-master",
+      "nextUnlock": "projects"
+    }
+  },
+  "analytics": {
+    "averageCompletionTime": "6 hours",
+    "difficultyRating": 5,
+    "popularityScore": 85
+  }
+}

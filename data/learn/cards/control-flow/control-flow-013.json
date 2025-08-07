@@ -1,0 +1,119 @@
+{
+  "metadata": {
+    "fileId": "control-flow-013",
+    "topic": "control-flow",
+    "subtopic": "13_day_console_object_methods",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "intermediate",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-12"
+    ],
+    "tags": [
+      "control-flow",
+      "day-13"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.085Z",
+    "updatedAt": "2025-08-07T08:51:50.085Z"
+  },
+  "cards": [
+    {
+      "id": "control-flow-013-001",
+      "title": "13_day_console_object_methods",
+      "day": 13,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Console Object Methods</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Console Object Methods</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 12](../12_Day_Regular_expressions/12_day_regular_expressions.md) | [Day 14>>](../14_Day_Error_handling/14_day_error_handling.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_13.png)\n\n- [Day 13](day-13)\n\t- [Console Object Methods](console-object-methods)\n\t\t- [console.log()](consolelog)\n\t\t- [console.warn()](consolewarn)\n\t\t- [console.error()](consoleerror)\n\t\t- [console.table()](consoletable)\n\t\t- [console.time()](consoletime)\n\t\t- [console.info()](consoleinfo)\n\t\t- [console.assert()](consoleassert)\n\t\t- [console.group()](consolegroup)\n\t\t- [console.count()](consolecount)\n\t\t- [console.clear()](consoleclear)\n\t- [Exercises](exercises)\n\t\t- [Exercises:Level 1](exerciseslevel-1)\n\t\t- [Exercises:Level 2](exerciseslevel-2)\n\t\t- [Exercises:Level 3](exerciseslevel-3)\n\nDay 13",
+      "codeExample": "console.log('30 Days of JavaScript')",
+      "keyPoints": [
+        "[Day 13](#day-13)",
+        "[Console Object Methods](#console-object-methods)",
+        "[console.log()](#consolelog)",
+        "[console.warn()](#consolewarn)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-13"
+      ]
+    },
+    {
+      "id": "control-flow-013-002",
+      "title": "13_day_console_object_methods - Part 2",
+      "day": 13,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Console Object Methods\n\nIn this section, we will cover about console and console object methods....",
+      "content": "Console Object Methods\n\nIn this section, we will cover about console and console object methods. Absolute beginners usually do not know which to use: console.log(), document.write() or document.getElementById.\n\nWe use console object methods to show output on the browser console and we use document.write to show output on the browser document(view port). Both methods used only for testing and debugging purposes. The console method is the most popular testing and debugging tool on the browser. We use document.getElementById() when we like to interact with DOM try using JavaScript. We will cover DOM in another section.\n\nIn addition to the famous, console.log() method, the console provides other more methods.\n\nconsole.log()\n\nWe use console.log() to show output on the browser console. We can substitute values and also we can style the logging out put using %c.\n\n- Showing output on browser console\n\n`js\nconsole.log('30 Days of JavaScript')\n`\n\n`sh\n30 Days of JavaScript\n`\n\n- Substitution\n\n`js\nconsole.log('%d %s of JavaScript', 30, 'Days')\n`\n\n`sh\n30 Days of JavaScript\n`\n\n- CSS\n\nWe can style logging message using css. Copy the following code and paste it on browser console to see the result.\n\n`js\nconsole.log('%c30 Days Of JavaScript', 'color:green') // log output is green\nconsole.log(\n  '%c30 Days%c %cOf%c %cJavaScript%c',\n  'color:green',\n  '',\n  'color:red',\n  '',\n  'color:yellow'\n) // log output green red and yellow text\n`\n\nconsole.warn()\n\nWe use console.warn() to give warning on browser. For instance to inform or warn deprecation of version of a package or bad practices. Copy the following code and paste it on browser console to see warning messages.\n\n`js\nconsole.warn('This is a warning')\nconsole.warn(\n  'You are using React. Do not touch the DOM. Virtual DOM will take care of handling the DOM!'\n)\nconsole.warn('Warning is different from error')\n`\n\nconsole.error()\n\nThe console.error() method shows an error messages.\n\n`js\nconsole.error('This is an error message')\nconsole.error('We all make mistakes')\n`\n\nconsole.table()\n\nThe console.table() method display data as a table on the console. Displays tabular data as a table. The console.table() takes one required argument data, which must be an array or an object, and one additional optional parameter columns.\n\nLet us first start with a simple array. The code below displays a table with two columns. An index column to display the index and value column to display the names\n\n`js\nconst names = ['Asabeneh', 'Brook', 'David', 'John']\nconsole.table(names)\n`\n\nLet us also check the result of an object. This creates table with two columns:an index column containing the keys and a value column contain the values of the object.\n\n`js\nconst user = {\n  name: 'Asabeneh',\n  title: 'Programmer',\n  country: 'Finland',\n  city: 'Helsinki',\n  age: 250\n}\nconsole.table(user)\n`\n\nCheck the rest of the examples by copying and paste on the browser console.\n\n`js\nconst countries = [\n  ['Finland', 'Helsinki'],\n  ['Sweden', 'Stockholm'],\n  ['Norway', 'Oslo']\n]\nconsole.table(countries)\n`\n\n`js\nconst users = [\n  {\n    name: 'Asabeneh',\n    title: 'Programmer',\n    country: 'Finland',\n    city: 'Helsinki',\n    age: 250\n  },\n  {\n    name: 'Eyob',\n    title: 'Teacher',\n    country: 'Sweden',\n    city: 'London',\n    age: 25\n  },\n  {\n    name: 'Asab',\n    title: 'Instructor',\n    country: 'Norway',\n    city: 'Oslo',\n    age: 22\n  },\n  {\n    name: 'Matias',\n    title: 'Developer',\n    country: 'Denmark',\n    city: 'Copenhagen',\n    age: 28\n  }\n]\nconsole.table(users)\n`\n\nconsole.time()\n\nStarts a timer you can use to track how long an operation takes. You give each timer a unique name, and may have up to 10,000 timers running on a given page. When you call console.timeEnd() with the same name, the browser will output the time, in milliseconds, that elapsed since the timer was started.\n\n`js\nconst countries = [\n  ['Finland', 'Helsinki'],\n  ['Sweden', 'Stockholm'],\n  ['Norway', 'Oslo']\n]\n\nconsole.time('Regular for loop')\nfor (let i = 0; i < countries.length; i++) {\n  console.log(countries[i][0], countries[i][1])\n}\nconsole.timeEnd('Regular for loop')\n\nconsole.time('for of loop')\nfor (const [name, city] of countries) {\n  console.log(name, city)\n}\nconsole.timeEnd('for of loop')\n\nconsole.time('forEach loop')\ncountries.forEach(([name, city]) => {\n  console.log(name, city)\n})\nconsole.timeEnd('forEach loop')\n`\n\n`sh\nFinland Helsinki\nSweden Stockholm\nNorway Oslo\nRegular for loop: 0.34716796875ms\nFinland Helsinki\nSweden Stockholm\nNorway Oslo\nfor of loop: 0.26806640625ms\nFinland Helsinki\nSweden Stockholm\nNorway Oslo\nforEach loop: 0.358154296875ms\n`\n\nAccording the above output the regular for loop is slower than for of or forEach loop.\n\nconsole.info()\n\nIt displays information message on browser console.\n\n`js\nconsole.info('30 Days Of JavaScript challenge is trending on Github')\nconsole.info('30 Days Of fullStack challenge might be released')\nconsole.info('30 Days Of HTML and CSS challenge might be released')\n`\n\nconsole.assert()\n\nThe console.assert() methods writes an error message to the console if the assertion is false. If the assertion is true, nothing happens. The first parameter is an assertion expression. If this expression is false, an Assertion failed error message will be displayed.\n\n`js\nconsole.assert(4 > 3, '4 is greater than 3') // no result\nconsole.assert(3 > 4, '3 is not greater than 4') // Assertion failed: 3 is not greater than 4\n\nfor (let i = 0; i <= 10; i += 1) {\n  let errorMessage = ${i} is not even\n  console.log('the is ' + i)\n  console.assert(i % 2 === 0, { number: i, errorMessage: errorMessage })\n}\n`\n\nconsole.group()\n\nThe console.group() can help to group different log groups. Copy the following code and paste it on browser console to the groups.\n\n`js\nconst names = ['Asabeneh', 'Brook', 'David', 'John']\nconst countries = [\n  ['Finland', 'Helsinki'],\n  ['Sweden', 'Stockholm'],\n  ['Norway', 'Oslo']\n]\nconst user = {\n  name: 'Asabeneh',\n  title: 'Programmer',\n  country: 'Finland',\n  city: 'Helsinki',\n  age: 250\n}\nconst users = [\n  {\n    name: 'Asabeneh',\n    title: 'Programmer',\n    country: 'Finland',\n    city: 'Helsinki',\n    age: 250\n  },\n  {\n    name: 'Eyob',\n    title: 'Teacher',\n    country: 'Sweden',\n    city: 'London',\n    age: 25\n  },\n  {\n    name: 'Asab',\n    title: 'Instructor',\n    country: 'Norway',\n    city: 'Oslo',\n    age: 22\n  },\n  {\n    name: 'Matias',\n    title: 'Developer',\n    country: 'Denmark',\n    city: 'Copenhagen',\n    age: 28\n  }\n]\n\nconsole.group('Names')\nconsole.log(names)\nconsole.groupEnd()\n\nconsole.group('Countries')\nconsole.log(countries)\nconsole.groupEnd()\n\nconsole.group('Users')\nconsole.log(user)\nconsole.log(users)\nconsole.groupEnd()\n`\n\nconsole.count()\n\nIt prints the number of times the console.count() is called. It takes a string label parameter. It is very helpful to count the number of times a function is called. In the following example, the console.count() method will run three times\n\n`js\nconst func = () => {\n  console.count('Function has been called')\n}\nfunc()\nfunc()\nfunc()\n`\n\n`sh\nFunction has been called: 1\nFunction has been called: 2\nFunction has been called: 3\n`\n\nconsole.clear()\n\nThe console.clear() cleans the browser console.\n\n🌕 Keep up the good work. Keep pushing, the sky is the limit! You have just completed day 13 challenges and you are 13 steps a head in to your way to greatness. Now do some exercises for your brain and for your muscle.",
+      "codeExample": "console.log('30 Days of JavaScript')",
+      "keyPoints": [
+        "Showing output on browser console",
+        "Substitution",
+        "CSS"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-13"
+      ]
+    },
+    {
+      "id": "control-flow-013-003",
+      "title": "13_day_console_object_methods - Part 3",
+      "day": 13,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Exercises\n\n### Exercises:Level 1\n\n1....",
+      "content": "Exercises\n\nExercises:Level 1\n\n1.  Display the countries array as a table\n2.  Display the countries object as a table\n3.  Use console.group() to group logs\n\nExercises:Level 2\n\n1. 10 > 2 \\* 10 use console.assert()\n2. Write a warning message using console.warn()\n3. Write an error message using console.error()\n\nExercises:Level 3\n\n1. Check the speed difference among the following loops: while, for, for of, forEach\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 12](../12_Day_Regular_expressions/12_day_regular_expressions.md) | [Day 14>>](../14_Day_Error_handling/14_day_error_handling.md)",
+      "codeExample": "",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-13"
+      ]
+    }
+  ]
+}

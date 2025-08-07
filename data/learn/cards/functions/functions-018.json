@@ -1,0 +1,116 @@
+{
+  "metadata": {
+    "fileId": "functions-018",
+    "topic": "functions",
+    "subtopic": "18_day_promises",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "intermediate",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-17"
+    ],
+    "tags": [
+      "functions",
+      "day-18"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.139Z",
+    "updatedAt": "2025-08-07T08:51:50.139Z"
+  },
+  "cards": [
+    {
+      "id": "functions-018-001",
+      "title": "18_day_promises",
+      "day": 18,
+      "category": "functions",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Promises</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Promises</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 17](../17_Day_Web_storages/17_day_web_storages.md) | [Day 19>>](../19_Day_Closures/19_day_closures.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_18.png)\n\n- [Day 18](day-18)\n\t- [Promise](promise)\n\t- [Callbacks](callbacks)\n\t\t- [Promise constructor](promise-constructor)\n\t- [Fetch API](fetch-api)\n\t- [Async and Await](async-and-await)\n\t- [Exercises](exercises)\n\t\t- [Exercises: Level 1](exercises-level-1)\n\t\t- [Exercises: Level 2](exercises-level-2)\n\t\t- [Exercises: Level 3](exercises-level-3)\n\nDay 18",
+      "codeExample": "//Callback\nconst doSomething = callback => {\n  setTimeout(() => {\n    const skills = ['HTML', 'CSS', 'JS']\n    callback('It did not go well', skills)\n  }, 2000)\n}\n\nconst callback = (err, result) => {\n  if (err) {\n    return console.log(err)\n  }\n  return console.log(result)\n}\n\ndoSomething(callback)",
+      "keyPoints": [
+        "[Day 18](#day-18)",
+        "[Promise](#promise)",
+        "[Callbacks](#callbacks)",
+        "[Promise constructor](#promise-constructor)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "functions",
+        "day-18"
+      ]
+    },
+    {
+      "id": "functions-018-002",
+      "title": "18_day_promises - Part 2",
+      "day": 18,
+      "category": "functions",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Promise\n\nWe human give or receive a promise to do some activity at some point in time....",
+      "content": "Promise\n\nWe human give or receive a promise to do some activity at some point in time. If we keep the promise we make others happy but if we do not keep the promise, it may lead discontentment. Promise in JavaScript has something in common with the above examples.\n\nA Promise is a way to handle asynchronous operations in JavaScript. It allows handlers with an asynchronous action's eventual success value or failure reason. This lets asynchronous methods return values like synchronous methods: instead of immediately returning the final value, the asynchronous method returns a promise to supply the value at some point in the future.\n\nA Promise is in one of these states:\n\n- pending: initial state, neither fulfilled nor rejected.\n- fulfilled: meaning that the operation completed successfully.\n- rejected: meaning that the operation failed.\n\nA pending promise can either be fulfilled with a value, or rejected with a reason (error). When either of these options happens, the associated handlers queued up by a promise's then method are called. (If the promise has already been fulfilled or rejected when a corresponding handler is attached, the handler will be called, so there is no race condition between an asynchronous operation completing and its handlers being attached.)\n\nAs the Promise.prototype.then() and Promise.prototype.catch() methods return promises, they can be chained.",
+      "codeExample": "",
+      "keyPoints": [
+        "pending: initial state, neither fulfilled nor rejected.",
+        "fulfilled: meaning that the operation completed successfully.",
+        "rejected: meaning that the operation failed."
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "functions",
+        "day-18"
+      ]
+    },
+    {
+      "id": "functions-018-003",
+      "title": "18_day_promises - Part 3",
+      "day": 18,
+      "category": "functions",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Callbacks\n\nTo understand promise very well let us understand callback first....",
+      "content": "Callbacks\n\nTo understand promise very well let us understand callback first. Let's see the following callbacks. From the following code blocks you will notice, the difference between callback and promises.\n\n- call back\n  Let us see a callback function which can take two parameters. The first parameter is err and the second is result. If the err parameter is false, there will not be error other wise it will return an error.\n\nIn this case the err has a value and it will return the err block.\n\n`js\n//Callback\nconst doSomething = callback => {\n  setTimeout(() => {\n    const skills = ['HTML', 'CSS', 'JS']\n    callback('It did not go well', skills)\n  }, 2000)\n}\n\nconst callback = (err, result) => {\n  if (err) {\n    return console.log(err)\n  }\n  return console.log(result)\n}\n\ndoSomething(callback)\n`\n\n`sh\n// after 2 seconds it will print\nIt did not go well\n`\n\nIn this case the err is false and it will return the else block which is the result.\n\n`js\nconst doSomething = callback => {\n  setTimeout(() => {\n    const skills = ['HTML', 'CSS', 'JS']\n    callback(false, skills)\n  }, 2000)\n}\n\ndoSomething((err, result) => {\n  if (err) {\n    return console.log(err)\n  }\n  return console.log(result)\n})\n`\n\n`sh\n// after 2 seconds it will print the skills\n[\"HTML\", \"CSS\", \"JS\"]\n`\n\nPromise constructor\n\nWe can create a promise using the Promise constructor. We can create a new promise using the key word new followed by the word Promise and followed by a parenthesis. Inside the parenthesis, it takes a callback function. The promise callback function has two parameters which are the _resolve_ and _reject_ functions.\n\n`js\n// syntax\nconst promise = new Promise((resolve, reject) => {\n  resolve('success')\n  reject('failure')\n})\n`\n\n`js\n// Promise\nconst doPromise = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    const skills = ['HTML', 'CSS', 'JS']\n    if (skills.length > 0) {\n      resolve(skills)\n    } else {\n      reject('Something wrong has happened')\n    }\n  }, 2000)\n})\n\ndoPromise\n  .then(result => {\n    console.log(result)\n  })\n  .catch(error => console.log(error))\n`\n\n`sh\n[\"HTML\", \"CSS\", \"JS\"]\n`\n\nThe above promise has been settled with resolve.\nLet us another example when the promise is settled with reject.\n\n`js\n// Promise\nconst doPromise = new Promise((resolve, reject) => {\n  setTimeout(() => {\n    const skills = ['HTML', 'CSS', 'JS']\n    if (skills.includes('Node')) {\n      resolve('fullstack developer')\n    } else {\n      reject('Something wrong has happened')\n    }\n  }, 2000)\n})\n\ndoPromise\n  .then(result => {\n    console.log(result)\n  })\n  .catch(error => console.error(error))\n`\n\n`sh\nSomething wrong has happened\n`",
+      "codeExample": "//Callback\nconst doSomething = callback => {\n  setTimeout(() => {\n    const skills = ['HTML', 'CSS', 'JS']\n    callback('It did not go well', skills)\n  }, 2000)\n}\n\nconst callback = (err, result) => {\n  if (err) {\n    return console.log(err)\n  }\n  return console.log(result)\n}\n\ndoSomething(callback)",
+      "keyPoints": [
+        "call back"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "functions",
+        "day-18"
+      ]
+    }
+  ]
+}

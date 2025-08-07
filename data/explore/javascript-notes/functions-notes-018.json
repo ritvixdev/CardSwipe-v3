@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "functions-notes-018",
+    "topic": "functions",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "intermediate",
+    "tags": [
+      "functions",
+      "day-18",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.140Z"
+  },
+  "notes": [
+    {
+      "id": "functions-note-018",
+      "title": "18_day_promises - Study Notes",
+      "category": "functions",
+      "difficulty": "intermediate",
+      "readTime": 9,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Promises</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 17](../17_Day_Web_storages/17_day_web_storages.md) | [Day 19>>](../19_Day_Closures/19_day_closures.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_18.png)\n\n- [Day 18](day-18)\n\t- [Promise](promise)\n\t- [Callbacks](callbacks)\n\t\t- [Promise constructor](promise-constructor)\n\t- [Fetch API](fetch-api)\n\t- [Async and Await](async-and-await)\n\t- [Exercises](exercises)\n\t\t- [Exercises: Level",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Promises</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 18](#day-18)",
+        "[Promise](#promise)",
+        "[Callbacks](#callbacks)",
+        "[Promise constructor](#promise-constructor)"
+      ],
+      "tags": [
+        "functions",
+        "day-18",
+        "notes"
+      ]
+    }
+  ]
+}

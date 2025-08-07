@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "fileId": "fundamentals-004",
+    "topic": "fundamentals",
+    "subtopic": "conditionals",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "beginner",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-3"
+    ],
+    "tags": [
+      "fundamentals",
+      "day-4"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:49.995Z",
+    "updatedAt": "2025-08-07T08:51:49.995Z"
+  },
+  "cards": [
+    {
+      "id": "fundamentals-004-001",
+      "title": "Conditionals",
+      "day": 4,
+      "category": "fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Conditionals</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Conditionals</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 3](../03_Day_Booleans_operators_date/03_booleans_operators_date.md) | [Day 5 >>](../05_Day_Arrays/05_day_arrays.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_4.png)\n\n- [📔 Day 4](-day-4)\n\t- [Conditionals](conditionals)\n\t\t- [If](if)\n\t\t- [If Else](if-else)\n\t\t- [If  Else if Else](if--else-if-else)\n\t\t- [Switch](switch)\n\t\t- [Ternary Operators](ternary-operators)\n\t- [💻 Exercises](-exercises)\n\t\t- [Exercises: Level 1](exercises-level-1)\n\t\t- [Exercises: Level 2](exercises-level-2)\n\t\t- [Exercises: Level 3](exercises-level-3)\n\n📔 Day 4",
+      "codeExample": "// syntax\nif (condition) {\n  //this part of code runs for truthy condition\n}",
+      "keyPoints": [
+        "[📔 Day 4](#-day-4)",
+        "[Conditionals](#conditionals)",
+        "[If](#if)",
+        "[If Else](#if-else)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "fundamentals",
+        "day-4"
+      ]
+    },
+    {
+      "id": "fundamentals-004-002",
+      "title": "Conditionals - Part 2",
+      "day": 4,
+      "category": "fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "Conditionals\n\nConditional statements are used for  make decisions based on different conditions....",
+      "content": "Conditionals\n\nConditional statements are used for  make decisions based on different conditions.\nBy default , statements in JavaScript script executed sequentially from top to bottom. If the processing logic require so, the sequential flow of execution can be altered in two ways:\n\n- Conditional execution: a block of one or more statements will be executed if a certain expression is true\n- Repetitive execution: a block of one or more statements will be repetitively executed as long as a certain expression is true. In this section, we will cover _if_, _else_ , _else if_ statements. The comparison and logical operators we learned in the previous sections will be useful in here.\n\nConditions can be implementing using the following ways:\n\n- if\n- if else\n- if else if else\n- switch\n- ternary operator\n\nIf\n\nIn JavaScript and other programming languages the key word _if_ is to used check if a condition is true and to execute the block code. To create an if condition, we need _if_ keyword, condition inside a parenthesis and block of code inside a curly bracket({}).\n\n`js\n// syntax\nif (condition) {\n  //this part of code runs for truthy condition\n}\n`\n\nExample:\n\n`js\nlet num = 3\nif (num > 0) {\n  console.log(${num} is a positive number)\n}\n//  3 is a positive number\n`\n\nAs you can see in the  condition example above, 3 is greater than 0, so it is a positive number. The condition was true and the block of code was executed. However, if the condition is false, we won't  see any results.\n\n`js\nlet isRaining = true\nif (isRaining) {\n  console.log('Remember to take your rain coat.')\n}\n`\n\n The same goes for the second condition, if isRaining is false the if block will not be executed and we do not see any output. In order to see the result of a falsy condition, we should have another block, which is going to be _else_.\n\nIf Else\n\nIf condition is true the first block will be executed, if not the else condition will be executed.\n\n`js\n// syntax\nif (condition) {\n  // this part of code runs for truthy condition\n} else {\n  // this part of code runs for false condition\n}\n`\n\n`js\nlet num = 3\nif (num > 0) {\n  console.log(${num} is a positive number)\n} else {\n  console.log(${num} is a negative number)\n}\n//  3 is a positive number\n\nnum = -3\nif (num > 0) {\n  console.log(${num} is a positive number)\n} else {\n  console.log(${num} is a negative number)\n}\n//  -3 is a negative number\n`\n\n`js\nlet isRaining = true\nif (isRaining) {\n  console.log('You need a rain coat.')\n} else {\n  console.log('No need for a rain coat.')\n}\n// You need a rain coat.\n\nisRaining = false\nif (isRaining) {\n  console.log('You need a rain coat.')\n} else {\n  console.log('No need for a rain coat.')\n}\n// No need for a rain coat.\n`\n\nThe last condition is false, therefore the else block was executed. What if we have more than two conditions? In that case,  we would use else if conditions.\n\nIf  Else if Else\n\nOn our daily life, we make decisions on daily basis. We make decisions not by checking  one or two conditions instead we make decisions based on multiple conditions. As similar to our daily life, programming is also full of conditions. We use else if when we have multiple conditions.\n\n`js\n// syntax\nif (condition) {\n     // code\n} else if (condition) {\n   // code\n} else {\n    //  code\n\n}\n`\n\nExample:\n\n`js\nlet a = 0\nif (a > 0) {\n  console.log(${a} is a positive number)\n} else if (a < 0) {\n  console.log(${a} is a negative number)\n} else if (a == 0) {\n  console.log(${a} is zero)\n} else {\n  console.log(${a} is not a number)\n}\n`\n\n`js\n// if else if else\nlet weather = 'sunny'\nif (weather === 'rainy') {\n  console.log('You need a rain coat.')\n} else if (weather === 'cloudy') {\n  console.log('It might be cold, you need a jacket.')\n} else if (weather === 'sunny') {\n  console.log('Go out freely.')\n} else {\n  console.log('No need for rain coat.')\n}\n`\n\nSwitch\n\nSwitch  is an alternative for if else if else else.\nThe switch statement starts with a switch keyword followed by a parenthesis and code block. Inside the code block we will have different cases. Case block runs if the value in the switch statement parenthesis matches with the case value. The break statement is to terminate execution so the code execution  does not go down after the condition is satisfied.  The default block runs if all the cases don't satisfy the condition.\n\n`js\nswitch(caseValue){\n  case 1:\n    // code\n    break\n  case 2:\n   // code\n   break\n  case 3:\n   // code\n   break\n  default:\n   // code\n}\n`\n\n`js\nlet weather = 'cloudy'\nswitch (weather) {\n  case 'rainy':\n    console.log('You need a rain coat.')\n    break\n  case 'cloudy':\n    console.log('It might be cold, you need a jacket.')\n    break\n  case 'sunny':\n    console.log('Go out freely.')\n    break\n  default:\n    console.log(' No need for rain coat.')\n}\n\n// Switch More Examples\nlet dayUserInput = prompt('What day is today ?')\nlet day = dayUserInput.toLowerCase()\n\nswitch (day) {\n  case 'monday':\n    console.log('Today is Monday')\n    break\n  case 'tuesday':\n    console.log('Today is Tuesday')\n    break\n  case 'wednesday':\n    console.log('Today is Wednesday')\n    break\n  case 'thursday':\n    console.log('Today is Thursday')\n    break\n  case 'friday':\n    console.log('Today is Friday')\n    break\n  case 'saturday':\n    console.log('Today is Saturday')\n    break\n  case 'sunday':\n    console.log('Today is Sunday')\n    break\n  default:\n    console.log('It is not a week day.')\n}\n\n`\n\n// Examples to use conditions in the cases\n\n`js\nlet num = prompt('Enter number');\nswitch (true) {\n  case num > 0:\n    console.log('Number is positive');\n    break;\n  case num == 0:\n    console.log('Numbers is zero');\n    break;\n  case num < 0:\n    console.log('Number is negative');\n    break;\n  default:\n    console.log('Entered value was not a number');\n}\n`\n\nTernary Operators\n\nAnother way to write conditionals is using ternary operators. We have covered this in other sections, but we should also mention it here.\n\n`js\nlet isRaining = true\nisRaining\n  ? console.log('You need a rain coat.')\n  : console.log('No need for a rain coat.')\n`\n\n🌕  You are extraordinary and you have a remarkable potential. You have just completed day 4 challenges and you are four steps ahead to your way to greatness. Now do some exercises for your brain and  muscle.",
+      "codeExample": "// syntax\nif (condition) {\n  //this part of code runs for truthy condition\n}",
+      "keyPoints": [
+        "Conditional execution: a block of one or more statements will be executed if a certain expression is true",
+        "Repetitive execution: a block of one or more statements will be repetitively executed as long as a certain expression is true. In this section, we will cover _if_, _else_ , _else if_ statements. The comparison and logical operators we learned in the previous sections will be useful in here.",
+        "if",
+        "if else"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "fundamentals",
+        "day-4"
+      ]
+    },
+    {
+      "id": "fundamentals-004-003",
+      "title": "Conditionals - Part 3",
+      "day": 4,
+      "category": "fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "💻 Exercises\n\n### Exercises: Level 1\n\n1....",
+      "content": "💻 Exercises\n\nExercises: Level 1\n\n1. Get user input using prompt(“Enter your age:”). If user is 18 or older , give feedback:'You are old enough to drive' but if not 18 give another feedback stating to  wait for the number of years he needs to turn 18.\n\n   `sh\n   Enter your age: 30\n   You are old enough to drive.\n\n   Enter your age:15\n   You are left with 3 years to drive.\n   `\n\n1. Compare the values of myAge and yourAge using if … else. Based on the comparison and log the result to console stating who is older (me or you). Use prompt(“Enter your age:”) to get the age as input.\n\n   `sh\n   Enter your age: 30\n   You are 5 years older than me.\n   `\n\n1. If a is greater than b return 'a is greater than b' else 'a is less than b'. Try to implement it in to ways\n\n    - using if else\n    - ternary operator.\n\n    `js\n      let a = 4\n      let b = 3\n    `\n\n    `sh\n      4 is greater than 3\n    `\n\n1. Even numbers are divisible by 2 and the remainder is zero. How do you check, if a number is even or not using JavaScript?\n\n    `sh\n    Enter a number: 2\n    2 is an even number\n\n    Enter a number: 9\n    9 is is an odd number.\n    `\n\nExercises: Level 2\n\n1. Write a code which  can give grades to students according to theirs scores:\n   - 80-100, A\n   - 70-89, B\n   - 60-69, C\n   - 50-59, D\n   - 0-49, F\n1. Check if the season is Autumn, Winter, Spring or Summer.\n   If the user input is :\n   - September, October or November, the season is Autumn.\n   - December, January or February, the season is Winter.\n   - March, April or May, the season is Spring\n   - June, July or August, the season is Summer\n1. Check if a day is weekend day or a working day. Your script will take day as an input.\n\n`sh\n    What is the day  today? Saturday\n    Saturday is a weekend.\n\n    What is the day today? saturDaY\n    Saturday is a weekend.\n\n    What is the day today? Friday\n    Friday is a working day.\n\n    What is the day today? FrIDAy\n    Friday is a working day.\n  `\n\nExercises: Level 3\n\n1. Write a program which tells the number of days in a month.\n\n  `sh\n    Enter a month: January\n    January has 31 days.\n\n    Enter a month: JANUARY\n    January has 31 day\n\n    Enter a month: February\n    February has 28 days.\n\n    Enter a month: FEbruary\n    February has 28 days.\n  `\n\n1. Write a program which tells the number of days in a month, now consider leap year.\n\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 3](../03_Day_Booleans_operators_date/03_booleans_operators_date.md) | [Day 5 >>](../05_Day_Arrays/05_day_arrays.md)",
+      "codeExample": "Enter your age: 30\n   You are old enough to drive.\n\n   Enter your age:15\n   You are left with 3 years to drive.",
+      "keyPoints": [
+        "using if else",
+        "ternary operator.",
+        "80-100, A",
+        "70-89, B"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "fundamentals",
+        "day-4"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "fileId": "arrays-001",
+    "topic": "data-structures",
+    "subtopic": "arrays-basics",
+    "partNumber": 1,
+    "totalParts": 3,
+    "cardCount": 15,
+    "difficulty": "beginner",
+    "estimatedTime": "30 min",
+    "prerequisites": [
+      "fundamentals"
+    ],
+    "nextFile": "arrays-002.json",
+    "tags": [
+      "arrays",
+      "data-structures",
+      "indexing",
+      "methods"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2024-01-15T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  "cards": [
+    {
+      "id": "arr-001",
+      "title": "Array Creation and Structure",
+      "day": 5,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "3 min",
+      "description": "Learn how to create arrays and understand their structure in JavaScript",
+      "content": "Arrays are ordered collections of elements that can hold multiple values of any data type. They are zero-indexed, meaning the first element is at position 0.\n\n**Creating Arrays:**\n- Array literal notation: `[1, 2, 3]`\n- Array constructor: `new Array()`\n- Array.of() method: `Array.of(1, 2, 3)`\n- Array.from() method: `Array.from('hello')`",
+      "codeExample": "// Array literal (most common)\nconst fruits = ['apple', 'banana', 'orange'];\n\n// Array constructor\nconst numbers = new Array(1, 2, 3, 4, 5);\n\n// Mixed data types\nconst mixed = [42, 'hello', true, null, { name: 'John' }];\n\n// Empty array\nconst empty = [];\n\nconsole.log(fruits.length); // 3\nconsole.log(mixed[4].name); // 'John'",
+      "keyPoints": [
+        "Arrays store multiple values in order",
+        "Zero-indexed (first element at index 0)",
+        "Can contain mixed data types",
+        "Dynamic size - can grow and shrink"
+      ],
+      "quiz": {
+        "question": "What is the index of the first element in a JavaScript array?",
+        "options": [
+          "1",
+          "0",
+          "-1",
+          "undefined"
+        ],
+        "correctAnswer": 1,
+        "explanation": "JavaScript arrays are zero-indexed, meaning the first element is at index 0."
+      },
+      "tags": [
+        "arrays",
+        "creation",
+        "indexing",
+        "data-structures"
+      ],
+      "isCompleted": false,
+      "isBookmarked": false
+    },
+    {
+      "id": "arr-002",
+      "title": "Array Methods - Push and Pop",
+      "day": 5,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "3 min",
+      "description": "Learn about push() and pop() methods for adding and removing elements from arrays",
+      "content": "The push() and pop() methods work with the end of arrays. Push adds elements to the end, while pop removes and returns the last element.\n\n**push():**\n- Adds elements to the end of array\n- Returns new length of array\n- Mutates the original array\n\n**pop():**\n- Removes last element from array\n- Returns the removed element\n- Mutates the original array",
+      "codeExample": "const fruits = ['apple', 'banana'];\n\n// Using push() - adds to end\nconst newLength = fruits.push('orange', 'grape');\nconsole.log(fruits); // ['apple', 'banana', 'orange', 'grape']\nconsole.log(newLength); // 4\n\n// Using pop() - removes from end  \nconst removed = fruits.pop();\nconsole.log(removed); // 'grape'\nconsole.log(fruits); // ['apple', 'banana', 'orange']",
+      "keyPoints": [
+        "push() adds elements to end of array",
+        "pop() removes and returns last element",
+        "Both methods mutate the original array",
+        "push() returns new length, pop() returns removed element"
+      ],
+      "quiz": {
+        "question": "What does the push() method return?",
+        "options": [
+          "The added element",
+          "The new array length",
+          "The original array",
+          "undefined"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The push() method returns the new length of the array after adding elements."
+      },
+      "tags": [
+        "arrays",
+        "push",
+        "pop",
+        "methods",
+        "mutation"
+      ],
+      "isCompleted": false,
+      "isBookmarked": false
+    }
+  ]
+}

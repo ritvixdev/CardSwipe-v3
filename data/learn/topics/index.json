@@ -1,0 +1,144 @@
+{
+  "metadata": {
+    "title": "JavaScript Learning Path",
+    "description": "Complete 30-day JavaScript learning journey",
+    "totalTopics": 7,
+    "totalDays": 30,
+    "estimatedHours": 69,
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T09:04:49.597Z"
+  },
+  "learningPath": [
+    {
+      "order": 1,
+      "topicId": "fundamentals",
+      "name": "JavaScript Fundamentals",
+      "description": "Core JavaScript concepts including variables, data types, and basic operations",
+      "difficulty": "beginner",
+      "estimatedHours": 8,
+      "prerequisites": [],
+      "days": [
+        2,
+        4,
+        5
+      ],
+      "manifestPath": "learn/topics/fundamentals.json"
+    },
+    {
+      "order": 2,
+      "topicId": "data-structures",
+      "name": "Data Structures",
+      "description": "Arrays, objects, sets, maps and other data structures in JavaScript",
+      "difficulty": "beginner",
+      "estimatedHours": 10,
+      "prerequisites": [
+        "fundamentals"
+      ],
+      "days": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "manifestPath": "learn/topics/data-structures.json"
+    },
+    {
+      "order": 3,
+      "topicId": "control-flow",
+      "name": "Control Flow",
+      "description": "Conditionals, loops, and program flow control",
+      "difficulty": "intermediate",
+      "estimatedHours": 8,
+      "prerequisites": [
+        "fundamentals"
+      ],
+      "days": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "manifestPath": "learn/topics/control-flow.json"
+    },
+    {
+      "order": 4,
+      "topicId": "functions",
+      "name": "Functions & Scope",
+      "description": "Function declarations, expressions, arrow functions, and scope",
+      "difficulty": "intermediate",
+      "estimatedHours": 10,
+      "prerequisites": [
+        "fundamentals",
+        "control-flow"
+      ],
+      "days": [
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "manifestPath": "learn/topics/functions.json"
+    },
+    {
+      "order": 5,
+      "topicId": "objects",
+      "name": "Objects & Classes",
+      "description": "Object-oriented programming, classes, and advanced object concepts",
+      "difficulty": "intermediate",
+      "estimatedHours": 12,
+      "prerequisites": [
+        "functions"
+      ],
+      "days": [
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "manifestPath": "learn/topics/objects.json"
+    },
+    {
+      "order": 6,
+      "topicId": "dom",
+      "name": "DOM Manipulation",
+      "description": "Document Object Model manipulation and web interactions",
+      "difficulty": "advanced",
+      "estimatedHours": 6,
+      "prerequisites": [
+        "objects"
+      ],
+      "days": [
+        26,
+        27
+      ],
+      "manifestPath": "learn/topics/dom.json"
+    },
+    {
+      "order": 7,
+      "topicId": "projects",
+      "name": "Projects & Applications",
+      "description": "Real-world projects and practical applications",
+      "difficulty": "advanced",
+      "estimatedHours": 15,
+      "prerequisites": [
+        "dom"
+      ],
+      "days": [
+        28,
+        29,
+        30
+      ],
+      "manifestPath": "learn/topics/projects.json"
+    }
+  ],
+  "statistics": {
+    "beginnerTopics": 2,
+    "intermediateTopics": 3,
+    "advancedTopics": 2,
+    "totalFiles": 163
+  }
+}

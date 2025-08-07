@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "fileId": "fundamentals-quiz-002",
+    "topic": "fundamentals",
+    "category": "practice-quiz",
+    "quizCount": 1,
+    "difficulty": "easy",
+    "tags": [
+      "fundamentals",
+      "day-2",
+      "quiz"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:49.986Z"
+  },
+  "quizzes": [
+    {
+      "id": "fundamentals-quiz-002",
+      "title": "Data Types - Practice Quiz",
+      "category": "fundamentals",
+      "difficulty": "easy",
+      "timeLimit": 300,
+      "passingScore": 70,
+      "questions": [
+        {
+          "id": "q1",
+          "question": "What is the main focus of this fundamentals lesson?",
+          "options": [
+            "Concept A",
+            "Concept B",
+            "Concept C",
+            "Concept D"
+          ],
+          "correctAnswer": 0,
+          "explanation": "This lesson focuses on the fundamental concepts.",
+          "difficulty": "medium",
+          "points": 10,
+          "tags": [
+            "fundamentals"
+          ]
+        },
+        {
+          "id": "q2",
+          "question": "Which best describes the key principle?",
+          "options": [
+            "Principle A",
+            "Principle B",
+            "Principle C",
+            "Principle D"
+          ],
+          "correctAnswer": 1,
+          "explanation": "The key principle is essential for understanding.",
+          "difficulty": "medium",
+          "points": 15,
+          "tags": [
+            "fundamentals"
+          ]
+        }
+      ]
+    }
+  ]
+}

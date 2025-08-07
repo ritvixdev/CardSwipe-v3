@@ -15,6 +15,9 @@ export default function EnhancedMarkdown({ children, style, allowCodeWrapping = 
   const themeColors = useThemeColors();
   const themeMode = useThemeStore((state) => state.mode);
 
+  // Validate and sanitize content to prevent React Native Markdown errors
+  const sanitizedContent = children?.trim() || 'No content available';
+
   // Parse markdown content and extract code blocks
   const parseContent = (content: string) => {
     const parts = [];
@@ -99,7 +102,7 @@ export default function EnhancedMarkdown({ children, style, allowCodeWrapping = 
   };
 
   const mergedStyle = { ...defaultStyle, ...style };
-  const parts = parseContent(children);
+  const parts = parseContent(sanitizedContent);
 
   return (
     <View>

@@ -1,0 +1,174 @@
+{
+  "metadata": {
+    "topicId": "projects",
+    "name": "Projects & Applications",
+    "description": "Real-world projects and practical applications",
+    "difficulty": "advanced",
+    "estimatedHours": 15,
+    "prerequisites": [
+      "dom"
+    ],
+    "tags": [
+      "projects",
+      "advanced"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T09:04:49.594Z",
+    "updatedAt": "2025-08-07T09:04:49.594Z"
+  },
+  "structure": {
+    "totalFiles": 21,
+    "cardFiles": 15,
+    "noteFiles": 3,
+    "quizFiles": 3,
+    "days": [
+      28,
+      29,
+      30
+    ]
+  },
+  "files": {
+    "cards": [
+      {
+        "fileId": "projects-004-1754557488981",
+        "path": "learn/cards/projects/projects-004-1754557488981.json",
+        "day": 1754557488981,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-005-1754557488983",
+        "path": "learn/cards/projects/projects-005-1754557488983.json",
+        "day": 1754557488983,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-006-1754557488984",
+        "path": "learn/cards/projects/projects-006-1754557488984.json",
+        "day": 1754557488984,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-007-1754557488987",
+        "path": "learn/cards/projects/projects-007-1754557488987.json",
+        "day": 1754557488987,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-008-1754557488989",
+        "path": "learn/cards/projects/projects-008-1754557488989.json",
+        "day": 1754557488989,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-009-1754557488994",
+        "path": "learn/cards/projects/projects-009-1754557488994.json",
+        "day": 1754557488994,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-010-1754557488998",
+        "path": "learn/cards/projects/projects-010-1754557488998.json",
+        "day": 1754557488998,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-011-1754557489002",
+        "path": "learn/cards/projects/projects-011-1754557489002.json",
+        "day": 1754557489002,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-012-1754557489005",
+        "path": "learn/cards/projects/projects-012-1754557489005.json",
+        "day": 1754557489005,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-013-1754557489008",
+        "path": "learn/cards/projects/projects-013-1754557489008.json",
+        "day": 1754557489008,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-014-1754557489010",
+        "path": "learn/cards/projects/projects-014-1754557489010.json",
+        "day": 1754557489010,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-015-1754557489012",
+        "path": "learn/cards/projects/projects-015-1754557489012.json",
+        "day": 1754557489012,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-028",
+        "path": "learn/cards/projects/projects-028.json",
+        "day": 28,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-029",
+        "path": "learn/cards/projects/projects-029.json",
+        "day": 29,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "projects-030",
+        "path": "learn/cards/projects/projects-030.json",
+        "day": 30,
+        "estimatedCards": 2
+      }
+    ],
+    "notes": [
+      {
+        "fileId": "projects-notes-028",
+        "path": "explore/javascript-notes/projects-notes-028.json",
+        "day": 28
+      },
+      {
+        "fileId": "projects-notes-029",
+        "path": "explore/javascript-notes/projects-notes-029.json",
+        "day": 29
+      },
+      {
+        "fileId": "projects-notes-030",
+        "path": "explore/javascript-notes/projects-notes-030.json",
+        "day": 30
+      }
+    ],
+    "quizzes": [
+      {
+        "fileId": "projects-quiz-028",
+        "path": "explore/practice-quiz/projects-quiz-028.json",
+        "day": 28
+      },
+      {
+        "fileId": "projects-quiz-029",
+        "path": "explore/practice-quiz/projects-quiz-029.json",
+        "day": 29
+      },
+      {
+        "fileId": "projects-quiz-030",
+        "path": "explore/practice-quiz/projects-quiz-030.json",
+        "day": 30
+      }
+    ]
+  },
+  "progression": {
+    "unlockCriteria": {
+      "type": "sequential",
+      "requiresPrevious": true
+    },
+    "rewards": {
+      "completionXP": 750,
+      "masteryBadge": "projects-master",
+      "nextUnlock": null
+    }
+  },
+  "analytics": {
+    "averageCompletionTime": "15 hours",
+    "difficultyRating": 5,
+    "popularityScore": 85
+  }
+}

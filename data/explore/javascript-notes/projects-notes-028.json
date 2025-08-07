@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "fileId": "projects-notes-028",
+    "topic": "projects",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "advanced",
+    "tags": [
+      "projects",
+      "day-28",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.251Z"
+  },
+  "notes": [
+    {
+      "id": "projects-note-028",
+      "title": "28_day_mini_project_leaderboard - Study Notes",
+      "category": "projects",
+      "difficulty": "advanced",
+      "readTime": 2,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 27](../27_Day_Mini_project_portfolio/27_day_mini_project_portfolio.md) | [Day 29>>](../29_Day_Mini_project_animating_characters/29_day_mini_project_animating_characters.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_28.png)\n\n- [Day 28](day-28)\n  - [Exercises](exercises)\n    - [Exercise: Level 1](exercise-level-1)\n\nDay 28\n\nExercises\n\nExercise: Level 1\n\n1. Create the following using HT",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 28](#day-28)",
+        "[Exercises](#exercises)",
+        "[Exercise: Level 1](#exercise-level-1)"
+      ],
+      "tags": [
+        "projects",
+        "day-28",
+        "notes"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "design-pattern-008-1754557489477",
+  "title": "Module Pattern",
+  "type": "design-pattern",
+  "pattern": "module",
+  "description": "Provides a way to encapsulate and organize code.",
+  "implementation": "// Pattern implementation code here",
+  "useCase": "Common scenarios where this pattern is useful and provides benefits.",
+  "pros": [
+    "Advantage 1",
+    "Advantage 2",
+    "Advantage 3"
+  ],
+  "cons": [
+    "Disadvantage 1",
+    "Disadvantage 2"
+  ],
+  "metadata": {
+    "difficulty": "advanced",
+    "estimatedTime": 20,
+    "tags": [
+      "design-patterns",
+      "module",
+      "architecture"
+    ],
+    "createdAt": "2025-08-07T09:04:49.477Z"
+  }
+}

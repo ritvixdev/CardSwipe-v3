@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "data-structures-notes-009",
+    "topic": "data-structures",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "beginner",
+    "tags": [
+      "data-structures",
+      "day-9",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.050Z"
+  },
+  "notes": [
+    {
+      "id": "data-structures-note-009",
+      "title": "09_day_higher_order_functions - Study Notes",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "readTime": 21,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Higher Order Functions</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 8](../08_Day_Objects/08_day_objects.md) | [Day 10 >>](../10_Day_Sets_and_Maps/10_day_Sets_and_Maps.md)\n\n![Day 5](../images/banners/day_1_9.png)\n\n- [Day 9](day-9)\n\t- [Higher Order Function](higher-order-function)\n\t\t- [Callback](callback)\n\t\t- [Returning function](returning-function)\n\t\t- [Setting time](setting-time)\n\t\t\t- [Setting Interval using a setInterval function](setting-int",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Higher Order Functions</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 9](#day-9)",
+        "[Higher Order Function](#higher-order-function)",
+        "[Callback](#callback)",
+        "[Returning function](#returning-function)"
+      ],
+      "tags": [
+        "data-structures",
+        "day-9",
+        "notes"
+      ]
+    }
+  ]
+}

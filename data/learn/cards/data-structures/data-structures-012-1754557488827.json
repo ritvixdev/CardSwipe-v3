@@ -1,0 +1,44 @@
+{
+  "id": "data-structures-012-1754557488827",
+  "title": "Understanding data-structures Concepts #12",
+  "topic": "data-structures",
+  "type": "concept",
+  "difficulty": "intermediate",
+  "day": 4,
+  "content": "Data structures are fundamental building blocks for organizing and storing data efficiently. Understanding arrays, objects, and other structures is essential.",
+  "codeExample": "// Array and object basics\nconst numbers = [1, 2, 3, 4, 5];\nconst user = { name: 'John', age: 30 };",
+  "keyPoints": [
+    "Arrays store ordered collections",
+    "Objects store key-value pairs",
+    "Choose appropriate data structure for the task",
+    "Understand reference vs primitive types"
+  ],
+  "quiz": {
+    "question": "Which method adds an element to the end of an array?",
+    "options": [
+      "unshift()",
+      "push()",
+      "pop()",
+      "shift()"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The push() method adds one or more elements to the end of an array and returns the new length."
+  },
+  "metadata": {
+    "estimatedTime": 5,
+    "prerequisites": [
+      "fundamentals"
+    ],
+    "tags": [
+      "data-structures",
+      "concept",
+      "javascript",
+      "arrays",
+      "objects",
+      "collections"
+    ],
+    "version": "1.0",
+    "createdAt": "2025-08-07T09:04:48.827Z",
+    "updatedAt": "2025-08-07T09:04:48.827Z"
+  }
+}

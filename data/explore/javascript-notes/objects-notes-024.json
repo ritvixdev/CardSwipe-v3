@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "fileId": "objects-notes-024",
+    "topic": "objects",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "advanced",
+    "tags": [
+      "objects",
+      "day-24",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.206Z"
+  },
+  "notes": [
+    {
+      "id": "objects-note-024",
+      "title": "24_day_project_solar_system - Study Notes",
+      "category": "objects",
+      "difficulty": "advanced",
+      "readTime": 2,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Mini Project Solar System</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 23](../23_Day_Event_listeners/23_day_event_listeners.md) | [Day 25 >>](../25_Day_World_countries_data_visualization_1/25_day_world_countries_data_visualization_1.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_24.png)\n\n- [Day 24](day-24)\n  - [Exercises](exercises)\n    - [Exercise: Level 1](exercise-level-1)\n\nDay 24\n\nExercises\n\nExercise: Level 1\n\n1. Develop a",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Mini Project Solar System</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 24](#day-24)",
+        "[Exercises](#exercises)",
+        "[Exercise: Level 1](#exercise-level-1)"
+      ],
+      "tags": [
+        "objects",
+        "day-24",
+        "notes"
+      ]
+    }
+  ]
+}

@@ -15,7 +15,7 @@ import * as Haptics from 'expo-haptics';
 
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import { designPatterns, codingQuestions, getAllLessons } from '@/data/processors/dataLoader';
+import { designPatterns, codingQuestions, getAllLessons, getNotes, getQuizzes, getInterviewQuestions } from '@/data/processors/dataLoader';
 // Base explore cards template
 const baseExploreCards = [
   {
@@ -56,7 +56,7 @@ const baseExploreCards = [
     color: '#10b981',
     route: '/(tabs)/explore/javascript-notes',
     category: 'resource',
-    itemCount: 25,
+    itemCount: 0, // Will be updated dynamically
     difficulty: 'beginner',
     estimatedTime: '2 hours read'
   },
@@ -68,7 +68,7 @@ const baseExploreCards = [
     color: '#f59e0b',
     route: '/(tabs)/explore/interview-prep',
     category: 'resource',
-    itemCount: 50,
+    itemCount: 0, // Will be updated dynamically
     difficulty: 'intermediate',
     estimatedTime: '3 hours',
     isPopular: true
@@ -81,7 +81,7 @@ const baseExploreCards = [
     color: '#8b5cf6',
     route: '/(tabs)/explore/practice-quiz',
     category: 'resource',
-    itemCount: 15,
+    itemCount: 0, // Will be updated dynamically
     difficulty: 'beginner',
     estimatedTime: '20 min'
   },
@@ -93,7 +93,7 @@ const baseExploreCards = [
     color: '#ef4444',
     route: '/(tabs)/explore/interview-quiz',
     category: 'resource',
-    itemCount: 20,
+    itemCount: 0, // Will be updated dynamically
     difficulty: 'advanced',
     estimatedTime: '30 min',
     isNew: true
@@ -106,7 +106,7 @@ const baseExploreCards = [
     color: '#3b82f6',
     route: '/(tabs)/explore/learning-roadmap',
     category: 'resource',
-    itemCount: 6,
+    itemCount: 0, // Will be updated dynamically
     difficulty: 'beginner',
     estimatedTime: 'Self-paced',
     isNew: true
@@ -153,8 +153,11 @@ interface ExploreCard {
   isPopular?: boolean;
 }
 
-function getExploreCardsByCategory(category: 'permanent' | 'resource'): ExploreCard[] {
-  return baseExploreCards.filter(card => card.category === category);
+function getExploreCardsByCategory(category: 'permanent' | 'resource', dynamicCounts: {[key: string]: number}): ExploreCard[] {
+  return baseExploreCards.filter(card => card.category === category).map(card => ({
+    ...card,
+    itemCount: dynamicCounts[card.id] !== undefined ? dynamicCounts[card.id] : card.itemCount
+  }));
 }
 
 const { width } = Dimensions.get('window');
@@ -168,8 +171,9 @@ export default function ExploreScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'beginner' | 'intermediate' | 'advanced'>('all');
   const [lessons, setLessons] = useState<any[]>([]);
+  const [dynamicCounts, setDynamicCounts] = useState<{[key: string]: number}>({});
 
-  // Load lessons data
+  // Load lessons data and dynamic counts
   useEffect(() => {
     const loadLessons = async () => {
       try {
@@ -181,6 +185,42 @@ export default function ExploreScreen() {
       }
     };
     loadLessons();
+  }, []);
+
+  // Load dynamic counts for explore categories
+  useEffect(() => {
+    const loadDynamicCounts = async () => {
+      try {
+        const [notes, quizzes, interviews, patterns, coding] = await Promise.all([
+          getNotes(),
+          getQuizzes(),
+          getInterviewQuestions(),
+          designPatterns || [],
+          codingQuestions || []
+        ]);
+        
+        setDynamicCounts({
+          'javascript-notes': notes.length,
+          'practice-quiz': quizzes.length,
+          'interview-prep': interviews.length,
+          'interview-quiz': Math.floor(interviews.length * 0.6), // Subset for advanced quiz
+          'design-patterns': patterns.length,
+          'coding-questions': coding.length,
+          'learning-roadmap': 6 // Static for now
+        });
+        
+        console.log('📊 Dynamic counts loaded:', {
+          notes: notes.length,
+          quizzes: quizzes.length,
+          interviews: interviews.length,
+          patterns: patterns.length,
+          coding: coding.length
+        });
+      } catch (error) {
+        console.error('Failed to load dynamic counts:', error);
+      }
+    };
+    loadDynamicCounts();
   }, []);
 
   // Calculate dynamic counts for permanent cards
@@ -213,6 +253,10 @@ export default function ExploreScreen() {
     }
     if (card.id === 'liked') {
       return { ...card, itemCount: likedCount };
+    }
+    // Apply dynamic counts for resource cards
+    if (dynamicCounts[card.id] !== undefined) {
+      return { ...card, itemCount: dynamicCounts[card.id] };
     }
     return card;
   });

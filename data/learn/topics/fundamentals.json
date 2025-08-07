@@ -1,64 +1,182 @@
 {
-  "topicInfo": {
-    "id": "fundamentals",
-    "title": "Fundamentals",
-    "description": "Core concepts",
-    "icon": "📚",
-    "color": "#8b5cf6",
-    "gradient": ["#e9d5ff", "#c4b5fd", "#a78bfa"]
+  "metadata": {
+    "topicId": "fundamentals",
+    "name": "JavaScript Fundamentals",
+    "description": "Core JavaScript concepts including variables, data types, and basic operations",
+    "difficulty": "beginner",
+    "estimatedHours": 8,
+    "prerequisites": [],
+    "tags": [
+      "fundamentals",
+      "beginner"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T09:04:49.575Z",
+    "updatedAt": "2025-08-07T09:04:49.576Z"
   },
-  "cards": [
-    {
-      "id": "fundamentals-datatypes",
-      "title": "Data Types Deep Dive",
-      "topicName": "Fundamentals",
-      "category": "Core Concepts",
-      "difficulty": "beginner",
-      "estimatedTime": "15 min",
-      "description": "Master JavaScript's fundamental data types and type checking.",
-      "content": "JavaScript has two categories of data types: primitives (stored by value) and objects (stored by reference). Understanding these differences is crucial for writing effective JavaScript code.",
-      "codeExample": "// Primitive types (stored by value)\nlet str = 'Hello';           // string\nlet num = 42;                // number\nlet bool = true;             // boolean\nlet nothing = null;          // null\nlet notDefined = undefined;  // undefined\nlet sym = Symbol('id');      // symbol\nlet big = 123n;              // bigint\n\n// Type checking\nconsole.log(typeof str);     // 'string'\nconsole.log(typeof num);     // 'number'\nconsole.log(typeof bool);    // 'boolean'\nconsole.log(typeof nothing); // 'object' (JavaScript quirk!)\nconsole.log(typeof notDefined); // 'undefined'\nconsole.log(typeof sym);     // 'symbol'\nconsole.log(typeof big);     // 'bigint'\n\n// Object types (stored by reference)\nlet obj = { name: 'Alice' };\nlet arr = [1, 2, 3];\nlet func = function() {};\n\nconsole.log(typeof obj);     // 'object'\nconsole.log(typeof arr);     // 'object'\nconsole.log(typeof func);    // 'function'\n\n// Better type checking\nconsole.log(Array.isArray(arr));        // true\nconsole.log(obj instanceof Object);     // true\nconsole.log(Object.prototype.toString.call(arr)); // '[object Array]'\n\n// Type coercion examples\nconsole.log('5' + 3);        // '53' (string concatenation)\nconsole.log('5' - 3);        // 2 (numeric subtraction)\nconsole.log(true + 1);       // 2 (boolean to number)\nconsole.log(null + 1);       // 1 (null becomes 0)\nconsole.log(undefined + 1);  // NaN (undefined becomes NaN)",
-      "keyPoints": [
-        "7 primitive types: string, number, boolean, null, undefined, symbol, bigint",
-        "Objects include arrays, functions, and plain objects",
-        "typeof null returns 'object' (historical bug)",
-        "JavaScript performs automatic type coercion"
-      ],
-      "quiz": {
-        "question": "What does typeof [] return?",
-        "options": ["'array'", "'object'", "'undefined'", "'function'"],
-        "correctAnswer": 1,
-        "explanation": "Arrays are objects in JavaScript, so typeof [] returns 'object'. Use Array.isArray() to check for arrays."
+  "structure": {
+    "totalFiles": 23,
+    "cardFiles": 15,
+    "noteFiles": 4,
+    "quizFiles": 4,
+    "days": [
+      2,
+      4,
+      5
+    ]
+  },
+  "files": {
+    "cards": [
+      {
+        "fileId": "fundamentals-001",
+        "path": "learn/cards/fundamentals/fundamentals-001.json",
+        "day": 1,
+        "estimatedCards": 2
       },
-      "tags": ["data-types", "typeof", "primitives", "objects"],
-      "isCompleted": false,
-      "isBookmarked": false
+      {
+        "fileId": "fundamentals-002",
+        "path": "learn/cards/fundamentals/fundamentals-002.json",
+        "day": 2,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-004",
+        "path": "learn/cards/fundamentals/fundamentals-004.json",
+        "day": 4,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-005-1754557488918",
+        "path": "learn/cards/fundamentals/fundamentals-005-1754557488918.json",
+        "day": 1754557488918,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-005",
+        "path": "learn/cards/fundamentals/fundamentals-005.json",
+        "day": 5,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-006-1754557488920",
+        "path": "learn/cards/fundamentals/fundamentals-006-1754557488920.json",
+        "day": 1754557488920,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-007-1754557488923",
+        "path": "learn/cards/fundamentals/fundamentals-007-1754557488923.json",
+        "day": 1754557488923,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-008-1754557488925",
+        "path": "learn/cards/fundamentals/fundamentals-008-1754557488925.json",
+        "day": 1754557488925,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-009-1754557488929",
+        "path": "learn/cards/fundamentals/fundamentals-009-1754557488929.json",
+        "day": 1754557488929,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-010-1754557488932",
+        "path": "learn/cards/fundamentals/fundamentals-010-1754557488932.json",
+        "day": 1754557488932,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-011-1754557488934",
+        "path": "learn/cards/fundamentals/fundamentals-011-1754557488934.json",
+        "day": 1754557488934,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-012-1754557488938",
+        "path": "learn/cards/fundamentals/fundamentals-012-1754557488938.json",
+        "day": 1754557488938,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-013-1754557488939",
+        "path": "learn/cards/fundamentals/fundamentals-013-1754557488939.json",
+        "day": 1754557488939,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-014-1754557488942",
+        "path": "learn/cards/fundamentals/fundamentals-014-1754557488942.json",
+        "day": 1754557488942,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "fundamentals-015-1754557488945",
+        "path": "learn/cards/fundamentals/fundamentals-015-1754557488945.json",
+        "day": 1754557488945,
+        "estimatedCards": 2
+      }
+    ],
+    "notes": [
+      {
+        "fileId": "fundamentals-notes-001",
+        "path": "explore/javascript-notes/fundamentals-notes-001.json",
+        "day": 1
+      },
+      {
+        "fileId": "fundamentals-notes-002",
+        "path": "explore/javascript-notes/fundamentals-notes-002.json",
+        "day": 2
+      },
+      {
+        "fileId": "fundamentals-notes-004",
+        "path": "explore/javascript-notes/fundamentals-notes-004.json",
+        "day": 4
+      },
+      {
+        "fileId": "fundamentals-notes-005",
+        "path": "explore/javascript-notes/fundamentals-notes-005.json",
+        "day": 5
+      }
+    ],
+    "quizzes": [
+      {
+        "fileId": "fundamentals-quiz-001",
+        "path": "explore/practice-quiz/fundamentals-quiz-001.json",
+        "day": 1
+      },
+      {
+        "fileId": "fundamentals-quiz-002",
+        "path": "explore/practice-quiz/fundamentals-quiz-002.json",
+        "day": 2
+      },
+      {
+        "fileId": "fundamentals-quiz-004",
+        "path": "explore/practice-quiz/fundamentals-quiz-004.json",
+        "day": 4
+      },
+      {
+        "fileId": "fundamentals-quiz-005",
+        "path": "explore/practice-quiz/fundamentals-quiz-005.json",
+        "day": 5
+      }
+    ]
+  },
+  "progression": {
+    "unlockCriteria": {
+      "type": "sequential",
+      "requiresPrevious": false
     },
-    {
-      "id": "fundamentals-operators",
-      "title": "Operators and Expressions",
-      "topicName": "Fundamentals",
-      "category": "Core Concepts",
-      "difficulty": "beginner",
-      "estimatedTime": "18 min",
-      "description": "Learn all JavaScript operators and how to build complex expressions.",
-      "content": "Operators are symbols that perform operations on values. JavaScript has many types of operators for arithmetic, comparison, logical operations, and more.",
-      "codeExample": "// Arithmetic operators\nlet a = 10, b = 3;\nconsole.log(a + b);  // 13 (addition)\nconsole.log(a - b);  // 7 (subtraction)\nconsole.log(a * b);  // 30 (multiplication)\nconsole.log(a / b);  // 3.333... (division)\nconsole.log(a % b);  // 1 (remainder/modulo)\nconsole.log(a ** b); // 1000 (exponentiation)\n\n// Assignment operators\nlet x = 5;\nx += 3;  // x = x + 3 → 8\nx -= 2;  // x = x - 2 → 6\nx *= 2;  // x = x * 2 → 12\nx /= 3;  // x = x / 3 → 4\nx++;     // x = x + 1 → 5\n++x;     // x = x + 1 → 6\n\n// Comparison operators\nconsole.log(5 == '5');   // true (loose equality)\nconsole.log(5 === '5');  // false (strict equality)\nconsole.log(5 != '5');   // false (loose inequality)\nconsole.log(5 !== '5');  // true (strict inequality)\nconsole.log(10 > 5);     // true\nconsole.log(10 >= 10);   // true\n\n// Logical operators\nlet isAdult = true;\nlet hasLicense = false;\n\nconsole.log(isAdult && hasLicense); // false (AND)\nconsole.log(isAdult || hasLicense); // true (OR)\nconsole.log(!isAdult);              // false (NOT)\n\n// Short-circuit evaluation\nlet user = null;\nlet name = user && user.name;       // null (stops at user)\nlet defaultName = name || 'Guest';   // 'Guest'\n\n// Nullish coalescing operator (ES2020)\nlet value = null;\nlet result = value ?? 'default';    // 'default'\nlet result2 = 0 ?? 'default';       // 0 (0 is not nullish)\n\n// Conditional (ternary) operator\nlet age = 20;\nlet status = age >= 18 ? 'adult' : 'minor';\nconsole.log(status); // 'adult'\n\n// Complex expression\nlet score = 85;\nlet grade = score >= 90 ? 'A' : \n           score >= 80 ? 'B' : \n           score >= 70 ? 'C' : \n           score >= 60 ? 'D' : 'F';\nconsole.log(grade); // 'B'",
-      "keyPoints": [
-        "Use === and !== for strict equality (recommended)",
-        "Logical operators use short-circuit evaluation",
-        "?? (nullish coalescing) only checks for null/undefined",
-        "Ternary operator is great for simple conditional assignments"
-      ],
-      "quiz": {
-        "question": "What does 0 || 'default' return?",
-        "options": ["0", "'default'", "true", "false"],
-        "correctAnswer": 1,
-        "explanation": "0 is falsy, so the || operator returns the second value: 'default'."
-      },
-      "tags": ["operators", "expressions", "equality", "logical"],
-      "isCompleted": false,
-      "isBookmarked": false
+    "rewards": {
+      "completionXP": 400,
+      "masteryBadge": "fundamentals-master",
+      "nextUnlock": "data-structures"
     }
-  ]
+  },
+  "analytics": {
+    "averageCompletionTime": "8 hours",
+    "difficultyRating": 2,
+    "popularityScore": 85
+  }
 }

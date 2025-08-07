@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "data-structures-notes-006",
+    "topic": "data-structures",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "beginner",
+    "tags": [
+      "data-structures",
+      "day-6",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.017Z"
+  },
+  "notes": [
+    {
+      "id": "data-structures-note-006",
+      "title": "Loops - Study Notes",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "readTime": 12,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Loops</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 5](../05_Day_Arrays/05_day_arrays.md) | [Day 7 >>](../07_Day_Functions/07_day_functions.md)\n\n![Day 5](../images/banners/day_1_6.png)\n\n- [📔 Day 6](-day-6)\n\t- [Loops](loops)\n\t\t- [for Loop](for-loop)\n\t\t- [while loop](while-loop)\n\t\t- [do while loop](do-while-loop)\n\t\t- [for of loop](for-of-loop)\n\t\t- [break](break)\n\t\t- [continue](continue)\n\t- [💻 Exercises:Day 6](-exercisesday-6)\n\t\t- [Exe",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Loops</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[📔 Day 6](#-day-6)",
+        "[Loops](#loops)",
+        "[for Loop](#for-loop)",
+        "[while loop](#while-loop)"
+      ],
+      "tags": [
+        "data-structures",
+        "day-6",
+        "notes"
+      ]
+    }
+  ]
+}

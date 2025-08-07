@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "projects-notes-030",
+    "topic": "projects",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "advanced",
+    "tags": [
+      "projects",
+      "day-30",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.284Z"
+  },
+  "notes": [
+    {
+      "id": "projects-note-030",
+      "title": "30_day_mini_project_final - Study Notes",
+      "category": "projects",
+      "difficulty": "advanced",
+      "readTime": 3,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Final Projects</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n</div>\n</div>\n\n<div>\n\n</div>\n\n<div>\n<small>Support the <strong>author</strong> to create more educational materials</small> <br />  \n<a href = \"https://www.paypal.me/asabeneh\"><img src='./../images/paypal_lg.png' alt='Paypal Logo' style=\"width:10%\"/></a>\n</div>\n\n[<< Day 29](../29_Day_Mini_project_animating_characters/29_day_mini_project_animating_characters.md)\n\n![Thirty Days Of JavaScript](../images/banner",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Final Projects</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 30](#day-30)",
+        "[Exercises](#exercises)",
+        "[Exercise: Level 1](#exercise-level-1)",
+        "[Exercise: Level 2](#exercise-level-2)"
+      ],
+      "tags": [
+        "projects",
+        "day-30",
+        "notes"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "coding-question-003-1754557489406",
+  "title": "Coding Challenge #3",
+  "type": "coding-question",
+  "difficulty": "easy",
+  "problem": "Write a function that returns the sum of two numbers.",
+  "solution": "function sum(a, b) {\n  return a + b;\n}",
+  "testCases": [
+    {
+      "input": "Test input 1",
+      "expected": "Expected output 1"
+    },
+    {
+      "input": "Test input 2",
+      "expected": "Expected output 2"
+    }
+  ],
+  "hints": [
+    "Consider the edge cases",
+    "Think about time complexity",
+    "Review the problem constraints"
+  ],
+  "metadata": {
+    "estimatedTime": 15,
+    "tags": [
+      "coding",
+      "algorithm",
+      "problem-solving",
+      "easy"
+    ],
+    "createdAt": "2025-08-07T09:04:49.406Z"
+  }
+}

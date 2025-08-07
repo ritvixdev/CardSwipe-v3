@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "fileId": "projects-quiz-028",
+    "topic": "projects",
+    "category": "practice-quiz",
+    "quizCount": 1,
+    "difficulty": "hard",
+    "tags": [
+      "projects",
+      "day-28",
+      "quiz"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.255Z"
+  },
+  "quizzes": [
+    {
+      "id": "projects-quiz-028",
+      "title": "28_day_mini_project_leaderboard - Practice Quiz",
+      "category": "projects",
+      "difficulty": "hard",
+      "timeLimit": 300,
+      "passingScore": 70,
+      "questions": [
+        {
+          "id": "q1",
+          "question": "What is the main focus of this projects lesson?",
+          "options": [
+            "Concept A",
+            "Concept B",
+            "Concept C",
+            "Concept D"
+          ],
+          "correctAnswer": 0,
+          "explanation": "This lesson focuses on the fundamental concepts.",
+          "difficulty": "medium",
+          "points": 10,
+          "tags": [
+            "projects"
+          ]
+        },
+        {
+          "id": "q2",
+          "question": "Which best describes the key principle?",
+          "options": [
+            "Principle A",
+            "Principle B",
+            "Principle C",
+            "Principle D"
+          ],
+          "correctAnswer": 1,
+          "explanation": "The key principle is essential for understanding.",
+          "difficulty": "medium",
+          "points": 15,
+          "tags": [
+            "projects"
+          ]
+        }
+      ]
+    }
+  ]
+}

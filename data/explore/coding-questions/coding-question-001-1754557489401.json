@@ -1,0 +1,33 @@
+{
+  "id": "coding-question-001-1754557489401",
+  "title": "Coding Challenge #1",
+  "type": "coding-question",
+  "difficulty": "medium",
+  "problem": "Implement a function that finds the longest substring without repeating characters.",
+  "solution": "function lengthOfLongestSubstring(s) {\n  // Implementation here\n  return 0;\n}",
+  "testCases": [
+    {
+      "input": "Test input 1",
+      "expected": "Expected output 1"
+    },
+    {
+      "input": "Test input 2",
+      "expected": "Expected output 2"
+    }
+  ],
+  "hints": [
+    "Consider the edge cases",
+    "Think about time complexity",
+    "Review the problem constraints"
+  ],
+  "metadata": {
+    "estimatedTime": 30,
+    "tags": [
+      "coding",
+      "algorithm",
+      "problem-solving",
+      "medium"
+    ],
+    "createdAt": "2025-08-07T09:04:49.401Z"
+  }
+}

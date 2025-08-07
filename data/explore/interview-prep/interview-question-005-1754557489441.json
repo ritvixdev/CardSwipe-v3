@@ -1,0 +1,28 @@
+{
+  "id": "interview-question-005-1754557489441",
+  "title": "Interview Question #5 - system-design",
+  "type": "interview-question",
+  "category": "system-design",
+  "question": "Design a simple chat application. What components would you include?",
+  "expectedAnswer": "Comprehensive answer covering key points and demonstrating understanding of the topic.",
+  "followUpQuestions": [
+    "Can you elaborate on that point?",
+    "How would you handle edge cases?",
+    "What alternatives did you consider?"
+  ],
+  "tips": [
+    "Be specific and provide examples",
+    "Show your thought process",
+    "Ask clarifying questions"
+  ],
+  "metadata": {
+    "difficulty": "intermediate",
+    "estimatedTime": 10,
+    "tags": [
+      "interview",
+      "system-design",
+      "preparation"
+    ],
+    "createdAt": "2025-08-07T09:04:49.441Z"
+  }
+}

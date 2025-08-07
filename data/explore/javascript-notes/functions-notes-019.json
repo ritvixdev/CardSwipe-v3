@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "functions-notes-019",
+    "topic": "functions",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "intermediate",
+    "tags": [
+      "functions",
+      "day-19",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.147Z"
+  },
+  "notes": [
+    {
+      "id": "functions-note-019",
+      "title": "19_day_closures - Study Notes",
+      "category": "functions",
+      "difficulty": "intermediate",
+      "readTime": 3,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Closures</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 18](../18_Day_Promises/18_day_promises.md) | [Day 20 >>](../20_Day_Writing_clean_codes/20_day_writing_clean_codes.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_19.png)\n- [Day 19](day-19)\n\t- [Closure](closure)\n\t- [Exercises](exercises)\n\t\t- [Exercises: Level 1](exercises-level-1)\n\t\t- [Exercises: Level 2](exercises-level-2)\n\t\t- [Exercises: Level 3](exercises-level-3)\n\nDay 19",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Closures</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 19](#day-19)",
+        "[Closure](#closure)",
+        "[Exercises](#exercises)",
+        "[Exercises: Level 1](#exercises-level-1)"
+      ],
+      "tags": [
+        "functions",
+        "day-19",
+        "notes"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "fileId": "data-structures-009",
+    "topic": "data-structures",
+    "subtopic": "09_day_higher_order_functions",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "beginner",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-8"
+    ],
+    "tags": [
+      "data-structures",
+      "day-9"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.047Z",
+    "updatedAt": "2025-08-07T08:51:50.047Z"
+  },
+  "cards": [
+    {
+      "id": "data-structures-009-001",
+      "title": "09_day_higher_order_functions",
+      "day": 9,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Higher Order Functions</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Higher Order Functions</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 8](../08_Day_Objects/08_day_objects.md) | [Day 10 >>](../10_Day_Sets_and_Maps/10_day_Sets_and_Maps.md)\n\n![Day 5](../images/banners/day_1_9.png)\n\n- [Day 9](day-9)\n\t- [Higher Order Function](higher-order-function)\n\t\t- [Callback](callback)\n\t\t- [Returning function](returning-function)\n\t\t- [Setting time](setting-time)\n\t\t\t- [Setting Interval using a setInterval function](setting-interval-using-a-setinterval-function)\n\t\t\t- [Setting a time using a setTimeout](setting-a-time-using-a-settimeout)\n\t- [Functional Programming](functional-programming)\n\t\t- [forEach](foreach)\n\t\t- [map](map)\n\t\t- [filter](filter)\n\t\t- [reduce](reduce)\n\t\t- [every](every)\n\t\t- [find](find)\n\t\t- [findIndex](findindex)\n\t\t- [some](some)\n\t\t- [sort](sort)\n\t\t\t- [Sorting string values](sorting-string-values)\n\t\t\t- [Sorting Numeric values](sorting-numeric-values)\n\t\t\t- [Sorting Object Arrays](sorting-object-arrays)\n\t- [💻 Exercises](-exercises)\n\t\t- [Exercises: Level 1](exercises-level-1)\n\t\t- [Exercises: Level 2](exercises-level-2)\n\t\t- [Exercises: Level 3](exercises-level-3)\n\nDay 9",
+      "codeExample": "// a callback function, the name of the function could be any name\nconst callback = (n) => {\n  return n ** 2\n}\n​\n// function that takes other function as a callback\nfunction cube(callback, n) {\n  return callback(n) * n\n}\n​\nconsole.log(cube(callback, 3))",
+      "keyPoints": [
+        "[Day 9](#day-9)",
+        "[Higher Order Function](#higher-order-function)",
+        "[Callback](#callback)",
+        "[Returning function](#returning-function)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "data-structures",
+        "day-9"
+      ]
+    },
+    {
+      "id": "data-structures-009-002",
+      "title": "09_day_higher_order_functions - Part 2",
+      "day": 9,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "Higher Order Function\n\nHigher order functions are functions which take other function as a parameter or return a function as a value....",
+      "content": "Higher Order Function\n\nHigher order functions are functions which take other function as a parameter or return a function as a value. The function passed as a parameter is called callback.\n\nCallback\n\nA callback is a function which can be passed as parameter to other function. See the example below.\n\n`js\n// a callback function, the name of the function could be any name\nconst callback = (n) => {\n  return n  2\n}\n​\n// function that takes other function as a callback\nfunction cube(callback, n) {\n  return callback(n) * n\n}\n​\nconsole.log(cube(callback, 3))\n`\n\nReturning function\n\nHigher order functions return function as a value\n​\n`js\n// Higher order function returning an other function\nconst higherOrder = n => {\n  const doSomething = m => {\n    const doWhatEver = t => {\n      return 2  n + 3  m + t\n    }\n    return doWhatEver\n  }\n  return doSomething\n}\nconsole.log(higherOrder(2)(3)(10))\n`\n\nLet us see were we use call back functions. For instance the _forEach_ method uses call back.\n\n`js\nconst numbers = [1, 2, 3, 4, 5]\nconst sumArray = arr => {\n  let sum = 0\n  const callback = function(element) {\n    sum += element\n  }\n  arr.forEach(callback)\n  return sum\n\n}\nconsole.log(sumArray(numbers))\n`\n\n`sh\n15\n`\n\nThe above example can be simplified as follows:\n\n`js\nconst numbers = [1, 2, 3, 4]\n​\nconst sumArray = arr => {\n  let sum = 0\n  arr.forEach(function(element) {\n    sum += element\n  })\n  return sum\n\n}\nconsole.log(sumArray(numbers))\n`\n\n`sh\n15\n`\n\nSetting time\n\nIn JavaScript we can execute some activities in a certain interval of time or we can schedule(wait) for some time to execute some activities.\n\n- setInterval\n- setTimeout\n\nSetting Interval using a setInterval function\n\nIn JavaScript, we use setInterval higher order function to do some activity continuously with in some interval of time. The setInterval global method take a callback function and a duration as a parameter. The duration is in milliseconds and the callback will be always called in that interval of time.\n\n`js\n// syntax\nfunction callback() {\n  // code goes here\n}\nsetInterval(callback, duration)\n`\n\n`js\nfunction sayHello() {\n  console.log('Hello')\n}\nsetInterval(sayHello, 1000) // it prints hello in every second, 1000ms is 1s\n`\n\nSetting a time using a setTimeout\n\nIn JavaScript, we use setTimeout higher order function to execute some action at some time in the future. The setTimeout global method take a callback function and a duration as a parameter. The duration is in milliseconds and the callback wait for that amount of time.\n\n`js\n// syntax\nfunction callback() {\n  // code goes here\n}\nsetTimeout(callback, duration) // duration in milliseconds\n`\n\n`js\nfunction sayHello() {\n  console.log('Hello')\n}\nsetTimeout(sayHello, 2000) // it prints hello after it waits for 2 seconds.\n`",
+      "codeExample": "// a callback function, the name of the function could be any name\nconst callback = (n) => {\n  return n ** 2\n}\n​\n// function that takes other function as a callback\nfunction cube(callback, n) {\n  return callback(n) * n\n}\n​\nconsole.log(cube(callback, 3))",
+      "keyPoints": [
+        "setInterval",
+        "setTimeout"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "data-structures",
+        "day-9"
+      ]
+    },
+    {
+      "id": "data-structures-009-003",
+      "title": "09_day_higher_order_functions - Part 3",
+      "day": 9,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "Functional Programming\n\nInstead of writing regular loop, latest version of JavaScript introduced lots of built in methods which can help us to solve c...",
+      "content": "Functional Programming\n\nInstead of writing regular loop, latest version of JavaScript introduced lots of built in methods which can help us to solve complicated problems. All builtin methods take callback function. In this section, we will see _forEach_, _map_, _filter_, _reduce_, _find_, _every_, _some_, and _sort_.\n\nforEach\n\n_forEach_: Iterate an array elements. We use _forEach_ only with arrays. It takes a callback function with elements, index parameter and array itself. The index and the array optional.\n\n`js\narr.forEach(function (element, index, arr) {\n  console.log(index, element, arr)\n})\n// The above code can be written using arrow function\narr.forEach((element, index, arr) => {\n  console.log(index, element, arr)\n})\n// The above code can be written using arrow function and explicit return\narr.forEach((element, index, arr) => console.log(index, element, arr))\n`\n\n`js\nlet sum = 0;\nconst numbers = [1, 2, 3, 4, 5];\nnumbers.forEach(num => console.log(num))\nconsole.log(sum)\n`\n\n`sh\n1\n2\n3\n4\n5\n`\n\n`js\nlet sum = 0;\nconst numbers = [1, 2, 3, 4, 5];\nnumbers.forEach(num => sum += num)\n\nconsole.log(sum)\n`\n\n`sh\n15\n`\n\n`js\nconst countries = ['Finland', 'Denmark', 'Sweden', 'Norway', 'Iceland']\ncountries.forEach((element) => console.log(element.toUpperCase()))\n`\n\n`sh\nFINLAND\nDENMARK\nSWEDEN\nNORWAY\nICELAND\n`\n\nmap\n\n_map_: Iterate an array elements and modify the array elements. It takes a callback function with elements,  index , array parameter and return a new array.\n\n`js\nconst modifiedArray = arr.map(function (element, index, arr) {\n  return element\n})\n`\n\n`js\n/*Arrow function and explicit return\nconst modifiedArray = arr.map((element,index) => element);\n*/\n//Example\nconst numbers = [1, 2, 3, 4, 5]\nconst numbersSquare = numbers.map((num) => num * num)\n\nconsole.log(numbersSquare)\n`\n\n`sh\n[1, 4, 9, 16, 25]\n`\n\n`js\nconst names = ['Asabeneh', 'Mathias', 'Elias', 'Brook']\nconst namesToUpperCase = names.map((name) => name.toUpperCase())\nconsole.log(namesToUpperCase)\n`\n\n`sh\n['ASABENEH', 'MATHIAS', 'ELIAS', 'BROOK']\n`\n\n`js\nconst countries = [\n  'Albania',\n  'Bolivia',\n  'Canada',\n  'Denmark',\n  'Ethiopia',\n  'Finland',\n  'Germany',\n  'Hungary',\n  'Ireland',\n  'Japan',\n  'Kenya',\n]\nconst countriesToUpperCase = countries.map((country) => country.toUpperCase())\nconsole.log(countriesToUpperCase)\n\n/*\n// Arrow function\nconst countriesToUpperCase = countries.map((country) => {\n  return country.toUpperCase();\n})\n//Explicit return arrow function\nconst countriesToUpperCase = countries.map(country => country.toUpperCase());\n*/\n`\n\n`sh\n['ALBANIA', 'BOLIVIA', 'CANADA', 'DENMARK', 'ETHIOPIA', 'FINLAND', 'GERMANY', 'HUNGARY', 'IRELAND', 'JAPAN', 'KENYA']\n`\n\n`js\nconst countriesFirstThreeLetters = countries.map((country) =>\n  country.toUpperCase().slice(0, 3)\n)\n`\n\n`sh\n [\"ALB\", \"BOL\", \"CAN\", \"DEN\", \"ETH\", \"FIN\", \"GER\", \"HUN\", \"IRE\", \"JAP\", \"KEN\"]\n`\n\nfilter\n\n_Filter_: Filter out items which full fill filtering conditions and return a new array.\n\n`js\n//Filter countries containing land\nconst countriesContainingLand = countries.filter((country) =>\n  country.includes('land')\n)\nconsole.log(countriesContainingLand)\n`\n\n`sh\n['Finland', 'Ireland']\n`\n\n`js\nconst countriesEndsByia = countries.filter((country) => country.endsWith('ia'))\nconsole.log(countriesEndsByia)\n`\n\n`sh\n['Albania', 'Bolivia','Ethiopia']\n`\n\n`js\nconst countriesHaveFiveLetters = countries.filter(\n  (country) => country.length === 5\n)\nconsole.log(countriesHaveFiveLetters)\n`\n\n`sh\n['Japan', 'Kenya']\n`\n\n`js\nconst scores = [\n  { name: 'Asabeneh', score: 95 },\n   { name: 'Lidiya', score: 98 },\n  { name: 'Mathias', score: 80 },\n  { name: 'Elias', score: 50 },\n  { name: 'Martha', score: 85 },\n  { name: 'John', score: 100 },\n]\n\nconst scoresGreaterEighty = scores.filter((score) => score.score > 80)\nconsole.log(scoresGreaterEighty)\n`\n\n`sh\n[{name: 'Asabeneh', score: 95}, { name: 'Lidiya', score: 98 },{name: 'Martha', score: 85},{name: 'John', score: 100}]\n`\n\nreduce\n\n_reduce_: Reduce takes a callback function. The call back function takes accumulator,  current, and optional initial value as a parameter and returns a single value. It is a good practice to define an initial value for the accumulator value. If we do not specify this parameter, by default accumulator will get array first value. If our array is an _empty array_, then Javascript will throw an error.\n\n`js\narr.reduce((acc, cur) => {\n  // some operations goes here before returning a value\n return \n}, initialValue)\n`\n\n`js\nconst numbers = [1, 2, 3, 4, 5]\nconst sum = numbers.reduce((acc, cur) => acc + cur, 0)\n\nconsole.log(sum)\n`\n\n`js\n15\n`\n\nevery\n\n_every_: Check if all the elements are similar in one aspect. It returns boolean\n\n`js\nconst names = ['Asabeneh', 'Mathias', 'Elias', 'Brook']\nconst areAllStr = names.every((name) => typeof name === 'string') // Are all strings?\n\nconsole.log(areAllStr)\n`\n\n`sh\ntrue\n`\n\n`js\nconst bools = [true, true, true, true]\nconst areAllTrue = bools.every((b) => b === true) // Are all true? \n\nconsole.log(areAllTrue) // true\n`\n\n`sh\ntrue\n\n`\n\nfind\n\n_find_: Return the first element which satisfies the condition\n\n`js\nconst ages = [24, 22, 25, 32, 35, 18]\nconst age = ages.find((age) => age < 20)\n\nconsole.log(age)\n`\n\n`js\n18\n`\n\n`js\nconst names = ['Asabeneh', 'Mathias', 'Elias', 'Brook']\nconst result = names.find((name) => name.length > 7)\nconsole.log(result)\n`\n\n`sh\nAsabeneh\n`\n\n`js\nconst scores = [\n  { name: 'Asabeneh', score: 95 },\n  { name: 'Mathias', score: 80 },\n  { name: 'Elias', score: 50 },\n  { name: 'Martha', score: 85 },\n  { name: 'John', score: 100 },\n]\n\nconst score = scores.find((user) => user.score > 80)\nconsole.log(score)\n`\n\n`sh\n{ name: \"Asabeneh\", score: 95 }\n`\n\nfindIndex\n\n_findIndex_: Return the position of the first element which satisfies the condition\n\n`js\nconst names = ['Asabeneh', 'Mathias', 'Elias', 'Brook']\nconst ages = [24, 22, 25, 32, 35, 18]\n\nconst result = names.findIndex((name) => name.length > 7)\nconsole.log(result) // 0\n\nconst age = ages.findIndex((age) => age < 20)\nconsole.log(age) // 5\n`\n\nsome\n\n_some_: Check if some of the elements are similar in one aspect. It returns boolean\n\n`js\nconst names = ['Asabeneh', 'Mathias', 'Elias', 'Brook']\nconst bools = [true, true, true, true]\n\nconst areSomeTrue = bools.some((b) =>  b === true)\n\nconsole.log(areSomeTrue) //true\n`\n\n`js\nconst areAllStr = names.some((name) => typeof name === 'number') // Are all strings ?\nconsole.log(areAllStr) // false\n`\n\nsort\n\n_sort_: The sort methods arranges the array elements either ascending or descending order. By default, the _sort()_ method sorts values as strings.This works well for string array items but not for numbers. If number values are sorted as strings and it give us wrong result. Sort method modify the original array. It is recommended to copy the original data before you start using _sort_ method.\n\nSorting string values\n\n`js\nconst products = ['Milk', 'Coffee', 'Sugar', 'Honey', 'Apple', 'Carrot']\nconsole.log(products.sort()) // ['Apple', 'Carrot', 'Coffee', 'Honey', 'Milk', 'Sugar']\n//Now the original products array  is also sorted\n`\n\nSorting Numeric values\n\nAs you can see in the example below, 100 came first after sorted in ascending order. Sort converts items to string , since '100' and other numbers compared, 1 which the beginning of the string '100' became the smallest. To avoid this, we use a compare call back function inside the sort method, which return a negative, zero or positive.\n\n`js\nconst numbers = [9.81, 3.14, 100, 37]\n// Using sort method to sort number items provide a wrong result. see below\nconsole.log(numbers.sort()) //[100, 3.14, 37, 9.81]\nnumbers.sort(function (a, b) {\n  return a - b\n})\n\nconsole.log(numbers) // [3.14, 9.81, 37, 100]\n\nnumbers.sort(function (a, b) {\n  return b - a\n})\nconsole.log(numbers) //[100, 37, 9.81, 3.14]\n`\n\nSorting Object Arrays\n\nWhenever we sort objects in an array, we use the object key to compare. Let us see the example below.\n\n`js\nobjArr.sort(function (a, b) {\n  if (a.key < b.key) return -1\n  if (a.key > b.key) return 1\n  return 0\n})\n\n// or\n\nobjArr.sort(function (a, b) {\n  if (a['key'] < b['key']) return -1\n  if (a['key'] > b['key']) return 1\n  return 0\n})\n\nconst users = [\n  { name: 'Asabeneh', age: 150 },\n  { name: 'Brook', age: 50 },\n  { name: 'Eyob', age: 100 },\n  { name: 'Elias', age: 22 },\n]\nusers.sort((a, b) => {\n  if (a.age < b.age) return -1\n  if (a.age > b.age) return 1\n  return 0\n})\nconsole.log(users) // sorted ascending\n// [{…}, {…}, {…}, {…}]\n`\n\n🌕 You are doing great.Never give up because great things take time. You have just completed day 9 challenges and you are 9 steps a head in to your way to greatness. Now do some exercises for your brain and for your muscle.",
+      "codeExample": "arr.forEach(function (element, index, arr) {\n  console.log(index, element, arr)\n})\n// The above code can be written using arrow function\narr.forEach((element, index, arr) => {\n  console.log(index, element, arr)\n})\n// The above code can be written using arrow function and explicit return\narr.forEach((element, index, arr) => console.log(index, element, arr))",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "data-structures",
+        "day-9"
+      ]
+    }
+  ]
+}

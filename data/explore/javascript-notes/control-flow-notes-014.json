@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "control-flow-notes-014",
+    "topic": "control-flow",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "intermediate",
+    "tags": [
+      "control-flow",
+      "day-14",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.099Z"
+  },
+  "notes": [
+    {
+      "id": "control-flow-note-014",
+      "title": "14_day_Error Handling_methods - Study Notes",
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "readTime": 6,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Error handling</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 13](../13_Day_Console_object_methods/13_day_console_object_methods.md) | [Day 15>>](../15_Day_Classes/15_day_classes.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_14.png)\n\n- [Day 14](day-14)\n\t- [Error Handling](error-handling)\n\t\t- [Error Types](error-types)\n\t- [Exercises](exercises)\n\t\t- [Exercises:Level 1](exerciseslevel-1)\n\t\t- [Exercises: Level 2](exercises-level-2)\n\t\t- [",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Error handling</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 14](#day-14)",
+        "[Error Handling](#error-handling)",
+        "[Error Types](#error-types)",
+        "[Exercises](#exercises)"
+      ],
+      "tags": [
+        "control-flow",
+        "day-14",
+        "notes"
+      ]
+    }
+  ]
+}

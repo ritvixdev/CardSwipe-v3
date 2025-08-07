@@ -1,0 +1,28 @@
+{
+  "id": "design-pattern-001-1754557489452",
+  "title": "Factory Pattern",
+  "type": "design-pattern",
+  "pattern": "factory",
+  "description": "Creates objects without specifying the exact class to create.",
+  "implementation": "class Factory {\n  static create(type) {\n    switch(type) {\n      case 'A': return new ProductA();\n      case 'B': return new ProductB();\n    }\n  }\n}",
+  "useCase": "Common scenarios where this pattern is useful and provides benefits.",
+  "pros": [
+    "Advantage 1",
+    "Advantage 2",
+    "Advantage 3"
+  ],
+  "cons": [
+    "Disadvantage 1",
+    "Disadvantage 2"
+  ],
+  "metadata": {
+    "difficulty": "advanced",
+    "estimatedTime": 20,
+    "tags": [
+      "design-patterns",
+      "factory",
+      "architecture"
+    ],
+    "createdAt": "2025-08-07T09:04:49.452Z"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "design-pattern-005-1754557489465",
+  "title": "Singleton Pattern",
+  "type": "design-pattern",
+  "pattern": "singleton",
+  "description": "Ensures a class has only one instance and provides global access to it.",
+  "implementation": "class Singleton {\n  static instance;\n  static getInstance() {\n    if (!this.instance) {\n      this.instance = new Singleton();\n    }\n    return this.instance;\n  }\n}",
+  "useCase": "Common scenarios where this pattern is useful and provides benefits.",
+  "pros": [
+    "Advantage 1",
+    "Advantage 2",
+    "Advantage 3"
+  ],
+  "cons": [
+    "Disadvantage 1",
+    "Disadvantage 2"
+  ],
+  "metadata": {
+    "difficulty": "advanced",
+    "estimatedTime": 20,
+    "tags": [
+      "design-patterns",
+      "singleton",
+      "architecture"
+    ],
+    "createdAt": "2025-08-07T09:04:49.465Z"
+  }
+}

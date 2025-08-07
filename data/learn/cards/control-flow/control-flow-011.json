@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "fileId": "control-flow-011",
+    "topic": "control-flow",
+    "subtopic": "11_day_destructuring_and_spreading",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "intermediate",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-10"
+    ],
+    "tags": [
+      "control-flow",
+      "day-11"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.067Z",
+    "updatedAt": "2025-08-07T08:51:50.067Z"
+  },
+  "cards": [
+    {
+      "id": "control-flow-011-001",
+      "title": "11_day_destructuring_and_spreading",
+      "day": 11,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Destructuring and Spreading</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Destructuring and Spreading</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 10](../10_Day_Sets_and_Maps/10_day_Sets_and_Maps.md) | [Day 12>>](../12_Day_Regular_expressions/12_day_regular_expressions.md)\n\n![Day 11](../images/banners/day_1_11.png)\n\n- [Day 11](day-11)\n\t- [Destructuring and Spread](destructuring-and-spread)\n\t\t- [Destructing Arrays](destructing-arrays)\n\t\t- [Destructuring during iteration](destructuring-during-iteration)\n\t\t- [Destructuring Object](destructuring-object)\n\t\t- [Renaming during structuring](renaming-during-structuring)\n\t\t- [Object parameter without destructuring](object-parameter-without-destructuring)\n\t\t- [Object parameter with destructuring](object-parameter-with-destructuring)\n\t\t- [Destructuring object during iteration](destructuring-object-during-iteration)\n\t\t- [Spread or Rest Operator](spread-or-rest-operator)\n\t\t- [Spread operator to get the rest of array elements](spread-operator-to-get-the-rest-of-array-elements)\n\t\t- [Spread operator to copy array](spread-operator-to-copy-array)\n\t\t- [Spread operator to copy object](spread-operator-to-copy-object)\n\t\t\t- [Spread operator with arrow function](spread-operator-with-arrow-function)\n\t- [Exercises](exercises)\n\t\t- [Exercises: Level 1](exercises-level-1)\n\t\t- [Exercises: Level 2](exercises-level-2)\n\t\t- [Exercises: Level 3](exercises-level-3)\n\nDay 11",
+      "codeExample": "const numbers = [1, 2, 3]\n  let [numOne, numTwo, numThree] = numbers\n\n  console.log(numOne, numTwo, numThree)",
+      "keyPoints": [
+        "[Day 11](#day-11)",
+        "[Destructuring and Spread](#destructuring-and-spread)",
+        "[Destructing Arrays](#destructing-arrays)",
+        "[Destructuring during iteration](#destructuring-during-iteration)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-11"
+      ]
+    },
+    {
+      "id": "control-flow-011-002",
+      "title": "11_day_destructuring_and_spreading - Part 2",
+      "day": 11,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Destructuring and Spread\n\nDestructuring is a way to unpack arrays, and objects and assigning to a distinct variable....",
+      "content": "Destructuring and Spread\n\nDestructuring is a way to unpack arrays, and objects and assigning to a distinct variable.\n\nDestructing Arrays\n\n`js\n  const numbers = [1, 2, 3]\n  let [numOne, numTwo, numThree] = numbers\n\n  console.log(numOne, numTwo, numThree)\n`\n\n`sh\n  1 2 3\n`\n\n`js\n  const names = ['Asabeneh', 'Brook', 'David', 'John']\n  let [firstPerson, secondPerson, thirdPerson, fourthPerson] = names\n\n  console.log(firstPerson, secondPerson,thirdPerson, fourthPerson)\n`\n\n`sh\nAsabeneh Brook David John\n`\n\n`js\n  const scientificConstants = [2.72, 3.14, 9.81, 37, 100]\n  let [e, pi, gravity, bodyTemp, boilingTemp] = scientificConstants\n\n  console.log(e,pi,gravity, bodyTemp, boilingTemp)\n`\n\n`sh\n2.72 3.14 9.81 37 100\n`\n\n`js\nconst fullStack = [\n  ['HTML', 'CSS', 'JS', 'React'],\n  ['Node', 'Express', 'MongoDB']\n]\nconst [frontEnd, backEnd] = fullStack\n\nconsole.log(frontEnd)\nconsole.log(backEnd)\n`\n\n`sh\n[\"HTML\", \"CSS\", \"JS\", \"React\"]\n[\"Node\", \"Express\", \"MongoDB\"]\n`\n\nIf we like to skip on of the values in the array we use additional comma. The comma helps to omit the value at that specific index\n\n`js\n  const numbers = [1, 2, 3]\n  let [numOne, , numThree] = numbers //2 is omitted\n\n  console.log(numOne, numThree)\n`\n\n`sh\n1 3\n`\n\n`js\n  const names = ['Asabeneh', 'Brook', 'David', 'John']\n  let [, secondPerson, , fourthPerson] = names // first and third person is omitted\n\n  console.log(secondPerson, fourthPerson)\n`\n\n`sh\nBrook John\n`\n\nWe can use default value in case the value of array for that index is undefined:\n\n`js\nconst names = [undefined, 'Brook', 'David']\nlet [\n  firstPerson = 'Asabeneh',\n  secondPerson,\n  thirdPerson,\n  fourthPerson = 'John'\n] = names\n\nconsole.log(firstPerson, secondPerson, thirdPerson, fourthPerson)  \n`\n\n`sh\nAsabeneh Brook David John\n`\n\nWe can not assign variable to all the elements in the array. We can destructure few of the first and we can get the remaining as array using spread operator(...).\n\n`js\nconst nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nlet [num1, num2, num3, ...rest] = nums\n\nconsole.log(num1, num2, num3)\nconsole.log(rest)\n`\n\n`sh\n1 2 3\n[4, 5, 6, 7, 8, 9, 10]\n`\n\nDestructuring during iteration\n\n`js\nconst countries = [['Finland', 'Helsinki'], ['Sweden', 'Stockholm'], ['Norway', 'Oslo']]\n\nfor (const [country, city] of countries) {\nconsole.log(country, city)\n}\n`\n\n`sh\nFinland Helsinki\nSweden Stockholm\nNorway Oslo\n`\n\n`js\nconst fullStack = [\n  ['HTML', 'CSS', 'JS', 'React'],\n  ['Node', 'Express', 'MongoDB']\n]\n\nfor(const [first, second, third] of fullStack) {\nconsole.log(first, second, third)\n}\n`\n\n`sh\nHTML CSS JS\nNode Express MongoDB\n`\n\nDestructuring Object\n\nWhen we destructure the name of the variable we use to destructure should be exactly the same as the key or property of the object. See the example below.\n\n`js\nconst rectangle = {\n  width: 20,\n  height: 10,\n  area: 200\n}\nlet { width, height, area, perimeter } = rectangle\n\nconsole.log(width, height, area, perimeter)\n`\n\n`sh\n20 10 200 undefined\n`\n\nRenaming during structuring\n\n`js\nconst rectangle = {\n  width: 20,\n  height: 10,\n  area: 200\n}\nlet { width: w, height: h, area: a, perimeter: p } = rectangle\n\nconsole.log(w, h, a, p)\n`\n\n`sh\n20 10 200 undefined\n`\n\nIf the key is not found in the object the variable will be assigned to undefined. Sometimes the key might not be in the object, in that case we can give a default value during declaration. See the example.\n\n`js\nconst rectangle = {\n  width: 20,\n  height: 10,\n  area: 200\n}\nlet { width, height, area, perimeter = 60 } = rectangle\n\nconsole.log(width, height, area, perimeter) //20 10 200 60\n//Let us modify the object:width to 30 and perimeter to 80\n`\n\n`js\nconst rectangle = {\n  width: 30,\n  height: 10,\n  area: 200,\n  perimeter: 80\n}\nlet { width, height, area, perimeter = 60 } = rectangle\nconsole.log(width, height, area, perimeter) //30 10 200 80\n`\n\nDestructuring keys as a function parameters. Let us create a function which takes a rectangle object and it returns a perimeter of a rectangle.\n\nObject parameter without destructuring\n\n`js\n// Without destructuring\nconst rect = {\n  width: 20,\n  height: 10\n}\nconst calculatePerimeter = rectangle => {\n  return 2 * (rectangle.width + rectangle.height)\n}\n\nconsole.log(calculatePerimeter(rect)) // 60\n//with destructuring\n`\n\n`js\n//Another Example\nconst person = {\n  firstName: 'Asabeneh',\n  lastName: 'Yetayeh',\n  age: 250,\n  country: 'Finland',\n  job: 'Instructor and Developer',\n  skills: [\n    'HTML',\n    'CSS',\n    'JavaScript',\n    'React',\n    'Redux',\n    'Node',\n    'MongoDB',\n    'Python',\n    'D3.js'\n  ],\n  languages: ['Amharic', 'English', 'Suomi(Finnish)']\n}\n// Let us create a function which give information about the person object without destructuring\n\nconst getPersonInfo = obj => {\n  const skills = obj.skills\n  const formattedSkills = skills.slice(0, -1).join(', ')\n  const languages = obj.languages\n  const formattedLanguages = languages.slice(0, -1).join(', ')\n\n  personInfo = `${obj.firstName} ${obj.lastName} lives in ${obj.country}. He is  ${\n    obj.age\n  } years old. He is an ${obj.job}. He teaches ${formattedSkills} and ${\n    skills[skills.length - 1]\n  }. He speaks ${formattedLanguages} and a little bit of ${languages[2]}.`\n\n  return personInfo\n}\n\nconsole.log(getPersonInfo(person))\n`\n\nObject parameter with destructuring\n\n`js\n\nconst calculatePerimeter = ({ width, height }) => {\n  return 2 * (width + height)\n}\n\nconsole.log(calculatePerimeter(rect)) // 60\n`\n\n`js\n// Let us create a function which give information about the person object with destructuring\nconst getPersonInfo = ({\n  firstName,\n  lastName,\n  age,\n  country,\n  job,\n  skills,\n  languages\n}) => {\n  const formattedSkills = skills.slice(0, -1).join(', ')\n  const formattedLanguages = languages.slice(0, -1).join(', ')\n\n  personInfo = `${firstName} ${lastName} lives in ${country}. He is ${age} years old. He is an ${job}. He teaches ${formattedSkills} and ${\n    skills[skills.length - 1]\n  }. He speaks ${formattedLanguages} and a little bit of ${languages[2]}.`\n\n  return personInfo\n}\nconsole.log(getPersonInfo(person))\n/*\nAsabeneh Yetayeh lives in Finland. He is  250 years old. He is an Instructor and Developer. He teaches HTML, CSS, JavaScript, React, Redux, Node, MongoDB, Python and D3.js. He speaks Amharic, English and a little bit of Suomi(Finnish)\n*/\n`\n\nDestructuring object during iteration\n\n`js\nconst todoList = [\n{\n  task:'Prepare JS Test',\n  time:'4/1/2020 8:30',\n  completed:true\n},\n{\n  task:'Give JS Test',\n  time:'4/1/2020 10:00',\n  completed:false\n},\n{\n  task:'Assess Test Result',\n  time:'4/1/2020 1:00',\n  completed:false\n}\n]\n\nfor (const {task, time, completed} of todoList){\n  console.log(task, time, completed)\n}\n`\n\n`sh\nPrepare JS Test 4/1/2020 8:30 true\nGive JS Test 4/1/2020 10:00 false\nAssess Test Result 4/1/2020 1:00 false\n`\n\nSpread or Rest Operator\n\nWhen we destructure an array we use the spread operator(...) to get the rest elements as array. In addition to that we use spread operator to spread array elements to another array.\n\nSpread operator to get the rest of array elements\n\n`js\nconst nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nlet [num1, num2, num3, ...rest] = nums\n​\nconsole.log(num1, num2, num3)\nconsole.log(rest)\n`\n\n`sh\n1 2 3\n[4, 5, 6, 7, 8, 9, 10]\n`\n\n`js\nconst countries = [\n  'Germany',\n  'France',\n  'Belgium',\n  'Finland',\n  'Sweden',\n  'Norway',\n  'Denmark',\n  'Iceland'\n]\n\nlet [gem, fra, , ...nordicCountries] = countries\n\nconsole.log(gem)\nconsole.log(fra)\nconsole.log(nordicCountries)\n`\n\n`sh\nGermany\nFrance\n[\"Finland\", \"Sweden\", \"Norway\", \"Denmark\", \"Iceland\"]\n`\n\nSpread operator to copy array\n\n`js\nconst evens = [0, 2, 4, 6, 8, 10]\nconst evenNumbers = [...evens]\n\nconst odds = [1, 3, 5, 7, 9]\nconst oddNumbers = [...odds]\n\nconst wholeNumbers = [...evens, ...odds]\n\nconsole.log(evenNumbers)\nconsole.log(oddNumbers)\nconsole.log(wholeNumbers)\n\n\n`\n\n`sh\n[0, 2, 4, 6, 8, 10]\n[1, 3, 5, 7, 9]\n[0, 2, 4, 6, 8, 10, 1, 3, 5, 7, 9]\n`\n\n`js\nconst frontEnd = ['HTML', 'CSS', 'JS', 'React']\nconst backEnd = ['Node', 'Express', 'MongoDB']\nconst fullStack = [...frontEnd, ...backEnd]\n\nconsole.log(fullStack)\n`\n\n`sh\n[\"HTML\", \"CSS\", \"JS\", \"React\", \"Node\", \"Express\", \"MongoDB\"]\n`\n\nSpread operator to copy object\n\nWe can copy an object using a spread operator\n\n`js\nconst user = {\n  name:'Asabeneh',\n  title:'Programmer',\n  country:'Finland',\n  city:'Helsinki'\n}\n\nconst copiedUser = {...user}\nconsole.log(copiedUser)\n`\n\n`sh\n{name: \"Asabeneh\", title: \"Programmer\", country: \"Finland\", city: \"Helsinki\"}\n`\n\nModifying or changing the object while copying\n\n`js\nconst user = {\n  name:'Asabeneh',\n  title:'Programmer',\n  country:'Finland',\n  city:'Helsinki'\n}\n\nconst copiedUser = {...user, title:'instructor'}\nconsole.log(copiedUser)\n`\n\n`sh\n{name: \"Asabeneh\", title: \"instructor\", country: \"Finland\", city: \"Helsinki\"}\n`\n\nSpread operator with arrow function\n\nWhenever we like to write an arrow function which takes unlimited number of arguments we use a spread operator. If we use a spread operator as a parameter, the argument passed when we invoke a function will change to an array.\n\n`js\n\nconst sumAllNums = (...args) => {\n  console.log(args)\n}\n\nsumAllNums(1, 2, 3, 4, 5)\n\n`\n\n`sh\n[1, 2, 3, 4, 5]\n\n`\n\n`js\n\nconst sumAllNums = (...args) => {\n  let sum = 0\n  for (const num of args){\n    sum += num\n  }\n  return sum\n  \n}\n\nconsole.log(sumAllNums(1, 2, 3, 4, 5))\n`\n\n`sh\n15\n\n`\n\n🌕 You achieved quite a lot so far. Now, your level of JavaScript is upper intermediate. Keep going! You have just completed day 11 challenges and you are 11 steps a head in to your way to greatness. Now do some exercises for your brain and for your muscle.",
+      "codeExample": "const numbers = [1, 2, 3]\n  let [numOne, numTwo, numThree] = numbers\n\n  console.log(numOne, numTwo, numThree)",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-11"
+      ]
+    },
+    {
+      "id": "control-flow-011-003",
+      "title": "11_day_destructuring_and_spreading - Part 3",
+      "day": 11,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Exercises\n\n### Exercises: Level 1\n\n```js\nconst constants = [2....",
+      "content": "Exercises\n\nExercises: Level 1\n\n`js\nconst constants = [2.72, 3.14, 9.81, 37, 100]\nconst countries = ['Finland', 'Estonia', 'Sweden', 'Denmark', 'Norway']\nconst rectangle = {\n  width: 20,\n  height: 10,\n  area: 200,\n  perimeter: 60\n}\nconst users = [\n{\n  name:'Brook',\n  scores:75,\n  skills:['HTM', 'CSS', 'JS'],\n  age:16\n},\n{\n  name:'Alex',\n  scores:80,\n  skills:['HTM', 'CSS', 'JS'],\n  age:18\n},\n{\n  name:'David',\n  scores:75,\n  skills:['HTM', 'CSS'],\n  age:22\n},\n{\n  name:'John',\n  scores:85,\n  skills:['HTML'],\n  age:25\n},\n{\n  name:'Sara',\n  scores:95,\n  skills:['HTM', 'CSS', 'JS'],\n  age: 26\n},\n{\n  name:'Martha',\n  scores:80,\n  skills:['HTM', 'CSS', 'JS'],\n  age:18\n},\n{\n  name:'Thomas',\n  scores:90,\n  skills:['HTM', 'CSS', 'JS'],\n  age:20\n}\n]\n`\n\n1. Destructure and assign the elements of constants array to e, pi, gravity, humanBodyTemp, waterBoilingTemp.\n2. Destructure and assign the elements of countries array to fin, est, sw, den, nor\n3. Destructure the rectangle object by its properties or keys.\n\nExercises: Level 2\n\n1. Iterate through the users array and get all the keys of the object using destructuring\n2. Find the persons who have less than two skills\n\nExercises: Level 3\n\n1. Destructure the countries object print name, capital, population and languages of all countries\n2. A junior developer structure student name, skills and score in array of arrays which may not easy to read. Destructure the following array name to name, skills array to skills, scores array to scores, JavaScript score to jsScore and React score to reactScore variable in one line.\n\n  `js\n    const student = ['David', ['HTM', 'CSS', 'JS', 'React'], [98, 85, 90, 95]]\n    console.log(name, skills, jsScore, reactScore)\n  `\n\n  `sh\n  David (4) [\"HTM\", \"CSS\", \"JS\", \"React\"] 90 95\n  `\n\n3. Write a function called convertArrayToObject which can convert the array to a structure object.\n\n  `js\n      const students = [\n          ['David', ['HTM', 'CSS', 'JS', 'React'], [98, 85, 90, 95]],\n          ['John', ['HTM', 'CSS', 'JS', 'React'], [85, 80, 85, 80]]\n        ]\n\n      console.log(convertArrayToObject(students))\n      [\n        {\n          name: 'David',\n          skills: ['HTM','CSS','JS','React'],\n          scores: [98,85,90,95]\n        },\n        {\n          name: 'John',\n          skills: ['HTM','CSS','JS','React'],\n          scores: [85, 80,85,80]\n        }\n      ]\n  `\n\n4. Copy the student object to newStudent without mutating the original object. In the new object add the following ?\n\n- Add Bootstrap with level 8 to the front end skill sets\n- Add Express with level 9 to the back end skill sets\n- Add SQL with level 8 to the data base skill sets\n- Add SQL without level to the data science skill sets\n\n`js\n    const student = {\n      name: 'David',\n      age: 25,\n      skills: {\n        frontEnd: [\n          { skill: 'HTML', level: 10 },\n          { skill: 'CSS', level: 8 },\n          { skill: 'JS', level: 8 },\n          { skill: 'React', level: 9 }\n        ],\n        backEnd: [\n          { skill: 'Node',level: 7 },\n          { skill: 'GraphQL', level: 8 },\n        ],\n        dataBase:[\n          { skill: 'MongoDB', level: 7.5 },\n        ],\n        dataScience:['Python', 'R', 'D3.js']\n      }\n    }\n  `\n\n The copied object output should look like this:\n\n`js\n    {\n    name: 'David',\n    age: 25,\n    skills: {\n      frontEnd: [\n        {skill: 'HTML',level: 10},\n        {skill: 'CSS',level: 8},\n        {skill: 'JS',level: 8},\n        {skill: 'React',level: 9},\n        {skill: 'BootStrap',level: 8}\n      ],\n      backEnd: [\n        {skill: 'Node',level: 7},\n        {skill: 'GraphQL',level: 8},\n        {skill: 'Express',level: 9}\n      ],\n      dataBase: [\n        { skill: 'MongoDB',level: 7.5},\n        { skill: 'SQL',level: 8}\n      ],\n      dataScience: ['Python','R','D3.js','SQL']\n    }\n  }\n\n`\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 10](../10_Day_Sets_and_Maps/10_day_Sets_and_Maps.md) | [Day 12 >>](../12_Day_Regular_expressions/12_day_regular_expressions.md)",
+      "codeExample": "const constants = [2.72, 3.14, 9.81, 37, 100]\nconst countries = ['Finland', 'Estonia', 'Sweden', 'Denmark', 'Norway']\nconst rectangle = {\n  width: 20,\n  height: 10,\n  area: 200,\n  perimeter: 60\n}\nconst users = [\n{\n  name:'Brook',\n  scores:75,\n  skills:['HTM', 'CSS', 'JS'],\n  age:16\n},\n{\n  name:'Alex',\n  scores:80,\n  skills:['HTM', 'CSS', 'JS'],\n  age:18\n},\n{\n  name:'David',\n  scores:75,\n  skills:['HTM', 'CSS'],\n  age:22\n},\n{\n  name:'John',\n  scores:85,\n  skills:['HTML'],\n  age:25\n},\n{\n  name:'Sara',\n  scores:95,\n  skills:['HTM', 'CSS', 'JS'],\n  age: 26\n},\n{\n  name:'Martha',\n  scores:80,\n  skills:['HTM', 'CSS', 'JS'],\n  age:18\n},\n{\n  name:'Thomas',\n  scores:90,\n  skills:['HTM', 'CSS', 'JS'],\n  age:20\n}\n]",
+      "keyPoints": [
+        "Add Bootstrap with level 8 to the front end skill sets",
+        "Add Express with level 9 to the back end skill sets",
+        "Add SQL with level 8 to the data base skill sets",
+        "Add SQL without level to the data science skill sets"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-11"
+      ]
+    }
+  ]
+}

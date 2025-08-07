@@ -1,0 +1,44 @@
+{
+  "id": "data-structures-008-1754557488816",
+  "title": "Real-world data-structures Applications #8",
+  "topic": "data-structures",
+  "type": "example",
+  "difficulty": "beginner",
+  "day": 3,
+  "content": "Explore practical implementations of JavaScript data structures. See how arrays, objects, and other structures work in real applications.",
+  "codeExample": "// Working with arrays and objects\nconst users = [\n  { name: 'Alice', age: 25 },\n  { name: 'Bob', age: 30 }\n];\n\nconst adults = users.filter(user => user.age >= 18);",
+  "keyPoints": [
+    "Arrays store ordered collections",
+    "Objects store key-value pairs",
+    "Choose appropriate data structure for the task",
+    "Understand reference vs primitive types"
+  ],
+  "quiz": {
+    "question": "Which method adds an element to the end of an array?",
+    "options": [
+      "unshift()",
+      "push()",
+      "pop()",
+      "shift()"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The push() method adds one or more elements to the end of an array and returns the new length."
+  },
+  "metadata": {
+    "estimatedTime": 7,
+    "prerequisites": [
+      "fundamentals"
+    ],
+    "tags": [
+      "data-structures",
+      "example",
+      "javascript",
+      "arrays",
+      "objects",
+      "collections"
+    ],
+    "version": "1.0",
+    "createdAt": "2025-08-07T09:04:48.816Z",
+    "updatedAt": "2025-08-07T09:04:48.816Z"
+  }
+}

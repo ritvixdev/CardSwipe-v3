@@ -1,0 +1,44 @@
+{
+  "id": "control-flow-008-1754557488789",
+  "title": "control-flow Coding Practice #8",
+  "topic": "control-flow",
+  "type": "practice",
+  "difficulty": "beginner",
+  "day": 3,
+  "content": "Practice writing control flow logic. Implement conditional statements, loops, and complex branching scenarios.",
+  "codeExample": "// Practice exercise\n// TODO: Create variables for user data\n// TODO: Implement a simple calculator function",
+  "keyPoints": [
+    "Conditional statements control execution",
+    "Loops repeat code blocks",
+    "Break and continue control loop flow",
+    "Switch statements handle multiple conditions"
+  ],
+  "quiz": {
+    "question": "What is the difference between let and const in JavaScript?",
+    "options": [
+      "let is for constants, const is for variables",
+      "const cannot be reassigned, let can be reassigned",
+      "There is no difference",
+      "let is block-scoped, const is function-scoped"
+    ],
+    "correctAnswer": 1,
+    "explanation": "const creates a constant reference that cannot be reassigned, while let creates a variable that can be reassigned."
+  },
+  "metadata": {
+    "estimatedTime": 10,
+    "prerequisites": [
+      "fundamentals"
+    ],
+    "tags": [
+      "control-flow",
+      "practice",
+      "javascript",
+      "conditionals",
+      "loops",
+      "logic"
+    ],
+    "version": "1.0",
+    "createdAt": "2025-08-07T09:04:48.789Z",
+    "updatedAt": "2025-08-07T09:04:48.789Z"
+  }
+}

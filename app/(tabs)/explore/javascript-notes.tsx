@@ -11,7 +11,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, BookOpen, Code, Lightbulb, ChevronDown, ChevronRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { getNotes, getNotesByCategory, noteCategories, JavaScriptNote } from '@/data/processors/dataLoader';
+import { getNotes, getNotesByCategory, JavaScriptNote } from '@/data/processors/dataLoader';
+import { searchLessons, getFilteredLessons, ensureMigration } from '@/data/processors/dataLoaderAdapter';
 import CodeBlock from '@/components/CodeBlock';
 
 // Hierarchical category structure
@@ -49,12 +50,54 @@ export default function JavaScriptNotesScreen() {
 
   const categories = Object.keys(categoryHierarchy);
 
-  // Load notes asynchronously
+  // Load notes asynchronously with enhanced data architecture
   useEffect(() => {
     const loadNotes = async () => {
       try {
         setLoading(true);
-        const allNotes = await getNotes();
+        
+        // Initialize enhanced data system first
+        await ensureMigration();
+        console.log('📚 Enhanced data system ready for JavaScript notes');
+        
+        // Try to load notes using enhanced system first, then fallback to legacy
+        let allNotes: JavaScriptNote[] = [];
+        
+        try {
+          // Try enhanced filtering for better performance
+          const enhancedCards = await getFilteredLessons({
+            domains: ['javascript'],
+            tags: ['notes', 'reference', 'documentation'],
+            limit: 200
+          });
+          
+          // Convert enhanced cards to notes format if we have results
+          if (enhancedCards.length > 0) {
+            allNotes = enhancedCards.map(card => ({
+              id: card.id,
+              title: card.title,
+              category: card.category,
+              difficulty: card.difficulty,
+              readTime: Math.ceil((card.estimatedTime?.match(/\d+/)?.[0] || 10) / 1),
+              content: card.content,
+              codeExample: card.codeExample,
+              keyPoints: card.keyPoints || [],
+              tags: card.tags || [],
+              topic: card.topicId
+            }));
+            console.log(`⚡ Loaded ${allNotes.length} notes using enhanced system`);
+          }
+        } catch (enhancedError) {
+          console.warn('Enhanced notes loading failed, falling back to legacy:', enhancedError);
+        }
+        
+        // Fallback to legacy system if enhanced system didn't provide results
+        if (allNotes.length === 0) {
+          console.log('🔄 Using legacy notes loading');
+          allNotes = await getNotes();
+          console.log(`📖 Loaded ${allNotes.length} notes using legacy system`);
+        }
+        
         setNotes(allNotes);
       } catch (error) {
         console.error('Failed to load notes:', error);

@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "data-structures-notes-008",
+    "topic": "data-structures",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "beginner",
+    "tags": [
+      "data-structures",
+      "day-8",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.040Z"
+  },
+  "notes": [
+    {
+      "id": "data-structures-note-008",
+      "title": "Scope - Study Notes",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "readTime": 18,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Objects</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 7](../07_Day_Functions/07_day_functions.md) | [Day 9 >>](../09_Day_Higher_order_functions/09_day_higher_order_functions.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_8.png)\n\n- [📔 Day 8](-day-8)\n\t- [Scope](scope)\n\t\t- [Window Global Object](window-global-object)\n\t\t- [Global scope](global-scope)\n\t\t- [Local scope](local-scope)\n\t- [📔 Object](-object)\n\t\t- [Creating an empty ob",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Objects</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[📔 Day 8](#-day-8)",
+        "[Scope](#scope)",
+        "[Window Global Object](#window-global-object)",
+        "[Global scope](#global-scope)"
+      ],
+      "tags": [
+        "data-structures",
+        "day-8",
+        "notes"
+      ]
+    }
+  ]
+}

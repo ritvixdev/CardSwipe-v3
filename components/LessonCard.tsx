@@ -58,11 +58,16 @@ function LessonCard({
 
   // React Compiler handles optimization automatically
   const optimizedContent = (() => {
+    // Get the content with proper fallback
+    const content = lesson.content || lesson.description || 'No content available';
+    
     // Only truncate if content is lengthy to save processing
-    if (lesson.content && lesson.content.length > 650) {
-      return truncateContent(lesson.content, 650);
+    if (content && content.length > 650) {
+      return truncateContent(content, 650);
     }
-    return lesson.content || lesson.description || '';
+    
+    // Ensure we never return an empty string to prevent React Native Markdown errors
+    return content.trim() || 'No content available';
   })();
   
   // Calculate available height: screen height - status bar - tab bar - safe areas - extra padding

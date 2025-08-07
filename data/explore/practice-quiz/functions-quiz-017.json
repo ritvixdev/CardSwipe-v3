@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "fileId": "functions-quiz-017",
+    "topic": "functions",
+    "category": "practice-quiz",
+    "quizCount": 1,
+    "difficulty": "medium",
+    "tags": [
+      "functions",
+      "day-17",
+      "quiz"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.135Z"
+  },
+  "quizzes": [
+    {
+      "id": "functions-quiz-017",
+      "title": "17_day_web_storages - Practice Quiz",
+      "category": "functions",
+      "difficulty": "medium",
+      "timeLimit": 300,
+      "passingScore": 70,
+      "questions": [
+        {
+          "id": "q1",
+          "question": "What is the main focus of this functions lesson?",
+          "options": [
+            "Concept A",
+            "Concept B",
+            "Concept C",
+            "Concept D"
+          ],
+          "correctAnswer": 0,
+          "explanation": "This lesson focuses on the fundamental concepts.",
+          "difficulty": "medium",
+          "points": 10,
+          "tags": [
+            "functions"
+          ]
+        },
+        {
+          "id": "q2",
+          "question": "Which best describes the key principle?",
+          "options": [
+            "Principle A",
+            "Principle B",
+            "Principle C",
+            "Principle D"
+          ],
+          "correctAnswer": 1,
+          "explanation": "The key principle is essential for understanding.",
+          "difficulty": "medium",
+          "points": 15,
+          "tags": [
+            "functions"
+          ]
+        }
+      ]
+    }
+  ]
+}

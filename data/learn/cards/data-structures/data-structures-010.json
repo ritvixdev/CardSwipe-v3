@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "fileId": "data-structures-010",
+    "topic": "data-structures",
+    "subtopic": "10_day_sets_and_maps",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "beginner",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-9"
+    ],
+    "tags": [
+      "data-structures",
+      "day-10"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.057Z",
+    "updatedAt": "2025-08-07T08:51:50.057Z"
+  },
+  "cards": [
+    {
+      "id": "data-structures-010-001",
+      "title": "10_day_Sets_and_Maps",
+      "day": 10,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Sets and Maps</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Sets and Maps</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 9](../09_Day_Higher_order_functions/09_day_higher_order_functions.md) | [Day 11>>](../11_Day_Destructuring_and_spreading/11_day_destructuring_and_spreading.md)\n\n![Day 10](../images/banners/day_1_10.png)\n\n- [Day 10](day-10)\n\t- [Set](set)\n\t\t- [Creating an empty set](creating-an-empty-set)\n\t\t- [Creating set from array](creating-set-from-array)\n\t\t- [Adding an element to a set](adding-an-element-to-a-set)\n\t\t- [Deleting an element a set](deleting-an-element-a-set)\n\t\t- [Checking an element in the set](checking-an-element-in-the-set)\n\t\t- [Clearing the set](clearing-the-set)\n\t\t- [Union of sets](union-of-sets)\n\t\t- [Intersection of sets](intersection-of-sets)\n\t\t- [Difference of sets](difference-of-sets)\n\t- [Map](map)\n\t\t- [Creating an empty Map](creating-an-empty-map)\n\t\t- [Creating an Map from array](creating-an-map-from-array)\n\t\t- [Adding values to the Map](adding-values-to-the-map)\n\t\t- [Getting a value from Map](getting-a-value-from-map)\n\t\t- [Checking key in Map](checking-key-in-map)\n\t- [Exercises](exercises)\n\t\t- [Exercises:Level 1](exerciseslevel-1)\n\t\t- [Exercises:Level 2](exerciseslevel-2)\n\t\t- [Exercises:Level 3](exerciseslevel-3)\n\nDay 10",
+      "codeExample": "const companies = new Set()\nconsole.log(companies)",
+      "keyPoints": [
+        "[Day 10](#day-10)",
+        "[Set](#set)",
+        "[Creating an empty set](#creating-an-empty-set)",
+        "[Creating set from array](#creating-set-from-array)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "data-structures",
+        "day-10"
+      ]
+    },
+    {
+      "id": "data-structures-010-002",
+      "title": "10_day_Sets_and_Maps - Part 2",
+      "day": 10,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "Set\n\nSet is  a collection of elements....",
+      "content": "Set\n\nSet is  a collection of elements. Set can only contains unique elements.\nLet us see how to create a set in the section below.\n\nCreating an empty set\n\n`js\nconst companies = new Set()\nconsole.log(companies)\n`\n\n`sh\nSet(0) {}\n`\n\nCreating set from array\n\n`js\nconst languages = [\n  'English',\n  'Finnish',\n  'English',\n  'French',\n  'Spanish',\n  'English',\n  'French',\n]\n\nconst setOfLanguages = new Set(languages)\nconsole.log(setOfLanguages)\n`\n\n`sh\nSet(4) {\"English\", \"Finnish\", \"French\", \"Spanish\"}\n`\n\nSet is an iterable object and we can iterate through each elements.\n\n`js\nconst languages = [\n  'English',\n  'Finnish',\n  'English',\n  'French',\n  'Spanish',\n  'English',\n  'French',\n]\n\nconst setOfLanguages = new Set(languages)\n\nfor (const language of setOfLanguages) {\n  console.log(language)\n}\n`\n\n`sh\n  English\n  Finnish\n  French\n  Spanish\n`\n\nAdding an element to a set\n\n`js\nconst companies = new Set() // creating an empty set\nconsole.log(companies.size) // 0\n\ncompanies.add('Google') // add element to the set\ncompanies.add('Facebook')\ncompanies.add('Amazon')\ncompanies.add('Oracle')\ncompanies.add('Microsoft')\nconsole.log(companies.size) // 5 elements in the set\nconsole.log(companies)\n`\n\n`sh\nSet(5) {\"Google\", \"Facebook\", \"Amazon\", \"Oracle\", \"Microsoft\"}\n`\n\nWe can also use loop to add element to a set.\n\n`js\nconst companies = ['Google', 'Facebook', 'Amazon', 'Oracle', 'Microsoft']\nsetOfCompanies = new Set()\nfor (const company of companies) {\n  setOfCompanies.add(company)\n}\n`\n\n`sh\nSet(5) {\"Google\", \"Facebook\", \"Amazon\", \"Oracle\", \"Microsoft\"}\n\n`\n\nDeleting an element a set\n\nWe can delete an element from a set using a delete method.\n\n`js\nconsole.log(companies.delete('Google'))\nconsole.log(companies.size) // 4 elements left in the set\n`\n\nChecking an element in the set\n\nThe has method can help to know if a certain element exists in a set.\n\n`js\nconsole.log(companies.has('Apple')) // false\nconsole.log(companies.has('Facebook')) // true\n`\n\nClearing the set\n\nIt removes all the elements from a set.\n\n`js\ncompanies.clear()\nconsole.log(companies)\n`\n\n`sh\nSet(0) {}\n`\n\nSee the example below to learn how to use set.\n\n`js\nconst languages = [\n  'English',\n  'Finnish',\n  'English',\n  'French',\n  'Spanish',\n  'English',\n  'French',\n]\nconst langSet = new Set(languages)\nconsole.log(langSet) // Set(4) {\"English\", \"Finnish\", \"French\", \"Spanish\"}\nconsole.log(langSet.size) // 4\n\nconst counts = []\nconst count = {}\n\nfor (const l of langSet) {\n  const filteredLang = languages.filter((lng) => lng === l)\n  console.log(filteredLang) // [\"English\", \"English\", \"English\"]\n  counts.push({ lang: l, count: filteredLang.length })\n}\nconsole.log(counts)\n`\n\n`js\n[\n  { lang: 'English', count: 3 },\n  { lang: 'Finnish', count: 1 },\n  { lang: 'French', count: 2 },\n  { lang: 'Spanish', count: 1 },\n]\n`\n\nOther use case of set. For instance to count unique item in an array.\n\n`js\nconst numbers = [5, 3, 2, 5, 5, 9, 4, 5]\nconst setOfNumbers = new Set(numbers)\n\nconsole.log(setOfNumbers)\n`\n\n`sh\nSet(5) {5, 3, 2, 9, 4}\n`\n\nUnion of sets\n\nTo find a union to two sets can be achieved using spread operator. Lets find the union of set A and set B (A U B)\n\n`js\nlet a = [1, 2, 3, 4, 5]\nlet b = [3, 4, 5, 6]\nlet c = [...a, ...b]\n\nlet A = new Set(a)\nlet B = new Set(b)\nlet C = new Set(c)\n\nconsole.log(C)\n`\n\n`sh\nSet(6) {1, 2, 3, 4, 5,6}\n`\n\nIntersection of sets\n\nTo find an intersection of two sets can be achieved using filter. Lets find the intersection of set A and set B (A ∩ B)\n\n`js\nlet a = [1, 2, 3, 4, 5]\nlet b = [3, 4, 5, 6]\n\nlet A = new Set(a)\nlet B = new Set(b)\n\nlet c = a.filter((num) => B.has(num))\nlet C = new Set(c)\n\nconsole.log(C)\n`\n\n`sh\nSet(3) {3, 4, 5}\n`\n\nDifference of sets\n\nTo find an the difference between two sets can be achieved using filter. Lets find the different of set A and set B (A \\ B)\n\n`js\nlet a = [1, 2, 3, 4, 5]\nlet b = [3, 4, 5, 6]\n\nlet A = new Set(a)\nlet B = new Set(b)\n\nlet c = a.filter((num) => !B.has(num))\nlet C = new Set(c)\n\nconsole.log(C)\n`\n\n`sh\nSet(2) {1, 2}\n`",
+      "codeExample": "const companies = new Set()\nconsole.log(companies)",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "data-structures",
+        "day-10"
+      ]
+    },
+    {
+      "id": "data-structures-010-003",
+      "title": "10_day_Sets_and_Maps - Part 3",
+      "day": 10,
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "Map\n\n### Creating an empty Map\n\n```js\nconst map = new Map()\nconsole....",
+      "content": "Map\n\nCreating an empty Map\n\n`js\nconst map = new Map()\nconsole.log(map)\n`\n\n`sh\nMap(0) {}\n`\n\nCreating an Map from array\n\n`js\ncountries = [\n  ['Finland', 'Helsinki'],\n  ['Sweden', 'Stockholm'],\n  ['Norway', 'Oslo'],\n]\nconst map = new Map(countries)\nconsole.log(map)\nconsole.log(map.size)\n`\n\n`sh\nMap(3) {\"Finland\" => \"Helsinki\", \"Sweden\" => \"Stockholm\", \"Norway\" => \"Oslo\"}\n3\n`\n\nAdding values to the Map\n\n`js\nconst countriesMap = new Map()\nconsole.log(countriesMap.size) // 0\ncountriesMap.set('Finland', 'Helsinki')\ncountriesMap.set('Sweden', 'Stockholm')\ncountriesMap.set('Norway', 'Oslo')\nconsole.log(countriesMap)\nconsole.log(countriesMap.size)\n`\n\n`sh\nMap(3) {\"Finland\" => \"Helsinki\", \"Sweden\" => \"Stockholm\", \"Norway\" => \"Oslo\"}\n3\n`\n\nGetting a value from Map\n\n`js\nconsole.log(countriesMap.get('Finland'))\n`\n\n`sh\nHelsinki\n`\n\nChecking key in Map\n\nCheck if a key exists in a map using _has_ method. It returns _true_ or _false_.\n\n`js\nconsole.log(countriesMap.has('Finland'))\n`\n\n`sh\ntrue\n`\n\nGetting all values from map using loop\n\n`js\nfor (const country of countriesMap) {\n  console.log(country)\n}\n`\n\n`sh\n(2) [\"Finland\", \"Helsinki\"]\n(2) [\"Sweden\", \"Stockholm\"]\n(2) [\"Norway\", \"Oslo\"]\n`\n\n`js\nfor (const [country, city] of countriesMap){\n console.log(country, city)\n}\n`\n\n`sh\nFinland Helsinki\nSweden Stockholm\nNorway Oslo\n`\n\n🌕 You established a big milestone, you are unstoppable. Keep going! You have just completed day 10 challenges and you are 10 steps a head in to your way to greatness. Now do some exercises for your brain and for your muscle.",
+      "codeExample": "const map = new Map()\nconsole.log(map)",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "data-structures",
+        "day-10"
+      ]
+    }
+  ]
+}

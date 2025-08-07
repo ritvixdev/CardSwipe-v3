@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "data-structures-notes-007",
+    "topic": "data-structures",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "beginner",
+    "tags": [
+      "data-structures",
+      "day-7",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.025Z"
+  },
+  "notes": [
+    {
+      "id": "data-structures-note-007",
+      "title": "Functions - Study Notes",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "readTime": 24,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Functions</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 6](../06_Day_Loops/06_day_loops.md) | [Day 8 >>](../08_Day_Objects/08_day_objects.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_7.png)\n\n- [📔 Day 7](-day-7)\n\t- [Functions](functions)\n\t\t- [Function Declaration](function-declaration)\n\t\t- [Function without a parameter and return](function-without-a-parameter-and-return)\n\t\t- [Function returning value](function-returning-value",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Functions</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[📔 Day 7](#-day-7)",
+        "[Functions](#functions)",
+        "[Function Declaration](#function-declaration)",
+        "[Function without a parameter and return](#function-without-a-parameter-and-return)"
+      ],
+      "tags": [
+        "data-structures",
+        "day-7",
+        "notes"
+      ]
+    }
+  ]
+}

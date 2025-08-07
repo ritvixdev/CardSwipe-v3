@@ -1,0 +1,190 @@
+{
+  "metadata": {
+    "topicId": "data-structures",
+    "name": "Data Structures",
+    "description": "Arrays, objects, sets, maps and other data structures in JavaScript",
+    "difficulty": "beginner",
+    "estimatedHours": 10,
+    "prerequisites": [
+      "fundamentals"
+    ],
+    "tags": [
+      "data-structures",
+      "beginner"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T09:04:49.579Z",
+    "updatedAt": "2025-08-07T09:04:49.579Z"
+  },
+  "structure": {
+    "totalFiles": 24,
+    "cardFiles": 14,
+    "noteFiles": 5,
+    "quizFiles": 5,
+    "days": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+  },
+  "files": {
+    "cards": [
+      {
+        "fileId": "data-structures-006",
+        "path": "learn/cards/data-structures/data-structures-006.json",
+        "day": 6,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-007-1754557488813",
+        "path": "learn/cards/data-structures/data-structures-007-1754557488813.json",
+        "day": 1754557488813,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-007",
+        "path": "learn/cards/data-structures/data-structures-007.json",
+        "day": 7,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-008-1754557488816",
+        "path": "learn/cards/data-structures/data-structures-008-1754557488816.json",
+        "day": 1754557488816,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-008",
+        "path": "learn/cards/data-structures/data-structures-008.json",
+        "day": 8,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-009-1754557488819",
+        "path": "learn/cards/data-structures/data-structures-009-1754557488819.json",
+        "day": 1754557488819,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-009",
+        "path": "learn/cards/data-structures/data-structures-009.json",
+        "day": 9,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-010-1754557488821",
+        "path": "learn/cards/data-structures/data-structures-010-1754557488821.json",
+        "day": 1754557488821,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-010",
+        "path": "learn/cards/data-structures/data-structures-010.json",
+        "day": 10,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-011-1754557488824",
+        "path": "learn/cards/data-structures/data-structures-011-1754557488824.json",
+        "day": 1754557488824,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-012-1754557488827",
+        "path": "learn/cards/data-structures/data-structures-012-1754557488827.json",
+        "day": 1754557488827,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-013-1754557488829",
+        "path": "learn/cards/data-structures/data-structures-013-1754557488829.json",
+        "day": 1754557488829,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-014-1754557488831",
+        "path": "learn/cards/data-structures/data-structures-014-1754557488831.json",
+        "day": 1754557488831,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "data-structures-015-1754557488833",
+        "path": "learn/cards/data-structures/data-structures-015-1754557488833.json",
+        "day": 1754557488833,
+        "estimatedCards": 2
+      }
+    ],
+    "notes": [
+      {
+        "fileId": "data-structures-notes-006",
+        "path": "explore/javascript-notes/data-structures-notes-006.json",
+        "day": 6
+      },
+      {
+        "fileId": "data-structures-notes-007",
+        "path": "explore/javascript-notes/data-structures-notes-007.json",
+        "day": 7
+      },
+      {
+        "fileId": "data-structures-notes-008",
+        "path": "explore/javascript-notes/data-structures-notes-008.json",
+        "day": 8
+      },
+      {
+        "fileId": "data-structures-notes-009",
+        "path": "explore/javascript-notes/data-structures-notes-009.json",
+        "day": 9
+      },
+      {
+        "fileId": "data-structures-notes-010",
+        "path": "explore/javascript-notes/data-structures-notes-010.json",
+        "day": 10
+      }
+    ],
+    "quizzes": [
+      {
+        "fileId": "data-structures-quiz-006",
+        "path": "explore/practice-quiz/data-structures-quiz-006.json",
+        "day": 6
+      },
+      {
+        "fileId": "data-structures-quiz-007",
+        "path": "explore/practice-quiz/data-structures-quiz-007.json",
+        "day": 7
+      },
+      {
+        "fileId": "data-structures-quiz-008",
+        "path": "explore/practice-quiz/data-structures-quiz-008.json",
+        "day": 8
+      },
+      {
+        "fileId": "data-structures-quiz-009",
+        "path": "explore/practice-quiz/data-structures-quiz-009.json",
+        "day": 9
+      },
+      {
+        "fileId": "data-structures-quiz-010",
+        "path": "explore/practice-quiz/data-structures-quiz-010.json",
+        "day": 10
+      }
+    ]
+  },
+  "progression": {
+    "unlockCriteria": {
+      "type": "sequential",
+      "requiresPrevious": true
+    },
+    "rewards": {
+      "completionXP": 500,
+      "masteryBadge": "data-structures-master",
+      "nextUnlock": "control-flow"
+    }
+  },
+  "analytics": {
+    "averageCompletionTime": "10 hours",
+    "difficultyRating": 2,
+    "popularityScore": 85
+  }
+}

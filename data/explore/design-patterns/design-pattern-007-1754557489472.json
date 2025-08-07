@@ -1,0 +1,28 @@
+{
+  "id": "design-pattern-007-1754557489472",
+  "title": "Observer Pattern",
+  "type": "design-pattern",
+  "pattern": "observer",
+  "description": "Defines a one-to-many dependency between objects.",
+  "implementation": "// Pattern implementation code here",
+  "useCase": "Common scenarios where this pattern is useful and provides benefits.",
+  "pros": [
+    "Advantage 1",
+    "Advantage 2",
+    "Advantage 3"
+  ],
+  "cons": [
+    "Disadvantage 1",
+    "Disadvantage 2"
+  ],
+  "metadata": {
+    "difficulty": "advanced",
+    "estimatedTime": 20,
+    "tags": [
+      "design-patterns",
+      "observer",
+      "architecture"
+    ],
+    "createdAt": "2025-08-07T09:04:49.472Z"
+  }
+}

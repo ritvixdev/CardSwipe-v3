@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "fileId": "dom-quiz-026",
+    "topic": "dom",
+    "category": "practice-quiz",
+    "quizCount": 1,
+    "difficulty": "hard",
+    "tags": [
+      "dom",
+      "day-26",
+      "quiz"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.230Z"
+  },
+  "quizzes": [
+    {
+      "id": "dom-quiz-026",
+      "title": "26_day_world_countries_data_visualization_2 - Practice Quiz",
+      "category": "dom",
+      "difficulty": "hard",
+      "timeLimit": 300,
+      "passingScore": 70,
+      "questions": [
+        {
+          "id": "q1",
+          "question": "What is the main focus of this dom lesson?",
+          "options": [
+            "Concept A",
+            "Concept B",
+            "Concept C",
+            "Concept D"
+          ],
+          "correctAnswer": 0,
+          "explanation": "This lesson focuses on the fundamental concepts.",
+          "difficulty": "medium",
+          "points": 10,
+          "tags": [
+            "dom"
+          ]
+        },
+        {
+          "id": "q2",
+          "question": "Which best describes the key principle?",
+          "options": [
+            "Principle A",
+            "Principle B",
+            "Principle C",
+            "Principle D"
+          ],
+          "correctAnswer": 1,
+          "explanation": "The key principle is essential for understanding.",
+          "difficulty": "medium",
+          "points": 15,
+          "tags": [
+            "dom"
+          ]
+        }
+      ]
+    }
+  ]
+}

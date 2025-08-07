@@ -1,0 +1,44 @@
+{
+  "id": "data-structures-014-1754557488831",
+  "title": "data-structures Coding Practice #14",
+  "topic": "data-structures",
+  "type": "practice",
+  "difficulty": "intermediate",
+  "day": 5,
+  "content": "Practice implementing and manipulating data structures. Work with arrays, objects, and advanced data organization techniques.",
+  "codeExample": "// Practice with data structures\n// TODO: Create a nested object structure\n// TODO: Implement array manipulation methods",
+  "keyPoints": [
+    "Arrays store ordered collections",
+    "Objects store key-value pairs",
+    "Choose appropriate data structure for the task",
+    "Understand reference vs primitive types"
+  ],
+  "quiz": {
+    "question": "Which method adds an element to the end of an array?",
+    "options": [
+      "unshift()",
+      "push()",
+      "pop()",
+      "shift()"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The push() method adds one or more elements to the end of an array and returns the new length."
+  },
+  "metadata": {
+    "estimatedTime": 10,
+    "prerequisites": [
+      "fundamentals"
+    ],
+    "tags": [
+      "data-structures",
+      "practice",
+      "javascript",
+      "arrays",
+      "objects",
+      "collections"
+    ],
+    "version": "1.0",
+    "createdAt": "2025-08-07T09:04:48.831Z",
+    "updatedAt": "2025-08-07T09:04:48.831Z"
+  }
+}

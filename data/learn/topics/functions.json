@@ -1,0 +1,197 @@
+{
+  "metadata": {
+    "topicId": "functions",
+    "name": "Functions & Scope",
+    "description": "Function declarations, expressions, arrow functions, and scope",
+    "difficulty": "intermediate",
+    "estimatedHours": 10,
+    "prerequisites": [
+      "fundamentals",
+      "control-flow"
+    ],
+    "tags": [
+      "functions",
+      "intermediate"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T09:04:49.584Z",
+    "updatedAt": "2025-08-07T09:04:49.584Z"
+  },
+  "structure": {
+    "totalFiles": 25,
+    "cardFiles": 15,
+    "noteFiles": 5,
+    "quizFiles": 5,
+    "days": [
+      16,
+      17,
+      18,
+      19,
+      20
+    ]
+  },
+  "files": {
+    "cards": [
+      {
+        "fileId": "functions-006-1754557488887",
+        "path": "learn/cards/functions/functions-006-1754557488887.json",
+        "day": 1754557488887,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-007-1754557488889",
+        "path": "learn/cards/functions/functions-007-1754557488889.json",
+        "day": 1754557488889,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-008-1754557488892",
+        "path": "learn/cards/functions/functions-008-1754557488892.json",
+        "day": 1754557488892,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-009-1754557488894",
+        "path": "learn/cards/functions/functions-009-1754557488894.json",
+        "day": 1754557488894,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-010-1754557488897",
+        "path": "learn/cards/functions/functions-010-1754557488897.json",
+        "day": 1754557488897,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-011-1754557488900",
+        "path": "learn/cards/functions/functions-011-1754557488900.json",
+        "day": 1754557488900,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-012-1754557488904",
+        "path": "learn/cards/functions/functions-012-1754557488904.json",
+        "day": 1754557488904,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-013-1754557488909",
+        "path": "learn/cards/functions/functions-013-1754557488909.json",
+        "day": 1754557488909,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-014-1754557488913",
+        "path": "learn/cards/functions/functions-014-1754557488913.json",
+        "day": 1754557488913,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-015-1754557488915",
+        "path": "learn/cards/functions/functions-015-1754557488915.json",
+        "day": 1754557488915,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-016",
+        "path": "learn/cards/functions/functions-016.json",
+        "day": 16,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-017",
+        "path": "learn/cards/functions/functions-017.json",
+        "day": 17,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-018",
+        "path": "learn/cards/functions/functions-018.json",
+        "day": 18,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-019",
+        "path": "learn/cards/functions/functions-019.json",
+        "day": 19,
+        "estimatedCards": 2
+      },
+      {
+        "fileId": "functions-020",
+        "path": "learn/cards/functions/functions-020.json",
+        "day": 20,
+        "estimatedCards": 2
+      }
+    ],
+    "notes": [
+      {
+        "fileId": "functions-notes-016",
+        "path": "explore/javascript-notes/functions-notes-016.json",
+        "day": 16
+      },
+      {
+        "fileId": "functions-notes-017",
+        "path": "explore/javascript-notes/functions-notes-017.json",
+        "day": 17
+      },
+      {
+        "fileId": "functions-notes-018",
+        "path": "explore/javascript-notes/functions-notes-018.json",
+        "day": 18
+      },
+      {
+        "fileId": "functions-notes-019",
+        "path": "explore/javascript-notes/functions-notes-019.json",
+        "day": 19
+      },
+      {
+        "fileId": "functions-notes-020",
+        "path": "explore/javascript-notes/functions-notes-020.json",
+        "day": 20
+      }
+    ],
+    "quizzes": [
+      {
+        "fileId": "functions-quiz-016",
+        "path": "explore/practice-quiz/functions-quiz-016.json",
+        "day": 16
+      },
+      {
+        "fileId": "functions-quiz-017",
+        "path": "explore/practice-quiz/functions-quiz-017.json",
+        "day": 17
+      },
+      {
+        "fileId": "functions-quiz-018",
+        "path": "explore/practice-quiz/functions-quiz-018.json",
+        "day": 18
+      },
+      {
+        "fileId": "functions-quiz-019",
+        "path": "explore/practice-quiz/functions-quiz-019.json",
+        "day": 19
+      },
+      {
+        "fileId": "functions-quiz-020",
+        "path": "explore/practice-quiz/functions-quiz-020.json",
+        "day": 20
+      }
+    ]
+  },
+  "progression": {
+    "unlockCriteria": {
+      "type": "sequential",
+      "requiresPrevious": true
+    },
+    "rewards": {
+      "completionXP": 500,
+      "masteryBadge": "functions-master",
+      "nextUnlock": "objects"
+    }
+  },
+  "analytics": {
+    "averageCompletionTime": "10 hours",
+    "difficultyRating": 4,
+    "popularityScore": 85
+  }
+}

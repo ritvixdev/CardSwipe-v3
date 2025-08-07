@@ -1,0 +1,39 @@
+{
+  "id": "advanced-concepts-001-1754557489016",
+  "title": "advanced-concepts Fundamentals - Part 1",
+  "topic": "advanced-concepts",
+  "type": "concept",
+  "difficulty": "beginner",
+  "day": 1,
+  "content": "JavaScript fundamentals form the foundation of web development. Understanding variables, data types, and basic operations is crucial for building robust applications.",
+  "codeExample": "// Variable declaration and initialization\nlet message = 'Hello, JavaScript!';\nconst PI = 3.14159;\nvar count = 0;",
+  "keyPoints": [
+    "Variables store data values",
+    "Use const for constants, let for variables",
+    "JavaScript is dynamically typed",
+    "Understand scope and hoisting"
+  ],
+  "quiz": {
+    "question": "What is the difference between let and const in JavaScript?",
+    "options": [
+      "let is for constants, const is for variables",
+      "const cannot be reassigned, let can be reassigned",
+      "There is no difference",
+      "let is block-scoped, const is function-scoped"
+    ],
+    "correctAnswer": 1,
+    "explanation": "const creates a constant reference that cannot be reassigned, while let creates a variable that can be reassigned."
+  },
+  "metadata": {
+    "estimatedTime": 5,
+    "prerequisites": [],
+    "tags": [
+      "advanced-concepts",
+      "concept",
+      "javascript"
+    ],
+    "version": "1.0",
+    "createdAt": "2025-08-07T09:04:49.016Z",
+    "updatedAt": "2025-08-07T09:04:49.016Z"
+  }
+}

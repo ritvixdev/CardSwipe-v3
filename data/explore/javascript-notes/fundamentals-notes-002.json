@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "fundamentals-notes-002",
+    "topic": "fundamentals",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "beginner",
+    "tags": [
+      "fundamentals",
+      "day-2",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:49.985Z"
+  },
+  "notes": [
+    {
+      "id": "fundamentals-note-002",
+      "title": "Data Types - Study Notes",
+      "category": "fundamentals",
+      "difficulty": "beginner",
+      "readTime": 32,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Data Types</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n</div>\n\n[<< Day 1](../readMe.md) | [Day 3 >>](../03_Day_Booleans_operators_date/03_booleans_operators_date.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_2.png)\n\n- [📔 Day 2](-day-2)\n\t- [Data Types](data-types)\n\t\t- [Primitive Data Types](primitive-data-types)\n\t\t- [Non-Primitive Data Types](non-primitive-data-types)\n\t- [Numbers](numbers)\n\t\t- [Declaring Number Data Types](declaring",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Data Types</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[📔 Day 2](#-day-2)",
+        "[Data Types](#data-types)",
+        "[Primitive Data Types](#primitive-data-types)",
+        "[Non-Primitive Data Types](#non-primitive-data-types)"
+      ],
+      "tags": [
+        "fundamentals",
+        "day-2",
+        "notes"
+      ]
+    }
+  ]
+}

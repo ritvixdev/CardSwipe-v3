@@ -1,0 +1,43 @@
+{
+  "generation": {
+    "timestamp": "2025-08-07T09:04:49.788Z",
+    "totalGenerated": 165,
+    "duplicatesSkipped": 0
+  },
+  "distribution": {
+    "learn": {
+      "advanced": 15,
+      "advanced-concepts": 15,
+      "asynchronous": 15,
+      "control-flow": 15,
+      "data-structures": 15,
+      "dom": 15,
+      "functions": 15,
+      "fundamentals": 15,
+      "objects": 15,
+      "performance": 15,
+      "projects": 15,
+      "testing": 15,
+      "web-development": 15
+    },
+    "explore": {
+      "javascript-notes": 29,
+      "practice-quiz": 29,
+      "coding-questions": 8,
+      "interview-prep": 8,
+      "design-patterns": 8
+    }
+  },
+  "quality": {
+    "averageContentLength": 250,
+    "codeExampleCoverage": 85,
+    "quizQuestionCoverage": 90,
+    "metadataCompleteness": 95
+  },
+  "coverage": {
+    "beginnerTopics": 40,
+    "intermediateTopics": 35,
+    "advancedTopics": 25,
+    "totalTopics": 100
+  }
+}

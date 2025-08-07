@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "data-structures-notes-010",
+    "topic": "data-structures",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "beginner",
+    "tags": [
+      "data-structures",
+      "day-10",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.060Z"
+  },
+  "notes": [
+    {
+      "id": "data-structures-note-010",
+      "title": "10_day_Sets_and_Maps - Study Notes",
+      "category": "data-structures",
+      "difficulty": "beginner",
+      "readTime": 9,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Sets and Maps</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 9](../09_Day_Higher_order_functions/09_day_higher_order_functions.md) | [Day 11>>](../11_Day_Destructuring_and_spreading/11_day_destructuring_and_spreading.md)\n\n![Day 10](../images/banners/day_1_10.png)\n\n- [Day 10](day-10)\n\t- [Set](set)\n\t\t- [Creating an empty set](creating-an-empty-set)\n\t\t- [Creating set from array](creating-set-from-array)\n\t\t- [Adding an element to a set](adding-an-ele",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Sets and Maps</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 10](#day-10)",
+        "[Set](#set)",
+        "[Creating an empty set](#creating-an-empty-set)",
+        "[Creating set from array](#creating-set-from-array)"
+      ],
+      "tags": [
+        "data-structures",
+        "day-10",
+        "notes"
+      ]
+    }
+  ]
+}

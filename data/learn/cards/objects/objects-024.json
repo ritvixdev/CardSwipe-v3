@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "fileId": "objects-024",
+    "topic": "objects",
+    "subtopic": "24_day_project_solar_system",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 2,
+    "difficulty": "advanced",
+    "estimatedTime": "6 min",
+    "prerequisites": [
+      "day-23"
+    ],
+    "tags": [
+      "objects",
+      "day-24"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.205Z",
+    "updatedAt": "2025-08-07T08:51:50.205Z"
+  },
+  "cards": [
+    {
+      "id": "objects-024-001",
+      "title": "24_day_project_solar_system",
+      "day": 24,
+      "category": "objects",
+      "difficulty": "advanced",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Mini Project Solar System</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Mini Project Solar System</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 23](../23_Day_Event_listeners/23_day_event_listeners.md) | [Day 25 >>](../25_Day_World_countries_data_visualization_1/25_day_world_countries_data_visualization_1.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_24.png)\n\n- [Day 24](day-24)\n  - [Exercises](exercises)\n    - [Exercise: Level 1](exercise-level-1)\n\nDay 24",
+      "codeExample": "",
+      "keyPoints": [
+        "[Day 24](#day-24)",
+        "[Exercises](#exercises)",
+        "[Exercise: Level 1](#exercise-level-1)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "objects",
+        "day-24"
+      ]
+    },
+    {
+      "id": "objects-024-002",
+      "title": "24_day_project_solar_system - Part 2",
+      "day": 24,
+      "category": "objects",
+      "difficulty": "advanced",
+      "estimatedTime": "2 min",
+      "description": "Exercises\n\n### Exercise: Level 1\n\n1....",
+      "content": "Exercises\n\nExercise: Level 1\n\n1. Develop a small application which calculate a weight of an object in a certain planet. The gif image is not complete check the video in the starter file.\n\n![Solar System](./../images/projects/dom_min_project_solar_system_day_4.1.gif)\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 23](../23_Day_Event_listeners/23_day_event_listeners.md) | [Day 25 >>](../25_Day_World_countries_data_visualization_1/25_day_world_countries_data_visualization_1.md)",
+      "codeExample": "",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "objects",
+        "day-24"
+      ]
+    }
+  ]
+}

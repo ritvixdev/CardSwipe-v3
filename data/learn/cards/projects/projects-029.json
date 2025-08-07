@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "fileId": "projects-029",
+    "topic": "projects",
+    "subtopic": "29_day_mini_project_animating_characters",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 2,
+    "difficulty": "advanced",
+    "estimatedTime": "6 min",
+    "prerequisites": [
+      "day-28"
+    ],
+    "tags": [
+      "projects",
+      "day-29"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.260Z",
+    "updatedAt": "2025-08-07T08:51:50.260Z"
+  },
+  "cards": [
+    {
+      "id": "projects-029-001",
+      "title": "29_day_mini_project_animating_characters",
+      "day": 29,
+      "category": "projects",
+      "difficulty": "advanced",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Animating Characters</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Animating Characters</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 28](../28_Day_Mini_project_leaderboard/28_day_mini_project_leaderboard.md) | [Day 30>>](../30_Day_Mini_project_final/30_day_mini_project_final.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_29.png)\n\n- [Day 29](day-29)\n\t- [Exercises](exercises)\n\t\t- [Exercise: Level 1](exercise-level-1)\n\t\t- [Exercise: Level 2](exercise-level-2)\n\t\t- [Exercise: Level 3](exercise-level-3)\n\nDay 29",
+      "codeExample": "",
+      "keyPoints": [
+        "[Day 29](#day-29)",
+        "[Exercises](#exercises)",
+        "[Exercise: Level 1](#exercise-level-1)",
+        "[Exercise: Level 2](#exercise-level-2)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "projects",
+        "day-29"
+      ]
+    },
+    {
+      "id": "projects-029-002",
+      "title": "29_day_mini_project_animating_characters - Part 2",
+      "day": 29,
+      "category": "projects",
+      "difficulty": "advanced",
+      "estimatedTime": "2 min",
+      "description": "Exercises\n\n### Exercise: Level 1\n\n1....",
+      "content": "Exercises\n\nExercise: Level 1\n\n1. Create the following animation using (HTML, CSS, JS)\n\n![Slider](./../images/projects/dom_min_project_30DaysOfJavaScript_color_changing_day_9.1.gif)\n\n\nExercise: Level 2\n\nExercise: Level 3\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 28](../28_Day_Mini_project_leaderboard/28_day_mini_project_leaderboard.md) | [Day 30>>](../30_Day_Mini_project_final/30_day_mini_project_final.md)",
+      "codeExample": "",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "projects",
+        "day-29"
+      ]
+    }
+  ]
+}

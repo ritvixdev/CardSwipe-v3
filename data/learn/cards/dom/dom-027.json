@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "fileId": "dom-027",
+    "topic": "dom",
+    "subtopic": "27_day_mini_project_portfolio",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 2,
+    "difficulty": "advanced",
+    "estimatedTime": "6 min",
+    "prerequisites": [
+      "day-26"
+    ],
+    "tags": [
+      "dom",
+      "day-27"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.236Z",
+    "updatedAt": "2025-08-07T08:51:50.236Z"
+  },
+  "cards": [
+    {
+      "id": "dom-027-001",
+      "title": "27_day_mini_project_portfolio",
+      "day": 27,
+      "category": "dom",
+      "difficulty": "advanced",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Portfolio</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Portfolio</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 26](../26_Day_World_countries_data_visualization_2/26_day_world_countries_data_visualization_2.md) | [Day 28 >>](../28_Day_Mini_project_leaderboard/28_day_mini_project_leaderboard.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_27.png)\n\n- [Day 27](day-27)\n  - [Exercises](exercises)\n    - [Exercise: Level 1](exercise-level-1)\n\nDay 27",
+      "codeExample": "",
+      "keyPoints": [
+        "[Day 27](#day-27)",
+        "[Exercises](#exercises)",
+        "[Exercise: Level 1](#exercise-level-1)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "dom",
+        "day-27"
+      ]
+    },
+    {
+      "id": "dom-027-002",
+      "title": "27_day_mini_project_portfolio - Part 2",
+      "day": 27,
+      "category": "dom",
+      "difficulty": "advanced",
+      "estimatedTime": "2 min",
+      "description": "Exercises\n\n### Exercise: Level 1\n\n1....",
+      "content": "Exercises\n\nExercise: Level 1\n\n1. Create the following using HTML, CSS, and JavaScript\n\n![Slider](./../images/projects/dom_mini_project_slider_day_7.1.gif)\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 26](../26_Day_World_countries_data_visualization_2/26_day_world_countries_data_visualization_2.md) | [Day 28 >>](../28_Day_Mini_project_leaderboard/28_day_mini_project_leaderboard.md)",
+      "codeExample": "",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "dom",
+        "day-27"
+      ]
+    }
+  ]
+}

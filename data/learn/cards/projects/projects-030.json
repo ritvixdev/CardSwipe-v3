@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "fileId": "projects-030",
+    "topic": "projects",
+    "subtopic": "30_day_mini_project_final",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "advanced",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-29"
+    ],
+    "tags": [
+      "projects",
+      "day-30"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.283Z",
+    "updatedAt": "2025-08-07T08:51:50.283Z"
+  },
+  "cards": [
+    {
+      "id": "projects-030-001",
+      "title": "30_day_mini_project_final",
+      "day": 30,
+      "category": "projects",
+      "difficulty": "advanced",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Final Projects</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Final Projects</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n</div>\n</div>\n\n<div>\n\n</div>\n\n<div>\n<small>Support the <strong>author</strong> to create more educational materials</small> <br />  \n<a href = \"https://www.paypal.me/asabeneh\"><img src='./../images/paypal_lg.png' alt='Paypal Logo' style=\"width:10%\"/></a>\n</div>\n\n[<< Day 29](../29_Day_Mini_project_animating_characters/29_day_mini_project_animating_characters.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_30.png)\n\n- [Day 30](day-30)\n  - [Exercises](exercises)\n    - [Exercise: Level 1](exercise-level-1)\n    - [Exercise: Level 2](exercise-level-2)\n    - [Exercise: Level 3](exercise-level-3)\n  - [Testimony](testimony)\n  - [Support](support)\n\nDay 30",
+      "codeExample": "",
+      "keyPoints": [
+        "[Day 30](#day-30)",
+        "[Exercises](#exercises)",
+        "[Exercise: Level 1](#exercise-level-1)",
+        "[Exercise: Level 2](#exercise-level-2)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "projects",
+        "day-30"
+      ]
+    },
+    {
+      "id": "projects-030-002",
+      "title": "30_day_mini_project_final - Part 2",
+      "day": 30,
+      "category": "projects",
+      "difficulty": "advanced",
+      "estimatedTime": "2 min",
+      "description": "Exercises\n\n### Exercise: Level 1\n\n1....",
+      "content": "Exercises\n\nExercise: Level 1\n\n1. Create the following animation using (HTML, CSS, JS)\n\n![Countries data](./../images/projects/dom_mini_project_countries_object_day_10.1.gif)\n\n2. Validate the following form using regex.\n\n   ![form validation](./../images/projects/dom_mini_project_form_validation_day_10.2.1.png)\n\n   ![form validation](./../images/projects/dom_mini_project_form_validation_day_10.2.png)\n\nExercise: Level 2\n\nExercise: Level 3\n\n🌕 Your journey to greatness completed successfully. You reached high level of greatness. Now, you are much greater than ever before. I knew what it takes to reach to this level and you made to this point. You are a real hero. Now, it is time to celebrate your success with a friend or with a family. I am looking forward to seeing you in an other challenge.",
+      "codeExample": "",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "projects",
+        "day-30"
+      ]
+    },
+    {
+      "id": "projects-030-003",
+      "title": "30_day_mini_project_final - Part 3",
+      "day": 30,
+      "category": "projects",
+      "difficulty": "advanced",
+      "estimatedTime": "2 min",
+      "description": "Testimony\n\nNow it is time to support the author by expressing your thoughts about the Author and 30DaysOfJavaScript challenge....",
+      "content": "Testimony\n\nNow it is time to support the author by expressing your thoughts about the Author and 30DaysOfJavaScript challenge. You can leave your testimonial on this [link](https://www.asabeneh.com/testimonials)",
+      "codeExample": "",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "projects",
+        "day-30"
+      ]
+    }
+  ]
+}

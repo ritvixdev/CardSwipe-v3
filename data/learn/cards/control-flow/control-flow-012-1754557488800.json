@@ -1,0 +1,44 @@
+{
+  "id": "control-flow-012-1754557488800",
+  "title": "control-flow Examples and Use Cases #12",
+  "topic": "control-flow",
+  "type": "example",
+  "difficulty": "intermediate",
+  "day": 4,
+  "content": "See control flow in action through practical examples. Learn how if statements, loops, and switches control program execution.",
+  "codeExample": "// Practical variable usage\nfunction greetUser(name) {\n  const greeting = `Hello, ${name}!`;\n  return greeting;\n}\n\nconsole.log(greetUser('Developer'));",
+  "keyPoints": [
+    "Conditional statements control execution",
+    "Loops repeat code blocks",
+    "Break and continue control loop flow",
+    "Switch statements handle multiple conditions"
+  ],
+  "quiz": {
+    "question": "What is the difference between let and const in JavaScript?",
+    "options": [
+      "let is for constants, const is for variables",
+      "const cannot be reassigned, let can be reassigned",
+      "There is no difference",
+      "let is block-scoped, const is function-scoped"
+    ],
+    "correctAnswer": 1,
+    "explanation": "const creates a constant reference that cannot be reassigned, while let creates a variable that can be reassigned."
+  },
+  "metadata": {
+    "estimatedTime": 7,
+    "prerequisites": [
+      "fundamentals"
+    ],
+    "tags": [
+      "control-flow",
+      "example",
+      "javascript",
+      "conditionals",
+      "loops",
+      "logic"
+    ],
+    "version": "1.0",
+    "createdAt": "2025-08-07T09:04:48.800Z",
+    "updatedAt": "2025-08-07T09:04:48.800Z"
+  }
+}

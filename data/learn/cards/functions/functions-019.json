@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "fileId": "functions-019",
+    "topic": "functions",
+    "subtopic": "19_day_closures",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "intermediate",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-18"
+    ],
+    "tags": [
+      "functions",
+      "day-19"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.146Z",
+    "updatedAt": "2025-08-07T08:51:50.146Z"
+  },
+  "cards": [
+    {
+      "id": "functions-019-001",
+      "title": "19_day_closures",
+      "day": 19,
+      "category": "functions",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Closures</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Closures</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 18](../18_Day_Promises/18_day_promises.md) | [Day 20 >>](../20_Day_Writing_clean_codes/20_day_writing_clean_codes.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_19.png)\n- [Day 19](day-19)\n\t- [Closure](closure)\n\t- [Exercises](exercises)\n\t\t- [Exercises: Level 1](exercises-level-1)\n\t\t- [Exercises: Level 2](exercises-level-2)\n\t\t- [Exercises: Level 3](exercises-level-3)\n\nDay 19",
+      "codeExample": "function outerFunction() {\n    let count = 0;\n    function innerFunction() {\n        count++\n        return count\n    }\n\n    return innerFunction\n}\nconst innerFunc = outerFunction()\n\nconsole.log(innerFunc())\nconsole.log(innerFunc())\nconsole.log(innerFunc())",
+      "keyPoints": [
+        "[Day 19](#day-19)",
+        "[Closure](#closure)",
+        "[Exercises](#exercises)",
+        "[Exercises: Level 1](#exercises-level-1)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "functions",
+        "day-19"
+      ]
+    },
+    {
+      "id": "functions-019-002",
+      "title": "19_day_closures - Part 2",
+      "day": 19,
+      "category": "functions",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Closure\n\nJavaScript allows writing function inside an outer function....",
+      "content": "Closure\n\nJavaScript allows writing function inside an outer function. We can write as many inner functions as we want. If inner function access the variables of outer function then it is called closure.\n\n`js\nfunction outerFunction() {\n    let count = 0;\n    function innerFunction() {\n        count++\n        return count\n    }\n\n    return innerFunction\n}\nconst innerFunc = outerFunction()\n\nconsole.log(innerFunc())\nconsole.log(innerFunc())\nconsole.log(innerFunc())\n`\n\n`sh\n1\n2\n3\n`\n\nLet us more example of inner functions\n\n`js\nfunction outerFunction() {\n    let count = 0;\n    function plusOne() {\n        count++\n        return count\n    }\n    function minusOne() {\n        count--\n        return count\n    }\n\n    return {\n        plusOne:plusOne(),\n        minusOne:minusOne()\n    }\n}\nconst innerFuncs = outerFunction()\n\nconsole.log(innerFuncs.plusOne)\nconsole.log(innerFuncs.minusOne)\n`\n\n`sh\n1\n0\n`\n\n🌕 You are making progress. Maintain your momentum,  keep the good work.  Now do some exercises for your brain and for your muscle.",
+      "codeExample": "function outerFunction() {\n    let count = 0;\n    function innerFunction() {\n        count++\n        return count\n    }\n\n    return innerFunction\n}\nconst innerFunc = outerFunction()\n\nconsole.log(innerFunc())\nconsole.log(innerFunc())\nconsole.log(innerFunc())",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "functions",
+        "day-19"
+      ]
+    },
+    {
+      "id": "functions-019-003",
+      "title": "19_day_closures - Part 3",
+      "day": 19,
+      "category": "functions",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Exercises\n\n### Exercises: Level 1\n\n1....",
+      "content": "Exercises\n\nExercises: Level 1\n\n1. Create a closure which has one inner function\n\nExercises: Level 2\n\n1. Create a closure which has three inner functions\n\nExercises: Level 3\n\n1. Create a personAccount out function. It has firstname, lastname, incomes, expenses  inner variables. It has totalIncome, totalExpense, accountInfo,addIncome, addExpense and accountBalance inner functions. Incomes is a set of incomes and its description and expenses is also a set of expenses and its description.\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 18](../18_Day_Promises/18_day_promises.md) | [Day 20 >>](../20_Day_Writing_clean_codes/20_day_writing_clean_codes.md)",
+      "codeExample": "",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "functions",
+        "day-19"
+      ]
+    }
+  ]
+}

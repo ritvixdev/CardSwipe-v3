@@ -1,0 +1,42 @@
+{
+  "id": "fundamentals-014-1754557488942",
+  "title": "fundamentals Best Practices #14",
+  "topic": "fundamentals",
+  "type": "application",
+  "difficulty": "intermediate",
+  "day": 5,
+  "content": "JavaScript fundamentals form the foundation of web development. Understanding variables, data types, and basic operations is crucial for building robust applications.",
+  "codeExample": "// Variable declaration and initialization\nlet message = 'Hello, JavaScript!';\nconst PI = 3.14159;\nvar count = 0;",
+  "keyPoints": [
+    "Variables store data values",
+    "Use const for constants, let for variables",
+    "JavaScript is dynamically typed",
+    "Understand scope and hoisting"
+  ],
+  "quiz": {
+    "question": "What is the difference between let and const in JavaScript?",
+    "options": [
+      "let is for constants, const is for variables",
+      "const cannot be reassigned, let can be reassigned",
+      "There is no difference",
+      "let is block-scoped, const is function-scoped"
+    ],
+    "correctAnswer": 1,
+    "explanation": "const creates a constant reference that cannot be reassigned, while let creates a variable that can be reassigned."
+  },
+  "metadata": {
+    "estimatedTime": 12,
+    "prerequisites": [],
+    "tags": [
+      "fundamentals",
+      "application",
+      "javascript",
+      "basics",
+      "variables",
+      "syntax"
+    ],
+    "version": "1.0",
+    "createdAt": "2025-08-07T09:04:48.942Z",
+    "updatedAt": "2025-08-07T09:04:48.942Z"
+  }
+}

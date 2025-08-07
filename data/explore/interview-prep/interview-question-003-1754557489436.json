@@ -1,0 +1,28 @@
+{
+  "id": "interview-question-003-1754557489436",
+  "title": "Interview Question #3 - technical",
+  "type": "interview-question",
+  "category": "technical",
+  "question": "Explain the concept of closures in JavaScript and provide an example.",
+  "expectedAnswer": "Comprehensive answer covering key points and demonstrating understanding of the topic.",
+  "followUpQuestions": [
+    "Can you elaborate on that point?",
+    "How would you handle edge cases?",
+    "What alternatives did you consider?"
+  ],
+  "tips": [
+    "Be specific and provide examples",
+    "Show your thought process",
+    "Ask clarifying questions"
+  ],
+  "metadata": {
+    "difficulty": "intermediate",
+    "estimatedTime": 10,
+    "tags": [
+      "interview",
+      "technical",
+      "preparation"
+    ],
+    "createdAt": "2025-08-07T09:04:49.436Z"
+  }
+}

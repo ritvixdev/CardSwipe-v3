@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "fileId": "control-flow-015",
+    "topic": "control-flow",
+    "subtopic": "15_day_classes",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "intermediate",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-14"
+    ],
+    "tags": [
+      "control-flow",
+      "day-15"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.107Z",
+    "updatedAt": "2025-08-07T08:51:50.107Z"
+  },
+  "cards": [
+    {
+      "id": "control-flow-015-001",
+      "title": "15_day_classes",
+      "day": 15,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Classes</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Classes</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 14](../14_Day_Error_handling/14_day_error_handling.md) | [Day 16>>](../16_Day_JSON/16_day_json.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_15.png)\n\n- [Day 15](day-15)\n\t- [Classes](classes)\n\t\t- [Defining a classes](defining-a-classes)\n\t\t- [Class Instantiation](class-instantiation)\n\t\t- [Class Constructor](class-constructor)\n\t\t- [Default values with constructor](default-values-with-constructor)\n\t\t- [Class methods](class-methods)\n\t\t- [Properties with initial value](properties-with-initial-value)\n\t\t- [getter](getter)\n\t\t- [setter](setter)\n\t\t- [Static method](static-method)\n\t- [Inheritance](inheritance)\n\t\t- [Overriding methods](overriding-methods)\n\t- [Exercises](exercises)\n\t\t- [Exercises Level 1](exercises-level-1)\n\t\t- [Exercises Level 2](exercises-level-2)\n\t\t- [Exercises Level 3](exercises-level-3)\n\nDay 15",
+      "codeExample": "// syntax\nclass ClassName {\n    //  code goes here\n}",
+      "keyPoints": [
+        "[Day 15](#day-15)",
+        "[Classes](#classes)",
+        "[Defining a classes](#defining-a-classes)",
+        "[Class Instantiation](#class-instantiation)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-15"
+      ]
+    },
+    {
+      "id": "control-flow-015-002",
+      "title": "15_day_classes - Part 2",
+      "day": 15,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Classes\n\nJavaScript is an object oriented programming language....",
+      "content": "Classes\n\nJavaScript is an object oriented programming language. Everything in JavScript is an object, with its properties and methods. We create class to create an object. A Class is like an object constructor, or a \"blueprint\" for creating objects. We instantiate a class to create an object. The class defines attributes and the behavior of the object, while the object, on the other hand, represents the class.\n\nOnce we create a class we can create object from it whenever we want. Creating an object from a class is called class instantiation.\n\nIn the object section, we saw how to create an object literal. Object literal is a singleton. If we want to get a similar object , we have to write it. However, class allows to create many objects. This helps to reduce amount of code and repetition of code.\n\nDefining a classes\n\nTo define a class in JavaScript we need the keyword _class_ , the name of a class in CamelCase and block code(two curly brackets). Let us create a class name Person.\n\n`sh\n// syntax\nclass ClassName {\n    //  code goes here\n}\n\n`\n\nExample:\n\n`js\nclass Person {\n  // code goes here\n}\n`\n\nWe have created an Person class but it does not have any thing inside.\n\nClass Instantiation\n\nInstantiation class means creating an object from a class. We need the keyword _new_ and we call the name of the class after the word new.\n\nLet us create a dog object from our Person class.\n\n`js\nclass Person {\n  // code goes here\n}\nconst person = new Person()\nconsole.log(person)\n`\n\n`sh\nPerson {}\n`\n\nAs you can see, we have created a person object. Since the class did not have any properties yet the object is also empty.\n\nLet use the class constructor to pass different properties for the class.\n\nClass Constructor\n\nThe constructor is a builtin function which allows as to create a blueprint for our object. The constructor function starts with a keyword constructor followed by a parenthesis. Inside the parenthesis we pass the properties of the object as parameter. We use the _this_ keyword to attach the constructor parameters with the class.\n\nThe following Person class constructor has firstName and lastName property. These properties are attached to the Person class using _this_ keyword. _This_ refers to the class itself.\n\n`js\nclass Person {\n  constructor(firstName, lastName) {\n    console.log(this) // Check the output from here\n    this.firstName = firstName\n    this.lastName = lastName\n  }\n}\n\nconst person = new Person()\n\nconsole.log(person)\n`\n\n`sh\nPerson {firstName: undefined, lastName:undefined}\n`\n\nAll the keys of the object are undefined. When ever we instantiate we should pass the value of the properties. Let us pass value at this time when we instantiate the class.\n\n`js\nclass Person {\n  constructor(firstName, lastName) {\n    this.firstName = firstName\n    this.lastName = lastName\n  }\n}\n\nconst person1 = new Person('Asabeneh', 'Yetayeh')\n\nconsole.log(person1)\n`\n\n`sh\nPerson {firstName: \"Asabeneh\", lastName: \"Yetayeh\"}\n`\n\nAs we have stated at the very beginning that once we create a class we can create many object using the class. Now, let us create many person objects using the Person class.\n\n`js\nclass Person {\n  constructor(firstName, lastName) {\n    console.log(this) // Check the output from here\n    this.firstName = firstName\n    this.lastName = lastName\n  }\n}\n\nconst person1 = new Person('Asabeneh', 'Yetayeh')\nconst person2 = new Person('Lidiya', 'Tekle')\nconst person3 = new Person('Abraham', 'Yetayeh')\n\nconsole.log(person1)\nconsole.log(person2)\nconsole.log(person3)\n`\n\n`sh\nPerson {firstName: \"Asabeneh\", lastName: \"Yetayeh\"}\nPerson {firstName: \"Lidiya\", lastName: \"Tekle\"}\nPerson {firstName: \"Abraham\", lastName: \"Yetayeh\"}\n`\n\nUsing the class Person we created three persons object. As you can see our class did not many properties let us add more properties to the class.\n\n`js\nclass Person {\n  constructor(firstName, lastName, age, country, city) {\n    console.log(this) // Check the output from here\n    this.firstName = firstName\n    this.lastName = lastName\n    this.age = age\n    this.country = country\n    this.city = city\n  }\n}\n\nconst person1 = new Person('Asabeneh', 'Yetayeh', 250, 'Finland', 'Helsinki')\n\nconsole.log(person1)\n`\n\n`sh\nPerson {firstName: \"Asabeneh\", lastName: \"Yetayeh\", age: 250, country: \"Finland\", city: \"Helsinki\"}\n`\n\nDefault values with constructor\n\nThe constructor function properties may have a default value like other regular functions.\n\n`js\nclass Person {\n  constructor(\n    firstName = 'Asabeneh',\n    lastName = 'Yetayeh',\n    age = 250,\n    country = 'Finland',\n    city = 'Helsinki'\n  ) {\n    this.firstName = firstName\n    this.lastName = lastName\n    this.age = age\n    this.country = country\n    this.city = city\n  }\n}\n\nconst person1 = new Person() // it will take the default values\nconst person2 = new Person('Lidiya', 'Tekle', 28, 'Finland', 'Espoo')\n\nconsole.log(person1)\nconsole.log(person2)\n`\n\n`sh\nPerson {firstName: \"Asabeneh\", lastName: \"Yetayeh\", age: 250, country: \"Finland\", city: \"Helsinki\"}\nPerson {firstName: \"Lidiya\", lastName: \"Tekle\", age: 28, country: \"Finland\", city: \"Espoo\"}\n`\n\nClass methods\n\nThe constructor inside a class is a builtin function which allow us to create a blueprint for the object. In a class we can create class methods. Methods are JavaScript functions inside the class. Let us create some class methods.\n\n`js\nclass Person {\n  constructor(firstName, lastName, age, country, city) {\n    this.firstName = firstName\n    this.lastName = lastName\n    this.age = age\n    this.country = country\n    this.city = city\n  }\n  getFullName() {\n    const fullName = this.firstName + ' ' + this.lastName\n    return fullName\n  }\n}\n\nconst person1 = new Person('Asabeneh', 'Yetayeh', 250, 'Finland', 'Helsinki')\nconst person2 = new Person('Lidiya', 'Tekle', 28, 'Finland', 'Espoo')\n\nconsole.log(person1.getFullName())\nconsole.log(person2.getFullName())\n`\n\n`sh\nAsabeneh Yetayeh\ntest.js:19 Lidiya Tekle\n`\n\nProperties with initial value\n\nWhen we create a class for some properties we may have an initial value. For instance if you are playing a game, you starting score will be zero. So, we may have a starting score or score which is zero. In other way, we may have an initial skill and we will acquire some skill after some time.\n\n`js\nclass Person {\n  constructor(firstName, lastName, age, country, city) {\n    this.firstName = firstName\n    this.lastName = lastName\n    this.age = age\n    this.country = country\n    this.city = city\n    this.score = 0\n    this.skills = []\n  }\n  getFullName() {\n    const fullName = this.firstName + ' ' + this.lastName\n    return fullName\n  }\n}\n\nconst person1 = new Person('Asabeneh', 'Yetayeh', 250, 'Finland', 'Helsinki')\nconst person2 = new Person('Lidiya', 'Tekle', 28, 'Finland', 'Espoo')\n\nconsole.log(person1.score)\nconsole.log(person2.score)\n\nconsole.log(person1.skills)\nconsole.log(person2.skills)\n`\n\n`sh\n0\n0\n[]\n[]\n`\n\nA method could be regular method or a getter or a setter. Let us see, getter and setter.\n\ngetter\n\nThe get method allow us to access value from the object. We write a get method using keyword _get_ followed by a function. Instead of accessing properties directly from the object we use getter to get the value. See the example bellow\n\n`js\nclass Person {\n  constructor(firstName, lastName, age, country, city) {\n    this.firstName = firstName\n    this.lastName = lastName\n    this.age = age\n    this.country = country\n    this.city = city\n    this.score = 0\n    this.skills = []\n  }\n  getFullName() {\n    const fullName = this.firstName + ' ' + this.lastName\n    return fullName\n  }\n  get getScore() {\n    return this.score\n  }\n  get getSkills() {\n    return this.skills\n  }\n}\n\nconst person1 = new Person('Asabeneh', 'Yetayeh', 250, 'Finland', 'Helsinki')\nconst person2 = new Person('Lidiya', 'Tekle', 28, 'Finland', 'Espoo')\n\nconsole.log(person1.getScore) // We do not need parenthesis to call a getter method\nconsole.log(person2.getScore)\n\nconsole.log(person1.getSkills)\nconsole.log(person2.getSkills)\n`\n\n`sh\n0\n0\n[]\n[]\n`\n\nsetter\n\nThe setter method allow us to modify the value of certain properties. We write a setter method using keyword _set_ followed by a function. See the example bellow.\n\n`js\nclass Person {\n  constructor(firstName, lastName, age, country, city) {\n    this.firstName = firstName\n    this.lastName = lastName\n    this.age = age\n    this.country = country\n    this.city = city\n    this.score = 0\n    this.skills = []\n  }\n  getFullName() {\n    const fullName = this.firstName + ' ' + this.lastName\n    return fullName\n  }\n  get getScore() {\n    return this.score\n  }\n  get getSkills() {\n    return this.skills\n  }\n  set setScore(score) {\n    this.score += score\n  }\n  set setSkill(skill) {\n    this.skills.push(skill)\n  }\n}\n\nconst person1 = new Person('Asabeneh', 'Yetayeh', 250, 'Finland', 'Helsinki')\nconst person2 = new Person('Lidiya', 'Tekle', 28, 'Finland', 'Espoo')\n\nperson1.setScore = 1\nperson1.setSkill = 'HTML'\nperson1.setSkill = 'CSS'\nperson1.setSkill = 'JavaScript'\n\nperson2.setScore = 1\nperson2.setSkill = 'Planning'\nperson2.setSkill = 'Managing'\nperson2.setSkill = 'Organizing'\n\nconsole.log(person1.score)\nconsole.log(person2.score)\n\nconsole.log(person1.skills)\nconsole.log(person2.skills)\n`\n\n`sh\n1\n1\n[\"HTML\", \"CSS\", \"JavaScript\"]\n[\"Planning\", \"Managing\", \"Organizing\"]\n`\n\nDo not be puzzled by the difference between regular method and a getter. If you know how to make a regular method you are good. Let us add regular method called getPersonInfo in the Person class.\n\n`js\nclass Person {\n  constructor(firstName, lastName, age, country, city) {\n    this.firstName = firstName\n    this.lastName = lastName\n    this.age = age\n    this.country = country\n    this.city = city\n    this.score = 0\n    this.skills = []\n  }\n  getFullName() {\n    const fullName = this.firstName + ' ' + this.lastName\n    return fullName\n  }\n  get getScore() {\n    return this.score\n  }\n  get getSkills() {\n    return this.skills\n  }\n  set setScore(score) {\n    this.score += score\n  }\n  set setSkill(skill) {\n    this.skills.push(skill)\n  }\n  getPersonInfo() {\n    let fullName = this.getFullName()\n    let skills =\n      this.skills.length > 0 &&\n      this.skills.slice(0, this.skills.length - 1).join(', ') +\n         and ${this.skills[this.skills.length - 1]}\n    let formattedSkills = skills ? He knows ${skills} : ''\n\n    let info = ${fullName} is ${this.age}. He lives ${this.city}, ${this.country}. ${formattedSkills}\n    return info\n  }\n}\n\nconst person1 = new Person('Asabeneh', 'Yetayeh', 250, 'Finland', 'Helsinki')\nconst person2 = new Person('Lidiya', 'Tekle', 28, 'Finland', 'Espoo')\nconst person3 = new Person('John', 'Doe', 50, 'Mars', 'Mars city')\n\nperson1.setScore = 1\nperson1.setSkill = 'HTML'\nperson1.setSkill = 'CSS'\nperson1.setSkill = 'JavaScript'\n\nperson2.setScore = 1\nperson2.setSkill = 'Planning'\nperson2.setSkill = 'Managing'\nperson2.setSkill = 'Organizing'\n\nconsole.log(person1.getScore)\nconsole.log(person2.getScore)\n\nconsole.log(person1.getSkills)\nconsole.log(person2.getSkills)\nconsole.log(person3.getSkills)\n\nconsole.log(person1.getPersonInfo())\nconsole.log(person2.getPersonInfo())\nconsole.log(person3.getPersonInfo())\n`\n\n`sh\n1\n1\n[\"HTML\", \"CSS\", \"JavaScript\"]\n[\"Planning\", \"Managing\", \"Organizing\"]\n[]\nAsabeneh Yetayeh is 250. He lives Helsinki, Finland. He knows HTML, CSS and JavaScript\nLidiya Tekle is 28. He lives Espoo, Finland. He knows Planning, Managing and Organizing\nJohn Doe is 50. He lives Mars city, Mars.\n`\n\nStatic method\n\nThe static keyword defines a static method for a class. Static methods are not called on instances of the class. Instead, they are called on the class itself. These are often utility functions, such as functions to create or clone objects. An example of static method is _Date.now()_. The _now_ method is called directly from the class.\n\n`js\nclass Person {\n  constructor(firstName, lastName, age, country, city) {\n    this.firstName = firstName\n    this.lastName = lastName\n    this.age = age\n    this.country = country\n    this.city = city\n    this.score = 0\n    this.skills = []\n  }\n  getFullName() {\n    const fullName = this.firstName + ' ' + this.lastName\n    return fullName\n  }\n  get getScore() {\n    return this.score\n  }\n  get getSkills() {\n    return this.skills\n  }\n  set setScore(score) {\n    this.score += score\n  }\n  set setSkill(skill) {\n    this.skills.push(skill)\n  }\n  getPersonInfo() {\n    let fullName = this.getFullName()\n    let skills =\n      this.skills.length > 0 &&\n      this.skills.slice(0, this.skills.length - 1).join(', ') +\n         and ${this.skills[this.skills.length - 1]}\n\n    let formattedSkills = skills ? He knows ${skills} : ''\n\n    let info = ${fullName} is ${this.age}. He lives ${this.city}, ${this.country}. ${formattedSkills}\n    return info\n  }\n  static favoriteSkill() {\n    const skills = ['HTML', 'CSS', 'JS', 'React', 'Python', 'Node']\n    const index = Math.floor(Math.random() * skills.length)\n    return skills[index]\n  }\n  static showDateTime() {\n    let now = new Date()\n    let year = now.getFullYear()\n    let month = now.getMonth() + 1\n    let date = now.getDate()\n    let hours = now.getHours()\n    let minutes = now.getMinutes()\n    if (hours < 10) {\n      hours = '0' + hours\n    }\n    if (minutes < 10) {\n      minutes = '0' + minutes\n    }\n\n    let dateMonthYear = date + '.' + month + '.' + year\n    let time = hours + ':' + minutes\n    let fullTime = dateMonthYear + ' ' + time\n    return fullTime\n  }\n}\n\nconsole.log(Person.favoriteSkill())\nconsole.log(Person.showDateTime())\n`\n\n`sh\nNode\n15.1.2020 23:56\n`\n\nThe static methods are methods which can be used as utility functions.",
+      "codeExample": "// syntax\nclass ClassName {\n    //  code goes here\n}",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-15"
+      ]
+    },
+    {
+      "id": "control-flow-015-003",
+      "title": "15_day_classes - Part 3",
+      "day": 15,
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "estimatedTime": "2 min",
+      "description": "Inheritance\n\nUsing inheritance we can access all the properties and the methods of the parent class....",
+      "content": "Inheritance\n\nUsing inheritance we can access all the properties and the methods of the parent class. This reduces repetition of code. If you remember, we have a Person parent class and we will create children from it. Our children class could be student, teach etc.\n\n`js\n// syntax\nclass ChildClassName extends {\n // code goes here\n}\n`\n\nLet us create a Student child class from Person parent class.\n\n`js\nclass Student extends Person {\n  saySomething() {\n    console.log('I am a child of the person class')\n  }\n}\n\nconst s1 = new Student('Asabeneh', 'Yetayeh', 'Finland', 250, 'Helsinki')\nconsole.log(s1)\nconsole.log(s1.saySomething())\nconsole.log(s1.getFullName())\nconsole.log(s1.getPersonInfo())\n`\n\n`sh\nStudent {firstName: \"Asabeneh\", lastName: \"Yetayeh\", age: \"Finland\", country: 250, city: \"Helsinki\", …}\nI am a child of the person class\nAsabeneh Yetayeh\nStudent {firstName: \"Asabeneh\", lastName: \"Yetayeh\", age: \"Finland\", country: 250, city: \"Helsinki\", …}\nAsabeneh Yetayeh is Finland. He lives Helsinki, 250.\n`\n\nOverriding methods\n\nAs you can see, we manage to access all the methods in the Person Class and we used it in the Student child class. We can customize the parent methods, we can add additional properties to a child class. If we want to customize, the methods and if we want to add extra properties, we need to use the constructor function the child class too. Inside the constructor function we call the super() function to access all the properties from the parent class. The Person class didn't have gender but now let us give gender property for the child class, Student. If the same method name used in the child class, the parent method will be overridden.\n\n`js\nclass Student extends Person {\n  constructor(firstName, lastName, age, country, city, gender) {\n    super(firstName, lastName, age, country, city)\n    this.gender = gender\n  }\n\n  saySomething() {\n    console.log('I am a child of the person class')\n  }\n  getPersonInfo() {\n    let fullName = this.getFullName()\n    let skills =\n      this.skills.length > 0 &&\n      this.skills.slice(0, this.skills.length - 1).join(', ') +\n         and ${this.skills[this.skills.length - 1]}\n\n    let formattedSkills = skills ? He knows ${skills} : ''\n    let pronoun = this.gender == 'Male' ? 'He' : 'She'\n\n    let info = ${fullName} is ${this.age}. ${pronoun} lives in ${this.city}, ${this.country}. ${formattedSkills}\n    return info\n  }\n}\n\nconst s1 = new Student(\n  'Asabeneh',\n  'Yetayeh',\n  250,\n  'Finland',\n  'Helsinki',\n  'Male'\n)\nconst s2 = new Student('Lidiya', 'Tekle', 28, 'Finland', 'Helsinki', 'Female')\ns1.setScore = 1\ns1.setSkill = 'HTML'\ns1.setSkill = 'CSS'\ns1.setSkill = 'JavaScript'\n\ns2.setScore = 1\ns2.setSkill = 'Planning'\ns2.setSkill = 'Managing'\ns2.setSkill = 'Organizing'\n\nconsole.log(s1)\n\nconsole.log(s1.saySomething())\nconsole.log(s1.getFullName())\nconsole.log(s1.getPersonInfo())\n\nconsole.log(s2.saySomething())\nconsole.log(s2.getFullName())\nconsole.log(s2.getPersonInfo())\n`\n\n`sh\nStudent {firstName: \"Asabeneh\", lastName: \"Yetayeh\", age: 250, country: \"Finland\", city: \"Helsinki\", …}\nStudent {firstName: \"Lidiya\", lastName: \"Tekle\", age: 28, country: \"Finland\", city: \"Helsinki\", …}\nI am a child of the person class\nAsabeneh Yetayeh\nStudent {firstName: \"Asabeneh\", lastName: \"Yetayeh\", age: 250, country: \"Finland\", city: \"Helsinki\", …}\nAsabeneh Yetayeh is 250. He lives in Helsinki, Finland. He knows HTML, CSS and JavaScript\nI am a child of the person class\nLidiya Tekle\nStudent {firstName: \"Lidiya\", lastName: \"Tekle\", age: 28, country: \"Finland\", city: \"Helsinki\", …}\nLidiya Tekle is 28. She lives in Helsinki, Finland. He knows Planning, Managing and Organizing\n`\n\nNow, the getPersonInfo method has been overridden and it identifies if the person is male or female.\n\n🌕 You are excelling. Now, you knew class and you have the power to turn everything to an object. You made it to half way to your way to greatness. Now do some exercises for your brain and for your muscle.",
+      "codeExample": "// syntax\nclass ChildClassName extends {\n // code goes here\n}",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "control-flow",
+        "day-15"
+      ]
+    }
+  ]
+}

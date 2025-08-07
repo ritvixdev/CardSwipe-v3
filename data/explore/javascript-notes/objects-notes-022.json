@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "objects-notes-022",
+    "topic": "objects",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "advanced",
+    "tags": [
+      "objects",
+      "day-22",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.183Z"
+  },
+  "notes": [
+    {
+      "id": "objects-note-022",
+      "title": "22_day_manipulating_DOM_object - Study Notes",
+      "category": "objects",
+      "difficulty": "advanced",
+      "readTime": 7,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Manipulating DOM Object</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 21](../21_Day_DOM/21_day_dom.md) | [Day 23 >>](../23_Day_Event_listeners/23_day_event_listeners.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_22.png)\n- [Day 22](day-22)\n  - [DOM(Document Object Model)-Day 2](domdocument-object-model-day-2)\n    - [Creating an Element](creating-an-element)\n    - [Creating elements](creating-elements)\n    - [Appending child to a parent",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Manipulating DOM Object</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 22](#day-22)",
+        "[DOM(Document Object Model)-Day 2](#domdocument-object-model-day-2)",
+        "[Creating an Element](#creating-an-element)",
+        "[Creating elements](#creating-elements)"
+      ],
+      "tags": [
+        "objects",
+        "day-22",
+        "notes"
+      ]
+    }
+  ]
+}

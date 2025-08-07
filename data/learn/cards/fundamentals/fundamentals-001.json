@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "fileId": "fundamentals-001",
+    "topic": "fundamentals",
+    "subtopic": "booleans",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "beginner",
+    "estimatedTime": "9 min",
+    "prerequisites": [],
+    "tags": [
+      "fundamentals",
+      "day-1"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:49.989Z",
+    "updatedAt": "2025-08-07T08:51:49.989Z"
+  },
+  "cards": [
+    {
+      "id": "fundamentals-001-001",
+      "title": "Booleans",
+      "day": 1,
+      "category": "fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Booleans, Operators, Date</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Booleans, Operators, Date</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 2](../02_Day_Data_types/02_day_data_types.md) | [Day 4 >>](../04_Day_Conditionals/04_day_conditionals.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_3.png)\n\n- [📔 Day 3](-day-3)\n\t- [Booleans](booleans)\n\t\t- [Truthy values](truthy-values)\n\t\t- [Falsy values](falsy-values)\n\t- [Undefined](undefined)\n\t- [Null](null)\n\t- [Operators](operators)\n\t\t- [Assignment operators](assignment-operators)\n\t\t- [Arithmetic Operators](arithmetic-operators)\n\t\t- [Comparison Operators](comparison-operators)\n\t\t- [Logical Operators](logical-operators)\n\t\t- [Increment Operator](increment-operator)\n\t\t- [Decrement Operator](decrement-operator)\n\t\t- [Ternary Operators](ternary-operators)\n\t\t- [Operator Precedence](operator-precedence)\n\t- [Window Methods](window-methods)\n\t\t- [Window alert() method](window-alert-method)\n\t\t- [Window prompt() method](window-prompt-method)\n\t\t- [Window confirm() method](window-confirm-method)\n\t- [Date Object](date-object)\n\t\t- [Creating a time object](creating-a-time-object)\n\t\t- [Getting full year](getting-full-year)\n\t\t- [Getting month](getting-month)\n\t\t- [Getting date](getting-date)\n\t\t- [Getting day](getting-day)\n\t\t- [Getting hours](getting-hours)\n\t\t- [Getting minutes](getting-minutes)\n\t\t- [Getting seconds](getting-seconds)\n\t\t- [Getting time](getting-time)\n\t- [💻 Day 3: Exercises](-day-3-exercises)\n\t\t- [Exercises: Level 1](exercises-level-1)\n\t\t- [Exercises: Level 2](exercises-level-2)\n\t\t- [Exercises: Level 3](exercises-level-3)\n\n📔 Day 3",
+      "codeExample": "let isLightOn = true\nlet isRaining = false\nlet isHungry = false\nlet isMarried = true\nlet truValue = 4 > 3    // true\nlet falseValue = 4 < 3  // false",
+      "keyPoints": [
+        "[📔 Day 3](#-day-3)",
+        "[Booleans](#booleans)",
+        "[Truthy values](#truthy-values)",
+        "[Falsy values](#falsy-values)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "fundamentals",
+        "day-1"
+      ]
+    },
+    {
+      "id": "fundamentals-001-002",
+      "title": "Booleans - Part 2",
+      "day": 1,
+      "category": "fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "Booleans\n\nA boolean data type represents one of the two values:_true_ or _false_....",
+      "content": "Booleans\n\nA boolean data type represents one of the two values:_true_ or _false_. Boolean value is either true or false. The use of these data types will be clear when you start the comparison operator. Any comparisons return a boolean value which is either true or false.\n\nExample: Boolean Values\n\n`js\nlet isLightOn = true\nlet isRaining = false\nlet isHungry = false\nlet isMarried = true\nlet truValue = 4 > 3    // true\nlet falseValue = 4 < 3  // false\n`\n\nWe agreed that boolean values are either true or false.\n\nTruthy values\n\n- All numbers(positive and negative) are truthy except zero\n- All strings are truthy except an empty string ('')\n- The boolean true\n\nFalsy values\n\n- 0\n- 0n\n- null\n- undefined\n- NaN\n- the boolean false\n- '', \"\", , empty string\n\nIt is good to remember those truthy values and falsy values. In later section, we will use them with conditions to make decisions.",
+      "codeExample": "let isLightOn = true\nlet isRaining = false\nlet isHungry = false\nlet isMarried = true\nlet truValue = 4 > 3    // true\nlet falseValue = 4 < 3  // false",
+      "keyPoints": [
+        "All numbers(positive and negative) are truthy except zero",
+        "All strings are truthy except an empty string ('')",
+        "The boolean true",
+        "0"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "fundamentals",
+        "day-1"
+      ]
+    },
+    {
+      "id": "fundamentals-001-003",
+      "title": "Booleans - Part 3",
+      "day": 1,
+      "category": "fundamentals",
+      "difficulty": "beginner",
+      "estimatedTime": "2 min",
+      "description": "Undefined\n\nIf we declare a variable and if we do not assign a value, the value will be undefined....",
+      "content": "Undefined\n\nIf we declare a variable and if we do not assign a value, the value will be undefined. In addition to this, if a function is not returning the value, it will be undefined.\n\n`js\nlet firstName\nconsole.log(firstName) //not defined, because it is not assigned to a value yet\n`",
+      "codeExample": "let firstName\nconsole.log(firstName) //not defined, because it is not assigned to a value yet",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "fundamentals",
+        "day-1"
+      ]
+    }
+  ]
+}

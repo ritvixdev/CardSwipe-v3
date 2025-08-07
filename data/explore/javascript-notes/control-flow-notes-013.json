@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "control-flow-notes-013",
+    "topic": "control-flow",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "intermediate",
+    "tags": [
+      "control-flow",
+      "day-13",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.088Z"
+  },
+  "notes": [
+    {
+      "id": "control-flow-note-013",
+      "title": "13_day_console_object_methods - Study Notes",
+      "category": "control-flow",
+      "difficulty": "intermediate",
+      "readTime": 10,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Console Object Methods</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 12](../12_Day_Regular_expressions/12_day_regular_expressions.md) | [Day 14>>](../14_Day_Error_handling/14_day_error_handling.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_13.png)\n\n- [Day 13](day-13)\n\t- [Console Object Methods](console-object-methods)\n\t\t- [console.log()](consolelog)\n\t\t- [console.warn()](consolewarn)\n\t\t- [console.error()](consoleerror)\n\t\t- [console.ta",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Console Object Methods</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[Day 13](#day-13)",
+        "[Console Object Methods](#console-object-methods)",
+        "[console.log()](#consolelog)",
+        "[console.warn()](#consolewarn)"
+      ],
+      "tags": [
+        "control-flow",
+        "day-13",
+        "notes"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "coding-question-008-1754557489425",
+  "title": "Coding Challenge #8",
+  "type": "coding-question",
+  "difficulty": "hard",
+  "problem": "Design and implement a data structure for Least Recently Used (LRU) cache.",
+  "solution": "class LRUCache {\n  constructor(capacity) {\n    // Implementation here\n  }\n}",
+  "testCases": [
+    {
+      "input": "Test input 1",
+      "expected": "Expected output 1"
+    },
+    {
+      "input": "Test input 2",
+      "expected": "Expected output 2"
+    }
+  ],
+  "hints": [
+    "Consider the edge cases",
+    "Think about time complexity",
+    "Review the problem constraints"
+  ],
+  "metadata": {
+    "estimatedTime": 45,
+    "tags": [
+      "coding",
+      "algorithm",
+      "problem-solving",
+      "hard"
+    ],
+    "createdAt": "2025-08-07T09:04:49.425Z"
+  }
+}

@@ -1,5 +1,8 @@
 // Data loader utilities with STRICT lazy loading for memory optimization
 // ONLY load config data - NO lesson data at startup
+// Enhanced with multi-file support for better content management
+
+// import { multiFileLoader } from './multiFileLoader'; // Temporarily disabled due to bundling issues
 
 // Lazy import config only when needed
 let configData: any = null;
@@ -1010,6 +1013,253 @@ export async function getStats() {
     };
   }
 }
+
+// ============================================================================
+// MULTI-FILE ENHANCED FUNCTIONS
+// ============================================================================
+
+// Enhanced card loading with multi-file support - TEMPORARILY DISABLED
+// export async function getCardsByTopicEnhanced(topicId: string, limit?: number): Promise<LearnCard[]> {
+//   try {
+//     console.log(`🔄 Attempting multi-file load for topic: ${topicId}`);
+//     
+//     // Try multi-file loader first
+//     const multiFileCards = await multiFileLoader.getCardsByTopic(topicId, limit);
+//     
+//     if (multiFileCards.length > 0) {
+//       console.log(`✅ Multi-file loader returned ${multiFileCards.length} cards for ${topicId}`);
+//       return multiFileCards;
+//     }
+//     
+//     // Fallback to legacy topic loading
+//     console.log(`⚠️ Multi-file loader empty, falling back to legacy for topic: ${topicId}`);
+//     return await getLessonsByTopic(topicId);
+//     
+//   } catch (error) {
+//     console.warn(`Multi-file enhanced loading failed for ${topicId}:`, error);
+//     // Final fallback to legacy system
+//     return await getLessonsByTopic(topicId);
+//   }
+// }
+
+// Temporary fallback to legacy function
+export async function getCardsByTopicEnhanced(topicId: string, limit?: number): Promise<LearnCard[]> {
+  return await getLessonsByTopic(topicId);
+}
+
+// Enhanced category loading with multi-file intelligence
+export async function getCardsByCategoryEnhanced(category: string): Promise<LearnCard[]> {
+  try {
+    // Map legacy categories to multi-file topics
+    const categoryTopicMap: { [key: string]: string } = {
+      'fundamentals': 'fundamentals',
+      'data-structures': 'data-structures', 
+      'control-flow': 'control-flow',
+      'web-development': 'web-development',
+      'web-dev': 'web-development',
+      'functions': 'functions',
+      'objects': 'objects',
+      'dom': 'dom',
+      'projects': 'projects',
+      'testing': 'testing',
+      'performance': 'performance',
+      'advanced': 'advanced',
+      'advanced-concepts': 'advanced',
+      'asynchronous': 'asynchronous'
+    };
+
+    const topicId = categoryTopicMap[category];
+    
+    if (topicId) {
+      console.log(`🔄 Enhanced loading: mapping category '${category}' to topic '${topicId}'`);
+      
+      // Try enhanced topic loading
+      const topicCards = await getCardsByTopicEnhanced(topicId);
+      
+      if (topicCards.length > 0) {
+        console.log(`✅ Enhanced category loading successful: ${topicCards.length} cards`);
+        return topicCards;
+      }
+    }
+    
+    // Fallback to legacy category loading
+    console.log(`⚠️ Falling back to legacy category loading for: ${category}`);
+    return await getCardsByCategory(category);
+    
+  } catch (error) {
+    console.warn(`Enhanced category loading failed for ${category}:`, error);
+    return await getCardsByCategory(category);
+  }
+}
+
+// Enhanced search across multiple files - TEMPORARILY DISABLED
+export async function searchLessonsEnhanced(query: string): Promise<LearnCard[]> {
+  return await searchLessons(query);
+}
+
+// Get available topics from multi-file system - TEMPORARILY DISABLED
+export async function getAvailableTopicsEnhanced(): Promise<string[]> {
+  try {
+    const legacyTopics = await initializeTopics();
+    return legacyTopics.map((t: any) => t.id);
+  } catch (error) {
+    return ['fundamentals', 'data-structures', 'control-flow', 'functions', 'advanced'];
+  }
+}
+
+// Get topic information with enhanced metadata
+export async function getTopicInfoEnhanced(topicId: string): Promise<any> {
+  try {
+    console.log(`📋 Getting enhanced topic info for: ${topicId}`);
+    
+    // Try multi-file system first
+    const topicManifest = await multiFileLoader.getTopicInfo(topicId);
+    
+    if (topicManifest) {
+      console.log(`✅ Enhanced topic info found for: ${topicId}`);
+      return {
+        id: topicManifest.topicId,
+        name: topicManifest.name,
+        description: topicManifest.description,
+        totalCards: topicManifest.totalCards,
+        difficulty: topicManifest.difficulty,
+        estimatedHours: topicManifest.estimatedHours,
+        totalFiles: topicManifest.totalFiles,
+        files: topicManifest.files,
+        tags: topicManifest.tags,
+        enhanced: true
+      };
+    }
+    
+    // Fallback to legacy topic info
+    console.log(`⚠️ Using legacy topic info for: ${topicId}`);
+    return await getTopicInfo(topicId);
+    
+  } catch (error) {
+    console.warn(`Enhanced topic info failed for ${topicId}:`, error);
+    return await getTopicInfo(topicId);
+  }
+}
+
+// Enhanced notes loading - TEMPORARILY DISABLED
+export async function getNotesEnhanced(): Promise<JavaScriptNote[]> {
+  // TODO: Re-enable when multiFileLoader bundling issues are resolved
+  // try {
+  //   console.log(`📚 Loading enhanced notes from multi-file system`);
+  //   
+  //   // Get available topics and load notes from each
+  //   const topics = await getAvailableTopicsEnhanced();
+  //   const allNotes: JavaScriptNote[] = [];
+  //   
+  //   const notePromises = topics.map(async topic => {
+  //     try {
+  //       return await multiFileLoader.getNotesByTopic(topic);
+  //     } catch (error) {
+  //       console.warn(`Failed to load notes for topic ${topic}:`, error);
+  //       return [];
+  //     }
+  //   });
+  //   
+  //   const topicNotesResults = await Promise.all(notePromises);
+  //   topicNotesResults.forEach(topicNotes => allNotes.push(...topicNotes));
+  //   
+  //   if (allNotes.length > 0) {
+  //     console.log(`✅ Enhanced notes loading: ${allNotes.length} notes from multi-file system`);
+  //     return allNotes;
+  //   }
+  //   
+  //   // Fallback to legacy system
+  //   console.log(`⚠️ Multi-file notes empty, using legacy system`);
+  //   return await getNotes();
+  //   
+  // } catch (error) {
+  //   console.warn('Enhanced notes loading failed:', error);
+  //   return await getNotes();
+  // }
+  
+  // Direct fallback to legacy system
+  return await getNotes();
+}
+
+// Enhanced quiz loading - TEMPORARILY DISABLED
+export async function getQuizzesEnhanced(): Promise<Quiz[]> {
+  // TODO: Re-enable when multiFileLoader bundling issues are resolved
+  // try {
+  //   console.log(`🧪 Loading enhanced quizzes from multi-file system`);
+  //   
+  //   const topics = await getAvailableTopicsEnhanced();
+  //   const allQuizzes: Quiz[] = [];
+  //   
+  //   const quizPromises = topics.map(async topic => {
+  //     try {
+  //       return await multiFileLoader.getQuizzesByTopic(topic);
+  //     } catch (error) {
+  //       console.warn(`Failed to load quizzes for topic ${topic}:`, error);
+  //       return [];
+  //     }
+  //   });
+  //   
+  //   const topicQuizResults = await Promise.all(quizPromises);
+  //   topicQuizResults.forEach(topicQuizzes => allQuizzes.push(...topicQuizzes));
+  //   
+  //   if (allQuizzes.length > 0) {
+  //     console.log(`✅ Enhanced quiz loading: ${allQuizzes.length} quizzes from multi-file system`);
+  //     return allQuizzes;
+  //   }
+  //   
+  //   // Fallback to legacy system
+  //   console.log(`⚠️ Multi-file quizzes empty, using legacy system`);
+  //   return await getQuizzes();
+  //   
+  // } catch (error) {
+  //   console.warn('Enhanced quiz loading failed:', error);
+  //   return await getQuizzes();
+  // }
+  
+  // Direct fallback to legacy system
+  return await getQuizzes();
+}
+
+// Multi-file system utilities - TEMPORARILY DISABLED
+export async function getMultiFileStats(): Promise<any> {
+  // TODO: Re-enable when multiFileLoader bundling issues are resolved
+  // try {
+  //   const stats = multiFileLoader.getCacheStats();
+  //   const topics = await getAvailableTopicsEnhanced();
+  //   
+  //   return {
+  //     multiFileSystem: {
+  //       enabled: true,
+  //       availableTopics: topics.length,
+  //       topicList: topics,
+  //       cacheStats: stats
+  //     },
+  //     legacySystem: getMemoryStats()
+  //   };
+  //   
+  // } catch (error) {
+  //   return {
+  //     multiFileSystem: { enabled: false, error: error.message },
+  //     legacySystem: getMemoryStats()
+  //   };
+  // }
+  
+  return {
+    multiFileSystem: { enabled: false, error: "Temporarily disabled due to bundling issues" },
+    legacySystem: getMemoryStats()
+  };
+}
+
+// Clear multi-file caches - TEMPORARILY DISABLED
+export function clearMultiFileCache(): void {
+  // TODO: Re-enable when multiFileLoader bundling issues are resolved
+  // multiFileLoader.clearCache();
+  console.log('🧹 Multi-file system cache clearing disabled (bundling issues)');
+}
+
+// ============================================================================
+// BACKWARD COMPATIBILITY EXPORTS
+// ============================================================================
 
 // Synchronous exports for immediate use (initially empty, populated by async functions)
 export let designPatterns: DesignPattern[] = [];

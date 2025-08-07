@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "fundamentals-notes-001",
+    "topic": "fundamentals",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "beginner",
+    "tags": [
+      "fundamentals",
+      "day-1",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:49.990Z"
+  },
+  "notes": [
+    {
+      "id": "fundamentals-note-001",
+      "title": "Booleans - Study Notes",
+      "category": "fundamentals",
+      "difficulty": "beginner",
+      "readTime": 21,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Booleans, Operators, Date</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 2](../02_Day_Data_types/02_day_data_types.md) | [Day 4 >>](../04_Day_Conditionals/04_day_conditionals.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_3.png)\n\n- [📔 Day 3](-day-3)\n\t- [Booleans](booleans)\n\t\t- [Truthy values](truthy-values)\n\t\t- [Falsy values](falsy-values)\n\t- [Undefined](undefined)\n\t- [Null](null)\n\t- [Operators](operators)\n\t\t- [Assignment ope",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Booleans, Operators, Date</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[📔 Day 3](#-day-3)",
+        "[Booleans](#booleans)",
+        "[Truthy values](#truthy-values)",
+        "[Falsy values](#falsy-values)"
+      ],
+      "tags": [
+        "fundamentals",
+        "day-1",
+        "notes"
+      ]
+    }
+  ]
+}

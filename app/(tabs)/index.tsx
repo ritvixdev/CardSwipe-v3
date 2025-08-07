@@ -3,7 +3,9 @@ import { StyleSheet, View, ActivityIndicator, TouchableOpacity, Text } from 'rea
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useProgressStore } from '@/store/useProgressStore';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { initializeTopics, getCardsByCategory, LearnCard, clearUnusedModules } from '@/data/processors/dataLoader';
+import { initializeTopics, clearUnusedModules } from '@/data/processors/dataLoader';
+import { getCardsByCategory, EnhancedLearnCard } from '@/data/processors/dataLoaderAdapter';
+import { quickInit, dataSystemUtils } from '@/data/processors/initializeDataSystem';
 import LessonCard from '@/components/LessonCard';
 import LearnHeader from '@/components/LearnHeader';
 import XPNotification from '@/components/XPNotification';
@@ -22,7 +24,7 @@ export default function LearnScreen() {
   
   // Memory leak prevention
   // useMemoryLeakPrevention('LearnScreen');
-  const [lessons, setLessons] = useState<LearnCard[]>([]);
+  const [lessons, setLessons] = useState<EnhancedLearnCard[]>([]);
   const [loading, setLoading] = useState(true);
   const themeColors = useThemeColors();
 
@@ -33,8 +35,8 @@ export default function LearnScreen() {
         setLoading(true);
         console.log(`🚀 Loading lessons for topic: ${selectedTopic} (optimized)`);
         
-        // First, try optimized data loader (NO static imports)
-        let loadedLessons: LearnCard[] = [];
+        // First, try enhanced scalable data loader
+        let loadedLessons: EnhancedLearnCard[] = [];
         
         if (selectedTopic === 'all' || !selectedTopic) {
           // Use data loader for fundamentals only
@@ -47,7 +49,19 @@ export default function LearnScreen() {
             'medium': 'data-structures', 
             'hard': 'advanced-concepts',
             'interview': 'asynchronous',
-            'fundamentals': 'fundamentals'
+            'fundamentals': 'fundamentals',
+            'data-structures': 'data-structures',
+            'control-flow': 'control-flow',
+            'web-dev': 'web-development',
+            'web-development': 'web-development',
+            'functions': 'functions',
+            'objects': 'objects',
+            'dom': 'dom',
+            'projects': 'projects',
+            'testing': 'testing',
+            'performance': 'performance',
+            'advanced': 'advanced',
+            'asynchronous': 'asynchronous'
           };
           
           const category = topicCategoryMap[selectedTopic] || 'fundamentals';
@@ -99,12 +113,20 @@ export default function LearnScreen() {
     // Initialize EVERYTHING lazily
     const initializeApp = async () => {
       try {
-        console.log('🚀 Starting OPTIMIZED initialization (no static imports)');
+        console.log('🚀 Starting ENHANCED initialization with scalable architecture');
         
-        // 1. Initialize reward system
+        // 1. Initialize enhanced data system (includes migration, validation, and testing)
+        const dataSystemReady = await quickInit();
+        if (!dataSystemReady) {
+          console.warn('⚠️ Data system initialization had issues, but continuing with fallbacks');
+        } else {
+          console.log('✅ Enhanced data system ready');
+        }
+        
+        // 2. Initialize reward system
         await rewardSystem.initialize();
         
-        // 2. Load ONLY topics configuration (minimal data)
+        // 3. Load topics configuration (minimal data)
         const loadedTopics = await initializeTopics();
         setTopicsData(loadedTopics);
         console.log(`⚡ Loaded ${loadedTopics.length} topics (lazy)`);

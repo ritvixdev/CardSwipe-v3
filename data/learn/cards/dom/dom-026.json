@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "fileId": "dom-026",
+    "topic": "dom",
+    "subtopic": "26_day_world_countries_data_visualization_2",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 2,
+    "difficulty": "advanced",
+    "estimatedTime": "6 min",
+    "prerequisites": [
+      "day-25"
+    ],
+    "tags": [
+      "dom",
+      "day-26"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.226Z",
+    "updatedAt": "2025-08-07T08:51:50.226Z"
+  },
+  "cards": [
+    {
+      "id": "dom-026-001",
+      "title": "26_day_world_countries_data_visualization_2",
+      "day": 26,
+      "category": "dom",
+      "difficulty": "advanced",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: World Countries Data Visualization 2 </h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://...",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: World Countries Data Visualization 2 </h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 25](../25_Day_World_countries_data_visualization_1/25_day_world_countries_data_visualization_1.md) | [Day 27 >>](../27_Day_Mini_project_portfolio/27_day_mini_project_portfolio.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_26.png)\n\n- [Day 26](day-26)\n  - [Exercises](exercises)\n    - [Exercise: Level 1](exercise-level-1)\n\nDay 26",
+      "codeExample": "",
+      "keyPoints": [
+        "[Day 26](#day-26)",
+        "[Exercises](#exercises)",
+        "[Exercise: Level 1](#exercise-level-1)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "dom",
+        "day-26"
+      ]
+    },
+    {
+      "id": "dom-026-002",
+      "title": "26_day_world_countries_data_visualization_2 - Part 2",
+      "day": 26,
+      "category": "dom",
+      "difficulty": "advanced",
+      "estimatedTime": "2 min",
+      "description": "Exercises\n\n### Exercise: Level 1\n\n1....",
+      "content": "Exercises\n\nExercise: Level 1\n\n1. Visualize the countries array as follows\n\n![Motivation](./../images/projects/dom_mini_project_countries_day_6.1.gif)\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 25](../25_Day_World_countries_data_visualization_1/25_day_world_countries_data_visualization_1.md) | [Day 27 >>](../27_Day_Mini_project_portfolio/27_day_mini_project_portfolio.md)",
+      "codeExample": "",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "dom",
+        "day-26"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "fileId": "fundamentals-notes-005",
+    "topic": "fundamentals",
+    "category": "study-notes",
+    "noteCount": 1,
+    "difficulty": "beginner",
+    "tags": [
+      "fundamentals",
+      "day-5",
+      "notes"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.011Z"
+  },
+  "notes": [
+    {
+      "id": "fundamentals-note-005",
+      "title": "Arrays - Study Notes",
+      "category": "fundamentals",
+      "difficulty": "beginner",
+      "readTime": 25,
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Arrays</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n  <sub>Author:\n  <a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n  <small> January, 2020</small>\n  </sub>\n</div>\n\n[<< Day 4](../04_Day_Conditionals/04_day_conditionals.md) | [Day 6 >>](../06_Day_Loops/06_day_loops.md)\n\n![Day 5](../images/banners/day_1_5.png)\n\n- [📔 Day 5](-day-5)\n\t- [Arrays](arrays)\n\t\t- [How to create an empty array](how-to-create-an-empty-array)\n\t\t- [How to create an array with values](how-to-create-an-array-with-values)\n\t\t- [Creating an array using split](creating-an-array-using-split)",
+      "summary": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Arrays</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "keyPoints": [
+        "[📔 Day 5](#-day-5)",
+        "[Arrays](#arrays)",
+        "[How to create an empty array](#how-to-create-an-empty-array)",
+        "[How to create an array with values](#how-to-create-an-array-with-values)"
+      ],
+      "tags": [
+        "fundamentals",
+        "day-5",
+        "notes"
+      ]
+    }
+  ]
+}

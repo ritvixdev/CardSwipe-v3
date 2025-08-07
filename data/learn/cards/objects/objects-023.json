@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "fileId": "objects-023",
+    "topic": "objects",
+    "subtopic": "23_day_event_listeners",
+    "partNumber": 1,
+    "totalParts": 1,
+    "cardCount": 3,
+    "difficulty": "advanced",
+    "estimatedTime": "9 min",
+    "prerequisites": [
+      "day-22"
+    ],
+    "tags": [
+      "objects",
+      "day-23"
+    ],
+    "version": "1.0.0",
+    "createdAt": "2025-08-07T08:51:50.193Z",
+    "updatedAt": "2025-08-07T08:51:50.193Z"
+  },
+  "cards": [
+    {
+      "id": "objects-023-001",
+      "title": "23_day_event_listeners",
+      "day": 23,
+      "category": "objects",
+      "difficulty": "advanced",
+      "estimatedTime": "3 min",
+      "description": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Event Listeners</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www....",
+      "content": "<div align=\"center\">\n  <h1> 30 Days Of JavaScript: Event Listeners</h1>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://www.linkedin.com/in/asabeneh/\">\n  <img src=\"https://img.shields.io/badge/style--5eba00.svg?label=LinkedIn&logo=linkedin&style=social\">\n  </a>\n  <a class=\"header-badge\" target=\"_blank\" href=\"https://twitter.com/Asabeneh\">\n  <img alt=\"Twitter Follow\" src=\"https://img.shields.io/twitter/follow/asabeneh?style=social\">\n  </a>\n\n<sub>Author:\n<a href=\"https://www.linkedin.com/in/asabeneh/\" target=\"_blank\">Asabeneh Yetayeh</a><br>\n<small> January, 2020</small>\n</sub>\n\n</div>\n\n[<< Day 22](../22_Day_Manipulating_DOM_object/22_day_manipulating_DOM_object.md) | [Day 24 >>](../24_Day_Project_solar_system/24_day_project_solar_system.md)\n\n![Thirty Days Of JavaScript](../images/banners/day_1_23.png)\n\n- [Day 22](day-22)\n\t- [DOM(Document Object Model)-Day 3](domdocument-object-model-day-3)\n\t\t- [Event Listeners](event-listeners)\n\t\t\t- [Click](click)\n\t\t\t- [Double Click](double-click)\n\t\t\t- [Mouse enter](mouse-enter)\n\t\t- [Getting value from an input element](getting-value-from-an-input-element)\n\t\t- [input value](input-value)\n\t\t\t- [input event and change](input-event-and-change)\n\t\t\t- [blur event](blur-event)\n\t\t\t- [keypress, keydow and keyup](keypress-keydow-and-keyup)\n\t- [Exercises](exercises)\n\t\t- [Exercise: Level 1](exercise-level-1)\n\nDay 22",
+      "codeExample": "selectedElement.addEventListener('eventlistner', function(e) {\n  // the activity you want to occur after the event will be in here\n})\n// or\n\nselectedElement.addEventListener('eventlistner', e => {\n  // the activity you want to occur after the event will be in here\n})",
+      "keyPoints": [
+        "[Day 22](#day-22)",
+        "[DOM(Document Object Model)-Day 3](#domdocument-object-model-day-3)",
+        "[Event Listeners](#event-listeners)",
+        "[Click](#click)"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "objects",
+        "day-23"
+      ]
+    },
+    {
+      "id": "objects-023-002",
+      "title": "23_day_event_listeners - Part 2",
+      "day": 23,
+      "category": "objects",
+      "difficulty": "advanced",
+      "estimatedTime": "2 min",
+      "description": "DOM(Document Object Model)-Day 3\n\n### Event Listeners\n\nCommon HTML events:onclick, onchange, onmouseover, onmouseout, onkeydown, onkeyup, onload....",
+      "content": "DOM(Document Object Model)-Day 3\n\nEvent Listeners\n\nCommon HTML events:onclick, onchange, onmouseover, onmouseout, onkeydown, onkeyup, onload.\nWe can add event listener method to any DOM object. We use _addEventListener()_ method to listen different event types on HTML elements. The _addEventListener()_ method takes two arguments, an event listener and a callback function.\n\n`js\nselectedElement.addEventListener('eventlistner', function(e) {\n  // the activity you want to occur after the event will be in here\n})\n// or\n\nselectedElement.addEventListener('eventlistner', e => {\n  // the activity you want to occur after the event will be in here\n})\n`\n\nClick\n\nTo attach an event listener to an element, first we select the element then we attach the addEventListener method. The event listener takes event type and callback functions as argument.\n\nThe following is an example of click type event.\n\nExample: click\n\n`html\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>Document Object Model</title>\n  </head>\n\n  <body>\n    <button>Click Me</button>\n\n    <script>\n      const button = document.querySelector('button')\n      button.addEventListener('click', e => {\n        console.log('e gives the event listener object:', e)\n        console.log('e.target gives the selected element: ', e.target)\n        console.log(\n          'e.target.textContent gives content of selected element: ',\n          e.target.textContent\n        )\n      })\n    </script>\n  </body>\n</html>\n`\n\nAn event can be also attached directly to the HTML element as inline script.\n\nExample: onclick\n\n`html\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>Document Object Model</title>\n  </head>\n\n  <body>\n    <button onclick=\"clickMe()\">Click Me</button>\n    <script>\n      const clickMe = () => {\n        alert('We can attach event on HTML element')\n      }\n    </script>\n  </body>\n</html>\n`\n\nDouble Click\n\nTo attach an event listener to an element, first we select the element then we attach the addEventListener method. The event listener takes event type and callback functions as argument.\n\nThe following is an example of click type event.\nExample: dblclick\n\n`html\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>Document Object Model</title>\n  </head>\n\n  <body>\n    <button>Click Me</button>\n    <script>\n      const button = document.querySelector('button')\n      button.addEventListener('dblclick', e => {\n        console.log('e gives the event listener object:', e)\n        console.log('e.target gives the selected element: ', e.target)\n        console.log(\n          'e.target.textContent gives content of selected element: ',\n          e.target.textContent\n        )\n      })\n    </script>\n  </body>\n</html>\n`\n\nMouse enter\n\nTo attach an event listener to an element, first we select the element then we attach the addEventListener method. The event listener takes event type and callback functions as argument.\n\nThe following is an example of click type event.\n\nExample: mouseenter\n\n`html\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>Document Object Model</title>\n  </head>\n\n  <body>\n    <button>Click Me</button>\n    <script>\n      const button = document.querySelector('button')\n      button.addEventListener('mouseenter', e => {\n        console.log('e gives the event listener object:', e)\n        console.log('e.target gives the selected element: ', e.target)\n        console.log(\n          'e.target.textContent gives content of selected element: ',\n          e.target.textContent\n        )\n      })\n    </script>\n  </body>\n</html>\n`\n\nBy now you are familiar with addEventListen method and how to attach event listener. There are many types of event listeners. But in this challenge we will focus the most common important events.\nList of events:\n\n- click - when the element clicked\n- dblclick - when the element double clicked\n- mouseenter - when the mouse point enter to the element\n- mouseleave - when the mouse pointer leave the element\n- mousemove - when the mouse pointer move on the element\n- mouseover - when the mouse pointer move on the element\n- mouseout -when the mouse pointer out from the element\n- input -when value enter to input field\n- change -when value change on input field\n- blur -when the element is not focused\n- keydown - when a key is down\n- keyup - when a key is up\n- keypress - when we press any key\n- onload - when the browser has finished loading a page\n\nTest the above event types by replacing event type in the above snippet code.\n\nGetting value from an input element\n\nWe usually fill forms and forms accept data. Form fields are created using input HTML element. Let us build a small application which allow us to calculate body mas index of a person using two input fields, one button and one p tag.\n\ninput value\n\n`html\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>Document Object Model:30 Days Of JavaScript</title>\n  </head>\n\n  <body>\n    <h1>Body Mass Index Calculator</h1>\n\n    <input type=\"text\" id=\"mass\" placeholder=\"Mass in Kilogram\" />\n    <input type=\"text\" id=\"height\" placeholder=\"Height in meters\" />\n    <button>Calculate BMI</button>\n\n    <script>\n      const mass = document.querySelector('mass')\n      const height = document.querySelector('height')\n      const button = document.querySelector('button')\n\n      let bmi\n      button.addEventListener('click', () => {\n        bmi = mass.value / height.value  2\n        alert(your bmi is ${bmi.toFixed(2)})\n        console.log(bmi)\n      })\n    </script>\n  </body>\n</html>\n`\n\ninput event and change\n\nIn the above example, we managed to get input values from two input fields by clicking button. How about if we want to get value without click the button. We can use the _change_ or _input_ event type to get data right away from the input field when the field is on focus. Let us see how we will handle that.\n\n`html\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>Document Object Model:30 Days Of JavaScript</title>\n  </head>\n\n  <body>\n    <h1>Data Binding using input or change event</h1>\n\n    <input type=\"text\" placeholder=\"say something\" />\n    <p></p>\n\n    <script>\n      const input = document.querySelector('input')\n      const p = document.querySelector('p')\n\n      input.addEventListener('input', e => {\n        p.textContent = e.target.value\n      })\n    </script>\n  </body>\n</html>\n`\n\nblur event\n\nIn contrast to _input_ or _change_, the _blur_ event occur when the input field is not on focus.\n\n`js\n<!DOCTYPE html>\n<html>\n\n<head>\n    <title>Document Object Model:30 Days Of JavaScript</title>\n</head>\n\n<body>\n    <h1>Giving feedback using blur event</h1>\n\n    <input type=\"text\" id=\"mass\" placeholder=\"say something\" />\n    <p></p>\n\n    <script>\n        const input = document.querySelector('input')\n        const p = document.querySelector('p')\n\n        input.addEventListener('blur', (e) => {\n            p.textContent = 'Field is required'\n            p.style.color = 'red'\n\n        })\n    </script>\n</body>\n\n</html>\n`\n\nkeypress, keydow and keyup\n\nWe can access all the key numbers of the keyboard using different event listener types. Let us use keypress and get the keyCode of each keyboard keys.\n\n`html\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>Document Object Model:30 Days Of JavaScript</title>\n  </head>\n\n  <body>\n    <h1>Key events: Press any key</h1>\n\n    <script>\n      document.body.addEventListener('keypress', e => {\n        alert(e.keyCode)\n      })\n    </script>\n  </body>\n</html>\n`\n\n---\n\n🌕 You are so special, you are progressing everyday. Now, you knew how handle any kind of DOM events. . You are left with only seven days to your way to greatness. Now do some exercises for your brain and for your muscle.",
+      "codeExample": "selectedElement.addEventListener('eventlistner', function(e) {\n  // the activity you want to occur after the event will be in here\n})\n// or\n\nselectedElement.addEventListener('eventlistner', e => {\n  // the activity you want to occur after the event will be in here\n})",
+      "keyPoints": [
+        "click - when the element clicked",
+        "dblclick - when the element double clicked",
+        "mouseenter - when the mouse point enter to the element",
+        "mouseleave - when the mouse pointer leave the element"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "objects",
+        "day-23"
+      ]
+    },
+    {
+      "id": "objects-023-003",
+      "title": "23_day_event_listeners - Part 3",
+      "day": 23,
+      "category": "objects",
+      "difficulty": "advanced",
+      "estimatedTime": "2 min",
+      "description": "Exercises\n\n### Exercise: Level 1\n\n1....",
+      "content": "Exercises\n\nExercise: Level 1\n\n1. Generating numbers and marking evens, odds and prime numbers with three different colors. See the image below.\n\n![Number Generator](./../images/projects/dom_min_project_number_generator_day_3.1.gif)\n\n1. Generating the keyboard code code using even listener. The image below.\n\n![Keyboard key](./../images/projects/dom_min_project_keycode_day_3.2.gif)\n\n🎉 CONGRATULATIONS ! 🎉\n\n[<< Day 22](../22_Day_Manipulating_DOM_object/22_day_manipulating_DOM_object.md) | [Day 24 >>](../24_Day_Project_solar_system/24_day_project_solar_system.md)",
+      "codeExample": "",
+      "keyPoints": [
+        "Key concept from this lesson",
+        "Important implementation detail",
+        "Best practice to remember",
+        "Common use case"
+      ],
+      "quiz": {
+        "question": "What is the main concept covered in this lesson?",
+        "options": [
+          "Option A",
+          "Option B",
+          "Option C",
+          "Option D"
+        ],
+        "correctAnswer": 0,
+        "explanation": "This covers the main concept discussed in the lesson."
+      },
+      "tags": [
+        "objects",
+        "day-23"
+      ]
+    }
+  ]
+}
