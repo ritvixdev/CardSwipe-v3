@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start --tunnel",
+    "ios": "expo start --ios --tunnel",
+    "android": "expo start --android --tunnel",
+    "web": "expo start --web --tunnel",
     "start-web": "expo start --web --tunnel",
     "start-web-dev": "DEBUG=expo* expo start --web --tunnel",
     "test": "jest",
