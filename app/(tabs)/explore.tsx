@@ -15,7 +15,7 @@ import * as Haptics from 'expo-haptics';
 
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { useProgressStore } from '@/store/useProgressStore';
-import { designPatterns, codingQuestions, getAllLessons, getNotes, getQuizzes, getInterviewQuestions } from '@/data/processors/dataLoader';
+import { getAllLessons, getNotes, getQuizzes, getInterviewQuestions, getDesignPatterns, getCodingQuestions, getLearningRoadmap } from '@/data/processors/dataLoader';
 // Base explore cards template
 const baseExploreCards = [
   {
@@ -119,7 +119,7 @@ const baseExploreCards = [
     color: '#6366f1',
     route: '/(tabs)/explore/design-patterns',
     category: 'resource',
-    itemCount: designPatterns?.length || 0,
+    itemCount: 0,
     difficulty: 'advanced',
     estimatedTime: '45 min read'
   },
@@ -131,7 +131,7 @@ const baseExploreCards = [
     color: '#8b5cf6',
     route: '/(tabs)/explore/coding-questions',
     category: 'resource',
-    itemCount: codingQuestions?.length || 0,
+    itemCount: 0,
     difficulty: 'intermediate',
     estimatedTime: '30 min',
     isPopular: true
@@ -191,30 +191,32 @@ export default function ExploreScreen() {
   useEffect(() => {
     const loadDynamicCounts = async () => {
       try {
-        const [notes, quizzes, interviews, patterns, coding] = await Promise.all([
+        const [notes, quizzes, interviews, patterns, coding, roadmap] = await Promise.all([
           getNotes(),
           getQuizzes(),
           getInterviewQuestions(),
-          designPatterns || [],
-          codingQuestions || []
+          getDesignPatterns(),
+          getCodingQuestions(),
+          getLearningRoadmap()
         ]);
-        
+
         setDynamicCounts({
           'javascript-notes': notes.length,
           'practice-quiz': quizzes.length,
           'interview-prep': interviews.length,
-          'interview-quiz': Math.floor(interviews.length * 0.6), // Subset for advanced quiz
+          'interview-quiz': Math.floor(interviews.length * 0.6),
           'design-patterns': patterns.length,
           'coding-questions': coding.length,
-          'learning-roadmap': 6 // Static for now
+          'learning-roadmap': roadmap.nodes.length
         });
-        
+
         console.log('📊 Dynamic counts loaded:', {
           notes: notes.length,
           quizzes: quizzes.length,
           interviews: interviews.length,
           patterns: patterns.length,
-          coding: coding.length
+          coding: coding.length,
+          roadmap: roadmap.nodes.length
         });
       } catch (error) {
         console.error('Failed to load dynamic counts:', error);

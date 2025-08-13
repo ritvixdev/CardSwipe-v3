@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, Code, Lightbulb, Target, Clock, ChevronDown, ChevronRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { codingQuestions, CodingQuestion, getCodingQuestionsByCategory, getCodingQuestionsByDifficulty } from '@/data/processors/dataLoader';
+import { getCodingQuestions, CodingQuestion } from '@/data/processors/dataLoader';
 
 // Hierarchical category structure for coding questions
 const categoryHierarchy = {
@@ -37,34 +37,44 @@ const categoryHierarchy = {
   }
 };
 
-// Use JSON data instead of hardcoded data
-const codingQuestionsData = codingQuestions;
-
 export default function CodingQuestionsScreen() {
   const themeColors = useThemeColors();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
+  const [questions, setQuestions] = useState<CodingQuestion[]>([]);
 
   const categories = Object.keys(categoryHierarchy);
 
+  useEffect(() => {
+    const loadQuestions = async () => {
+      try {
+        const data = await getCodingQuestions();
+        setQuestions(data);
+      } catch (error) {
+        console.error('Failed to load coding questions:', error);
+        setQuestions([]);
+      }
+    };
+    loadQuestions();
+  }, []);
   const getFilteredQuestions = () => {
     if (selectedSubcategory) {
       // Filter by subcategory - match against question topics/categories
-      return codingQuestionsData.filter(question => {
+      return questions.filter(question => {
         const questionCategory = question.category?.toLowerCase() || '';
         const subcategoryMatch = selectedSubcategory.toLowerCase().replace('-', ' ');
         return questionCategory.includes(subcategoryMatch) ||
                questionCategory.includes(selectedSubcategory.replace('-', ''));
       });
     } else if (selectedCategory === 'all') {
-      return codingQuestionsData;
+      return questions;
     } else {
       // Filter by main category - match against question categories
       const categoryData = categoryHierarchy[selectedCategory];
       if (categoryData && categoryData.subcategories.length > 0) {
         // If category has subcategories, show all questions that match the main category
-        return codingQuestionsData.filter(question => {
+        return questions.filter(question => {
           const questionCategory = question.category?.toLowerCase() || '';
 
           // Check if question category matches main category
@@ -78,7 +88,7 @@ export default function CodingQuestionsScreen() {
         });
       } else {
         // Simple category match
-        return codingQuestionsData.filter(question => {
+        return questions.filter(question => {
           const questionCategory = question.category?.toLowerCase() || '';
           return questionCategory.includes(selectedCategory);
         });

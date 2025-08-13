@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,13 +10,24 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, Code, Eye, Layers, Zap, ArrowRight } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { designPatterns, DesignPattern, getDesignPatternsByCategory, getDesignPatternsByDifficulty } from '@/data/processors/dataLoader';
-
-// Use JSON data instead of hardcoded data
-const designPatternsData = designPatterns;
+import { getDesignPatterns, DesignPattern } from '@/data/processors/dataLoader';
 
 export default function DesignPatternsScreen() {
   const themeColors = useThemeColors();
+  const [patterns, setPatterns] = useState<DesignPattern[]>([]);
+
+  useEffect(() => {
+    const loadPatterns = async () => {
+      try {
+        const data = await getDesignPatterns();
+        setPatterns(data);
+      } catch (error) {
+        console.error('Failed to load design patterns:', error);
+        setPatterns([]);
+      }
+    };
+    loadPatterns();
+  }, []);
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
@@ -112,7 +123,7 @@ export default function DesignPatternsScreen() {
 
         {/* Patterns List */}
         <View style={styles.patternsContainer}>
-          {designPatternsData?.map((pattern) => (
+          {patterns.map((pattern) => (
             <PatternCard key={pattern.id} pattern={pattern} />
           ))}
         </View>

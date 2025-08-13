@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,15 +16,25 @@ import { getCodingQuestionById, CodingQuestion } from '@/data/processors/dataLoa
 export default function CodingQuestionDetailScreen() {
   const themeColors = useThemeColors();
   const { id } = useLocalSearchParams();
+  const [question, setQuestion] = useState<CodingQuestion | null>(null);
 
-  const question = getCodingQuestionById(id as string);
-  
+  useEffect(() => {
+    const loadQuestion = async () => {
+      try {
+        const data = await getCodingQuestionById(id as string);
+        setQuestion(data || null);
+      } catch (error) {
+        console.error('Failed to load coding question:', error);
+        setQuestion(null);
+      }
+    };
+    loadQuestion();
+  }, [id]);
+
   if (!question) {
     return (
       <View style={[styles.container, { backgroundColor: themeColors.background }]}>
-        <Text style={[styles.errorText, { color: themeColors.text }]}>
-          Question not found
-        </Text>
+        <Text style={[styles.errorText, { color: themeColors.text }]}>Question not found</Text>
       </View>
     );
   }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,79 +11,27 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, CheckCircle, Circle, ArrowDown, Code, Database, Globe } from 'lucide-react-native';
 import { useThemeColors } from '@/hooks/useThemeColors';
+import { getLearningRoadmap, LearningRoadmap } from '@/data/processors/dataLoader';
 
 const { width } = Dimensions.get('window');
-
-// Roadmap data structure
-const roadmapData = [
-  {
-    id: 'basics',
-    title: 'JavaScript Basics',
-    description: 'Variables, data types, operators',
-    icon: 'code',
-    status: 'completed',
-    topics: ['Variables', 'Data Types', 'Operators', 'Functions'],
-    estimatedTime: '2 weeks'
-  },
-  {
-    id: 'dom',
-    title: 'DOM Manipulation',
-    description: 'Interact with web pages',
-    icon: 'globe',
-    status: 'completed',
-    topics: ['Selecting Elements', 'Event Handling', 'Dynamic Content'],
-    estimatedTime: '1 week'
-  },
-  {
-    id: 'async',
-    title: 'Asynchronous JavaScript',
-    description: 'Promises, async/await, callbacks',
-    icon: 'code',
-    status: 'in-progress',
-    topics: ['Callbacks', 'Promises', 'Async/Await', 'Fetch API'],
-    estimatedTime: '2 weeks'
-  },
-  {
-    id: 'es6',
-    title: 'ES6+ Features',
-    description: 'Modern JavaScript features',
-    icon: 'code',
-    status: 'locked',
-    topics: ['Arrow Functions', 'Destructuring', 'Modules', 'Classes'],
-    estimatedTime: '1 week'
-  },
-  {
-    id: 'frameworks',
-    title: 'Frontend Frameworks',
-    description: 'React, Vue, Angular',
-    icon: 'globe',
-    status: 'locked',
-    topics: ['React Basics', 'Component Lifecycle', 'State Management'],
-    estimatedTime: '4 weeks'
-  },
-  {
-    id: 'backend',
-    title: 'Backend Development',
-    description: 'Node.js, Express, APIs',
-    icon: 'database',
-    status: 'locked',
-    topics: ['Node.js', 'Express.js', 'REST APIs', 'Database Integration'],
-    estimatedTime: '3 weeks'
-  },
-  {
-    id: 'advanced',
-    title: 'Advanced Concepts',
-    description: 'Performance, testing, deployment',
-    icon: 'code',
-    status: 'locked',
-    topics: ['Testing', 'Performance', 'Security', 'Deployment'],
-    estimatedTime: '2 weeks'
-  }
-];
 
 export default function LearningRoadmapScreen() {
   const themeColors = useThemeColors();
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
+  const [nodes, setNodes] = useState<any[]>([]);
+
+  useEffect(() => {
+    const loadRoadmap = async () => {
+      try {
+        const data = await getLearningRoadmap();
+        setNodes(data.nodes || []);
+      } catch (error) {
+        console.error('Failed to load learning roadmap:', error);
+        setNodes([]);
+      }
+    };
+    loadRoadmap();
+  }, []);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -114,7 +62,7 @@ export default function LearningRoadmapScreen() {
 
   const RoadmapNode = ({ node, index }: { node: any; index: number }) => {
     const StatusIcon = getStatusIcon(node.status);
-    const NodeIcon = getNodeIcon(node.icon);
+    const NodeIcon = getNodeIcon(node.icon || 'code');
     const isSelected = selectedNode === node.id;
     const isEven = index % 2 === 0;
 
@@ -201,7 +149,7 @@ export default function LearningRoadmapScreen() {
         )}
 
         {/* Arrow to next node */}
-        {index < roadmapData.length - 1 && (
+        {index < nodes.length - 1 && (
           <View style={styles.arrowContainer}>
             <ArrowDown size={24} color={themeColors.textSecondary} />
           </View>
@@ -234,20 +182,18 @@ export default function LearningRoadmapScreen() {
 
         {/* Progress Overview */}
         <View style={[styles.progressOverview, { backgroundColor: themeColors.card }]}>
-          <Text style={[styles.progressTitle, { color: themeColors.text }]}>
-            Your Progress
-          </Text>
+          <Text style={[styles.progressTitle, { color: themeColors.text }]}>Your Progress</Text>
           <View style={styles.progressStats}>
             <View style={styles.progressStat}>
-              <Text style={[styles.progressNumber, { color: '#10b981' }]}>2</Text>
+              <Text style={[styles.progressNumber, { color: '#10b981' }]}>{nodes.filter(n => n.status === 'completed').length}</Text>
               <Text style={[styles.progressLabel, { color: themeColors.textSecondary }]}>Completed</Text>
             </View>
             <View style={styles.progressStat}>
-              <Text style={[styles.progressNumber, { color: '#f59e0b' }]}>1</Text>
+              <Text style={[styles.progressNumber, { color: '#f59e0b' }]}>{nodes.filter(n => n.status === 'current' || n.status === 'in-progress').length}</Text>
               <Text style={[styles.progressLabel, { color: themeColors.textSecondary }]}>In Progress</Text>
             </View>
             <View style={styles.progressStat}>
-              <Text style={[styles.progressNumber, { color: themeColors.textSecondary }]}>4</Text>
+              <Text style={[styles.progressNumber, { color: themeColors.textSecondary }]}>{nodes.filter(n => n.status === 'locked').length}</Text>
               <Text style={[styles.progressLabel, { color: themeColors.textSecondary }]}>Remaining</Text>
             </View>
           </View>
@@ -255,7 +201,7 @@ export default function LearningRoadmapScreen() {
 
         {/* Roadmap */}
         <View style={styles.roadmapContainer}>
-          {roadmapData?.map((node, index) => (
+          {nodes.map((node, index) => (
             <RoadmapNode key={node.id} node={node} index={index} />
           ))}
         </View>
