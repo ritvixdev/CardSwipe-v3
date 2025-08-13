@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,18 +16,28 @@ import Badge from '@/components/common/Badge';
 export default function InterviewPrepDetailScreen() {
   const themeColors = useThemeColors();
   const { id } = useLocalSearchParams();
+  const [question, setQuestion] = useState<any>(null);
 
-  const question = getInterviewQuestionById(id as string);
-  
+  useEffect(() => {
+    const loadQuestion = async () => {
+      try {
+        const data = await getInterviewQuestionById(id as string);
+        setQuestion(data || null);
+      } catch (error) {
+        console.error('Failed to load interview question:', error);
+        setQuestion(null);
+      }
+    };
+    loadQuestion();
+  }, [id]);
+
   if (!question) {
     return (
       <ScrollableContentPage
         title="Question not found"
         backRoute="/(tabs)/explore/interview-prep"
       >
-        <Text style={[styles.errorText, { color: themeColors.text }]}>
-          Question not found
-        </Text>
+        <Text style={[styles.errorText, { color: themeColors.text }]}>Question not found</Text>
       </ScrollableContentPage>
     );
   }

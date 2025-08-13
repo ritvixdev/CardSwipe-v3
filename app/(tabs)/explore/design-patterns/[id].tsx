@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,16 +16,26 @@ import { getDesignPatternById, DesignPattern } from '@/data/processors/dataLoade
 export default function DesignPatternDetailScreen() {
   const themeColors = useThemeColors();
   const { id } = useLocalSearchParams();
+  const [pattern, setPattern] = useState<DesignPattern | null>(null);
 
-  const pattern = getDesignPatternById(id as string);
-  
+  useEffect(() => {
+    const loadPattern = async () => {
+      try {
+        const data = await getDesignPatternById(id as string);
+        setPattern(data || null);
+      } catch (error) {
+        console.error('Failed to load design pattern:', error);
+        setPattern(null);
+      }
+    };
+    loadPattern();
+  }, [id]);
+
   if (!pattern) {
     return (
-      <View style={[styles.container, { backgroundColor: themeColors.background }]}>
-        <Text style={[styles.errorText, { color: themeColors.text }]}>
-          Pattern not found
-        </Text>
-      </View>
+      <View style={[styles.container, { backgroundColor: themeColors.background }]}> 
+        <Text style={[styles.errorText, { color: themeColors.text }]}>Pattern not found</Text> 
+      </View> 
     );
   }
 
