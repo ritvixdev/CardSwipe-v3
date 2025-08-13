@@ -110,7 +110,7 @@ npm run web     # Web browser
 ```bash
 # Development
 npm start                    # Start Expo development server
-npm run start-web           # Start web development server
+npm run web                 # Start web development server
 npm run start-web-dev       # Start web with debug mode
 
 # Testing
