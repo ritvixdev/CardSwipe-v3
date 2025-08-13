@@ -34,6 +34,7 @@ class RewardSystemService {
   private static instance: RewardSystemService;
   private cardProgressKey = '@reward_system_card_progress';
   private dailyStatsKey = '@reward_system_daily_stats';
+  private lastInteractionDate: string | null = null;
   
   // XP Reward Configuration - Simple 1 XP for swipes, higher for other actions
   private readonly actionRewards: Record<string, ActionReward> = {
@@ -272,14 +273,14 @@ class RewardSystemService {
 
   private async loadDailyStats(): Promise<void> {
     try {
-      const todayKey = new Date().toDateString();
-      const dailyStats = await AsyncStorage.getItem(`${this.dailyStatsKey}_${todayKey}`);
-      
+      const dailyStats = await AsyncStorage.getItem(this.dailyStatsKey);
       if (dailyStats) {
         const stats = JSON.parse(dailyStats);
         this.dailyStreak = stats.streak || 0;
+        this.lastInteractionDate = stats.lastInteractionDate || null;
       } else {
         this.dailyStreak = 0;
+        this.lastInteractionDate = null;
       }
     } catch (error) {
       console.error('Failed to load daily stats:', error);
@@ -287,14 +288,29 @@ class RewardSystemService {
   }
 
   private updateDailyStreak(): void {
-    this.dailyStreak += 1;
-    
-    // Save updated streak
-    const todayKey = new Date().toDateString();
-    AsyncStorage.setItem(`${this.dailyStatsKey}_${todayKey}`, JSON.stringify({
-      streak: this.dailyStreak,
-      lastUpdate: Date.now()
-    }));
+    const today = new Date().toDateString();
+
+    if (this.lastInteractionDate === today) {
+      // Already counted for today
+    } else if (this.lastInteractionDate) {
+      const diffDays = Math.floor(
+        (new Date(today).getTime() - new Date(this.lastInteractionDate).getTime()) /
+        (1000 * 60 * 60 * 24)
+      );
+      this.dailyStreak = diffDays === 1 ? this.dailyStreak + 1 : 1;
+    } else {
+      this.dailyStreak = 1;
+    }
+
+    this.lastInteractionDate = today;
+
+    AsyncStorage.setItem(
+      this.dailyStatsKey,
+      JSON.stringify({
+        streak: this.dailyStreak,
+        lastInteractionDate: this.lastInteractionDate
+      })
+    );
   }
 
   private getTodayInteractionCount(): number {
@@ -398,7 +414,8 @@ class RewardSystemService {
     try {
       this.cardProgressCache.clear();
       this.dailyStreak = 0;
-      await AsyncStorage.multiRemove([this.cardProgressKey]);
+      this.lastInteractionDate = null;
+      await AsyncStorage.multiRemove([this.cardProgressKey, this.dailyStatsKey]);
       console.log('🧹 Reward system data cleared');
     } catch (error) {
       console.error('Failed to clear reward data:', error);
