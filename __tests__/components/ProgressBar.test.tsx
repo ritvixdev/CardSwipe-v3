@@ -1,58 +1,58 @@
-/**
- * ProgressBar Component Tests
- * Simplified tests that verify component structure without importing React Native components
- */
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import ProgressBar from '@/components/ProgressBar';
+import { useProgressStore } from '@/store/useProgressStore';
 
-describe('ProgressBar Component', () => {
-  // Test that the component file exists
-  it('should have component file available', () => {
-    expect(() => {
-      const fs = require('fs');
-      const path = require('path');
+jest.mock('@/store/useProgressStore');
 
-      // Convert module path to file path
-      let filePath = '@/components/ProgressBar'.replace('@/', '');
-      if (!filePath.endsWith('.tsx') && !filePath.endsWith('.ts')) {
-        filePath += '.tsx';
-      }
+jest.mock('@/hooks/useThemeColors', () => ({
+  useThemeColors: () => ({ primary: '#00f', border: '#ccc' })
+}));
 
-      expect(fs.existsSync(filePath)).toBe(true);
-    }).not.toThrow();
-  });
+jest.mock('@/data/processors/dataLoader', () => ({
+  lessons: Array(4).fill({})
+}));
 
-  // Test component functionality without importing React Native
-  it('should be a valid TypeScript/JavaScript file', () => {
-    const fs = require('fs');
-    let filePath = '@/components/ProgressBar'.replace('@/', '');
-    if (!filePath.endsWith('.tsx') && !filePath.endsWith('.ts')) {
-      filePath += '.tsx';
+const mockedUseProgressStore = useProgressStore as jest.Mock;
+
+describe('ProgressBar', () => {
+  const renderWithProgress = (completed: number) => {
+    const progress: Record<string, any> = {};
+    for (let i = 0; i < completed; i++) {
+      progress[`lesson-${i}`] = { completed: true };
     }
 
-    if (fs.existsSync(filePath)) {
-      const content = fs.readFileSync(filePath, 'utf8');
-      expect(content).toContain('export');
-      expect(content.length).toBeGreaterThan(0);
+    mockedUseProgressStore.mockImplementation((selector: any) =>
+      selector({ progress })
+    );
+
+    return render(<ProgressBar />);
+  };
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  const cases = [
+    { completed: 0, expected: 0 },
+    { completed: 2, expected: 50 },
+    { completed: 4, expected: 100 }
+  ];
+
+  test.each(cases)(
+    'shows $expected% progress when $completed lessons are completed',
+    ({ completed, expected }) => {
+      const { getByTestId } = renderWithProgress(completed);
+
+      const indicator = getByTestId('progress-indicator');
+      expect(indicator.props.children).toBe(`${expected}%`);
+
+      const bar = getByTestId('progress-bar-fill');
+      const widthStyle = Array.isArray(bar.props.style)
+        ? bar.props.style.find((s: any) => s.width)
+        : bar.props.style;
+      expect(widthStyle.width).toBe(`${expected}%`);
     }
-  });
-
-  // Test that required dependencies are available
-  it('should be able to import basic dependencies', () => {
-    expect(() => {
-      // Test that basic modules can be imported
-      require('react');
-    }).not.toThrow();
-  });
-
-  // Test basic functionality
-  it('should have valid component structure', () => {
-    // This test verifies basic component expectations
-    expect('ProgressBar').toBeTruthy();
-    expect(typeof 'ProgressBar').toBe('string');
-  });
-
-  // Test component naming
-  it('should have correct component name', () => {
-    expect('ProgressBar').toMatch(/^[A-Z]/); // Should start with capital letter
-    expect('ProgressBar'.length).toBeGreaterThan(0);
-  });
+  );
 });
+
