@@ -134,7 +134,16 @@ export class UpdateService {
   private isUpdateRequired(currentVersion: string, latestVersion: string): boolean {
     // Define minimum supported version
     const minimumVersion = '1.0.0';
-    return this.compareVersions(currentVersion, minimumVersion) < 0;
+
+    // Force update if current version is below minimum supported version
+    if (this.compareVersions(currentVersion, minimumVersion) < 0) {
+      return true;
+    }
+
+    // Require update when major version increases (possible breaking changes)
+    const currentMajor = Number(currentVersion.split('.')[0]);
+    const latestMajor = Number(latestVersion.split('.')[0]);
+    return currentMajor < latestMajor;
   }
 
   private getDownloadUrl(): string {
